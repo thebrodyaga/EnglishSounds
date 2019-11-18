@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Атрибут android:opacity=”opaque” крайне важен для предотвращения черных миганий при переходе к вашей теме -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+    <item android:drawable="?attr/colorSurface" />
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@mipmap/ic_launcher_foreground"
+            android:tint="@color/ic_launcher_background" />
+    </item>
+</layer-list>

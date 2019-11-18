@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.thebrodyaga.englishsounds.screen.view.FragmentContainer
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bar"
+        style="@style/Widget.MaterialComponents.BottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:fabAlignmentMode="center">
+
+        <com.thebrodyaga.englishsounds.screen.view.FabBottomNavigation
+            android:id="@+id/bottom_navigation"
+            style="@style/Widget.MaterialComponents.BottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:itemTextAppearanceActive="@style/BottomNavigationActive"
+            app:itemTextAppearanceInactive="@style/BottomNavigationInactive"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:menu="@menu/main_bottom_menu" />
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.thebrodyaga.englishsounds.screen.view.MicFloatingButton
+        android:id="@+id/mic_button"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorSurface"
+        app:borderWidth="1dp"
+        android:src="@drawable/ic_mic"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabCustomSize="@dimen/fab_mic_size"
+        app:layout_anchor="@id/bar"
+        app:layout_anchorGravity="center_horizontal"
+        app:rippleColor="@color/ripple_accent"
+        app:tint="@color/colorPrimary" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

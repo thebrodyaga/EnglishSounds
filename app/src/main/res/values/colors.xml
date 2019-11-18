@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#578A8D</color>
+    <color name="colorAccent">#FFFFFF</color>
+    <color name="colorPrimaryDark">#80CCCCCC</color>
+
+    <color name="ripple_accent">#14477F82</color>
+    <color name="ripple_dark">#14000000</color>
+
+    <color name="navigation_bar">#80CCCCCC</color>
+
+    <color name="dark">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white30">#CCFFFFFF</color>
+
+    <color name="text_main">#000000</color>
+    <color name="text_secondary">#7A000000</color>
+
+    <color name="icon_base">#878787</color>
+    <color name="icon_secondary">#52000000</color>
+
+    <color name="border">#29000000</color>
+    <color name="button">#14000000</color>
+
+    <color name="error_object">#C33E4E</color>
+    <color name="error_text">#EB2E45</color>
+
+    <color name="waiting_object">#C1A477</color>
+    <color name="waiting_text">#B66923</color>
+
+    <color name="consonant_sounds">#64ad64</color>
+    <color name="r_controlled_vowels">#EEC584</color>
+    <color name="vowel_sounds">#5784C6</color>
+</resources>

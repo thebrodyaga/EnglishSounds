@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_sound_width">100sp</dimen>
+    <dimen name="fab_mic_size">64dp</dimen>
+    <dimen name="fab_mic_margin">16dp</dimen>
+    <dimen name="title2size">24sp</dimen>
+    <dimen name="bodySize">18sp</dimen>
+
+    <dimen name="fab_cradle_margin">5dp</dimen>
+    <dimen name="fab_cradle_rounded_corner_radius">8dp</dimen>
+    <dimen name="ab_cradle_vertical_offset">0dp</dimen>
+
+</resources>

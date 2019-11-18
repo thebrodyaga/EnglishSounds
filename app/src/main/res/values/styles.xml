@@ -1,0 +1,44 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorAccent</item>
+    </style>
+
+    <style name="TitleRegular">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:fontFamily">@font/font_regular</item>
+    </style>
+
+    <style name="Title2Regular">
+        <item name="android:textSize">@dimen/title2size</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:fontFamily">@font/font_regular</item>
+    </style>
+
+    <style name="BodyRegular">
+        <item name="android:textSize">@dimen/bodySize</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:fontFamily">@font/font_regular</item>
+    </style>
+
+    <style name="BottomNavigationActive">
+        <item name="android:fontFamily">@font/font_regular</item>
+    </style>
+
+    <style name="BottomNavigationInactive">
+        <item name="android:fontFamily">@font/font_regular</item>
+    </style>
+
+    <style name="SoundInCard" parent="Title2Regular">
+        <item name="android:textColor">?attr/colorOnPrimarySurface</item>
+    </style>
+
+    <style name="AppTheme.Launcher" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+</resources>
