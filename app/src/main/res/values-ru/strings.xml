@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">English Sounds</string>
+
+    <string name="main_menu_tab_first">Звуки</string>
+    <string name="main_menu_tab_third">Тренировка</string>
+    <string name="need_record_permission">Нужно разрешение для записи</string>
+    <string name="vowel_sounds">Гласные звуки</string>
+    <string name="r_controlled_vowels">R-controlled звуки</string>
+    <string name="consonant_sounds">Согласные звуки</string>
+
+    <string name="SPELLING">Произношение</string>
+    <string name="BEGINNING_SOUND">В начале</string>
+    <string name="MIDDLE_SOUND">В середине</string>
+    <string name="END_SOUND">В конце</string>
+    <string name="settings">Настройки</string>
+    <string name="use_system_theme">Системная тема</string>
+    <string name="use_dark_theme">Темная тема</string>
+</resources>
