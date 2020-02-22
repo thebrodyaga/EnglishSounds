@@ -15,4 +15,8 @@
     <string name="settings">Настройки</string>
     <string name="use_system_theme">Системная тема</string>
     <string name="use_dark_theme">Темная тема</string>
+    <string name="later">Позже</string>
+    <string name="rate">Оценить</string>
+    <string name="rate_text">Пожалуйста, дайте нам знать, что вы думаете о приложении.</string>
+    <string name="rate_title">Нравиться приложение?</string>
 </resources>

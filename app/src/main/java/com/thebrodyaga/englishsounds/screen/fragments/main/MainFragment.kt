@@ -2,20 +2,13 @@ package com.thebrodyaga.englishsounds.screen.fragments.main
 
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
-import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.shape.ShapeAppearanceModel
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.navigation.LocalCiceroneHolder
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.base.FlowFragment
-import com.thebrodyaga.englishsounds.screen.view.BottomAppBarTopEdgeTreatment
 import com.thebrodyaga.englishsounds.tools.RecordVoice
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject

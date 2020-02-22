@@ -16,14 +16,17 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
+import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsDetailsListItem
 import com.thebrodyaga.englishsounds.repository.SoundsRepository
 import com.thebrodyaga.englishsounds.screen.adapters.SoundDetailsAdapter
 import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
+import com.thebrodyaga.englishsounds.screen.dialogs.RateAppDialog
 import com.thebrodyaga.englishsounds.screen.getVideoAndDescription
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
+import com.thebrodyaga.englishsounds.tools.SettingManager
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.android.synthetic.main.fragment_sound.*
 import moxy.presenter.InjectPresenter
@@ -41,6 +44,8 @@ class SoundFragment : BaseFragment(), SoundView {
     lateinit var soundsRepository: SoundsRepository
     @Inject
     lateinit var audioPlayer: AudioPlayer
+    @Inject
+    lateinit var settingManager: SettingManager
 
     private lateinit var adapter: SoundDetailsAdapter
 
@@ -100,6 +105,14 @@ class SoundFragment : BaseFragment(), SoundView {
             .load(File(sound_image.context.filesDir, soundDto.photoPath))
             .into(sound_image)
         root_view.post { adapter.setData(list, youTubePlayerView) }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        (activity as? AppActivity)?.also {
+            it.onSoundScreenClose()
+            settingManager.onSoundShowed()
+        }
     }
 
     private class PageAdapter constructor(

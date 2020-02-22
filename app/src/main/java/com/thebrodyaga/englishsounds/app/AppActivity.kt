@@ -11,14 +11,23 @@ import com.thebrodyaga.englishsounds.navigation.RouterTransition
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.navigation.TransitionNavigator
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
+import com.thebrodyaga.englishsounds.screen.base.BasePresenter
+import com.thebrodyaga.englishsounds.screen.dialogs.RateAppDialog
 import com.thebrodyaga.englishsounds.screen.isSystemDarkMode
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
 import com.thebrodyaga.englishsounds.tools.RecordVoice
+import com.thebrodyaga.englishsounds.tools.SettingManager
+import moxy.InjectViewState
+import moxy.MvpView
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
+import moxy.viewstate.strategy.OneExecutionStateStrategy
+import moxy.viewstate.strategy.StateStrategyType
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import javax.inject.Inject
 
-class AppActivity : BaseActivity() {
+class AppActivity : BaseActivity(), AppActivityView {
 
     @Inject
     lateinit var router: RouterTransition
@@ -30,9 +39,19 @@ class AppActivity : BaseActivity() {
     lateinit var audioPlayer: AudioPlayer
 
     @Inject
+    lateinit var settingManager: SettingManager
+
+    @Inject
+    @InjectPresenter
+    lateinit var presenter: AppActivityPresenter
+
+    @ProvidePresenter
+    fun providePresenter() = presenter
+
+    @Inject
     lateinit var navigatorHolder: NavigatorHolder
     private val navigator: Navigator =
-        TransitionNavigator(this, supportFragmentManager, R.id.fragment_container)
+            TransitionNavigator(this, supportFragmentManager, R.id.fragment_container)
 
     private val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_container)
@@ -87,19 +106,45 @@ class AppActivity : BaseActivity() {
         var result = 0
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             result =
-                if (!isDarkTheme)
-                    view.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                else
-                    view.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+                    if (!isDarkTheme)
+                        view.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    else
+                        view.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             result =
-                if (!isDarkTheme)
-                    result or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-                else
-                    result and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+                    if (!isDarkTheme)
+                        result or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                    else
+                        result and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
         }
         view.systemUiVisibility = result
     }
 
+
+    override fun showRateDialog() {
+        if (settingManager.needShowRateRequest() &&
+                supportFragmentManager.findFragmentByTag(RateAppDialog.TAG) == null) {
+            RateAppDialog().showNow(supportFragmentManager, RateAppDialog.TAG)
+            settingManager.onRateRequestShow()
+        }
+    }
+
+    fun onSoundScreenClose() {
+        presenter.onSoundScreenClose()
+    }
+}
+
+
+interface AppActivityView : MvpView {
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showRateDialog()
+}
+
+@InjectViewState
+class AppActivityPresenter @Inject constructor() : BasePresenter<AppActivityView>() {
+
+    fun onSoundScreenClose() {
+        viewState.showRateDialog()
+    }
 }

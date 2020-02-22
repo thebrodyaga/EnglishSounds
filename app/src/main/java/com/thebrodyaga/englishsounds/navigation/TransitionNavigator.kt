@@ -39,11 +39,12 @@ open class TransitionNavigator : SupportAppNavigator {
     ) {
         if (command !is TransitionCommand)
             return
+
         command.transitionBox?.apply {
             nextFragment.sharedElementEnterTransition = sharedElementEnterTransition
             nextFragment.enterTransition = enterTransition
-            nextFragment.exitTransition = exitTransition
-            nextFragment.sharedElementReturnTransition = sharedElementReturnTransition
+            currentFragment?.exitTransition = exitTransition
+            currentFragment?.sharedElementReturnTransition = sharedElementReturnTransition
         }
         command.sharedElement
                 .forEach { fragmentTransaction.addSharedElement(it.first, it.second) }

@@ -7,6 +7,7 @@ import com.thebrodyaga.englishsounds.app.SplashActivity
 import com.thebrodyaga.englishsounds.di.modules.AppModule
 import com.thebrodyaga.englishsounds.di.modules.NavigationModule
 import com.thebrodyaga.englishsounds.navigation.RouterTransition
+import com.thebrodyaga.englishsounds.screen.dialogs.RateAppDialog
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.englishsounds.screen.fragments.main.TabContainerFragment
 import com.thebrodyaga.englishsounds.screen.fragments.settings.all.SettingsFragment
@@ -24,6 +25,8 @@ import javax.inject.Singleton
 interface AppComponent {
     fun getRouter(): RouterTransition
     fun getNavigatorHolder(): NavigatorHolder
+    fun getSettingManager(): SettingManager
+
     fun getGson(): Gson
     fun inject(activity: AppActivity)
     fun inject(fragment: TabContainerFragment)
@@ -33,7 +36,7 @@ interface AppComponent {
     fun inject(fragment: SoundFragment)
     fun inject(fragment: SettingsFragment)
     fun inject(fragment: SoundsTrainingFragment)
-    fun getSettingManager(): SettingManager
+    fun inject(dialog: RateAppDialog)
 
     @Component.Builder
     interface Builder {

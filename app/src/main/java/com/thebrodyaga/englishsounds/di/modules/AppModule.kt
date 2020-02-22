@@ -53,7 +53,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideSetting(sharedPreferences: SharedPreferences): SettingManager =
-        SettingManager(sharedPreferences)
+    fun provideSetting(sharedPreferences: SharedPreferences, gson: Gson): SettingManager =
+        SettingManager(sharedPreferences, gson)
 
 }

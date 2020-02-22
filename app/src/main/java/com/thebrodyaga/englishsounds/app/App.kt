@@ -11,15 +11,13 @@ import com.thebrodyaga.englishsounds.tools.SettingManager
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import timber.log.Timber.DebugTree
-import javax.inject.Inject
-
 
 class App : Application() {
 
     override fun onCreate() {
         app = this
-        super.onCreate()
         appComponent = DaggerAppComponent.builder().application(this).build()
+        super.onCreate()
         if (!BuildConfig.DEBUG) {
             Fabric.with(this, Crashlytics())
             Timber.plant(CrashReportingTree())
