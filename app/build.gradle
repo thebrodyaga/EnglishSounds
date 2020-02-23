@@ -10,7 +10,7 @@ android {
         applicationId "com.thebrodyaga.englishsounds"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 5
+        versionCode 6
         versionName "1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.archivesBaseName = "English Sounds-v" + versionName + "(" + versionCode + ")"
