@@ -7,8 +7,10 @@ import android.view.View
 import androidx.annotation.DimenRes
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
+import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsListItem
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.navigation.TransitionBox
@@ -40,6 +42,15 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
                     null
                 ),
                 *sharedElements
+            )
+
+            val bundle = Bundle()
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, item.transcription)
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.name)
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "sound")
+            (activity as? AppActivity)?.firebaseAnalytics?.logEvent(
+                FirebaseAnalytics.Event.SELECT_CONTENT,
+                bundle
             )
         }
     private lateinit var spanSizeLookup: SpanSizeLookup

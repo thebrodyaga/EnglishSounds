@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.navigation.RouterTransition
@@ -45,6 +46,8 @@ class AppActivity : BaseActivity(), AppActivityView {
     @InjectPresenter
     lateinit var presenter: AppActivityPresenter
 
+    lateinit var firebaseAnalytics: FirebaseAnalytics
+
     @ProvidePresenter
     fun providePresenter() = presenter
 
@@ -65,6 +68,7 @@ class AppActivity : BaseActivity(), AppActivityView {
         App.appComponent.inject(this)
         isLightSystem(isSystemDarkMode())
         super.onCreate(savedInstanceState)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         if (BuildConfig.DEBUG)
             supportFragmentManager.registerFragmentLifecycleCallbacks(FragmentLifecycle(), true)
         setContentView(R.layout.layout_fragemnt_container)

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
+import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.englishsounds.tools.SettingManager
 import kotlinx.android.synthetic.main.fragment_rate_app_dialog.*
 import javax.inject.Inject
@@ -29,9 +30,9 @@ class RateAppDialog : BottomSheetDialogFragment() {
     override fun getTheme(): Int = R.style.Widget_AppTheme_BottomSheet
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View = inflater.inflate(R.layout.fragment_rate_app_dialog, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,21 +41,32 @@ class RateAppDialog : BottomSheetDialogFragment() {
             when (app_rating_bar.selectedStar) {
                 1, 2, 3 -> {
                     settingManager.onRateLessThenFour()
+                    sendAnalyticsEvent(app_rating_bar.selectedStar)
                     dismiss()
                 }
                 null -> app_rating_bar.setOnError()
                 else -> {
                     settingManager.onRated()
-                    dismiss()
+                    sendAnalyticsEvent(app_rating_bar.selectedStar)
                     showPlayMarket(it.context)
+                    dismiss()
                 }
             }
-            app_rating_bar.setOnError()
         }
         rate_later_btn.setOnClickListener {
             settingManager.onLaterRate()
+            sendAnalyticsEvent(null)
             dismiss()
         }
+    }
+
+    private fun sendAnalyticsEvent(rate: Int?) {
+        val bundle = Bundle()
+        bundle.putString("rate", rate?.toString() ?: "later")
+        (activity as? AppActivity)?.firebaseAnalytics?.logEvent(
+                "rate_app",
+                bundle
+        )
     }
 
     private fun showPlayMarket(context: Context) {
