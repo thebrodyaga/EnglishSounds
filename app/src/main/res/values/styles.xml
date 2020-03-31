@@ -50,4 +50,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="ProgressBar" parent="AppTheme">
+        <item name="colorSecondary">@color/colorPrimary</item>
+    </style>
 </resources>

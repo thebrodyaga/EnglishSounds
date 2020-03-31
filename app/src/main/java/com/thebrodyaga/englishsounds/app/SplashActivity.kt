@@ -2,6 +2,7 @@ package com.thebrodyaga.englishsounds.app
 
 import android.content.Intent
 import android.os.Bundle
+import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.repository.SoundsRepository
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -38,6 +39,7 @@ class SplashActivity : BaseActivity(), SplashView {
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_splash)
     }
 }
 
