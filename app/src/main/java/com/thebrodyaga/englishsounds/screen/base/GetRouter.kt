@@ -1,47 +1,28 @@
 package com.thebrodyaga.englishsounds.screen.base
 
-import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.navigation.RouterTransition
 import com.thebrodyaga.englishsounds.screen.fragments.main.TabContainerFragment
-import ru.terrakok.cicerone.Router
 
 interface GetRouter {
 
     val fragment: Fragment
 
     /**
-     * Локальный роутер родительского фрагмента, если null то либо не вложен во FlowFragment
-     * либо вложен в активити
+     * Ищет первый роутер FlowFragment
+     * Идет по родительским фрагментам пока не дойдет до первого FlowFragment
+     * Иначе null значит не вложен во FlowFragment
      */
     fun getFlowRouter(): RouterTransition? {
-        val parentFragment = fragment.parentFragment
-        return if (parentFragment is FlowFragment)
-            parentFragment.localRouter
-        else null
-    }
-
-    /*  */
-    /**
-     * Идет по родительским фрагментам пока не дойдет до TabContainerFragment
-     * Иначе null значит в активити находиться
-     *//*
-
-    fun getTabRouter(): Router? {
         var parentFragment: Fragment = fragment.parentFragment ?: return null
-        var result: Router? = null
         while (true) {
-            if (parentFragment is TabContainerFragment) {
-                result = parentFragment.localRouter
-                break
+            if (parentFragment is FlowFragment) {
+                return parentFragment.localRouter
             }
-            if (parentFragment.parentFragment == null)
-                break
-            else parentFragment = parentFragment.parentFragment
+            parentFragment = parentFragment.parentFragment ?: return null
         }
-        return result
-    }*/
+    }
 
     /**
      * Ищет первый роутер и так до глобального
@@ -58,8 +39,9 @@ interface GetRouter {
     }
 
     /**
-     * Идет по родительским фрагментам пока не дойдет до TabContainerFragment
-     * Иначе null значит в активити находиться
+     * Ищет роутер TabContainerFragment
+     * Идет по родительским фрагментам пока не дойдет до первого TabContainerFragment
+     * Иначе null значит не вложен в TabContainerFragment
      */
     fun getTabRouter(): RouterTransition? {
         var parentFragment: Fragment = fragment.parentFragment ?: return null

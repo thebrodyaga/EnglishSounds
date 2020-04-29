@@ -18,7 +18,6 @@ data class TransitionBox(
         val sharedElementReturnTransition: Any? = null
 )
 
-
 class ReplaceWithTransition constructor(
         screen: Screen,
         override val transitionBox: TransitionBox?,

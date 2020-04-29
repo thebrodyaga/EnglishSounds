@@ -1,13 +1,12 @@
 package com.thebrodyaga.englishsounds.screen.fragments.main
 
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.englishsounds.navigation.LocalCiceroneHolder
 import com.thebrodyaga.englishsounds.navigation.Screens
+import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.FlowFragment
 import com.thebrodyaga.englishsounds.tools.RecordVoice
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -15,22 +14,18 @@ import javax.inject.Inject
 
 class MainFragment : FlowFragment() {
 
-    @Inject
-    lateinit var cicHolder: LocalCiceroneHolder
-
     override fun getContainerId(): Int = R.id.fragment_container
 
     override fun getContainerName(): String = Screens.MainScreen.screenKey
-
-    override fun getCiceroneHolder(): LocalCiceroneHolder = cicHolder
 
     @Inject
     lateinit var recordVoice: RecordVoice
 
     override fun getLayoutId(): Int = R.layout.fragment_main
 
-    private val currentTabFragment: Fragment?
-        get() = childFragmentManager.fragments.firstOrNull { !it.isHidden }
+
+    override val currentFragment: BaseFragment?
+        get() = childFragmentManager.fragments.firstOrNull { !it.isHidden } as? BaseFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -50,7 +45,7 @@ class MainFragment : FlowFragment() {
                 onBottomBarClick(position)
             position > -1
         }
-        if (currentTabFragment == null) onBottomBarClick(FIRST_MAIN_PAGE.first)
+        if (currentFragment == null) onBottomBarClick(FIRST_MAIN_PAGE.first)
         mic_button.setRecordVoice(recordVoice)
     }
 
@@ -66,13 +61,8 @@ class MainFragment : FlowFragment() {
         return true
     }
 
-    override fun onBackPressed() {
-        (currentTabFragment as? TabContainerFragment)?.onBackPressed()
-            ?: super.onBackPressed()
-    }
-
     private fun showPage(fragmentTag: String) {
-        val currentFragment = currentTabFragment
+        val currentFragment = currentFragment
         val newFragment = childFragmentManager.findFragmentByTag(fragmentTag)
 
         if (currentFragment != null && newFragment != null

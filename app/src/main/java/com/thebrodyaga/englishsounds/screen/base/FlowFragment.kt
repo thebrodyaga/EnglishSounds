@@ -1,15 +1,10 @@
 package com.thebrodyaga.englishsounds.screen.base
 
-import android.app.Activity
-import android.os.Bundle
-import com.thebrodyaga.englishsounds.navigation.LocalCiceroneHolder
+import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.navigation.RouterTransition
 import com.thebrodyaga.englishsounds.navigation.TransitionNavigator
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Navigator
-import ru.terrakok.cicerone.Router
-import ru.terrakok.cicerone.android.support.SupportAppNavigator
-import ru.terrakok.cicerone.commands.BackTo
 
 /**
  * фрагмент контейнер для вложенной навигации, тут храниться локальный роутер,
@@ -20,7 +15,8 @@ abstract class FlowFragment : BaseFragment() {
     private val navigator: Navigator by lazy {
         object : TransitionNavigator(requireActivity(), childFragmentManager, getContainerId()) {
             /**
-             * корректный выход из FlowFragment иначе активити финишит
+             * корректный выход из FlowFragment
+             * если в текущем стеке пусто, то ищет любой роутер выше и там выходит
              */
             override fun fragmentBack() {
                 if (childFragmentManager.backStackEntryCount > 0)
@@ -30,12 +26,17 @@ abstract class FlowFragment : BaseFragment() {
         }
     }
 
-    protected val currentFragment: BaseFragment?
+    protected open val currentFragment: BaseFragment?
         get() = childFragmentManager.findFragmentById(getContainerId()) as? BaseFragment
 
     protected abstract fun getContainerId(): Int
+
+    /**
+     * ключ для хранения локальных роутеров, следить за уникальностью
+     */
     protected abstract fun getContainerName(): String
-    protected abstract fun getCiceroneHolder(): LocalCiceroneHolder
+
+    private fun getCiceroneHolder() = App.appComponent.getLocalCiceroneHolder()
 
     val localRouter: RouterTransition get() = getCicerone().router
 
@@ -53,9 +54,7 @@ abstract class FlowFragment : BaseFragment() {
     }
 
     override fun onBackPressed() {
-        val currentFragment =
-            childFragmentManager.findFragmentById(getContainerId()) as? BaseFragment
-        currentFragment?.onBackPressed()
+        currentFragment?.onBackPressed() ?: localRouter.exit()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

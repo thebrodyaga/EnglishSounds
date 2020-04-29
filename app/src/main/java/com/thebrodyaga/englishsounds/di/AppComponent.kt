@@ -6,6 +6,7 @@ import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.englishsounds.app.SplashActivity
 import com.thebrodyaga.englishsounds.di.modules.AppModule
 import com.thebrodyaga.englishsounds.di.modules.NavigationModule
+import com.thebrodyaga.englishsounds.navigation.LocalCiceroneHolder
 import com.thebrodyaga.englishsounds.navigation.RouterTransition
 import com.thebrodyaga.englishsounds.screen.dialogs.RateAppDialog
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
@@ -26,6 +27,7 @@ interface AppComponent {
     fun getRouter(): RouterTransition
     fun getNavigatorHolder(): NavigatorHolder
     fun getSettingManager(): SettingManager
+    fun getLocalCiceroneHolder(): LocalCiceroneHolder
 
     fun getGson(): Gson
     fun inject(activity: AppActivity)

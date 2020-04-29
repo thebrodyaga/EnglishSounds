@@ -15,9 +15,6 @@ import com.thebrodyaga.englishsounds.screen.base.FlowFragment
  */
 class TabContainerFragment : FlowFragment() {
 
-    @Inject
-    lateinit var cicHolder: LocalCiceroneHolder
-
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
@@ -47,10 +44,6 @@ class TabContainerFragment : FlowFragment() {
 
     override fun getContainerName(): String {
         return arguments?.getString(EXTRA_NAME) ?: throw RuntimeException("need put key")
-    }
-
-    override fun getCiceroneHolder(): LocalCiceroneHolder {
-        return cicHolder
     }
 
     companion object {
