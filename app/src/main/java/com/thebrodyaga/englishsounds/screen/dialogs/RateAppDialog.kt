@@ -13,6 +13,7 @@ import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.englishsounds.tools.SettingManager
+import com.thebrodyaga.englishsounds.utils.AppAnalytics
 import kotlinx.android.synthetic.main.fragment_rate_app_dialog.*
 import javax.inject.Inject
 
@@ -62,11 +63,8 @@ class RateAppDialog : BottomSheetDialogFragment() {
 
     private fun sendAnalyticsEvent(rate: Int?) {
         val bundle = Bundle()
-        bundle.putString("rate", rate?.toString() ?: "later")
-        (activity as? AppActivity)?.firebaseAnalytics?.logEvent(
-                "rate_app",
-                bundle
-        )
+        bundle.putString(AppAnalytics.PARAM_RATE, rate?.toString() ?: "later")
+        (activity as? AppActivity)?.firebaseAnalytics?.logEvent(AppAnalytics.EVENT_RATE_APP, bundle)
     }
 
     private fun showPlayMarket(context: Context) {

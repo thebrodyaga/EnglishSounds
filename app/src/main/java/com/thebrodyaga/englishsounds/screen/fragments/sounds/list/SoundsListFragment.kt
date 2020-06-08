@@ -53,6 +53,7 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
                 bundle
             )
         }
+
     private lateinit var spanSizeLookup: SpanSizeLookup
 
     override fun onAttach(context: Context) {

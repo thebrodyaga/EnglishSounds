@@ -3,7 +3,7 @@ package com.thebrodyaga.englishsounds.screen.view
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.Player
@@ -13,7 +13,7 @@ import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.io.File
 
-class PlayImageView : ImageView, Player.EventListener {
+class PlayImageView : AppCompatImageView, Player.EventListener {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
