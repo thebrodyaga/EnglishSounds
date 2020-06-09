@@ -1,11 +1,13 @@
 package com.thebrodyaga.englishsounds.screen.fragments.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.navigation.Screens
+import com.thebrodyaga.englishsounds.player.VideoPlayerActivity
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.FlowFragment
 import com.thebrodyaga.englishsounds.tools.RecordVoice
@@ -47,6 +49,9 @@ class MainFragment : FlowFragment() {
         }
         if (currentFragment == null) onBottomBarClick(FIRST_MAIN_PAGE.first)
         mic_button.setRecordVoice(recordVoice)
+        /*mic_button.setOnClickListener {
+            startActivity(Intent(view.context, VideoPlayerActivity::class.java))
+        }*/
     }
 
     private fun onBottomBarClick(position: Int): Boolean {
