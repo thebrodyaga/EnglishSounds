@@ -11,6 +11,7 @@ import com.thebrodyaga.englishsounds.player.VideoPlayerActivity
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.FlowFragment
 import com.thebrodyaga.englishsounds.tools.RecordVoice
+import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
@@ -49,9 +50,9 @@ class MainFragment : FlowFragment() {
         }
         if (currentFragment == null) onBottomBarClick(FIRST_MAIN_PAGE.first)
         mic_button.setRecordVoice(recordVoice)
-        /*mic_button.setOnClickListener {
-            startActivity(Intent(view.context, VideoPlayerActivity::class.java))
-        }*/
+        mic_button.setOnClickListener {
+            startActivity(Intent(view.context, YoutubePlayerActivity::class.java))
+        }
     }
 
     private fun onBottomBarClick(position: Int): Boolean {

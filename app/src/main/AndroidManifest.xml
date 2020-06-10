@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".youtube.YoutubePlayerActivity" />
+        <activity
+            android:name=".youtube.YoutubePlayerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout" />
         <activity
             android:name=".player.VideoPlayerActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"

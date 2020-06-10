@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".youtube.YoutubePlayerActivity">
 
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/youtube_player"
+        android:layout_width="match_parent"
+        app:videoId="ZTgYjGXFAkw"
+        app:autoPlay="true"
+        android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
