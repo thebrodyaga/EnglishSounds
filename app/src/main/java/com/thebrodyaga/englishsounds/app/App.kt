@@ -3,12 +3,11 @@ package com.thebrodyaga.englishsounds.app
 import android.app.Application
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.di.AppComponent
 import com.thebrodyaga.englishsounds.di.DaggerAppComponent
 import com.thebrodyaga.englishsounds.tools.SettingManager
-import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
@@ -19,7 +18,7 @@ class App : Application() {
         appComponent = DaggerAppComponent.builder().application(this).build()
         super.onCreate()
         if (!BuildConfig.DEBUG) {
-            Fabric.with(this, Crashlytics())
+            FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
             Timber.plant(CrashReportingTree())
         } else {
             Timber.plant(DebugTree())
@@ -46,9 +45,18 @@ class App : Application() {
 
     private inner class CrashReportingTree : Timber.Tree() {
         override fun log(priority: Int, tag: String?, message: String, throwable: Throwable?) {
-            Crashlytics.log(priority, tag, message)
+            val logTag = when (priority) {
+                Log.VERBOSE -> "V"
+                Log.DEBUG -> "D"
+                Log.INFO -> "I"
+                Log.WARN -> "W"
+                Log.ERROR -> "E"
+                Log.ASSERT -> "A"
+                else -> "NON"
+            }
+            FirebaseCrashlytics.getInstance().log("$logTag/$tag: $message")
             if (throwable != null) {
-                Crashlytics.logException(throwable)
+                FirebaseCrashlytics.getInstance().log("$logTag/$tag: ${throwable.message ?: ""}")
             }
         }
     }

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 29
@@ -85,8 +85,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-beta01'
 
     //firebase
-    implementation 'com.google.firebase:firebase-analytics:17.2.1'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-analytics:17.4.3'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.1'
 
     //navigation
     implementation 'ru.terrakok.cicerone:cicerone:5.0.0'
