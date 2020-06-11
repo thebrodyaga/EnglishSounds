@@ -54,7 +54,7 @@ class SoundFragment : BaseFragment(), SoundView {
     @ProvidePresenter
     fun providePresenter() = presenter.also {
         it.transcription = arguments?.getString(EXTRA)
-                ?: throw IllegalArgumentException("need put sound id")
+            ?: throw IllegalArgumentException("need put sound id")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,16 +80,19 @@ class SoundFragment : BaseFragment(), SoundView {
         toolbar_title.text = soundDto.name.plus(" ").plus("[${soundDto.transcription}]")
         // https://github.com/PierfrancescoSoffritti/android-youtube-player/issues/461#issuecomment-550050683
         val contextForYoutubeView =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    context
-                else context.applicationContext
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                context
+            else context.applicationContext
         val youTubePlayerView =
-                LayoutInflater.from(contextForYoutubeView).inflate(R.layout.view_youtube_player, null)
-                        as YouTubePlayerView
+            LayoutInflater.from(contextForYoutubeView).inflate(R.layout.view_youtube_player, null)
+                    as YouTubePlayerView
         lifecycle.addObserver(youTubePlayerView)
         val videoId = context.getVideoAndDescription().first[soundDto.transcription]
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-            override fun onStateChange(youTubePlayer: YouTubePlayer, state: PlayerConstants.PlayerState) {
+            override fun onStateChange(
+                youTubePlayer: YouTubePlayer,
+                state: PlayerConstants.PlayerState
+            ) {
                 super.onStateChange(youTubePlayer, state)
                 logVideoEvent(soundDto, state, presenter.videoSecond)
             }
@@ -109,8 +112,8 @@ class SoundFragment : BaseFragment(), SoundView {
             }
         })
         Glide.with(sound_image.context)
-                .load(File(sound_image.context.filesDir, soundDto.photoPath))
-                .into(sound_image)
+            .load(File(sound_image.context.filesDir, soundDto.photoPath))
+            .into(sound_image)
         root_view.post { adapter.setData(list, youTubePlayerView) }
     }
 
@@ -122,32 +125,38 @@ class SoundFragment : BaseFragment(), SoundView {
         }
     }
 
-    private val bundle = Bundle()
-
-    fun logVideoEvent(soundDto: AmericanSoundDto, state: PlayerConstants.PlayerState, videoSecond: Float) {
+    fun logVideoEvent(
+        soundDto: AmericanSoundDto,
+        state: PlayerConstants.PlayerState,
+        videoSecond: Float
+    ) {
         when (state) {
             PlayerConstants.PlayerState.ENDED,
             PlayerConstants.PlayerState.PLAYING,
             PlayerConstants.PlayerState.PAUSED -> {
-                bundle.clear()
+                val bundle = Bundle()
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, soundDto.name)
                 bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "main_sound_video")
-                bundle.putFloat(AppAnalytics.PARAM_VIDEO_DURATION, videoSecond)
+                bundle.putInt(AppAnalytics.PARAM_VIDEO_DURATION, videoSecond.toInt())
                 bundle.putString(AppAnalytics.PARAM_VIDEO_STATE, state.toString())
                 (activity as? AppActivity)?.firebaseAnalytics
-                        ?.logEvent(AppAnalytics.EVENT_PLAY_VIDEO, bundle)
+                    ?.logEvent(AppAnalytics.EVENT_PLAY_VIDEO, bundle)
             }
             else -> return
         }
     }
 
-    private class PageAdapter constructor(fragment: BaseFragment, val image: String, val video: String) : FragmentStateAdapter(fragment) {
+    private class PageAdapter constructor(
+        fragment: BaseFragment,
+        val image: String,
+        val video: String
+    ) : FragmentStateAdapter(fragment) {
         override fun createFragment(position: Int): Fragment =
-                when (position) {
-                    0 -> VideoFragment.newInstance(video)
-                    1 -> ImageFragment.newInstance(image)
-                    else -> throw IllegalArgumentException("что за хуйня?")
-                }
+            when (position) {
+                0 -> VideoFragment.newInstance(video)
+                1 -> ImageFragment.newInstance(image)
+                else -> throw IllegalArgumentException("что за хуйня?")
+            }
 
         override fun getItemCount(): Int = 2
     }
@@ -155,8 +164,8 @@ class SoundFragment : BaseFragment(), SoundView {
     companion object {
         private const val EXTRA = "SoundFragmentExtra"
         fun newInstance(transcription: String): SoundFragment =
-                SoundFragment().apply {
-                    arguments = Bundle().also { it.putString(EXTRA, transcription) }
-                }
+            SoundFragment().apply {
+                arguments = Bundle().also { it.putString(EXTRA, transcription) }
+            }
     }
 }

@@ -17,7 +17,12 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".youtube.YoutubePlayerActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout" />
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            android:launchMode="singleTask"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
+            android:theme="@style/AppTheme.Video"
+            tools:targetApi="n" />
         <activity
             android:name=".player.VideoPlayerActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"

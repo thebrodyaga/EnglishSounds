@@ -51,7 +51,7 @@ class MainFragment : FlowFragment() {
         if (currentFragment == null) onBottomBarClick(FIRST_MAIN_PAGE.first)
         mic_button.setRecordVoice(recordVoice)
         mic_button.setOnClickListener {
-            startActivity(Intent(view.context, YoutubePlayerActivity::class.java))
+            YoutubePlayerActivity.startActivity(view.context, "ZTgYjGXFAkw")
         }
     }
 
