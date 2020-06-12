@@ -2,16 +2,35 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/root_view"
-    android:background="#ff000000"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ff000000"
     tools:context=".youtube.YoutubePlayerActivity">
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtube_player"
-        android:layout_width="match_parent"
-        app:videoId="ZTgYjGXFAkw"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:autoPlay="true"
-        android:layout_height="match_parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:videoId="ZTgYjGXFAkw" />
+
+    <ProgressBar
+        android:id="@+id/pic_in_pic_progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:progressDrawable="@drawable/progress_youtube_player"
+        android:progressTint="@color/youtube_color"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:progress="50" />
 </androidx.constraintlayout.widget.ConstraintLayout>

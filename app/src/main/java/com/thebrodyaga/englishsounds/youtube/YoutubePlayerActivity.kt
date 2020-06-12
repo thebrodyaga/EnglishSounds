@@ -12,6 +12,7 @@ import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -109,6 +110,7 @@ class YoutubePlayerActivity : AppCompatActivity() {
     ) {
         youtube_player.getPlayerUiController()
             .showUi(!isInPictureInPictureMode)
+        pic_in_pic_progress.isInvisible = !isInPictureInPictureMode
         if (isInPictureInPictureMode)
             picInPicReceiver = PicInPicReceiver { onPipControlReceive(it) }
                 .also { registerReceiver(it, IntentFilter(ACTION_MEDIA_CONTROL)) }
@@ -143,6 +145,7 @@ class YoutubePlayerActivity : AppCompatActivity() {
         youTubePlayer?.apply {
             seekTo(currentSecond)
             youtube_player?.youtube_player_seekbar?.onCurrentSecond(this, currentSecond)
+            pic_in_pic_progress.progress = currentSecond.toInt()
         }
     }
 
@@ -168,13 +171,19 @@ class YoutubePlayerActivity : AppCompatActivity() {
 
     private inner class YouTubePlayerListener : AbstractYouTubePlayerListener() {
 
+        override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
+            super.onVideoDuration(youTubePlayer, duration)
+            pic_in_pic_progress.max = duration.toInt()
+        }
+
         override fun onReady(youTubePlayer: YouTubePlayer) {
             this@YoutubePlayerActivity.youTubePlayer = youTubePlayer
-            youTubePlayer.cueVideo(videoId, currentSecond)
+            youTubePlayer.loadVideo(videoId, currentSecond)
         }
 
         override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
             currentSecond = second
+            pic_in_pic_progress.progress = second.toInt()
         }
 
         override fun onStateChange(
@@ -182,6 +191,10 @@ class YoutubePlayerActivity : AppCompatActivity() {
             state: PlayerConstants.PlayerState
         ) {
             playerState = state
+            if (state == PlayerConstants.PlayerState.UNSTARTED) {
+                pic_in_pic_progress.max = 0
+                pic_in_pic_progress.progress = 0
+            }
             if (!picInPickHelper.isHavePicInPicMode())
                 return
             Timber.i(state.toString())
