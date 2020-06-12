@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.thebrodyaga.englishsounds.R
+import com.thebrodyaga.englishsounds.app.BaseActivity
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.data.PracticeWordDto
 import com.thebrodyaga.englishsounds.domine.entities.data.SpellingWordDto
@@ -118,8 +120,9 @@ class SoundDetailsAdapter constructor(
             view.youtube_layout.setOnClickListener {
                 item?.let { item ->
                     val videoUrl = videoMap?.get(item.transcription)
-                    if (videoUrl != null && videoUrl.isNotEmpty())
+                    if (videoUrl != null && videoUrl.isNotEmpty()) {
                         YoutubePlayerActivity.startActivity(it.context, videoUrl, item.name)
+                    }
                 }
             }
 

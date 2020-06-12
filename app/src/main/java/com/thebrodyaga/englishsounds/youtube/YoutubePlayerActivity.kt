@@ -10,7 +10,10 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -87,7 +90,7 @@ class YoutubePlayerActivity : BaseActivity() {
             videoId = newVideoId
             videoName = intent.getStringExtra(VIDEO_NAME_EXTRA)
             youTubePlayer?.loadVideo(videoId, 0f)
-        }
+        } else youTubePlayer?.loadVideo(videoId, currentSecond)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

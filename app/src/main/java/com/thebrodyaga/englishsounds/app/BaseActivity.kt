@@ -10,5 +10,12 @@ abstract class BaseActivity : MvpAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        overridePendingTransition(0, 0)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (isFinishing)
+            overridePendingTransition(0, 0)
     }
 }

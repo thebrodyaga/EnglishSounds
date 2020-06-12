@@ -21,7 +21,6 @@ class SplashActivity : BaseActivity(), SplashView {
     override fun forward() {
         val intent = Intent(this, AppActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0)
         finish()
     }
 
