@@ -78,6 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ayp_ic_play_36dp"
+            android:tint="@color/youtube_color"
 
             android:visibility="invisible"
 
@@ -91,9 +92,10 @@
 
         <ProgressBar
             android:id="@+id/progress"
-            style="@style/Widget.AppCompat.ProgressBar"
+            android:theme="@style/ProgressBar.Red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_centerInParent="true" />
 
         <LinearLayout

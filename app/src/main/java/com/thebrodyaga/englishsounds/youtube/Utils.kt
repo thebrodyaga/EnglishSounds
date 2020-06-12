@@ -8,7 +8,6 @@ import android.view.OrientationEventListener
 import android.view.View
 import android.view.ViewGroup
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
-import timber.log.Timber
 import kotlin.math.abs
 
 class YoutubeOrientationEventListener constructor(
@@ -41,10 +40,10 @@ class YoutubeOrientationEventListener constructor(
     }
 }
 
-class OrientationListener {
+class OrientationListener constructor(private val activity: Activity) {
     private var oldOrientation = -1
 
-    fun onConfigurationChanged(newConfig: Configuration, activity: Activity) {
+    fun onConfigurationChanged(newConfig: Configuration) {
         if (newConfig.orientation != oldOrientation) {
             oldOrientation = newConfig.orientation
             onOrientationChanged(oldOrientation, activity)

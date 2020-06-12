@@ -1,40 +1,49 @@
 package com.thebrodyaga.englishsounds.youtube
 
 import android.annotation.SuppressLint
-import android.app.PictureInPictureParams
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.util.Rational
 import android.view.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.isVisible
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBar
 import com.thebrodyaga.englishsounds.R
 import kotlinx.android.synthetic.main.activity_youtube_player.*
 import kotlinx.android.synthetic.main.ayp_default_player_ui.*
 import kotlinx.android.synthetic.main.ayp_default_player_ui.view.*
-import java.lang.IllegalArgumentException
+import timber.log.Timber
 
 class YoutubePlayerActivity : AppCompatActivity() {
 
     private var currentSecond = 0f
     private var youTubePlayer: YouTubePlayer? = null
-    private val orientationListener = OrientationListener()
-    private var orientationEventListener: OrientationEventListener? = null
+    private var playerState: PlayerConstants.PlayerState = PlayerConstants.PlayerState.UNKNOWN
+
+    private lateinit var orientationListener: OrientationListener
+    private lateinit var orientationEventListener: OrientationEventListener
+
+    private var picInPicReceiver: PicInPicReceiver? = null
 
     private lateinit var videoId: String
+    private lateinit var picInPickHelper: PicInPickHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_youtube_player)
+
+        picInPickHelper = PicInPickHelper(this)
+        orientationListener = OrientationListener(this)
+        orientationEventListener = YoutubeOrientationEventListener(this)
+            .also { it.enable() }
 
         videoId = intent.getStringExtra(VIDEO_ID_EXTRA)
             ?: throw IllegalArgumentException("need put videoID")
@@ -58,9 +67,6 @@ class YoutubePlayerActivity : AppCompatActivity() {
         youtube_player.getPlayerUiController()
             .setFullScreenButtonClickListener(View.OnClickListener { toggleFullScreen() })
 
-        orientationEventListener = YoutubeOrientationEventListener(this)
-            .also { it.enable() }
-
         youtube_player
             .addFullScreenListener(FullScreenListener(youtube_player, legacyYouTubePlayerView))
 
@@ -77,9 +83,16 @@ class YoutubePlayerActivity : AppCompatActivity() {
         }
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            orientationListener.onConfigurationChanged(resources.configuration)
+        }
+    }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        orientationListener.onConfigurationChanged(newConfig, this)
+        orientationListener.onConfigurationChanged(newConfig)
         when (newConfig.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> youtube_player.exitFullScreen()
             Configuration.ORIENTATION_LANDSCAPE -> youtube_player.enterFullScreen()
@@ -92,27 +105,45 @@ class YoutubePlayerActivity : AppCompatActivity() {
     }
 
     override fun onPictureInPictureModeChanged(
-        isInPictureInPictureMode: Boolean,
-        newConfig: Configuration?
+        isInPictureInPictureMode: Boolean, newConfig: Configuration?
     ) {
-        youtube_player.getPlayerUiController().showUi(!isInPictureInPictureMode)
+        youtube_player.getPlayerUiController()
+            .showUi(!isInPictureInPictureMode)
+        if (isInPictureInPictureMode)
+            picInPicReceiver = PicInPicReceiver { onPipControlReceive(it) }
+                .also { registerReceiver(it, IntentFilter(ACTION_MEDIA_CONTROL)) }
+        else picInPicReceiver?.let {
+            unregisterReceiver(it)
+            picInPicReceiver = null
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        orientationEventListener?.disable()
+        orientationEventListener.disable()
     }
 
-    private fun enterPicInPic() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-            packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
-        ) enterPictureInPictureMode(
-            with(PictureInPictureParams.Builder()) {
-                val width = 16
-                val height = 9
-                setAspectRatio(Rational(width, height))
-                build()
-            })
+    private fun onPipControlReceive(controlType: @PicInPicControlType Int) {
+        youTubePlayer?.apply {
+            when (controlType) {
+                PIP_CONTROL_TYPE_PLAY -> if (playerState != PlayerConstants.PlayerState.BUFFERING) play()
+                PIP_CONTROL_TYPE_PAUSE -> pause()
+                PIP_CONTROL_TYPE_FAST_FORWARD -> this@YoutubePlayerActivity.seekTo(true)
+                PIP_CONTROL_TYPE_REWIND -> this@YoutubePlayerActivity.seekTo(false)
+                PIP_CONTROL_TYPE_REPEAT -> seekTo(0f)
+            }
+        }
+    }
+
+    fun seekTo(isFastForward: Boolean) {
+        val newSecond = if (!isFastForward)
+            currentSecond - DEFAULT_REWIND_S
+        else currentSecond + DEFAULT_FAST_FORWARD_S
+        currentSecond = newSecond
+        youTubePlayer?.apply {
+            seekTo(currentSecond)
+            youtube_player?.youtube_player_seekbar?.onCurrentSecond(this, currentSecond)
+        }
     }
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -126,14 +157,12 @@ class YoutubePlayerActivity : AppCompatActivity() {
     }
 
     private fun setUpUiController() {
-        pic_in_pic_button.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-                packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
-        pic_in_pic_button.setOnClickListener { enterPicInPic() }
+        pic_in_pic_button.isVisible = picInPickHelper.isHavePicInPicMode()
+        pic_in_pic_button.setOnClickListener { picInPickHelper.enterPicInPic(this) }
 
         val youtubeViewPanel = youtube_player.panel
-        val youtubeProgress = youtube_player.youtube_player_seekbar
         val mDetector =
-            GestureDetectorCompat(this, GestureListener(youtubeViewPanel, youtubeProgress))
+            GestureDetectorCompat(this, GestureListener(youtubeViewPanel))
         youtubeViewPanel.setOnTouchListener { _, event -> mDetector.onTouchEvent(event) }
     }
 
@@ -141,33 +170,58 @@ class YoutubePlayerActivity : AppCompatActivity() {
 
         override fun onReady(youTubePlayer: YouTubePlayer) {
             this@YoutubePlayerActivity.youTubePlayer = youTubePlayer
-            youTubePlayer.loadVideo(videoId, currentSecond)
+            youTubePlayer.cueVideo(videoId, currentSecond)
         }
 
         override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
             currentSecond = second
         }
+
+        override fun onStateChange(
+            youTubePlayer: YouTubePlayer,
+            state: PlayerConstants.PlayerState
+        ) {
+            playerState = state
+            if (!picInPickHelper.isHavePicInPicMode())
+                return
+            Timber.i(state.toString())
+            setPicInPicBuilderByPlayerState(state)
+        }
     }
 
-    private inner class GestureListener(
-        private val panel: View,
-        private val progress: YouTubePlayerSeekBar
-    ) : GestureDetector.SimpleOnGestureListener() {
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setPicInPicBuilderByPlayerState(state: PlayerConstants.PlayerState) {
+        val picInPicBuilder = when (state) {
+            PlayerConstants.PlayerState.BUFFERING,
+            PlayerConstants.PlayerState.PLAYING ->
+                picInPickHelper.actionsForRunning(isPlaying = true, setSeekTo = true)
+
+            PlayerConstants.PlayerState.VIDEO_CUED,
+            PlayerConstants.PlayerState.PAUSED ->
+                picInPickHelper.actionsForRunning(isPlaying = false, setSeekTo = true)
+
+            PlayerConstants.PlayerState.UNSTARTED ->
+                picInPickHelper.actionsForRunning(false)
+
+            PlayerConstants.PlayerState.UNKNOWN -> picInPickHelper.actionsEmpty()
+            PlayerConstants.PlayerState.ENDED -> picInPickHelper.actionsForEnd()
+        }
+        setPictureInPictureParams(picInPicBuilder.build())
+    }
+
+    private inner class GestureListener(private val panel: View) :
+        GestureDetector.SimpleOnGestureListener() {
 
         override fun onDoubleTap(e: MotionEvent?): Boolean {
             e ?: return false
             val oneThird = panel.width / 3
-            val newSecond = when (panel.left + e.x.toInt()) {
+            when (panel.left + e.x.toInt()) {
                 in panel.left..(panel.left + oneThird) ->
-                    currentSecond - DEFAULT_REWIND_S
+                    seekTo(false)
                 in (panel.right - oneThird)..panel.right ->
-                    currentSecond + DEFAULT_FAST_FORWARD_S
+                    seekTo(true)
                 else -> return false
-            }
-            currentSecond = newSecond
-            youTubePlayer?.apply {
-                seekTo(currentSecond)
-                progress.onCurrentSecond(this, currentSecond)
             }
             return true
         }
@@ -181,10 +235,6 @@ class YoutubePlayerActivity : AppCompatActivity() {
         private const val DEFAULT_REWIND_S = 5
 
         private const val VIDEO_ID_EXTRA = "VIDEO_ID_EXTRA"
-
-        private fun valueInRange(value: Int, center: Int, range: Int): Boolean {
-            return value >= center - range && value <= center + range
-        }
 
         fun startActivity(context: Context, videoId: String) {
             val intent = Intent(context, YoutubePlayerActivity::class.java).apply {

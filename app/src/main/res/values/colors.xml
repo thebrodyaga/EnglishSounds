@@ -31,4 +31,5 @@
     <color name="consonant_sounds">#64ad64</color>
     <color name="r_controlled_vowels">#EEC584</color>
     <color name="vowel_sounds">#5784C6</color>
+    <color name="youtube_color">#F44336</color>
 </resources>
