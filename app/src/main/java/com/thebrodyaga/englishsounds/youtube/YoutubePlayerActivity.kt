@@ -10,12 +10,10 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.GestureDetectorCompat
-import androidx.core.view.ViewCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -127,6 +125,9 @@ class YoutubePlayerActivity : BaseActivity() {
         else picInPicReceiver?.let {
             unregisterReceiver(it)
             picInPicReceiver = null
+            //huck for detect close pic in pic
+            if (lifecycle.currentState == Lifecycle.State.CREATED)
+                finishAndRemoveTask()
         }
     }
 
