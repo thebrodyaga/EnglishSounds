@@ -46,8 +46,6 @@ class AppActivity : BaseActivity(), AppActivityView {
     @InjectPresenter
     lateinit var presenter: AppActivityPresenter
 
-    lateinit var firebaseAnalytics: FirebaseAnalytics
-
     @ProvidePresenter
     fun providePresenter() = presenter
 
@@ -68,7 +66,6 @@ class AppActivity : BaseActivity(), AppActivityView {
         App.appComponent.inject(this)
         isLightSystem(isSystemDarkMode())
         super.onCreate(savedInstanceState)
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         if (BuildConfig.DEBUG)
             supportFragmentManager.registerFragmentLifecycleCallbacks(FragmentLifecycle(), true)
         setContentView(R.layout.layout_fragemnt_container)

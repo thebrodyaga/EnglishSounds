@@ -15,7 +15,6 @@ import javax.inject.Inject
 class SoundPresenter @Inject constructor(
     private val repository: SoundsRepository
 ) : BasePresenter<SoundView>() {
-    var videoSecond: Float = 0f
     lateinit var transcription: String
 
     override fun onFirstViewAttach() {
@@ -48,7 +47,6 @@ class SoundPresenter @Inject constructor(
             result.add(WordsHeader(WordsHeader.Type.END_SOUND))
             result.addAll(soundDto.soundPracticeWords.endSound)
         }
-        videoSecond = 0f
         viewState.setData(result, soundDto)
     }
 }

@@ -7,7 +7,6 @@ import androidx.annotation.LayoutRes
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.data.PracticeWordDto
@@ -19,6 +18,7 @@ import com.thebrodyaga.englishsounds.domine.entities.ui.WordsHeader
 import com.thebrodyaga.englishsounds.screen.getVideoAndDescription
 import com.thebrodyaga.englishsounds.screen.isGone
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
+import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
 import kotlinx.android.synthetic.main.item_show_more.view.*
 import kotlinx.android.synthetic.main.item_sound_details.view.*
 import kotlinx.android.synthetic.main.item_sound_header.view.*
@@ -32,14 +32,11 @@ class SoundDetailsAdapter constructor(
 
     private var videoMap: MutableMap<String, String>? = null
     private var descriptionMap: MutableMap<String, String>? = null
-    private var youTubePlayerView: YouTubePlayerView? = null
-    private var soundDetailsVH: SoundDetailsVH? = null
+
     var list = listOf<SoundsDetailsListItem>()
         private set
 
-    fun setData(newData: List<SoundsDetailsListItem>, youTubePlayerView: YouTubePlayerView) {
-        soundDetailsVH = null
-        this.youTubePlayerView = youTubePlayerView
+    fun setData(newData: List<SoundsDetailsListItem>) {
         val diffResult = DiffUtil.calculateDiff(DiffCallback(list, newData.toList()))
         list = newData
         diffResult.dispatchUpdatesTo(this)
@@ -52,21 +49,12 @@ class SoundDetailsAdapter constructor(
         descriptionMap = videoAndDescription.second
     }
 
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView)
-        youTubePlayerView = null
-        soundDetailsVH = null
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         fun inflate(@LayoutRes res: Int) =
             LayoutInflater.from(parent.context)
                 .inflate(res, parent, false)
         return when (viewType) {
-            DETAIL -> soundDetailsVH ?: SoundDetailsVH(
-                inflate(R.layout.item_sound_details), youTubePlayerView
-                    ?: throw IllegalArgumentException("need put youtube")
-            ).also { soundDetailsVH = it }
+            DETAIL -> SoundDetailsVH(inflate(R.layout.item_sound_details))
             WORD_HEADER -> HeaderViewHolder(inflate(R.layout.item_sound_header))
             SHOW_MORE -> ShowMoreVH(inflate(R.layout.item_show_more)) { _, _ -> }
             SpellingWord -> SpellingWordVH(inflate(R.layout.item_word))
@@ -120,26 +108,31 @@ class SoundDetailsAdapter constructor(
         }
     }
 
-    private inner class SoundDetailsVH constructor(
-        view: View, youTubePlayerView: YouTubePlayerView
-    ) :
-        RecyclerView.ViewHolder(view) {
+    private inner class SoundDetailsVH constructor(view: View) : RecyclerView.ViewHolder(view) {
+        private var item: AmericanSoundDto? = null
+
         init {
             view.include.setOnClickListener { it.play_icon.performClick() }
             view.include.play_icon.setRecordVoice(audioPlayer)
             view.include.play_icon.setRecordVoice(audioPlayer)
-            youTubePlayerView.also {
-                (it.parent as? ViewGroup)?.removeView(it)
-                view.youtube_layout.addView(it)
+            view.youtube_layout.setOnClickListener {
+                item?.let { item ->
+                    val videoUrl = videoMap?.get(item.transcription)
+                    if (videoUrl != null && videoUrl.isNotEmpty())
+                        YoutubePlayerActivity.startActivity(it.context, videoUrl, item.name)
+                }
             }
+
             Timber.i("SoundDetailsVH init")
         }
 
         fun bind(item: AmericanSoundDto) = with(itemView) {
             Timber.i("SoundDetailsVH bind")
+            this@SoundDetailsVH.item = item
             val videoUrl = videoMap?.get(item.transcription)
             if (videoUrl == null || videoUrl.isEmpty())
                 youtube_layout.isGone(true)
+            else youtube_layout.loadYoutubeThumbnail(videoUrl)
             include.word.text = item.name.plus(" ").plus("[${item.transcription}]")
             include.play_icon.audioFile = File(context.filesDir, item.audioPath)
             description.text = descriptionMap?.get(item.transcription) ?: ""

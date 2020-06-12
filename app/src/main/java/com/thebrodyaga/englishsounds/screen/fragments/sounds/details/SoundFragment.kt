@@ -4,18 +4,12 @@ package com.thebrodyaga.englishsounds.screen.fragments.sounds.details
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.AppActivity
@@ -28,7 +22,6 @@ import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.getVideoAndDescription
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
 import com.thebrodyaga.englishsounds.tools.SettingManager
-import com.thebrodyaga.englishsounds.utils.AppAnalytics
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.android.synthetic.main.fragment_sound.*
 import moxy.presenter.InjectPresenter
@@ -76,45 +69,11 @@ class SoundFragment : BaseFragment(), SoundView {
 
     @SuppressLint("InflateParams")
     override fun setData(list: List<SoundsDetailsListItem>, soundDto: AmericanSoundDto) {
-        val context = toolbar_title.context
         toolbar_title.text = soundDto.name.plus(" ").plus("[${soundDto.transcription}]")
-        // https://github.com/PierfrancescoSoffritti/android-youtube-player/issues/461#issuecomment-550050683
-        val contextForYoutubeView =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                context
-            else context.applicationContext
-        val youTubePlayerView =
-            LayoutInflater.from(contextForYoutubeView).inflate(R.layout.view_youtube_player, null)
-                    as YouTubePlayerView
-        lifecycle.addObserver(youTubePlayerView)
-        val videoId = context.getVideoAndDescription().first[soundDto.transcription]
-        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-            override fun onStateChange(
-                youTubePlayer: YouTubePlayer,
-                state: PlayerConstants.PlayerState
-            ) {
-                super.onStateChange(youTubePlayer, state)
-                logVideoEvent(soundDto, state, presenter.videoSecond)
-            }
-
-            override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
-                super.onCurrentSecond(youTubePlayer, second)
-                presenter.videoSecond = second
-            }
-
-            override fun onReady(youTubePlayer: YouTubePlayer) {
-                super.onReady(youTubePlayer)
-                videoId?.also {
-                    if (presenter.videoSecond > 0)
-                        youTubePlayer.loadVideo(it, presenter.videoSecond)
-                    else youTubePlayer.cueVideo(it, presenter.videoSecond)
-                }
-            }
-        })
         Glide.with(sound_image.context)
             .load(File(sound_image.context.filesDir, soundDto.photoPath))
             .into(sound_image)
-        root_view.post { adapter.setData(list, youTubePlayerView) }
+        root_view.post { adapter.setData(list) }
     }
 
     override fun onBackPressed() {
@@ -122,27 +81,6 @@ class SoundFragment : BaseFragment(), SoundView {
         (activity as? AppActivity)?.also {
             it.onSoundScreenClose()
             settingManager.onSoundShowed()
-        }
-    }
-
-    fun logVideoEvent(
-        soundDto: AmericanSoundDto,
-        state: PlayerConstants.PlayerState,
-        videoSecond: Float
-    ) {
-        when (state) {
-            PlayerConstants.PlayerState.ENDED,
-            PlayerConstants.PlayerState.PLAYING,
-            PlayerConstants.PlayerState.PAUSED -> {
-                val bundle = Bundle()
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, soundDto.name)
-                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "main_sound_video")
-                bundle.putInt(AppAnalytics.PARAM_VIDEO_DURATION, videoSecond.toInt())
-                bundle.putString(AppAnalytics.PARAM_VIDEO_STATE, state.toString())
-                (activity as? AppActivity)?.firebaseAnalytics
-                    ?.logEvent(AppAnalytics.EVENT_PLAY_VIDEO, bundle)
-            }
-            else -> return
         }
     }
 

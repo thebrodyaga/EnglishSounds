@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.youtube
+package com.thebrodyaga.englishsounds.utils
 
 import android.app.Activity
 import android.app.PendingIntent
@@ -53,7 +53,8 @@ class PicInPickHelper constructor(private val activity: Activity) {
             maxActions >= 1 -> actions.add(
                 newRemoteAction(
                     R.drawable.ic_replay, R.string.exo_controls_repeat_one_description,
-                    PIP_CONTROL_TYPE_REPEAT, PIP_REQUEST_REPEAT
+                    PIP_CONTROL_TYPE_REPEAT,
+                    PIP_REQUEST_REPEAT
                 )
             )
         }
@@ -65,11 +66,13 @@ class PicInPickHelper constructor(private val activity: Activity) {
         actions.add(
             if (isFastForward) newRemoteAction(
                 R.drawable.ic_fast_forward, R.string.exo_controls_fastforward_description,
-                PIP_CONTROL_TYPE_FAST_FORWARD, PIP_REQUEST_FAST_FORWARD
+                PIP_CONTROL_TYPE_FAST_FORWARD,
+                PIP_REQUEST_FAST_FORWARD
             )
             else newRemoteAction(
                 R.drawable.ic_fast_rewind, R.string.exo_controls_rewind_description,
-                PIP_CONTROL_TYPE_REWIND, PIP_REQUEST_REWIND
+                PIP_CONTROL_TYPE_REWIND,
+                PIP_REQUEST_REWIND
             )
         )
     }
@@ -79,11 +82,13 @@ class PicInPickHelper constructor(private val activity: Activity) {
         actions.add(
             if (isPlaying) newRemoteAction(
                 R.drawable.ic_pause, R.string.exo_controls_pause_description,
-                PIP_CONTROL_TYPE_PAUSE, PIP_REQUEST_PAUSE
+                PIP_CONTROL_TYPE_PAUSE,
+                PIP_REQUEST_PAUSE
             )
             else newRemoteAction(
                 R.drawable.ic_play, R.string.exo_controls_play_description,
-                PIP_CONTROL_TYPE_PLAY, PIP_REQUEST_PLAY
+                PIP_CONTROL_TYPE_PLAY,
+                PIP_REQUEST_PLAY
             )
         )
     }
@@ -96,7 +101,8 @@ class PicInPickHelper constructor(private val activity: Activity) {
         val intent = PendingIntent.getBroadcast(
             activity,
             requestCode,
-            Intent(ACTION_MEDIA_CONTROL).putExtra(EXTRA_CONTROL_TYPE, controlType),
+            Intent(ACTION_MEDIA_CONTROL).putExtra(
+                EXTRA_CONTROL_TYPE, controlType),
             0
         )
         val icon: Icon = Icon.createWithResource(activity, iconId)

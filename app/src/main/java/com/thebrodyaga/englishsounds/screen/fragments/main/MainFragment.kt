@@ -50,9 +50,6 @@ class MainFragment : FlowFragment() {
         }
         if (currentFragment == null) onBottomBarClick(FIRST_MAIN_PAGE.first)
         mic_button.setRecordVoice(recordVoice)
-        mic_button.setOnClickListener {
-            YoutubePlayerActivity.startActivity(view.context, "ZTgYjGXFAkw")
-        }
     }
 
     private fun onBottomBarClick(position: Int): Boolean {

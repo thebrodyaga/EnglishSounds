@@ -10,20 +10,22 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.thebrodyaga.englishsounds.R
+import com.thebrodyaga.englishsounds.app.BaseActivity
+import com.thebrodyaga.englishsounds.utils.*
 import kotlinx.android.synthetic.main.activity_youtube_player.*
 import kotlinx.android.synthetic.main.ayp_default_player_ui.*
 import kotlinx.android.synthetic.main.ayp_default_player_ui.view.*
 import timber.log.Timber
 
-class YoutubePlayerActivity : AppCompatActivity() {
+class YoutubePlayerActivity : BaseActivity() {
 
     private var currentSecond = 0f
     private var youTubePlayer: YouTubePlayer? = null
@@ -35,6 +37,7 @@ class YoutubePlayerActivity : AppCompatActivity() {
     private var picInPicReceiver: PicInPicReceiver? = null
 
     private lateinit var videoId: String
+    private var videoName: String? = null
     private lateinit var picInPickHelper: PicInPickHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +51,7 @@ class YoutubePlayerActivity : AppCompatActivity() {
 
         videoId = intent.getStringExtra(VIDEO_ID_EXTRA)
             ?: throw IllegalArgumentException("need put videoID")
+        videoName = intent.getStringExtra(VIDEO_NAME_EXTRA)
 
         val legacyYouTubePlayerView = youtube_player.panel.parent.parent as ViewGroup
 
@@ -64,6 +68,7 @@ class YoutubePlayerActivity : AppCompatActivity() {
         }
 
         lifecycle.addObserver(youtube_player)
+        pic_in_pic_progress.setUpView(youtube_player)
         youtube_player.addYouTubePlayerListener(YouTubePlayerListener())
         youtube_player.getPlayerUiController()
             .setFullScreenButtonClickListener(View.OnClickListener { toggleFullScreen() })
@@ -80,6 +85,7 @@ class YoutubePlayerActivity : AppCompatActivity() {
             ?: return
         if (newVideoId != videoId) {
             videoId = newVideoId
+            videoName = intent.getStringExtra(VIDEO_NAME_EXTRA)
             youTubePlayer?.loadVideo(videoId, 0f)
         }
     }
@@ -112,8 +118,9 @@ class YoutubePlayerActivity : AppCompatActivity() {
             .showUi(!isInPictureInPictureMode)
         pic_in_pic_progress.isInvisible = !isInPictureInPictureMode
         if (isInPictureInPictureMode)
-            picInPicReceiver = PicInPicReceiver { onPipControlReceive(it) }
-                .also { registerReceiver(it, IntentFilter(ACTION_MEDIA_CONTROL)) }
+            picInPicReceiver = PicInPicReceiver {
+                onPipControlReceive(it)
+            }.also { registerReceiver(it, IntentFilter(ACTION_MEDIA_CONTROL)) }
         else picInPicReceiver?.let {
             unregisterReceiver(it)
             picInPicReceiver = null
@@ -171,11 +178,6 @@ class YoutubePlayerActivity : AppCompatActivity() {
 
     private inner class YouTubePlayerListener : AbstractYouTubePlayerListener() {
 
-        override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
-            super.onVideoDuration(youTubePlayer, duration)
-            pic_in_pic_progress.max = duration.toInt()
-        }
-
         override fun onReady(youTubePlayer: YouTubePlayer) {
             this@YoutubePlayerActivity.youTubePlayer = youTubePlayer
             youTubePlayer.loadVideo(videoId, currentSecond)
@@ -183,18 +185,14 @@ class YoutubePlayerActivity : AppCompatActivity() {
 
         override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
             currentSecond = second
-            pic_in_pic_progress.progress = second.toInt()
         }
 
         override fun onStateChange(
             youTubePlayer: YouTubePlayer,
             state: PlayerConstants.PlayerState
         ) {
+            logVideoEvent(videoName, state, currentSecond)
             playerState = state
-            if (state == PlayerConstants.PlayerState.UNSTARTED) {
-                pic_in_pic_progress.max = 0
-                pic_in_pic_progress.progress = 0
-            }
             if (!picInPickHelper.isHavePicInPicMode())
                 return
             Timber.i(state.toString())
@@ -240,6 +238,27 @@ class YoutubePlayerActivity : AppCompatActivity() {
         }
     }
 
+    private fun logVideoEvent(
+        videoName: String?,
+        state: PlayerConstants.PlayerState,
+        videoSecond: Float
+    ) {
+        when (state) {
+            PlayerConstants.PlayerState.ENDED,
+            PlayerConstants.PlayerState.PLAYING,
+            PlayerConstants.PlayerState.PAUSED -> {
+                val bundle = Bundle()
+                if (videoName != null)
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, videoName)
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "main_sound_video")
+                bundle.putInt(AppAnalytics.PARAM_VIDEO_DURATION, videoSecond.toInt())
+                bundle.putString(AppAnalytics.PARAM_VIDEO_STATE, state.toString())
+                firebaseAnalytics.logEvent(AppAnalytics.EVENT_PLAY_VIDEO, bundle)
+            }
+            else -> return
+        }
+    }
+
     companion object {
 
         /** The default fast forward increment, in seconds.  */
@@ -248,10 +267,12 @@ class YoutubePlayerActivity : AppCompatActivity() {
         private const val DEFAULT_REWIND_S = 5
 
         private const val VIDEO_ID_EXTRA = "VIDEO_ID_EXTRA"
+        private const val VIDEO_NAME_EXTRA = "VIDEO_NAME_EXTRA"
 
-        fun startActivity(context: Context, videoId: String) {
+        fun startActivity(context: Context, videoId: String, videoName: String? = null) {
             val intent = Intent(context, YoutubePlayerActivity::class.java).apply {
                 putExtra(VIDEO_ID_EXTRA, videoId)
+                putExtra(VIDEO_NAME_EXTRA, videoName)
             }
             context.startActivity(intent)
         }
