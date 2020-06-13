@@ -21,6 +21,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.BaseActivity
 import com.thebrodyaga.englishsounds.utils.*
+import com.thebrodyaga.englishsounds.utils.PicInPickHelper.Companion.isHavePicInPicMode
 import kotlinx.android.synthetic.main.activity_youtube_player.*
 import kotlinx.android.synthetic.main.ayp_default_player_ui.*
 import kotlinx.android.synthetic.main.ayp_default_player_ui.view.*
@@ -39,13 +40,17 @@ class YoutubePlayerActivity : BaseActivity() {
 
     private lateinit var videoId: String
     private var videoName: String? = null
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private lateinit var picInPickHelper: PicInPickHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_youtube_player)
 
-        picInPickHelper = PicInPickHelper(this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            picInPickHelper = PicInPickHelper(this)
+        }
         orientationListener = OrientationListener(this)
         orientationEventListener = YoutubeOrientationEventListener(this)
             .also { it.enable() }
@@ -171,8 +176,12 @@ class YoutubePlayerActivity : BaseActivity() {
     }
 
     private fun setUpUiController() {
-        pic_in_pic_button.isVisible = picInPickHelper.isHavePicInPicMode()
-        pic_in_pic_button.setOnClickListener { picInPickHelper.enterPicInPic(this) }
+        pic_in_pic_button.isVisible = isHavePicInPicMode()
+        pic_in_pic_button.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                picInPickHelper.enterPicInPic(this)
+            }
+        }
 
         val youtubeViewPanel = youtube_player.panel
         val mDetector =
@@ -197,7 +206,7 @@ class YoutubePlayerActivity : BaseActivity() {
         ) {
             logVideoEvent(videoName, state, currentSecond)
             playerState = state
-            if (!picInPickHelper.isHavePicInPicMode())
+            if (!isHavePicInPicMode())
                 return
             Timber.i(state.toString())
             setPicInPicBuilderByPlayerState(state)

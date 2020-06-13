@@ -16,11 +16,11 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import com.thebrodyaga.englishsounds.R
 
+@RequiresApi(Build.VERSION_CODES.O)
 class PicInPickHelper constructor(private val activity: Activity) {
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private val picInPicParamsBuilder = PictureInPictureParams.Builder()
-
+    private val picInPicParamsBuilder: PictureInPictureParams.Builder =
+        PictureInPictureParams.Builder()
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun actionsEmpty(): PictureInPictureParams.Builder = picInPicParamsBuilder.setActions(null)
@@ -101,8 +101,8 @@ class PicInPickHelper constructor(private val activity: Activity) {
         val intent = PendingIntent.getBroadcast(
             activity,
             requestCode,
-            Intent(ACTION_MEDIA_CONTROL).putExtra(
-                EXTRA_CONTROL_TYPE, controlType),
+            Intent(ACTION_MEDIA_CONTROL)
+                .putExtra(EXTRA_CONTROL_TYPE, controlType),
             0
         )
         val icon: Icon = Icon.createWithResource(activity, iconId)
@@ -111,7 +111,7 @@ class PicInPickHelper constructor(private val activity: Activity) {
     }
 
     fun enterPicInPic(activity: Activity) {
-        if (!isHavePicInPicMode())
+        if (!activity.isHavePicInPicMode())
             return
         activity.enterPictureInPictureMode(
             with(picInPicParamsBuilder) {
@@ -122,9 +122,12 @@ class PicInPickHelper constructor(private val activity: Activity) {
             })
     }
 
-    fun isHavePicInPicMode() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-            activity.packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
+    companion object {
 
+        fun Activity.isHavePicInPicMode() =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
+    }
 }
 
 class PicInPicReceiver constructor(
