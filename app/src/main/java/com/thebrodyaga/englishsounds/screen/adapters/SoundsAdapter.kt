@@ -75,7 +75,7 @@ class SoundsAdapter constructor(
             return when {
                 oldItem is AmericanSoundDto && newItem is AmericanSoundDto -> oldItem.transcription == newItem.transcription
                 oldItem is SoundHeader && newItem is SoundHeader -> oldItem.soundType == newItem.soundType
-                oldItem is VideoListItem && newItem is VideoListItem -> oldItem.id == newItem.id
+                oldItem is VideoListItem && newItem is VideoListItem -> oldItem.title == newItem.title
                 else -> false
             }
         }

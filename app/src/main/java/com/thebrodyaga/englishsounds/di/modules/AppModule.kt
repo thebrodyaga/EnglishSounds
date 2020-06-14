@@ -6,7 +6,9 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.thebrodyaga.englishsounds.repository.SoundsRepository
+import com.thebrodyaga.englishsounds.repository.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.repository.impl.AmericanSoundsRepositoryImpl
+import com.thebrodyaga.englishsounds.repository.impl.SoundsVideoRepositoryImpl
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
 import com.thebrodyaga.englishsounds.tools.RecordVoice
 import com.thebrodyaga.englishsounds.tools.SettingManager
@@ -40,6 +42,13 @@ class AppModule {
         settingManager: SettingManager
     ): SoundsRepository =
         AmericanSoundsRepositoryImpl(context, gson, settingManager)
+
+    @Provides
+    @Singleton
+    fun provideSoundVideoRepository(
+        context: Context
+    ): SoundsVideoRepository =
+        SoundsVideoRepositoryImpl(context)
 
     @Provides
     @Singleton

@@ -93,7 +93,7 @@ class AmericanSoundsRepositoryImpl constructor(
                 it.tryOnError(e)
             }
         }.doOnSuccess {
-            soundsCash = it.sortedBy { sound -> sound.name }
+            soundsCash = it.sortedBy { sound -> sound.transcription }
             updatePracticeWords(it)
         }
     }

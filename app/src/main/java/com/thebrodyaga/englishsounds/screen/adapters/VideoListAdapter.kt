@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.thebrodyaga.englishsounds.R
+import com.thebrodyaga.englishsounds.domine.entities.ui.ContrastingSoundVideoItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItem
-import com.thebrodyaga.englishsounds.domine.entities.ui.YoutubeVideoItem
+import kotlinx.android.synthetic.main.item_youtube_video.view.*
 
 class VideoListAdapter constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -18,7 +19,7 @@ class VideoListAdapter constructor() : RecyclerView.Adapter<RecyclerView.ViewHol
         return when (viewType) {
             YOUTUBE_VIEW -> YoutubeViewHolder(
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_sound,
+                    R.layout.item_youtube_video,
                     parent,
                     false
                 )
@@ -31,14 +32,14 @@ class VideoListAdapter constructor() : RecyclerView.Adapter<RecyclerView.ViewHol
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = list[position]) {
-            is YoutubeVideoItem -> (holder as YoutubeViewHolder).bind(item)
+            is ContrastingSoundVideoItem -> (holder as YoutubeViewHolder).bind(item)
             else -> throw IllegalArgumentException("хуйня в onBindViewHolder")
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (list[position]) {
-            is YoutubeVideoItem -> YOUTUBE_VIEW
+            is ContrastingSoundVideoItem -> YOUTUBE_VIEW
             else -> throw IllegalArgumentException("хуйня в getItemViewType")
         }
     }
@@ -53,10 +54,11 @@ class VideoListAdapter constructor() : RecyclerView.Adapter<RecyclerView.ViewHol
         view: View
     ) : RecyclerView.ViewHolder(view) {
 
-        var item: YoutubeVideoItem? = null
+        var item: ContrastingSoundVideoItem? = null
 
-        fun bind(item: YoutubeVideoItem) = with(itemView) {
+        fun bind(item: ContrastingSoundVideoItem) = with(itemView) {
             this@YoutubeViewHolder.item = item
+            item_youtube_video_thumbnail.loadYoutubeThumbnail(item.videoId)
         }
     }
 
@@ -76,21 +78,13 @@ class VideoListAdapter constructor() : RecyclerView.Adapter<RecyclerView.ViewHol
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldList[oldItemPosition]
             val newItem = newList[newItemPosition]
-            return when {
-                oldItem is YoutubeVideoItem && newItem is YoutubeVideoItem ->
-                    oldItem.videoId == newItem.videoId
-                else -> false
-            }
+            return oldItem.videoId == newItem.videoId
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldList[oldItemPosition]
             val newItem = newList[newItemPosition]
-            return when {
-                oldItem is YoutubeVideoItem && newItem is YoutubeVideoItem ->
-                    oldItem == newItem
-                else -> false
-            }
+            return oldItem == newItem
         }
     }
 

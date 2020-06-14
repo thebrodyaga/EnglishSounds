@@ -11,7 +11,13 @@ class SoundsVideoRepositoryImpl constructor(
     val context: Context
 ) : SoundsVideoRepository {
 
-    fun getSoundsVideoFromRes(): Single<Map<String, SoundVideoRes>> {
+    override fun getSoundsVideo(): Single<Map<String, SoundVideoRes>> =
+        getSoundsVideoFromRes()
+
+    override fun getContrastingSoundsVideo(): Single<Set<ContrastingSoundVideoRes>> =
+        getContrastingSoundsVideoFromRes()
+
+    private fun getSoundsVideoFromRes(): Single<Map<String, SoundVideoRes>> {
         val videoArray = context.resources.getStringArray(R.array.sound_video)
         val videoMap = mutableMapOf<String, SoundVideoRes>()
         videoArray.forEach {
@@ -22,7 +28,7 @@ class SoundsVideoRepositoryImpl constructor(
         return Single.just(videoMap)
     }
 
-    fun getContrastingSoundsVideoFromRes(): Single<Set<ContrastingSoundVideoRes>> {
+    private fun getContrastingSoundsVideoFromRes(): Single<Set<ContrastingSoundVideoRes>> {
         val videoArray = context.resources.getStringArray(R.array.sound_contrasting_video)
         val videoSet = mutableSetOf<ContrastingSoundVideoRes>()
         videoArray.forEach {
