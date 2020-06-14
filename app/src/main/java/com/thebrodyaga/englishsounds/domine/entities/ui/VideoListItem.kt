@@ -12,3 +12,11 @@ sealed class VideoListItem constructor(
 data class ContrastingSoundVideoListItem constructor(
     override val list: List<VideoItem>
 ) : VideoListItem(R.string.contrasting_sound_video_title, list)
+
+data class MostCommonWordsVideoListItem constructor(
+    override val list: List<VideoItem>
+) : VideoListItem(R.string.most_common_words_video_title, list)
+
+data class AdvancedExercisesVideoListItem constructor(
+    override val list: List<VideoItem>
+) : VideoListItem(R.string.advanced_exercises_video_title, list)

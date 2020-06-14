@@ -34,13 +34,17 @@ fun ViewGroup.defaultOnApplyWindowInsetsListener() {
     }
 }
 
-fun RecyclerView.appbarBottomPadding() {
+fun RecyclerView.appbarBottomPadding(includeFabSize: Boolean = false) {
     val tv = TypedValue()
     if (context.theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
         val actionBarHeight =
             TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+        val halfOfFab =
+            if (includeFabSize)
+                context.resources.getDimensionPixelSize(R.dimen.fab_mic_size) / 2
+            else 0
         clipToPadding = false
-        setPadding(paddingLeft, paddingTop, paddingRight, actionBarHeight)
+        setPadding(paddingLeft, paddingTop, paddingRight, actionBarHeight + halfOfFab)
     }
 }
 

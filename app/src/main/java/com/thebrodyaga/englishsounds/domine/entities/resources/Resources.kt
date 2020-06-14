@@ -11,3 +11,13 @@ data class ContrastingSoundVideoRes constructor(
     val videoId: String,
     val videoName: String
 )
+
+data class MostCommonWordsVideoRes constructor(
+    val videoId: String,
+    val videoName: String
+)
+
+data class AdvancedExercisesVideoRes constructor(
+    val videoId: String,
+    val videoName: String
+)

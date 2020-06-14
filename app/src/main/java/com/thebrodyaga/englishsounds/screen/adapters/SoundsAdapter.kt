@@ -6,7 +6,7 @@ import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Typeface
-import android.util.SparseIntArray
+import android.os.Parcelable
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
@@ -27,7 +27,7 @@ class SoundsAdapter constructor(
     onCardSoundClick: (soundDto: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) -> Unit
 ) : AsyncListDifferDelegationAdapter<Any>(DiffCallback()) {
 
-    private val positionList = SparseIntArray()
+    private val positionList = mutableMapOf<Int, Parcelable?>()
 
     init {
         delegatesManager.addDelegate(soundHeaderItemDelegate())

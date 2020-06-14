@@ -2,7 +2,7 @@ package com.thebrodyaga.englishsounds.screen.adapters.delegates
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.util.SparseIntArray
+import android.os.Parcelable
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,12 +13,13 @@ import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundHeader
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoListItem
 import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
+import com.thebrodyaga.englishsounds.screen.adapters.decorator.OffsetItemDecoration
 import kotlinx.android.synthetic.main.item_sound.*
 import kotlinx.android.synthetic.main.item_sound_header.*
 import kotlinx.android.synthetic.main.item_video_list.*
 
 fun videoListItemDelegate(
-    positionList: SparseIntArray,
+    positionList: MutableMap<Int, Parcelable?>,
     itemClickedListener: (VideoListItem) -> Unit
 ) = adapterDelegateLayoutContainer<VideoListItem, Any>(R.layout.item_video_list) {
 
@@ -28,21 +29,25 @@ fun videoListItemDelegate(
     video_list_recycler_view.apply {
         this.layoutManager = layoutManager
         this.adapter = adapter
+        this.addItemDecoration(
+            OffsetItemDecoration(
+                context,
+                RecyclerView.HORIZONTAL,
+                R.dimen.base_offset_small
+            )
+        )
     }
 
     onViewRecycled {
-        val position = adapterPosition
-        val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
-        positionList.put(position, firstVisiblePosition)
+        positionList[adapterPosition] = layoutManager.onSaveInstanceState()
     }
 
     bind {
         adapter.setData(item.list)
         // Retrieve and set the saved position
-        val lastSeenFirstPosition: Int = positionList.get(adapterPosition, 0)
-        if (lastSeenFirstPosition >= 0) {
-            layoutManager.scrollToPositionWithOffset(lastSeenFirstPosition, 0)
-        }
+        positionList[adapterPosition]
+            ?.let { layoutManager.onRestoreInstanceState(it) }
+        video_list_title.setText(item.title)
     }
 }
 

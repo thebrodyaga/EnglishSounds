@@ -56,4 +56,21 @@
         <item>r::l::DKJfeW89lR0::Pray or Play? Rain or Lane?</item>
         <item>n::ŋ::8bKIm60nK80::Thin or Thing? Sin or Sing?</item>
     </string-array>
+
+    <string-array name="most_common_words_video">
+        <item>VbBoHLxov-E::Names of 50 US States</item>
+        <item>IERJyt2qKh8::Part 1 Top 200 Most Common Words</item>
+        <item>Fl_e8zbXzks::Part 2 Top 200 Most Common Words</item>
+        <item>lrewt5USFk0::100 English Homophones</item>
+        <item>hH08LvO98IA::100 Halloween 🎃 Words</item>
+        <item>TJKuvZSqD_4::100 Winter Holidays Words</item>
+    </string-array>
+
+    <string-array name="advanced_exercises_video">
+        <item>GbbBpiMVbi0::R-Colored Vowel Sounds</item>
+        <item>pVptIO1xMoQ::The / ŋ / (NG) sound</item>
+        <item>g2eid_nH3Wg::/ r / and / l / sounds, as in "curriculum"</item>
+        <item>GQa9w__GqLc::Truth About Long And Short English Vowels</item>
+        <item>hde9Sg75Nn4::Pronounce Words with \'-s\' Endings</item>
+    </string-array>
 </resources>

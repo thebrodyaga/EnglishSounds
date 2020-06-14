@@ -7,9 +7,12 @@
     <string name="vowel_sounds">Vowel Sounds</string>
     <string name="r_controlled_vowels">R-controlled vowels</string>
     <string name="consonant_sounds">Consonant Sounds</string>
-    <string name="contrasting_sound_video_title">Contrasting Sounds: Pronunciation Exercises</string>
+    <string name="contrasting_sound_video_title">Contrasting Sounds</string>
+    <string name="most_common_words_video_title">Most Common Words</string>
+    <string name="advanced_exercises_video_title">Advanced Exercises</string>
     <string name="rate">Rate app</string>
     <string name="later">Later</string>
+    <string name="show_all">Show all</string>
 
     <string name="SPELLING">Spelling</string>
     <string name="BEGINNING_SOUND">Beginning sound</string>

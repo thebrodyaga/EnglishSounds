@@ -74,7 +74,7 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
             .also { it.spanSizeLookup = spanSizeLookup }
         list.adapter = adapter
         list.itemAnimator = null
-        list.appbarBottomPadding()
+        list.appbarBottomPadding(true)
         toolbar.setOnMenuItemClickListener(this)
     }
 
