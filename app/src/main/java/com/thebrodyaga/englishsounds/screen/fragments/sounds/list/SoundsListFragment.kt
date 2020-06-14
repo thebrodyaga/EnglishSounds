@@ -87,8 +87,9 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
         val maxColumns: Int
     ) : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
+            //getItemViewType равен индексу добавления в delegatesManager адаптера
             return when (adapter.getItemViewType(position)) {
-                SoundsAdapter.SOUND_HEADER_VIEW -> maxColumns
+                0, 1 -> maxColumns
                 else -> 1
             }
         }

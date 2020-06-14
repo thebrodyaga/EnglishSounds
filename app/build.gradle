@@ -58,6 +58,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
+    androidExtensions {
+        experimental = true
+    }
 }
 
 
@@ -126,7 +130,9 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger"
 
     //AdapterDelegates
-    implementation 'com.hannesdorfmann:adapterdelegates4:4.0.0'
+    implementation 'com.hannesdorfmann:adapterdelegates4:4.3.0'
+    // If you use Kotlin Android Extensions and synthetic properties (alternative to findViewById())
+    implementation 'com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer:4.3.0'
 
     //logging
     implementation 'com.jakewharton.timber:timber:4.7.1'

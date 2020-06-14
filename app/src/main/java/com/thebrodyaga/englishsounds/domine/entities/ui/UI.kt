@@ -4,8 +4,13 @@ import androidx.annotation.StringRes
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 
-data class SoundHeader(
+data class SoundHeader constructor(
     var soundType: SoundType
+) : SoundsListItem
+
+data class VideoListItem constructor(
+    val id: String,
+    var list: List<VideoItem>
 ) : SoundsListItem
 
 data class WordsHeader(
@@ -31,5 +36,8 @@ data class ShowMore(
     var key: String = "ShowMore"
 ) : SoundsDetailsListItem
 
+data class YoutubeVideoItem(val videoId: String) : VideoItem
+
 interface SoundsListItem
 interface SoundsDetailsListItem
+interface VideoItem

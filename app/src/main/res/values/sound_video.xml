@@ -45,4 +45,15 @@
         <item>ʒ::k8ImSmVOSVA</item>
     </string-array>
 
+    <string-array name="sound_contrasting_video">
+        <item>i::ɪ::FYI6Vt3uq7s::Sheep or Ship? Heat or Hit? Beat or Bit?</item>
+        <item>ɪ::ɛ::m7JQRKkY7cc::Did or Dead? Big or Beg?</item>
+        <item>eɪ::ɛ::29AKpIou3kM::Taste or Test? Date or Debt?</item>
+        <item>eɪ::æ::MKX_2yF-Fqo::Made or Mad? Hate or Hat?</item>
+        <item>ɛ::æ::GnWPcvI20Uk::Bed or Bad? Head or Had?</item>
+        <item>ʌ::ɑ::MqcCCFptaJk::Bus or Boss? Luck or Lock?</item>
+        <item>oʊ::ɔ::ZEqiQgoHgGo::Low or Law? Row or Raw? Boat or Bought?</item>
+        <item>r::l::DKJfeW89lR0::Pray or Play? Rain or Lane?</item>
+        <item>n::ŋ::8bKIm60nK80::Thin or Thing? Sin or Sing?</item>
+    </string-array>
 </resources>
