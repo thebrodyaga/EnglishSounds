@@ -8,7 +8,7 @@ import io.reactivex.Single
 
 interface SoundsVideoRepository {
 
-    fun getSoundsVideo(): Single<Map<String, SoundVideoRes>>
+    fun getSoundsVideo(): Single<List<SoundVideoRes>>
     fun getContrastingSoundsVideo(): Single<List<ContrastingSoundVideoRes>>
     fun getMostCommonWordsVideo(): Single<List<MostCommonWordsVideoRes>>
     fun getAdvancedExercisesVideo(): Single<List<AdvancedExercisesVideoRes>>

@@ -7,6 +7,9 @@
     <string name="vowel_sounds">Vowel Sounds</string>
     <string name="r_controlled_vowels">R-controlled vowels</string>
     <string name="consonant_sounds">Consonant Sounds</string>
+    <string name="vowel_sounds_short">Vowel</string>
+    <string name="r_controlled_vowels_short">R-controlled</string>
+    <string name="consonant_sounds_short">Consonant</string>
     <string name="contrasting_sound_video_title">Contrasting Sounds</string>
     <string name="most_common_words_video_title">Most Common Words</string>
     <string name="advanced_exercises_video_title">Advanced Exercises</string>
@@ -23,4 +26,8 @@
     <string name="use_dark_theme">Use Dark Theme</string>
     <string name="rate_text">Let us know what you\nthink of this app.</string>
     <string name="rate_title">Enjoying this app?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="videos">Videos</string>
 </resources>

@@ -10,20 +10,20 @@ import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsListItem
 interface SoundDto
 
 data class AmericanSoundDto constructor(
-    var transcription: String,
-    var name: String,
-    var description: String,
-    var audioPath: String,
-    var photoPath: String,
-    var spellingWordList: List<SpellingWordDto>,
-    var soundPracticeWords: SoundPracticeWords,
-    var soundType: SoundType
+    val transcription: String,
+    val name: String,
+    val description: String,
+    val audioPath: String,
+    val photoPath: String,
+    val spellingWordList: List<SpellingWordDto>,
+    val soundPracticeWords: SoundPracticeWords,
+    val soundType: SoundType
 ) : SoundDto, SoundsListItem, SoundsDetailsListItem
 
 data class SoundPracticeWords constructor(
-    var beginningSound: List<PracticeWordDto>,
-    var endSound: List<PracticeWordDto>,
-    var middleSound: List<PracticeWordDto>
+    val beginningSound: List<PracticeWordDto>,
+    val endSound: List<PracticeWordDto>,
+    val middleSound: List<PracticeWordDto>
 )
 
 enum class SoundType {
@@ -41,11 +41,17 @@ enum class SoundType {
         VOWEL_SOUNDS -> R.color.vowel_sounds
     }
 
-
     @StringRes
     fun humanName(): Int = when (this) {
         CONSONANT_SOUND -> R.string.consonant_sounds
         R_CONTROLLED_VOWELS -> R.string.r_controlled_vowels
         VOWEL_SOUNDS -> R.string.vowel_sounds
+    }
+
+    @StringRes
+    fun shortHumanName(): Int = when (this) {
+        CONSONANT_SOUND -> R.string.consonant_sounds_short
+        R_CONTROLLED_VOWELS -> R.string.r_controlled_vowels_short
+        VOWEL_SOUNDS -> R.string.vowel_sounds_short
     }
 }

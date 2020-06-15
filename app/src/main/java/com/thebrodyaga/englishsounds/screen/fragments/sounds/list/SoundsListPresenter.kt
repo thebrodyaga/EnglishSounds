@@ -105,7 +105,7 @@ class SoundsListPresenter @Inject constructor(
         if (advancedExercisesVideo.isNotEmpty()) {
             result.add(
                 AdvancedExercisesVideoListItem(advancedExercisesVideo.map {
-                    AdvancedExercisesVideoVideoItem(
+                    AdvancedExercisesVideoItem(
                         it.videoId,
                         it.videoName
                     )

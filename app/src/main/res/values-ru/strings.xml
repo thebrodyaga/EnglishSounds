@@ -7,6 +7,9 @@
     <string name="vowel_sounds">Гласные звуки</string>
     <string name="r_controlled_vowels">R-controlled звуки</string>
     <string name="consonant_sounds">Согласные звуки</string>
+    <string name="vowel_sounds_short">Гласные</string>
+    <string name="r_controlled_vowels_short">R-controlled</string>
+    <string name="consonant_sounds_short">Согласные</string>
 
     <string name="SPELLING">Произношение</string>
     <string name="BEGINNING_SOUND">В начале</string>
@@ -20,7 +23,8 @@
     <string name="rate_text">Пожалуйста, дайте нам знать, что вы думаете о приложении.</string>
     <string name="rate_title">Нравиться приложение?</string>
     <string name="contrasting_sound_video_title">Контрастные звуки</string>
-    <string name="show_all">Все</string>
     <string name="most_common_words_video_title">Популярные слова</string>
     <string name="advanced_exercises_video_title">Расширенные упражнения</string>
+    <string name="videos">Видео</string>
+    <string name="show_all">Все</string>
 </resources>

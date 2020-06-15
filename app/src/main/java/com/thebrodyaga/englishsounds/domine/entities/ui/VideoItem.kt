@@ -1,6 +1,7 @@
 package com.thebrodyaga.englishsounds.domine.entities.ui
 
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
+import com.thebrodyaga.englishsounds.domine.entities.resources.SoundVideoRes
 
 sealed class VideoItem constructor(
     open val videoId: String,
@@ -19,7 +20,15 @@ data class MostCommonWordsVideoItem constructor(
     override val title: String
 ) : VideoItem(videoId, title)
 
-data class AdvancedExercisesVideoVideoItem constructor(
+data class AdvancedExercisesVideoItem constructor(
     override val videoId: String,
     override val title: String
 ) : VideoItem(videoId, title)
+
+data class SoundVideoItem constructor(
+    override val videoId: String,
+    val sound: AmericanSoundDto?
+) : VideoItem(videoId, sound?.name ?: "") {
+    constructor(soundVideoRes: SoundVideoRes, soundDto: AmericanSoundDto?)
+            : this(soundVideoRes.videoId, soundDto)
+}
