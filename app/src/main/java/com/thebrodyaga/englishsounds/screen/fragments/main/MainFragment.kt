@@ -48,6 +48,10 @@ class MainFragment : FlowFragment() {
                 onBottomBarClick(position)
             position > -1
         }
+        bottom_navigation.setOnNavigationItemReselectedListener {
+            (currentFragment as? TabContainerFragment)
+                ?.localRouter?.backTo(null)
+        }
         if (currentFragment == null) onBottomBarClick(FIRST_MAIN_PAGE.first)
         mic_button.setRecordVoice(recordVoice)
     }

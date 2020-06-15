@@ -20,6 +20,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.BaseActivity
+import com.thebrodyaga.englishsounds.domine.entities.ui.PlayVideoExtra
 import com.thebrodyaga.englishsounds.utils.*
 import com.thebrodyaga.englishsounds.utils.PicInPickHelper.Companion.isHavePicInPicMode
 import kotlinx.android.synthetic.main.activity_youtube_player.*
@@ -38,8 +39,7 @@ class YoutubePlayerActivity : BaseActivity() {
 
     private var picInPicReceiver: PicInPicReceiver? = null
 
-    private lateinit var videoId: String
-    private var videoName: String? = null
+    private lateinit var playVideoExtra: PlayVideoExtra
 
     @RequiresApi(Build.VERSION_CODES.O)
     private lateinit var picInPickHelper: PicInPickHelper
@@ -55,9 +55,8 @@ class YoutubePlayerActivity : BaseActivity() {
         orientationEventListener = YoutubeOrientationEventListener(this)
             .also { it.enable() }
 
-        videoId = intent.getStringExtra(VIDEO_ID_EXTRA)
+        playVideoExtra = intent.getParcelableExtra(VIDEO_ID_EXTRA)
             ?: throw IllegalArgumentException("need put videoID")
-        videoName = intent.getStringExtra(VIDEO_NAME_EXTRA)
 
         val legacyYouTubePlayerView = youtube_player.panel.parent.parent as ViewGroup
 
@@ -87,11 +86,12 @@ class YoutubePlayerActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val newVideoId = intent?.getStringExtra(VIDEO_ID_EXTRA)
+        val newVideoId = intent?.getParcelableExtra<PlayVideoExtra>(VIDEO_ID_EXTRA)
             ?: return
-        if (newVideoId != videoId) {
-            videoId = newVideoId
-            videoName = intent.getStringExtra(VIDEO_NAME_EXTRA)
+        val videoId = newVideoId.videoId
+        if (videoId != playVideoExtra.videoId) {
+            playVideoExtra = newVideoId
+            playVideoExtra.videoId
             youTubePlayer?.loadVideo(videoId, 0f)
         } else youTubePlayer?.loadVideo(videoId, currentSecond)
     }
@@ -193,7 +193,7 @@ class YoutubePlayerActivity : BaseActivity() {
 
         override fun onReady(youTubePlayer: YouTubePlayer) {
             this@YoutubePlayerActivity.youTubePlayer = youTubePlayer
-            youTubePlayer.loadVideo(videoId, currentSecond)
+            youTubePlayer.loadVideo(playVideoExtra.videoId, currentSecond)
         }
 
         override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
@@ -204,7 +204,7 @@ class YoutubePlayerActivity : BaseActivity() {
             youTubePlayer: YouTubePlayer,
             state: PlayerConstants.PlayerState
         ) {
-            logVideoEvent(videoName, state, currentSecond)
+            logVideoEvent(state, currentSecond)
             playerState = state
             if (!isHavePicInPicMode())
                 return
@@ -252,7 +252,6 @@ class YoutubePlayerActivity : BaseActivity() {
     }
 
     private fun logVideoEvent(
-        videoName: String?,
         state: PlayerConstants.PlayerState,
         videoSecond: Float
     ) {
@@ -261,11 +260,9 @@ class YoutubePlayerActivity : BaseActivity() {
             PlayerConstants.PlayerState.PLAYING,
             PlayerConstants.PlayerState.PAUSED -> {
                 val bundle = Bundle()
-                if (videoName != null)
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, videoName)
-                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "main_sound_video")
-                bundle.putInt(AppAnalytics.PARAM_VIDEO_DURATION, videoSecond.toInt())
+                bundle.putString(AppAnalytics.PARAM_VIDEO_NAME, playVideoExtra.videoName)
                 bundle.putString(AppAnalytics.PARAM_VIDEO_STATE, state.toString())
+                bundle.putInt(AppAnalytics.PARAM_VIDEO_DURATION, videoSecond.toInt())
                 firebaseAnalytics.logEvent(AppAnalytics.EVENT_PLAY_VIDEO, bundle)
             }
             else -> return
@@ -280,14 +277,21 @@ class YoutubePlayerActivity : BaseActivity() {
         private const val DEFAULT_REWIND_S = 5
 
         private const val VIDEO_ID_EXTRA = "VIDEO_ID_EXTRA"
-        private const val VIDEO_NAME_EXTRA = "VIDEO_NAME_EXTRA"
 
-        fun startActivity(context: Context, videoId: String, videoName: String? = null) {
+        fun startActivity(context: Context, playVideoExtra: PlayVideoExtra) {
+            (context as? BaseActivity)?.firebaseAnalytics?.let {
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, playVideoExtra.videoId)
+                bundle.putString(AppAnalytics.PARAM_VIDEO_NAME, playVideoExtra.videoName)
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "video")
+                it.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+            }
             val intent = Intent(context, YoutubePlayerActivity::class.java).apply {
-                putExtra(VIDEO_ID_EXTRA, videoId)
-                putExtra(VIDEO_NAME_EXTRA, videoName)
+                putExtra(VIDEO_ID_EXTRA, playVideoExtra)
             }
             context.startActivity(intent)
         }
+
+
     }
 }

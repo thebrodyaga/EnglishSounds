@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.ui.ContrastingSoundVideoItem
+import com.thebrodyaga.englishsounds.domine.entities.ui.PlayVideoExtra
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItem
+import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
 import kotlinx.android.synthetic.main.item_youtube_video.view.*
 import kotlinx.android.synthetic.main.view_youtube_thumbnail.view.*
 
@@ -40,14 +42,19 @@ class VideoListAdapter constructor() : RecyclerView.Adapter<RecyclerView.ViewHol
         diffResult.dispatchUpdatesTo(this)
     }
 
-    private inner class YoutubeViewHolder constructor(
-        view: View
-    ) : RecyclerView.ViewHolder(view) {
+    private inner class YoutubeViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
 
         var item: VideoItem? = null
 
         init {
-            itemView.setOnClickListener { }
+            itemView.setOnClickListener { v ->
+                item?.let {
+                    YoutubePlayerActivity.startActivity(
+                        v.context,
+                        PlayVideoExtra(it.videoId, it.title)
+                    )
+                }
+            }
             itemView.item_youtube_video_thumbnail.youtube_play_icon.isVisible = false
         }
 

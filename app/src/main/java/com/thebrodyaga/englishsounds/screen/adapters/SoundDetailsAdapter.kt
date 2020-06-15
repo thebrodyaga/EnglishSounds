@@ -14,6 +14,7 @@ import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.data.PracticeWordDto
 import com.thebrodyaga.englishsounds.domine.entities.data.SpellingWordDto
 import com.thebrodyaga.englishsounds.domine.entities.data.WordDto
+import com.thebrodyaga.englishsounds.domine.entities.ui.PlayVideoExtra
 import com.thebrodyaga.englishsounds.domine.entities.ui.ShowMore
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsDetailsListItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.WordsHeader
@@ -121,7 +122,10 @@ class SoundDetailsAdapter constructor(
                 item?.let { item ->
                     val videoUrl = videoMap?.get(item.transcription)
                     if (videoUrl != null && videoUrl.isNotEmpty()) {
-                        YoutubePlayerActivity.startActivity(it.context, videoUrl, item.name)
+                        YoutubePlayerActivity.startActivity(
+                            it.context,
+                            PlayVideoExtra(videoUrl, item.name)
+                        )
                     }
                 }
             }

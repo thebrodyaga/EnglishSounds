@@ -1,8 +1,10 @@
 package com.thebrodyaga.englishsounds.domine.entities.ui
 
+import android.os.Parcelable
 import androidx.annotation.StringRes
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
+import kotlinx.android.parcel.Parcelize
 
 data class SoundHeader constructor(
     var soundType: SoundType
@@ -33,3 +35,9 @@ data class ShowMore(
 
 interface SoundsListItem
 interface SoundsDetailsListItem
+
+@Parcelize
+data class PlayVideoExtra constructor(
+    val videoId: String,
+    val videoName: String
+) : Parcelable
