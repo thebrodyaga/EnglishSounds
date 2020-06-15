@@ -15,6 +15,7 @@ import com.thebrodyaga.englishsounds.screen.fragments.settings.all.SettingsFragm
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.details.SoundFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
+import com.thebrodyaga.englishsounds.screen.fragments.video.list.VideoListFragment
 import com.thebrodyaga.englishsounds.tools.SettingManager
 import dagger.BindsInstance
 import dagger.Component
@@ -39,6 +40,7 @@ interface AppComponent {
     fun inject(fragment: SettingsFragment)
     fun inject(fragment: SoundsTrainingFragment)
     fun inject(dialog: RateAppDialog)
+    fun inject(fragment: VideoListFragment)
 
     @Component.Builder
     interface Builder {

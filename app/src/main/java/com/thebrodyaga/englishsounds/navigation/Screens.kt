@@ -6,6 +6,7 @@ import com.thebrodyaga.englishsounds.screen.fragments.settings.all.SettingsFragm
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.details.SoundFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
+import com.thebrodyaga.englishsounds.screen.fragments.video.AllVideoFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
@@ -37,6 +38,12 @@ object Screens {
     object SettingsScreen : SupportAppScreen() {
         override fun getFragment(): Fragment {
             return SettingsFragment()
+        }
+    }
+
+    object AllVideoScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment {
+            return AllVideoFragment()
         }
     }
 }

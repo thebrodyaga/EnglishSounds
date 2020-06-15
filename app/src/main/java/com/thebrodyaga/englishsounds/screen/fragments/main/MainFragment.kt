@@ -1,17 +1,14 @@
 package com.thebrodyaga.englishsounds.screen.fragments.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.englishsounds.player.VideoPlayerActivity
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.FlowFragment
 import com.thebrodyaga.englishsounds.tools.RecordVoice
-import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
@@ -53,7 +50,8 @@ class MainFragment : FlowFragment() {
                 ?.localRouter?.backTo(null)
         }
         if (currentFragment == null) onBottomBarClick(FIRST_MAIN_PAGE.first)
-        mic_button.setRecordVoice(recordVoice)
+//        mic_button.setRecordVoice(recordVoice)
+        mic_button.setOnClickListener { localRouter.navigateTo(Screens.AllVideoScreen) }
     }
 
     private fun onBottomBarClick(position: Int): Boolean {

@@ -1,48 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="sound_video">
-        <item>eɪ::0RXzfRcjk-s</item>
-        <item>æ::mynucZiy-Ug</item>
-        <item>i::PIu5WDIco0I</item>
-        <item>ɛ::OLG3cCLcNiI</item>
-        <item>ɑɪ::8uD-GuuSgyk</item>
-        <item>ɪ::Ok_HG-0lNCA</item>
-        <item>oʊ::4kPJLHiiGdU</item>
-        <item>ɑ::R5CY1UniS68</item>
-        <item>ʌ::X1utTZqC3AI</item>
-        <item>ʊ::moLTR-dLQQY</item>
-        <item>u::lkM6CKBM2ns</item>
-        <item>ɔ::pr_KAu-_Hmo</item>
-        <item>ɔɪ::ZfjPBN22mK8</item>
-        <item>aʊ::-V690OA75bA</item>
-        <item>ɚ::AzNRoSGBh44</item>
-        <item>ɑr::x6E2L2vLH78</item>
-        <item>ɔr::ZbDrxmP4_S4</item>
-        <item>ɛr::ZjurI7xtCjE</item>
-        <item>b::LbCOXRz7Uf8</item>
-        <item>ʧ::WoyI_omRpcw</item>
-        <item>d::N73xPe0x79g</item>
-        <item>f::05f62\-73nrY</item>
-        <item>g::vP5XKYvxe0Q</item>
-        <item>h::dV6At0g4n78</item>
-        <item>ʤ::zJJ3hhHtjtI</item>
-        <item>k::zxrveu6yu6E</item>
-        <item>l::JamM8TgB_AA</item>
-        <item>m::tkiN8BsBEfA</item>
-        <item>n::1eyr7O4TFmI</item>
-        <item>ŋ::5xVq8T88oJw</item>
-        <item>p::V_n_rUKQSew</item>
-        <item>r::q5a2-KuHkBU</item>
-        <item>s::6hWPXaPXrnQ</item>
-        <item>ʃ::wINb4HFguck</item>
-        <item>t::mLlotV_0dRI</item>
-        <item>θ::qC0l6GQZtM4</item>
-        <item>ð::EZb_EWVCUoE</item>
-        <item>v::U5Oro6v0klg</item>
-        <item>w::nMB5mX_PGHQ</item>
-        <item>y::1G8SCotE2yg</item>
-        <item>z::ky7Jh9Bbjts</item>
-        <item>ʒ::k8ImSmVOSVA</item>
+        <item>i::PIu5WDIco0I::vowelSounds</item>
+        <item>ɪ::Ok_HG-0lNCA::vowelSounds</item>
+        <item>eɪ::0RXzfRcjk-s::vowelSounds</item>
+        <item>ɛ::OLG3cCLcNiI::vowelSounds</item>
+        <item>æ::mynucZiy-Ug::vowelSounds</item>
+        <item>ə::m1mDSUSwNls::vowelSounds</item>//only video
+        <item>ʌ::X1utTZqC3AI::vowelSounds</item>
+        <item>ɑ::R5CY1UniS68::vowelSounds</item>
+        <item>u::lkM6CKBM2ns::vowelSounds</item>
+        <item>ʊ::moLTR-dLQQY::vowelSounds</item>
+        <item>oʊ::4kPJLHiiGdU::vowelSounds</item>
+        <item>ɔ::pr_KAu-_Hmo::vowelSounds</item>
+        <item>ɑɪ::8uD-GuuSgyk::vowelSounds</item>
+        <item>aʊ::-V690OA75bA::vowelSounds</item>
+        <item>ɔɪ::ZfjPBN22mK8::vowelSounds</item>
+
+        <item>ɝ::6ppOrwjvslc::rControlledVowels</item>//only video
+        <item>ɚ::AzNRoSGBh44::rControlledVowels</item>
+        <item>ɪr::X0bkG5ZfzH4::rControlledVowels</item>//only video
+        <item>ɛr::ZjurI7xtCjE::rControlledVowels</item>
+        <item>ɑr::x6E2L2vLH78::rControlledVowels</item>
+        <item>ɔr::ZbDrxmP4_S4::rControlledVowels</item>
+        <item>aɪr::PdV7RymsiMY::rControlledVowels</item>//only video
+
+        <item>p::V_n_rUKQSew::consonantSounds</item>
+        <item>b::LbCOXRz7Uf8::consonantSounds</item>
+        <item>t::mLlotV_0dRI::consonantSounds</item>
+        <item>t̬̬̬::9b-UIkuwOdU::consonantSounds</item>//only video
+        <item>ʔ::Vabg-EUHOQk::consonantSounds</item>//only video
+        <item>d::N73xPe0x79g::consonantSounds</item>
+        <item>k::zxrveu6yu6E::consonantSounds</item>
+        <item>g::vP5XKYvxe0Q::consonantSounds</item>
+        <item>f::05f62\-73nrY::consonantSounds</item>
+        <item>v::U5Oro6v0klg::consonantSounds</item>
+        <item>θ::qC0l6GQZtM4::consonantSounds</item>
+        <item>ð::EZb_EWVCUoE::consonantSounds</item>
+        <item>s::6hWPXaPXrnQ::consonantSounds</item>
+        <item>z::ky7Jh9Bbjts::consonantSounds</item>
+        <item>ʃ::wINb4HFguck::consonantSounds</item>
+        <item>ʒ::k8ImSmVOSVA::consonantSounds</item>
+        <item>h::dV6At0g4n78::consonantSounds</item>
+        <item>ʧ::WoyI_omRpcw::consonantSounds</item>
+        <item>ʤ::zJJ3hhHtjtI::consonantSounds</item>
+        <item>r::q5a2-KuHkBU::consonantSounds</item>
+        <item>l::JamM8TgB_AA::consonantSounds</item>
+        <item>w::nMB5mX_PGHQ::consonantSounds</item>
+        <item>y::1G8SCotE2yg::consonantSounds</item>
+        <item>n::1eyr7O4TFmI::consonantSounds</item>
+        <item>m::tkiN8BsBEfA::consonantSounds</item>
+        <item>ŋ::5xVq8T88oJw::consonantSounds</item>
+
+
     </string-array>
 
     <string-array name="sound_contrasting_video">

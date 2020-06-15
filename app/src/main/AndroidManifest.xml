@@ -45,7 +45,7 @@
             android:value="${enableCrashReporting}" />
         <meta-data
             android:name="firebase_analytics_collection_deactivated"
-            android:value="${enableCrashReporting}" />
+            android:value="${deactivatedAnalyticsCollection}" />
 
     </application>
 

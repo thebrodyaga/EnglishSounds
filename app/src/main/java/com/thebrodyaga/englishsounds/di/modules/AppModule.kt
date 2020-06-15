@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.englishsounds.repository.SoundsRepository
 import com.thebrodyaga.englishsounds.repository.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.repository.impl.AmericanSoundsRepositoryImpl
@@ -33,6 +34,13 @@ class AppModule {
     @Provides
     @Singleton
     fun provideAudioPlayer(context: Context): AudioPlayer = AudioPlayer(context)
+
+    @Provides
+    @Singleton
+    fun provideAllVideoInteractor(
+        soundsRepository: SoundsRepository,
+        soundsVideoRepository: SoundsVideoRepository
+    ) = AllVideoInteractor(soundsRepository, soundsVideoRepository)
 
     @Provides
     @Singleton
