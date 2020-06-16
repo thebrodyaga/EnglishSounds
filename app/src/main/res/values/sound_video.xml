@@ -79,8 +79,8 @@
 
     <string-array name="advanced_exercises_video">
         <item>GbbBpiMVbi0::R-Colored Vowel Sounds</item>
-        <item>pVptIO1xMoQ::The / ŋ / (NG) sound</item>
-        <item>g2eid_nH3Wg::/ r / and / l / sounds, as in "curriculum"</item>
+        <item>pVptIO1xMoQ::The / ŋ / (NG) sound::ŋ</item>
+        <item>g2eid_nH3Wg::/ r / and / l / sounds, as in "curriculum"::r::l</item>
         <item>GQa9w__GqLc::Truth About Long And Short English Vowels</item>
         <item>hde9Sg75Nn4::Pronounce Words with \'-s\' Endings</item>
     </string-array>

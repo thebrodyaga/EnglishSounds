@@ -69,7 +69,14 @@ class SoundsVideoRepositoryImpl constructor(
         val videoList = mutableListOf<AdvancedExercisesVideoRes>()
         videoArray.forEach {
             val split = it.split("::")
-            videoList.add(AdvancedExercisesVideoRes(split[0], split[1]))
+            videoList.add(
+                AdvancedExercisesVideoRes(
+                    split[0],
+                    split[1],
+                    split.getOrNull(2),
+                    split.getOrNull(3)
+                )
+            )
         }
         return Single.just(videoList)
     }

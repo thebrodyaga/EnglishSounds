@@ -107,7 +107,9 @@ class SoundsListPresenter @Inject constructor(
                 AdvancedExercisesVideoListItem(advancedExercisesVideo.map {
                     AdvancedExercisesVideoItem(
                         it.videoId,
-                        it.videoName
+                        it.videoName,
+                        box.sounds[it.firstTranscription],
+                        box.sounds[it.secondTranscription]
                     )
                 })
             )

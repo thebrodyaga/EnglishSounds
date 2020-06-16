@@ -38,7 +38,7 @@
             android:layout_gravity="center_vertical"
             android:text="@string/show_all"
             android:textAppearance="@style/BodyRegular"
-            android:visibility="invisible" />
+            android:visibility="visible" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

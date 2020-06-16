@@ -52,16 +52,31 @@
 
     <ImageView
         android:id="@+id/info_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="@drawable/background_circle_ripple"
         android:scaleType="center"
         android:src="@drawable/ic_info_outline"
-        app:tint="@color/icon_base"
         app:layout_constraintBottom_toBottomOf="@+id/view_pager"
         app:layout_constraintEnd_toStartOf="@+id/play_icon"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/view_pager"
         app:layout_constraintTop_toBottomOf="@+id/play_icon"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:tint="@color/icon_base" />
+
+    <ImageView
+        android:id="@+id/video_lib_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/background_circle_ripple"
+        android:scaleType="center"
+        android:src="@drawable/ic_video_library"
+        app:layout_constraintBottom_toBottomOf="@+id/view_pager"
+        app:layout_constraintEnd_toEndOf="@+id/view_pager"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/play_icon"
+        app:layout_constraintTop_toBottomOf="@+id/play_icon"
+        app:layout_constraintVertical_bias="0.0"
+        app:tint="@color/icon_base" />
 </androidx.constraintlayout.widget.ConstraintLayout>

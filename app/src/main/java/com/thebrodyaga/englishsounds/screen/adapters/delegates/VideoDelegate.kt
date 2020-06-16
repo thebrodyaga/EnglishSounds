@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.ui.ContrastingSoundVideoItem
-import com.thebrodyaga.englishsounds.domine.entities.ui.PlayVideoExtra
-import com.thebrodyaga.englishsounds.domine.entities.ui.SoundVideoItem
-import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItem
+import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.screen.adapters.utils.SoundItemViewCache
 import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
 import kotlinx.android.synthetic.main.item_sound_min.view.*
@@ -57,6 +54,10 @@ fun videoItemDelegate(
     fun addIfNeedSoundItems(item: VideoItem) = with(itemView) {
         val sounds = when {
             item is ContrastingSoundVideoItem -> ArrayList<AmericanSoundDto>().apply {
+                item.firstTranscription?.let { add(it) }
+                item.secondTranscription?.let { add(it) }
+            }
+            item is AdvancedExercisesVideoItem -> ArrayList<AmericanSoundDto>().apply {
                 item.firstTranscription?.let { add(it) }
                 item.secondTranscription?.let { add(it) }
             }

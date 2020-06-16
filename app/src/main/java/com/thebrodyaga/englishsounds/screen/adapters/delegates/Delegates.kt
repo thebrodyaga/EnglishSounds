@@ -11,6 +11,7 @@ import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundHeader
+import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoListItem
 import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.OffsetItemDecoration
@@ -20,11 +21,14 @@ import kotlinx.android.synthetic.main.item_video_list.*
 
 fun videoListItemDelegate(
     positionList: MutableMap<Int, Parcelable?>,
-    onSoundClick: (transcription: String) -> Unit
+    onSoundClick: (transcription: String) -> Unit,
+    onShowAllClick: (videoListItem: VideoListItem) -> Unit
 ) = adapterDelegateLayoutContainer<VideoListItem, Any>(R.layout.item_video_list) {
 
     val adapter = VideoListAdapter(onSoundClick = onSoundClick)
     val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+
+    video_list_show_all.setOnClickListener { onShowAllClick(item) }
 
     video_list_recycler_view.apply {
         this.layoutManager = layoutManager

@@ -22,7 +22,9 @@ data class MostCommonWordsVideoItem constructor(
 
 data class AdvancedExercisesVideoItem constructor(
     override val videoId: String,
-    override val title: String
+    override val title: String,
+    val firstTranscription: AmericanSoundDto?,
+    val secondTranscription: AmericanSoundDto?
 ) : VideoItem(videoId, title)
 
 data class SoundVideoItem constructor(

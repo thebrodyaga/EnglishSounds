@@ -11,6 +11,7 @@ import com.thebrodyaga.englishsounds.domine.entities.data.PracticeWordDto
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
+import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
 import kotlinx.android.synthetic.main.fragment_sounds_training.*
 import kotlinx.android.synthetic.main.fragment_word.view.*
@@ -47,7 +48,10 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
     }
 
     override fun setData(list: List<PracticeWordDto>) {
-        info_icon.setOnClickListener{
+        video_lib_icon.setOnClickListener {
+            getAnyRouter().navigateTo(Screens.AllVideoScreen(VideoListType.MostCommonWords))
+        }
+        info_icon.setOnClickListener {
             adapter?.also {
                 val practiceWordDto = it.list.getOrNull(view_pager.currentItem)
                 practiceWordDto?.apply { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(this.sound)) }

@@ -23,7 +23,9 @@ data class MostCommonWordsVideoRes constructor(
 
 data class AdvancedExercisesVideoRes constructor(
     val videoId: String,
-    val videoName: String
+    val videoName: String,
+    val firstTranscription: String?,
+    var secondTranscription: String?
 ) : VideoFromRes()
 
 sealed class VideoFromRes

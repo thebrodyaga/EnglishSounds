@@ -54,7 +54,9 @@ class AllVideoInteractor constructor(
                         val advancedExercises = t3.map { video ->
                             AdvancedExercisesVideoItem(
                                 video.videoId,
-                                video.videoName
+                                video.videoName,
+                                sounds.find { it.transcription == video.firstTranscription },
+                                sounds.find { it.transcription == video.secondTranscription }
                             )
                         }
 
