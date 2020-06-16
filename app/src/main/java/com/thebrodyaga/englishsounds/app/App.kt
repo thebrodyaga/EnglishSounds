@@ -3,6 +3,7 @@ package com.thebrodyaga.englishsounds.app
 import android.app.Application
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.di.AppComponent
@@ -17,6 +18,7 @@ class App : Application() {
         app = this
         appComponent = DaggerAppComponent.builder().application(this).build()
         super.onCreate()
+        MobileAds.initialize(this)
         if (!BuildConfig.DEBUG) {
             FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
             Timber.plant(CrashReportingTree())
