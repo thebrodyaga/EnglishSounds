@@ -1,85 +1,65 @@
 package com.thebrodyaga.englishsounds.screen.adapters
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.isVisible
+import android.content.Context
+import android.content.res.ColorStateList
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.domine.entities.ui.PlayVideoExtra
+import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItem
-import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
-import kotlinx.android.synthetic.main.item_youtube_video.view.*
-import kotlinx.android.synthetic.main.view_youtube_thumbnail.view.*
-
+import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoItemDelegate
+import com.thebrodyaga.englishsounds.screen.adapters.utils.SoundItemViewCache
 
 class VideoListAdapter constructor(
-    @RecyclerView.Orientation val orientation: Int = RecyclerView.HORIZONTAL
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    @RecyclerView.Orientation orientation: Int = RecyclerView.HORIZONTAL,
+    onSoundClick: (transcription: String) -> Unit
+) : AbsDelegationAdapter<List<Any>>() {
 
-    var list = listOf<VideoItem>()
-        private set
-    private var constraintSet = ConstraintSet()
+    private var viewCache: SoundItemViewCache? = null
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_youtube_video, parent, false) as ConstraintLayout
-        if (orientation == RecyclerView.VERTICAL) {
-            itemView.layoutParams = itemView.layoutParams.apply {
-                width = ViewGroup.LayoutParams.MATCH_PARENT
-            }
-            constraintSet.clone(itemView.root_view)
-            constraintSet.constrainHeight(
-                itemView.item_youtube_video_thumbnail.id,
-                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
+    init {
+        items = listOf()
+        delegatesManager.addDelegate(
+            videoItemDelegate(
+                orientation, { viewCache },
+                { context, colorRes -> getColor(context, colorRes) },
+                onSoundClick
             )
-            constraintSet.applyTo(itemView.root_view)
-        }
-        return YoutubeViewHolder(itemView)
-    }
-
-    override fun getItemCount(): Int = list.size
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as YoutubeViewHolder).bind(list[position])
+        )
     }
 
     fun setData(newData: List<VideoItem>) {
-        val diffResult = DiffUtil.calculateDiff(DiffCallback(list, newData.toList()))
-        list = newData
+        val diffResult = DiffUtil.calculateDiff(DiffCallback(items, newData.toList()))
+        items = newData
         diffResult.dispatchUpdatesTo(this)
+        items = newData
     }
 
-    private inner class YoutubeViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
+    override fun getItemCount(): Int = items.size
 
-        var item: VideoItem? = null
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        viewCache = SoundItemViewCache(recyclerView.context)
+    }
 
-        init {
-            itemView.setOnClickListener { v ->
-                item?.let {
-                    YoutubePlayerActivity.startActivity(
-                        v.context,
-                        PlayVideoExtra(it.videoId, it.title)
-                    )
-                }
-            }
-            itemView.item_youtube_video_thumbnail.youtube_play_icon.isVisible = false
-        }
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        viewCache = null
+    }
 
-        fun bind(item: VideoItem) = with(itemView) {
-            this@YoutubeViewHolder.item = item
-            item_youtube_video_thumbnail.loadYoutubeThumbnail(item.videoId)
-            item_youtube_video_title.text = item.title
-        }
+    private val soundsBackgroundColors = mutableMapOf<@ColorRes Int, ColorStateList>()
+
+    private fun getColor(context: Context, @ColorRes colorRes: Int): ColorStateList? {
+        return soundsBackgroundColors[colorRes] ?: ContextCompat.getColorStateList(
+            context,
+            colorRes
+        )?.also { soundsBackgroundColors[colorRes] = it }
     }
 
     class DiffCallback constructor(
-        private var oldList: List<VideoItem>,
-        private var newList: List<VideoItem>
+        private var oldList: List<Any>,
+        private var newList: List<Any>
     ) : DiffUtil.Callback() {
 
         override fun getOldListSize(): Int {
@@ -93,13 +73,19 @@ class VideoListAdapter constructor(
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldList[oldItemPosition]
             val newItem = newList[newItemPosition]
-            return oldItem.videoId == newItem.videoId
+            return when {
+                oldItem is VideoItem && newItem is VideoItem -> oldItem.videoId == newItem.videoId
+                else -> false
+            }
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldList[oldItemPosition]
             val newItem = newList[newItemPosition]
-            return oldItem == newItem
+            return when {
+                oldItem is VideoItem && newItem is VideoItem -> oldItem == newItem
+                else -> false
+            }
         }
     }
 }

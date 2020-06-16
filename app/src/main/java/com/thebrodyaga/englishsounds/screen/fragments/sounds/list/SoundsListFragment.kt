@@ -33,7 +33,7 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
     fun providePresenter() = presenter
 
     private val adapter =
-        SoundsAdapter { item, sharedElements ->
+        SoundsAdapter({ item, sharedElements ->
             getAnyRouter().navigateToWithTransition(
                 Screens.SoundsDetailsScreen(item.transcription),
                 TransitionBox(
@@ -52,7 +52,7 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
                 FirebaseAnalytics.Event.SELECT_CONTENT,
                 bundle
             )
-        }
+        }, { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) })
 
     private lateinit var spanSizeLookup: SpanSizeLookup
 

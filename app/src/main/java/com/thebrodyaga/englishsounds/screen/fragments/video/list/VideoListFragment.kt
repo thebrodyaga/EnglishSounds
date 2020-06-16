@@ -10,6 +10,7 @@ import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
+import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.GridOffsetItemDecoration
 import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
@@ -35,7 +36,9 @@ class VideoListFragment : BaseFragment(), VideoListView {
     @InjectPresenter
     lateinit var presenter: VideoListPresenter
 
-    private val adapter = VideoListAdapter(RecyclerView.VERTICAL)
+    private val adapter = VideoListAdapter(
+        RecyclerView.VERTICAL
+    ) { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) }
     private lateinit var spanSizeLookup: SpanSizeLookup
 
     @ProvidePresenter

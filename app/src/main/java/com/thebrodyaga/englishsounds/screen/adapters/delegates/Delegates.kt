@@ -20,10 +20,10 @@ import kotlinx.android.synthetic.main.item_video_list.*
 
 fun videoListItemDelegate(
     positionList: MutableMap<Int, Parcelable?>,
-    itemClickedListener: (VideoListItem) -> Unit
+    onSoundClick: (transcription: String) -> Unit
 ) = adapterDelegateLayoutContainer<VideoListItem, Any>(R.layout.item_video_list) {
 
-    val adapter = VideoListAdapter()
+    val adapter = VideoListAdapter(onSoundClick = onSoundClick)
     val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 
     video_list_recycler_view.apply {
@@ -39,13 +39,13 @@ fun videoListItemDelegate(
     }
 
     onViewRecycled {
-        positionList[adapterPosition] = layoutManager.onSaveInstanceState()
+        positionList[item.title] = layoutManager.onSaveInstanceState()
     }
 
     bind {
         adapter.setData(item.list)
         // Retrieve and set the saved position
-        positionList[adapterPosition]
+        positionList[item.title]
             ?.let { layoutManager.onRestoreInstanceState(it) }
         video_list_title.setText(item.title)
     }

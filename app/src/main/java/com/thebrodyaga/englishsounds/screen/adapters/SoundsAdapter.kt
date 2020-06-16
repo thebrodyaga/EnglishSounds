@@ -24,14 +24,15 @@ import com.thebrodyaga.englishsounds.screen.adapters.delegates.soundItemDelegate
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoListItemDelegate
 
 class SoundsAdapter constructor(
-    onCardSoundClick: (soundDto: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) -> Unit
+    onCardSoundClick: (soundDto: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) -> Unit,
+    onSoundClick: (transcription: String) -> Unit
 ) : AsyncListDifferDelegationAdapter<Any>(DiffCallback()) {
 
     private val positionList = mutableMapOf<Int, Parcelable?>()
 
     init {
         delegatesManager.addDelegate(soundHeaderItemDelegate())
-        delegatesManager.addDelegate(videoListItemDelegate(positionList, {}))
+        delegatesManager.addDelegate(videoListItemDelegate(positionList, onSoundClick))
         delegatesManager.addDelegate(
             soundItemDelegate(
                 onCardSoundClick,
