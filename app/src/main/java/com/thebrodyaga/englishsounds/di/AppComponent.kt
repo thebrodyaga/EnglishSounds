@@ -17,6 +17,7 @@ import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFrag
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.list.VideoListFragment
 import com.thebrodyaga.englishsounds.tools.SettingManager
+import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
 import dagger.BindsInstance
 import dagger.Component
 import ru.terrakok.cicerone.NavigatorHolder
@@ -41,6 +42,7 @@ interface AppComponent {
     fun inject(fragment: SoundsTrainingFragment)
     fun inject(dialog: RateAppDialog)
     fun inject(fragment: VideoListFragment)
+    fun inject(activity: YoutubePlayerActivity)
 
     @Component.Builder
     interface Builder {

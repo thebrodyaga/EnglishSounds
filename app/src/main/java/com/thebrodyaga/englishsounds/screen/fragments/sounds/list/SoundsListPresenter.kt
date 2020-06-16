@@ -1,6 +1,5 @@
 package com.thebrodyaga.englishsounds.screen.fragments.sounds.list
 
-import android.os.Parcelable
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 import com.thebrodyaga.englishsounds.domine.entities.resources.AdvancedExercisesVideoRes

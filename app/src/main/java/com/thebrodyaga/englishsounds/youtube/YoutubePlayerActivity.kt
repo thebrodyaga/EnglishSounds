@@ -19,6 +19,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstan
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.thebrodyaga.englishsounds.R
+import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.BaseActivity
 import com.thebrodyaga.englishsounds.domine.entities.ui.PlayVideoExtra
 import com.thebrodyaga.englishsounds.utils.*
@@ -26,13 +27,31 @@ import com.thebrodyaga.englishsounds.utils.PicInPickHelper.Companion.isHavePicIn
 import kotlinx.android.synthetic.main.activity_youtube_player.*
 import kotlinx.android.synthetic.main.ayp_default_player_ui.*
 import kotlinx.android.synthetic.main.ayp_default_player_ui.view.*
+import moxy.MvpView
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import timber.log.Timber
+import javax.inject.Inject
 
-class YoutubePlayerActivity : BaseActivity() {
+class YoutubePlayerActivity : BaseActivity(), MvpView {
 
-    private var currentSecond = 0f
+    @Inject
+    @InjectPresenter
+    lateinit var presenter: YoutubePlayerPresenter
+
+    private var currentSecond: Float
+        get() = presenter.currentSecond
+        set(value) {
+            presenter.currentSecond = value
+        }
+
+    private var playerState: PlayerConstants.PlayerState
+        get() = presenter.playerState
+        set(value) {
+            presenter.playerState = value
+        }
+
     private var youTubePlayer: YouTubePlayer? = null
-    private var playerState: PlayerConstants.PlayerState = PlayerConstants.PlayerState.UNKNOWN
 
     private lateinit var orientationListener: OrientationListener
     private lateinit var orientationEventListener: OrientationEventListener
@@ -44,7 +63,11 @@ class YoutubePlayerActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private lateinit var picInPickHelper: PicInPickHelper
 
+    @ProvidePresenter
+    fun providePresenter() = presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_youtube_player)
 
@@ -92,6 +115,7 @@ class YoutubePlayerActivity : BaseActivity() {
         if (videoId != playVideoExtra.videoId) {
             playVideoExtra = newVideoId
             playVideoExtra.videoId
+            currentSecond = 0f
             youTubePlayer?.loadVideo(videoId, 0f)
         } else youTubePlayer?.loadVideo(videoId, currentSecond)
     }
@@ -193,7 +217,18 @@ class YoutubePlayerActivity : BaseActivity() {
 
         override fun onReady(youTubePlayer: YouTubePlayer) {
             this@YoutubePlayerActivity.youTubePlayer = youTubePlayer
-            youTubePlayer.loadVideo(playVideoExtra.videoId, currentSecond)
+            when (playerState) {
+                PlayerConstants.PlayerState.PLAYING -> youTubePlayer.loadVideo(
+                    playVideoExtra.videoId,
+                    currentSecond
+                )
+                PlayerConstants.PlayerState.PAUSED -> youTubePlayer.cueVideo(
+                    playVideoExtra.videoId,
+                    currentSecond
+                )
+                else ->
+                    youTubePlayer.loadVideo(playVideoExtra.videoId, currentSecond)
+            }
         }
 
         override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
