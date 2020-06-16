@@ -8,9 +8,12 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Parcelable
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
@@ -24,12 +27,13 @@ import com.thebrodyaga.englishsounds.screen.adapters.delegates.soundItemDelegate
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoListItemDelegate
 
 class SoundsAdapter constructor(
+    positionList: MutableMap<Int, Pair<Int, Int>>,
     onCardSoundClick: (soundDto: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) -> Unit,
     onSoundClick: (transcription: String) -> Unit,
-    onShowAllClick: (videoListItem: VideoListItem) -> Unit
+    onShowAllClick: (videoListItem: VideoListItem) -> Unit,
+    lifecycle: Lifecycle
 ) : AsyncListDifferDelegationAdapter<Any>(DiffCallback()) {
 
-    private val positionList = mutableMapOf<Int, Parcelable?>()
 
     init {
         delegatesManager.addDelegate(soundHeaderItemDelegate())
@@ -37,7 +41,8 @@ class SoundsAdapter constructor(
             videoListItemDelegate(
                 positionList,
                 onSoundClick,
-                onShowAllClick
+                onShowAllClick,
+                lifecycle
             )
         )
         delegatesManager.addDelegate(

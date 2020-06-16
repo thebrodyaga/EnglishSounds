@@ -10,8 +10,8 @@ android {
         applicationId "com.thebrodyaga.englishsounds"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 14
-        versionName "1.2.6"
+        versionCode 15
+        versionName "1.2.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.archivesBaseName = "English Sounds-v" + versionName + "(" + versionCode + ")"
         buildConfigField "long", "BUILD_TIME", System.currentTimeMillis() + "L"

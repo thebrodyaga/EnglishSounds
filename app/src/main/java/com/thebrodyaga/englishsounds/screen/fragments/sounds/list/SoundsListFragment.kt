@@ -3,6 +3,7 @@ package com.thebrodyaga.englishsounds.screen.fragments.sounds.list
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,6 +26,7 @@ import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
 class SoundsListFragment : BaseFragment(), SoundsListView {
+
     override fun getLayoutId(): Int = R.layout.fragment_sounds_list
 
     @Inject
@@ -34,24 +36,23 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
     @ProvidePresenter
     fun providePresenter() = presenter
 
-    private val adapter =
-        SoundsAdapter(
-            { soundDto, sharedElements -> onSoundClick(soundDto, sharedElements) },
-            { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) },
-            { onShowAllVideoClick(it) }
-        )
-
+    private lateinit var adapter: SoundsAdapter
     private lateinit var spanSizeLookup: SpanSizeLookup
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        spanSizeLookup =
-            SpanSizeLookup(adapter, calculateNoOfColumns(context, R.dimen.card_sound_width))
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
+        adapter = SoundsAdapter(presenter.positionList,
+            { soundDto, sharedElements -> onSoundClick(soundDto, sharedElements) },
+            { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) },
+            { onShowAllVideoClick(it) },
+            lifecycle
+        )
+        spanSizeLookup =
+            SpanSizeLookup(
+                adapter,
+                calculateNoOfColumns(requireContext(), R.dimen.card_sound_width)
+            )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,5 +1,6 @@
 package com.thebrodyaga.englishsounds.screen.fragments.sounds.list
 
+import android.os.Parcelable
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 import com.thebrodyaga.englishsounds.domine.entities.resources.AdvancedExercisesVideoRes
@@ -22,6 +23,8 @@ class SoundsListPresenter @Inject constructor(
     private val soundsRepository: SoundsRepository,
     private val soundsVideoRepository: SoundsVideoRepository
 ) : BasePresenter<SoundsListView>() {
+
+    val positionList = mutableMapOf<Int, Pair<Int, Int>>()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

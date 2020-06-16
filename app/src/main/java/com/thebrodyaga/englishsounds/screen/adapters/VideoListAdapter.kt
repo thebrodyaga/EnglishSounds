@@ -33,7 +33,6 @@ class VideoListAdapter constructor(
         val diffResult = DiffUtil.calculateDiff(DiffCallback(items, newData.toList()))
         items = newData
         diffResult.dispatchUpdatesTo(this)
-        items = newData
     }
 
     override fun getItemCount(): Int = items.size
