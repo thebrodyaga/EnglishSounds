@@ -5,7 +5,8 @@ import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 data class SoundVideoRes constructor(
     val transcription: String,
     val videoId: String,
-    val soundType: SoundType
+    val soundType: SoundType,
+    val videoName: String
 ) : VideoFromRes()
 
 data class ContrastingSoundVideoRes constructor(

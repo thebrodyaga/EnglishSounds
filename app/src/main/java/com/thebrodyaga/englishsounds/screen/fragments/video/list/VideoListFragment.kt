@@ -1,8 +1,9 @@
 package com.thebrodyaga.englishsounds.screen.fragments.video.list
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
@@ -10,9 +11,11 @@ import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
+import com.thebrodyaga.englishsounds.screen.adapters.decorator.GridOffsetItemDecoration
 import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
+import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment.Companion.calculateNoOfColumns
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -32,7 +35,8 @@ class VideoListFragment : BaseFragment(), VideoListView {
     @InjectPresenter
     lateinit var presenter: VideoListPresenter
 
-    private val adapter = VideoListAdapter()
+    private val adapter = VideoListAdapter(RecyclerView.VERTICAL)
+    private lateinit var spanSizeLookup: SpanSizeLookup
 
     @ProvidePresenter
     fun providePresenter() = presenter.also {
@@ -40,6 +44,12 @@ class VideoListFragment : BaseFragment(), VideoListView {
             arguments?.getString(TYPE_EXTRA)
                 ?: throw IllegalAccessError("need put type")
         )
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        spanSizeLookup =
+            SpanSizeLookup(adapter, calculateNoOfColumns(context, R.dimen.card_video_width))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +61,13 @@ class VideoListFragment : BaseFragment(), VideoListView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        val layoutManager = GridLayoutManager(context, spanSizeLookup.maxColumns)
+            .also { it.spanSizeLookup = spanSizeLookup }
+        list.addItemDecoration(
+            GridOffsetItemDecoration(
+                view.context.resources.getDimensionPixelOffset(R.dimen.base_offset_small)
+            )
+        )
         list.layoutManager = layoutManager
         list.adapter = adapter
         list.appbarBottomPadding(true)
@@ -59,6 +75,20 @@ class VideoListFragment : BaseFragment(), VideoListView {
 
     override fun setList(list: List<VideoItem>) {
         adapter.setData(list)
+    }
+
+    private class SpanSizeLookup constructor(
+        private val adapter: VideoListAdapter,
+        val maxColumns: Int
+    ) : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            //getItemViewType равен индексу добавления в delegatesManager адаптера
+            return 1
+            /*when (adapter.getItemViewType(position)) {
+                0, 1 -> maxColumns
+                else -> 1
+            }*/
+        }
     }
 
     companion object {

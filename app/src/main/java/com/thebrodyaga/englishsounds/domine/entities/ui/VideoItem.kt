@@ -27,8 +27,9 @@ data class AdvancedExercisesVideoItem constructor(
 
 data class SoundVideoItem constructor(
     override val videoId: String,
+    override val title: String,
     val sound: AmericanSoundDto?
-) : VideoItem(videoId, sound?.name ?: "") {
-    constructor(soundVideoRes: SoundVideoRes, soundDto: AmericanSoundDto?)
-            : this(soundVideoRes.videoId, soundDto)
+) : VideoItem(videoId, title) {
+    constructor(soundVideoRes: SoundVideoRes, soundDto: AmericanSoundDto?, title: String)
+            : this(soundVideoRes.videoId, title, soundDto)
 }

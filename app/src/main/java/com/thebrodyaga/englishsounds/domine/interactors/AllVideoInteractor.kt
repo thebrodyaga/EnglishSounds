@@ -62,7 +62,9 @@ class AllVideoInteractor constructor(
 
                         fun mapToSoundVideoItem(video: SoundVideoRes) = SoundVideoItem(
                             video,
-                            sounds.find { it.transcription == video.transcription })
+                            sounds.find { it.transcription == video.transcription },
+                            video.videoName
+                        )
 
                         fun mapToSoundVideoListItem(soundType: SoundType) =
                             SoundVideoListItem(

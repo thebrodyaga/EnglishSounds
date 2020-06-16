@@ -29,16 +29,14 @@ android {
 
     buildTypes {
         debug {
-            manifestPlaceholders = [enableCrashReporting: "false"]
-            manifestPlaceholders = [deactivatedAnalyticsCollection: "true"]
+            manifestPlaceholders = [enableCrashReporting: "false", deactivatedAnalyticsCollection: "true"]
         }
         release {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            manifestPlaceholders = [enableCrashReporting: "true"]
-            manifestPlaceholders = [deactivatedAnalyticsCollection: "false"]
+            manifestPlaceholders = [enableCrashReporting: "true", deactivatedAnalyticsCollection: "true"]
         }
     }
     bundle {

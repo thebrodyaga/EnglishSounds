@@ -39,7 +39,7 @@ class SoundsVideoRepositoryImpl constructor(
                 "vowelSounds" -> SoundType.VOWEL_SOUNDS
                 else -> throw IllegalArgumentException()
             }
-            videoMap.add(SoundVideoRes(transcription, split[1], soundType))
+            videoMap.add(SoundVideoRes(transcription, split[1], soundType, split[3]))
         }
         return Single.just(videoMap)
     }

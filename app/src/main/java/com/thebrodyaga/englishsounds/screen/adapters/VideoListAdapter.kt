@@ -3,31 +3,43 @@ package com.thebrodyaga.englishsounds.screen.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
-import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.domine.entities.ui.ContrastingSoundVideoItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.PlayVideoExtra
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItem
 import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
 import kotlinx.android.synthetic.main.item_youtube_video.view.*
 import kotlinx.android.synthetic.main.view_youtube_thumbnail.view.*
 
-class VideoListAdapter constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+class VideoListAdapter constructor(
+    @RecyclerView.Orientation val orientation: Int = RecyclerView.HORIZONTAL
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var list = listOf<VideoItem>()
         private set
+    private var constraintSet = ConstraintSet()
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return YoutubeViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_youtube_video,
-                parent,
-                false
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_youtube_video, parent, false) as ConstraintLayout
+        if (orientation == RecyclerView.VERTICAL) {
+            itemView.layoutParams = itemView.layoutParams.apply {
+                width = ViewGroup.LayoutParams.MATCH_PARENT
+            }
+            constraintSet.clone(itemView.root_view)
+            constraintSet.constrainHeight(
+                itemView.item_youtube_video_thumbnail.id,
+                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
             )
-        )
+            constraintSet.applyTo(itemView.root_view)
+        }
+        return YoutubeViewHolder(itemView)
     }
 
     override fun getItemCount(): Int = list.size

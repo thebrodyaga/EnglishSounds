@@ -35,7 +35,9 @@ class OffsetItemDecoration constructor(
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: State) {
         val position = parent.getChildAdapterPosition(view)
-        val count = position + parent.childCount
+        if (position == NO_POSITION)
+            return
+        val count = state.itemCount
         when (orientation) {
             HORIZONTAL -> offsetHorizontal(outRect, position, count)
             VERTICAL -> offsetVertical(outRect, position, count)

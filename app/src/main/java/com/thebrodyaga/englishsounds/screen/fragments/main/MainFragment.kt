@@ -51,7 +51,10 @@ class MainFragment : FlowFragment() {
         }
         if (currentFragment == null) onBottomBarClick(FIRST_MAIN_PAGE.first)
 //        mic_button.setRecordVoice(recordVoice)
-        mic_button.setOnClickListener { localRouter.navigateTo(Screens.AllVideoScreen) }
+        mic_button.setOnClickListener {
+            (currentFragment as? TabContainerFragment)
+                ?.localRouter?.navigateTo(Screens.AllVideoScreen)
+        }
     }
 
     private fun onBottomBarClick(position: Int): Boolean {

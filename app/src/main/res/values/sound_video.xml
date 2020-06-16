@@ -1,56 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="sound_video">
-        <item>i::PIu5WDIco0I::vowelSounds</item>
-        <item>ɪ::Ok_HG-0lNCA::vowelSounds</item>
-        <item>eɪ::0RXzfRcjk-s::vowelSounds</item>
-        <item>ɛ::OLG3cCLcNiI::vowelSounds</item>
-        <item>æ::mynucZiy-Ug::vowelSounds</item>
-        <item>ə::m1mDSUSwNls::vowelSounds</item>//only video
-        <item>ʌ::X1utTZqC3AI::vowelSounds</item>
-        <item>ɑ::R5CY1UniS68::vowelSounds</item>
-        <item>u::lkM6CKBM2ns::vowelSounds</item>
-        <item>ʊ::moLTR-dLQQY::vowelSounds</item>
-        <item>oʊ::4kPJLHiiGdU::vowelSounds</item>
-        <item>ɔ::pr_KAu-_Hmo::vowelSounds</item>
-        <item>ɑɪ::8uD-GuuSgyk::vowelSounds</item>
-        <item>aʊ::-V690OA75bA::vowelSounds</item>
-        <item>ɔɪ::ZfjPBN22mK8::vowelSounds</item>
+        <item>i::PIu5WDIco0I::vowelSounds::/i/ as in "be"</item>
+        <item>ɪ::Ok_HG-0lNCA::vowelSounds::/ɪ/ as in "it"</item>
+        <item>eɪ::0RXzfRcjk-s::vowelSounds::/eɪ/ as in "make"</item>
+        <item>ɛ::OLG3cCLcNiI::vowelSounds::/ɛ/ as in "bed"</item>
+        <item>æ::mynucZiy-Ug::vowelSounds::/æ/ as in "cat"</item>
+        <item>ə::m1mDSUSwNls::vowelSounds::/ə/ as in "ago"</item>//only video
+        <item>ʌ::X1utTZqC3AI::vowelSounds::/ʌ/ as in "us"</item>
+        <item>ɑ::R5CY1UniS68::vowelSounds::/ɑ/ as in "got"</item>
+        <item>u::lkM6CKBM2ns::vowelSounds::/u/ as in "blue"</item>
+        <item>ʊ::moLTR-dLQQY::vowelSounds::/ʊ/ as in "put"</item>
+        <item>oʊ::4kPJLHiiGdU::vowelSounds::/oʊ/ as in "go"</item>
+        <item>ɔ::pr_KAu-_Hmo::vowelSounds::/ɔ/ as in "on"</item>
+        <item>ɑɪ::8uD-GuuSgyk::vowelSounds::/ɑɪ/ as in "like"</item>
+        <item>aʊ::-V690OA75bA::vowelSounds::/aʊ/ as in "cloud"</item>
+        <item>ɔɪ::ZfjPBN22mK8::vowelSounds::/ɔɪ/ as in "boy"</item>
 
-        <item>ɝ::6ppOrwjvslc::rControlledVowels</item>//only video
-        <item>ɚ::AzNRoSGBh44::rControlledVowels</item>
-        <item>ɪr::X0bkG5ZfzH4::rControlledVowels</item>//only video
-        <item>ɛr::ZjurI7xtCjE::rControlledVowels</item>
-        <item>ɑr::x6E2L2vLH78::rControlledVowels</item>
-        <item>ɔr::ZbDrxmP4_S4::rControlledVowels</item>
-        <item>aɪr::PdV7RymsiMY::rControlledVowels</item>//only video
+        <item>ɝ::6ppOrwjvslc::rControlledVowels::/ɝ/ as in "first"</item>//only video
+        <item>ɚ::AzNRoSGBh44::rControlledVowels::/ɚ/ as in "after"</item>
+        <item>ɪr::X0bkG5ZfzH4::rControlledVowels::/ɪr/ as in "hero"</item>//only video
+        <item>ɛr::ZjurI7xtCjE::rControlledVowels::/ɛr/ as in "chair"</item>
+        <item>ɑr::x6E2L2vLH78::rControlledVowels::/ɑr/ as in "car"</item>
+        <item>ɔr::ZbDrxmP4_S4::rControlledVowels::/ɔr/ as in "sport"</item>
+        <item>aɪr::PdV7RymsiMY::rControlledVowels::/aɪr/ as in "fire"</item>//only video
 
-        <item>p::V_n_rUKQSew::consonantSounds</item>
-        <item>b::LbCOXRz7Uf8::consonantSounds</item>
-        <item>t::mLlotV_0dRI::consonantSounds</item>
-        <item>t̬̬̬::9b-UIkuwOdU::consonantSounds</item>//only video
-        <item>ʔ::Vabg-EUHOQk::consonantSounds</item>//only video
-        <item>d::N73xPe0x79g::consonantSounds</item>
-        <item>k::zxrveu6yu6E::consonantSounds</item>
-        <item>g::vP5XKYvxe0Q::consonantSounds</item>
-        <item>f::05f62\-73nrY::consonantSounds</item>
-        <item>v::U5Oro6v0klg::consonantSounds</item>
-        <item>θ::qC0l6GQZtM4::consonantSounds</item>
-        <item>ð::EZb_EWVCUoE::consonantSounds</item>
-        <item>s::6hWPXaPXrnQ::consonantSounds</item>
-        <item>z::ky7Jh9Bbjts::consonantSounds</item>
-        <item>ʃ::wINb4HFguck::consonantSounds</item>
-        <item>ʒ::k8ImSmVOSVA::consonantSounds</item>
-        <item>h::dV6At0g4n78::consonantSounds</item>
-        <item>ʧ::WoyI_omRpcw::consonantSounds</item>
-        <item>ʤ::zJJ3hhHtjtI::consonantSounds</item>
-        <item>r::q5a2-KuHkBU::consonantSounds</item>
-        <item>l::JamM8TgB_AA::consonantSounds</item>
-        <item>w::nMB5mX_PGHQ::consonantSounds</item>
-        <item>y::1G8SCotE2yg::consonantSounds</item>
-        <item>n::1eyr7O4TFmI::consonantSounds</item>
-        <item>m::tkiN8BsBEfA::consonantSounds</item>
-        <item>ŋ::5xVq8T88oJw::consonantSounds</item>
+        <item>p::V_n_rUKQSew::consonantSounds::/p/ as in "pie"</item>
+        <item>b::LbCOXRz7Uf8::consonantSounds::/b/ as in "boy"</item>
+        <item>t::mLlotV_0dRI::consonantSounds::/t/ as in "toy"</item>
+        <item>t̬̬̬::9b-UIkuwOdU::consonantSounds::Flap \'T\' /t̬/ as in "water"</item>//only video
+        <item>ʔ::Vabg-EUHOQk::consonantSounds::Glottal \'T\' /ʔ/ as in "button"</item>//only video
+        <item>d::N73xPe0x79g::consonantSounds::/d/ as in "dog"</item>
+        <item>k::zxrveu6yu6E::consonantSounds::/k/ as in "key"</item>
+        <item>g::vP5XKYvxe0Q::consonantSounds::/ɡ/ as in "gift"</item>
+        <item>f::05f62\-73nrY::consonantSounds::/f/ as in "fun"</item>
+        <item>v::U5Oro6v0klg::consonantSounds::/v/ as in "very"</item>
+        <item>θ::qC0l6GQZtM4::consonantSounds::/θ/ as in "think"</item>
+        <item>ð::EZb_EWVCUoE::consonantSounds::/ð/ as in "this"</item>
+        <item>s::6hWPXaPXrnQ::consonantSounds::/s/ as in "sun"</item>
+        <item>z::ky7Jh9Bbjts::consonantSounds::/z/ as in "zoo"</item>
+        <item>ʃ::wINb4HFguck::consonantSounds::/ʃ/ as in "show"</item>
+        <item>ʒ::k8ImSmVOSVA::consonantSounds::/ʒ/ as in "vision"</item>
+        <item>h::dV6At0g4n78::consonantSounds::/h/ as in "home"</item>
+        <item>ʧ::WoyI_omRpcw::consonantSounds::/tʃ/ as in "chair"</item>
+        <item>ʤ::zJJ3hhHtjtI::consonantSounds::/dʒ/ as in "job"</item>
+        <item>r::q5a2-KuHkBU::consonantSounds::/r/ as in "run"</item>
+        <item>l::JamM8TgB_AA::consonantSounds::/l/ as in "let"</item>
+        <item>ɫ::ZTgYjGXFAkw::consonantSounds::Dark L /ɫ/ as in "call"</item>//only video
+        <item>w::nMB5mX_PGHQ::consonantSounds::/w/ as in "way"</item>
+        <item>y::1G8SCotE2yg::consonantSounds::/j/ as in "yes"</item>
+        <item>n::1eyr7O4TFmI::consonantSounds::/n/ as in "nice"</item>
+        <item>m::tkiN8BsBEfA::consonantSounds::/m/ as in "map"</item>
+        <item>ŋ::5xVq8T88oJw::consonantSounds::/ŋ/ as in "thing"</item>
 
 
     </string-array>
@@ -69,11 +70,11 @@
 
     <string-array name="most_common_words_video">
         <item>VbBoHLxov-E::Names of 50 US States</item>
-        <item>IERJyt2qKh8::Part 1 Top 200 Most Common Words</item>
-        <item>Fl_e8zbXzks::Part 2 Top 200 Most Common Words</item>
+        <item>IERJyt2qKh8::Part 1 Top 200 Most Common English Words</item>
+        <item>Fl_e8zbXzks::Part 2 Top 200 Most Common English Words</item>
         <item>lrewt5USFk0::100 English Homophones</item>
         <item>hH08LvO98IA::100 Halloween 🎃 Words</item>
-        <item>TJKuvZSqD_4::100 Winter Holidays Words</item>
+        <item>TJKuvZSqD_4::Christmas Special: 100 Winter Holidays Words</item>
     </string-array>
 
     <string-array name="advanced_exercises_video">

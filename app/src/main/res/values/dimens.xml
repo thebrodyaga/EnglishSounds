@@ -3,6 +3,7 @@
     <dimen name="base_offset_small">8dp</dimen>
     <dimen name="app_rating_view_max_width">400dp</dimen>
     <dimen name="card_sound_width">100sp</dimen>
+    <dimen name="card_video_width">300dp</dimen>
     <dimen name="fab_mic_size">64dp</dimen>
     <dimen name="fab_mic_margin">16dp</dimen>
     <dimen name="title2size">24sp</dimen>
