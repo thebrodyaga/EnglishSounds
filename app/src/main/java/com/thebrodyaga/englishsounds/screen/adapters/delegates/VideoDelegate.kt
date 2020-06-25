@@ -158,10 +158,6 @@ fun videoItemDelegate(
         youtube_video_layout.children.filterIsInstance<CardView>().forEach {
             Timber.i("removeSoundView")
             youtube_video_layout.removeViewInLayout(it)
-            it.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
             viewCache()?.setToCache(it)
         }
     }
