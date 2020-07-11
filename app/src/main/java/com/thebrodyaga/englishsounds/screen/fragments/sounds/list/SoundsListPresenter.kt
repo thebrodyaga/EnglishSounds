@@ -1,5 +1,6 @@
 package com.thebrodyaga.englishsounds.screen.fragments.sounds.list
 
+import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 import com.thebrodyaga.englishsounds.domine.entities.resources.AdvancedExercisesVideoRes
@@ -74,6 +75,7 @@ class SoundsListPresenter @Inject constructor(
             result.add(SoundHeader(SoundType.VOWEL_SOUNDS))
             result.addAll(vowelSounds)
         }
+        result.add(AdItem(AdTag.SOUNDS_FIRST))
         if (contrastingSoundVideo.isNotEmpty()) {
             result.add(
                 ContrastingSoundVideoListItem(contrastingSoundVideo.map {

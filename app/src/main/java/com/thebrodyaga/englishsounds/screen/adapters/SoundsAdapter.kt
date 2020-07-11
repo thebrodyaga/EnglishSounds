@@ -6,14 +6,11 @@ import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Typeface
-import android.os.Parcelable
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
@@ -27,18 +24,20 @@ import com.thebrodyaga.englishsounds.screen.adapters.delegates.soundHeaderItemDe
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.soundItemDelegate
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoListItemDelegate
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoNativeAdDelegate
+import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
 
 class SoundsAdapter constructor(
     positionList: MutableMap<Int, Pair<Int, Int>>,
     onCardSoundClick: (soundDto: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) -> Unit,
     onSoundClick: (transcription: String) -> Unit,
     onShowAllClick: (videoListItem: VideoListItem) -> Unit,
-    lifecycle: Lifecycle
+    lifecycle: Lifecycle,
+    compositeAdLoader: CompositeAdLoader
 ) : AsyncListDifferDelegationAdapter<Any>(DiffCallback()) {
 
 
     init {
-        delegatesManager.addDelegate(videoNativeAdDelegate())
+        delegatesManager.addDelegate(videoNativeAdDelegate(compositeAdLoader))
         delegatesManager.addDelegate(soundHeaderItemDelegate())
         delegatesManager.addDelegate(
             videoListItemDelegate(

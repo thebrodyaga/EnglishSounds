@@ -9,11 +9,11 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.VideoOptions
 import com.google.android.gms.ads.formats.NativeAdOptions
-import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.thebrodyaga.englishsounds.domine.entities.data.AdBox
-import com.thebrodyaga.englishsounds.domine.entities.data.AdListBox
+import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -22,13 +22,11 @@ import java.util.concurrent.TimeUnit
 class NativeAdLoader constructor(
     context: Context,
     lifecycle: Lifecycle,
-    @StringRes adUnitIdRes: Int,
-    private val adsCount: Int
+    private val adTag: AdTag
 ) : LifecycleObserver {
 
-    val adsObservable = BehaviorRelay.create<AdListBox>()
-    private val builder = AdLoader.Builder(context, context.getString(adUnitIdRes))
-    private var adsList = listOf<AdBox>()
+    val adsObservable = BehaviorRelay.createDefault<AdBox>(AdBox(null, adTag))
+    private val builder = AdLoader.Builder(context, context.getString(adTag.adUnitIdRes()))
     private var workDisposable: Disposable? = null
 
     init {
@@ -37,60 +35,53 @@ class NativeAdLoader constructor(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun start() {
-        Timber.i("start load ad work")
+        Timber.i("start load ad work adTag = $adTag")
         workDisposable?.dispose()
-        workDisposable = intervalObservable
+        workDisposable = Observable.interval(0, 1, TimeUnit.MINUTES)
+            .flatMap { loadAdObservable(adTag) }
             .subscribeOn(Schedulers.io())
-            .subscribe { adsObservable.accept(it) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                adsObservable.value?.ad?.destroy()
+                adsObservable.accept(it)
+            }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun stop() {
-        Timber.i("stop load ad work")
+        Timber.i("stop load ad work adTag = $adTag")
+        adsObservable.value?.ad?.destroy()
         workDisposable?.dispose()
         workDisposable = null
     }
 
-    private val intervalObservable = Observable.interval(0, 10, TimeUnit.MINUTES)
-        .flatMap { loadAdObservable(adsCount) }
-        .map { list ->
-            adsList.forEach { it.ad?.destroy() }
-            adsList = list.ads
-            list
-        }
-        .doOnDispose { adsList.forEach { it.ad?.destroy() } }
-
-    private fun loadAdObservable(adsCount: Int) = Observable.create<AdListBox> {
-
-        val result = mutableListOf<UnifiedNativeAd>()
+    private fun loadAdObservable(adTag: AdTag) = Observable.create<AdBox> {
 
         lateinit var adLoader: AdLoader
 
         adLoader = builder.forUnifiedNativeAd { unifiedNativeAd ->
             if (it.isDisposed) {
-                Timber.i("loadAdObservable isDisposed = true")
+                Timber.i("loadAdObservable isDisposed = true adTag = $adTag")
                 unifiedNativeAd.destroy()
-                return@forUnifiedNativeAd
+            } else {
+                Timber.i("loadAdObservable onNext adTag = $adTag")
+                it.onNext(AdBox(unifiedNativeAd, adTag))
             }
-            Timber.i("loadAdObservable add unifiedNativeAd")
-            result.add(unifiedNativeAd)
-            if (!adLoader.isLoading) {
-                Timber.i("loadAdObservable onComplete")
-                it.onNext(AdListBox(adsCount, result.map { AdBox(it) }))
-                it.onComplete()
-            }
+            Timber.i("loadAdObservable onComplete adTag = $adTag")
+            it.onComplete()
         }
             .withNativeAdOptions(adOptions)
             .build()
 
-        Timber.i("loadAdObservable loadAds adsCount = $adsCount")
-        adLoader.loadAds(AdRequest.Builder().build(), adsCount)
+        Timber.i("loadAdObservable loadAds adTag = $adTag")
+        adLoader.loadAd(AdRequest.Builder().build())
     }
 
     private val videoOptions = VideoOptions.Builder()
         .build()
 
     private val adOptions = NativeAdOptions.Builder()
+        .setMediaAspectRatio(NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE)
         .setVideoOptions(videoOptions)
         .build()
 }

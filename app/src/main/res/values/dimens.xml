@@ -15,4 +15,5 @@
     <dimen name="fab_cradle_rounded_corner_radius">8dp</dimen>
     <dimen name="ab_cradle_vertical_offset">0dp</dimen>
 
+    <dimen name="ad_item_in_vertical_horizontal_offset">2dp</dimen>
 </resources>

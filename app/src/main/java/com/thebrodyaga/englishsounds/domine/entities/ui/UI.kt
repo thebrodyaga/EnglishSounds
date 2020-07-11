@@ -3,6 +3,7 @@ package com.thebrodyaga.englishsounds.domine.entities.ui
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import com.thebrodyaga.englishsounds.R
+import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
 import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 import kotlinx.android.parcel.Parcelize
 
@@ -32,6 +33,8 @@ data class WordsHeader(
 data class ShowMore(
     var key: String = "ShowMore"
 ) : SoundsDetailsListItem
+
+data class AdItem constructor(val adTag: AdTag) : SoundsListItem
 
 interface SoundsListItem
 interface SoundsDetailsListItem
