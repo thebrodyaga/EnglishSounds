@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="base_offset_small">8dp</dimen>
+    <dimen name="base_offset">16dp</dimen>
     <dimen name="app_rating_view_max_width">400dp</dimen>
     <dimen name="card_sound_width">100sp</dimen>
     <dimen name="card_video_width">300dp</dimen>

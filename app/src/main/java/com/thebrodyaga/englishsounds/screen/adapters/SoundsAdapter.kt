@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.thebrodyaga.englishsounds.R
+import com.thebrodyaga.englishsounds.domine.entities.data.AdBox
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundHeader
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsListItem
@@ -25,6 +26,7 @@ import com.thebrodyaga.englishsounds.domine.entities.ui.VideoListItem
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.soundHeaderItemDelegate
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.soundItemDelegate
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoListItemDelegate
+import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoNativeAdDelegate
 
 class SoundsAdapter constructor(
     positionList: MutableMap<Int, Pair<Int, Int>>,
@@ -36,6 +38,7 @@ class SoundsAdapter constructor(
 
 
     init {
+        delegatesManager.addDelegate(videoNativeAdDelegate())
         delegatesManager.addDelegate(soundHeaderItemDelegate())
         delegatesManager.addDelegate(
             videoListItemDelegate(
@@ -89,6 +92,7 @@ class SoundsAdapter constructor(
                 oldItem is AmericanSoundDto && newItem is AmericanSoundDto -> oldItem.transcription == newItem.transcription
                 oldItem is SoundHeader && newItem is SoundHeader -> oldItem.soundType == newItem.soundType
                 oldItem is VideoListItem && newItem is VideoListItem -> oldItem.title == newItem.title
+                oldItem is AdBox && newItem is AdBox -> oldItem.ad == newItem.ad
                 else -> false
             }
         }
@@ -99,6 +103,7 @@ class SoundsAdapter constructor(
                 oldItem is AmericanSoundDto && newItem is AmericanSoundDto -> oldItem == newItem
                 oldItem is SoundHeader && newItem is SoundHeader -> oldItem == newItem
                 oldItem is VideoListItem && newItem is VideoListItem -> oldItem == newItem
+                oldItem is AdBox && newItem is AdBox -> oldItem.ad == newItem.ad
                 else -> false
             }
         }

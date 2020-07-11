@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="test_ad_id" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+
+    <string name="native_sound_list" translatable="false">@string/test_ad_id</string>
+</resources>

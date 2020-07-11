@@ -26,6 +26,10 @@
         <item name="android:fontFamily">@font/font_regular</item>
     </style>
 
+    <style name="AdText" parent="BodyRegular">
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="BottomNavigationActive">
         <item name="android:fontFamily">@font/font_regular</item>
     </style>

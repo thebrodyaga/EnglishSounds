@@ -20,6 +20,8 @@ import com.thebrodyaga.englishsounds.screen.adapters.SoundsAdapter
 import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
+import com.thebrodyaga.englishsounds.utils.NativeAdLoader
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_sounds_list.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -38,11 +40,13 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
 
     private lateinit var adapter: SoundsAdapter
     private lateinit var spanSizeLookup: SpanSizeLookup
+    private lateinit var nativeAdLoader: NativeAdLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        adapter = SoundsAdapter(presenter.positionList,
+        adapter = SoundsAdapter(
+            presenter.positionList,
             { soundDto, sharedElements -> onSoundClick(soundDto, sharedElements) },
             { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) },
             { onShowAllVideoClick(it) },
@@ -53,6 +57,7 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
                 adapter,
                 calculateNoOfColumns(requireContext(), R.dimen.card_sound_width)
             )
+        nativeAdLoader = NativeAdLoader(requireContext(), lifecycle, R.string.native_sound_list, 3)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,6 +73,15 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
 
     override fun setListData(sounds: List<SoundsListItem>) {
         adapter.setData(sounds)
+        nativeAdLoader.stop()
+        nativeAdLoader.apply {
+            unSubscribeOnDestroy(start()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    val adList: MutableList<SoundsListItem> = it.ads.toMutableList()
+                    adapter.setData(adList.apply { addAll(adapter.items.filterIsInstance<SoundsListItem>()) })
+                })
+        }
     }
 
     private fun onSoundClick(item: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) {
@@ -105,6 +119,11 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
         getAnyRouter().navigateTo(Screens.AllVideoScreen(showPage))
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        nativeAdLoader.stop()
+    }
+
     private class SpanSizeLookup constructor(
         private val adapter: SoundsAdapter,
         val maxColumns: Int
@@ -112,7 +131,7 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
         override fun getSpanSize(position: Int): Int {
             //getItemViewType равен индексу добавления в delegatesManager адаптера
             return when (adapter.getItemViewType(position)) {
-                0, 1 -> maxColumns
+                0, 1, 2 -> maxColumns
                 else -> 1
             }
         }
