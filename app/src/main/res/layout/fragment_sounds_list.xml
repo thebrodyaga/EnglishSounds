@@ -15,11 +15,11 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            app:menu="@menu/common"
             android:layout_width="match_parent"
-            app:titleTextAppearance="@style/Title2Regular"
             android:layout_height="?attr/actionBarSize"
-            app:title="@string/main_menu_tab_first" />
+            app:menu="@menu/common"
+            app:title="@string/main_menu_tab_first"
+            app:titleTextAppearance="@style/Title2Regular" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

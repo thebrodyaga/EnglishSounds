@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".screen.fragments.sounds.training.SoundsTrainingFragment">
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -37,46 +26,63 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.thebrodyaga.englishsounds.screen.view.PlayImageView
-        android:id="@+id/play_icon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@drawable/background_circle_ripple_stoke"
-        android:tint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/view_pager"
-        app:layout_constraintEnd_toEndOf="@+id/view_pager"
-        app:layout_constraintStart_toStartOf="@+id/view_pager"
-        app:layout_constraintTop_toTopOf="@+id/view_pager"
-        app:layout_constraintVertical_bias="0.8"
-        app:srcCompat="@drawable/ic_play" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".screen.fragments.sounds.training.SoundsTrainingFragment">
 
-    <ImageView
-        android:id="@+id/info_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="@drawable/background_circle_ripple"
-        android:scaleType="center"
-        android:src="@drawable/ic_info_outline"
-        app:layout_constraintBottom_toBottomOf="@+id/view_pager"
-        app:layout_constraintEnd_toStartOf="@+id/play_icon"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/view_pager"
-        app:layout_constraintTop_toBottomOf="@+id/play_icon"
-        app:layout_constraintVertical_bias="0.0"
-        app:tint="@color/icon_base" />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/video_lib_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="@drawable/background_circle_ripple"
-        android:scaleType="center"
-        android:src="@drawable/ic_video_library"
-        app:layout_constraintBottom_toBottomOf="@+id/view_pager"
-        app:layout_constraintEnd_toEndOf="@+id/view_pager"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/play_icon"
-        app:layout_constraintTop_toBottomOf="@+id/play_icon"
-        app:layout_constraintVertical_bias="0.0"
-        app:tint="@color/icon_base" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.thebrodyaga.englishsounds.screen.view.PlayImageView
+            android:id="@+id/play_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/background_circle_ripple_stoke"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/view_pager"
+            app:layout_constraintEnd_toEndOf="@+id/view_pager"
+            app:layout_constraintStart_toStartOf="@+id/view_pager"
+            app:layout_constraintTop_toTopOf="@+id/view_pager"
+            app:layout_constraintVertical_bias="0.8"
+            app:srcCompat="@drawable/ic_play" />
+
+        <ImageView
+            android:id="@+id/info_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/background_circle_ripple"
+            android:scaleType="center"
+            android:src="@drawable/ic_info_outline"
+            app:layout_constraintBottom_toBottomOf="@+id/view_pager"
+            app:layout_constraintEnd_toStartOf="@+id/play_icon"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/view_pager"
+            app:layout_constraintTop_toBottomOf="@+id/play_icon"
+            app:layout_constraintVertical_bias="0.0"
+            app:tint="@color/icon_base" />
+
+        <ImageView
+            android:id="@+id/video_lib_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/background_circle_ripple"
+            android:scaleType="center"
+            android:src="@drawable/ic_video_library"
+            app:layout_constraintBottom_toBottomOf="@+id/view_pager"
+            app:layout_constraintEnd_toEndOf="@+id/view_pager"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/play_icon"
+            app:layout_constraintTop_toBottomOf="@+id/play_icon"
+            app:layout_constraintVertical_bias="0.0"
+            app:tint="@color/icon_base" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

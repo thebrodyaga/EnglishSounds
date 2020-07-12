@@ -1,6 +1,5 @@
 package com.thebrodyaga.englishsounds.screen.fragments.video.list
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
@@ -48,12 +47,6 @@ class VideoListFragment : BaseFragment(), VideoListView {
         )
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        spanSizeLookup =
-            SpanSizeLookup(adapter, calculateNoOfColumns(context, R.dimen.card_video_width))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
@@ -61,6 +54,8 @@ class VideoListFragment : BaseFragment(), VideoListView {
             { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) },
             CompositeAdLoader(requireContext(), lifecycle), RecyclerView.VERTICAL
         )
+        spanSizeLookup =
+            SpanSizeLookup(adapter, calculateNoOfColumns(requireContext(), R.dimen.card_video_width))
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_video_list
