@@ -2,12 +2,10 @@ package com.thebrodyaga.englishsounds.screen.adapters.delegates
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.os.Parcelable
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +16,7 @@ import com.thebrodyaga.englishsounds.domine.entities.ui.SoundHeader
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoListItem
 import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.OffsetItemDecoration
+import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
 import kotlinx.android.synthetic.main.item_sound.*
 import kotlinx.android.synthetic.main.item_sound_header.*
 import kotlinx.android.synthetic.main.item_video_list.*
@@ -26,10 +25,11 @@ fun videoListItemDelegate(
     positionList: MutableMap<Int, Pair<Int, Int>>,
     onSoundClick: (transcription: String) -> Unit,
     onShowAllClick: (videoListItem: VideoListItem) -> Unit,
-    lifecycle: Lifecycle
+    lifecycle: Lifecycle,
+    compositeAdLoader: CompositeAdLoader
 ) = adapterDelegateLayoutContainer<VideoListItem, Any>(R.layout.item_video_list) {
 
-    val adapter = VideoListAdapter(onSoundClick = onSoundClick)
+    val adapter = VideoListAdapter(onSoundClick, compositeAdLoader)
     val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 
     val lifecycleObserver = object : LifecycleObserver {

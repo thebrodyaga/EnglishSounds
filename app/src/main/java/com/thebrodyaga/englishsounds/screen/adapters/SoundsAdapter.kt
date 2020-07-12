@@ -37,14 +37,20 @@ class SoundsAdapter constructor(
 
 
     init {
-        delegatesManager.addDelegate(videoNativeAdDelegate(compositeAdLoader))
+        delegatesManager.addDelegate(
+            videoNativeAdDelegate(
+                compositeAdLoader,
+                RecyclerView.VERTICAL
+            )
+        )
         delegatesManager.addDelegate(soundHeaderItemDelegate())
         delegatesManager.addDelegate(
             videoListItemDelegate(
                 positionList,
                 onSoundClick,
                 onShowAllClick,
-                lifecycle
+                lifecycle,
+                compositeAdLoader
             )
         )
         delegatesManager.addDelegate(

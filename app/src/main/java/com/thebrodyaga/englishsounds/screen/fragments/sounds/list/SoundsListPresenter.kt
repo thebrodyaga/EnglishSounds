@@ -55,6 +55,20 @@ class SoundsListPresenter @Inject constructor(
         )
     }
 
+    private inline fun <T> List<T>.mapOrAd(transform: (T) -> VideoItemInList): List<VideoItemInList> {
+        val result = mutableListOf<VideoItemInList>()
+        forEachIndexed { index, item ->
+            when {
+                index == 2 && index != lastIndex ->
+                    result.add(AdItem(AdTag.SOUNDS_FIRST))
+                index != 0 && index % 6 == 0 && index != lastIndex ->
+                    result.add(AdItem(AdTag.SOUNDS_FIRST))
+            }
+            result.add(transform(item))
+        }
+        return result
+    }
+
     private fun mapForUi(box: SoundsListBox) {
         val sounds = box.sounds.values.sortedBy { it.transcription }
         val contrastingSoundVideo = box.contrastingSoundVideo
@@ -75,10 +89,10 @@ class SoundsListPresenter @Inject constructor(
             result.add(SoundHeader(SoundType.VOWEL_SOUNDS))
             result.addAll(vowelSounds)
         }
-        result.add(AdItem(AdTag.SOUNDS_FIRST))
+//        result.add(AdItem(AdTag.SOUNDS_FIRST))
         if (contrastingSoundVideo.isNotEmpty()) {
             result.add(
-                ContrastingSoundVideoListItem(contrastingSoundVideo.map {
+                ContrastingSoundVideoListItem(contrastingSoundVideo.mapOrAd {
                     ContrastingSoundVideoItem(
                         it.videoId,
                         it.videoName,
@@ -94,7 +108,7 @@ class SoundsListPresenter @Inject constructor(
         }
         if (mostCommonWordsVideo.isNotEmpty()) {
             result.add(
-                MostCommonWordsVideoListItem(mostCommonWordsVideo.map {
+                MostCommonWordsVideoListItem(mostCommonWordsVideo.mapOrAd {
                     MostCommonWordsVideoItem(
                         it.videoId,
                         it.videoName
@@ -108,7 +122,7 @@ class SoundsListPresenter @Inject constructor(
         }
         if (advancedExercisesVideo.isNotEmpty()) {
             result.add(
-                AdvancedExercisesVideoListItem(advancedExercisesVideo.map {
+                AdvancedExercisesVideoListItem(advancedExercisesVideo.mapOrAd {
                     AdvancedExercisesVideoItem(
                         it.videoId,
                         it.videoName,

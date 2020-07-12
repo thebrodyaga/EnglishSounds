@@ -8,12 +8,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItem
+import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItemInList
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoItemDelegate
+import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoNativeAdDelegate
 import com.thebrodyaga.englishsounds.screen.adapters.utils.SoundItemViewCache
+import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
 
 class VideoListAdapter constructor(
-    @RecyclerView.Orientation orientation: Int = RecyclerView.HORIZONTAL,
-    onSoundClick: (transcription: String) -> Unit
+    onSoundClick: (transcription: String) -> Unit,
+    compositeAdLoader: CompositeAdLoader,
+    @RecyclerView.Orientation orientation: Int = RecyclerView.HORIZONTAL
 ) : AbsDelegationAdapter<List<Any>>() {
 
     private var viewCache: SoundItemViewCache? = null
@@ -27,9 +31,15 @@ class VideoListAdapter constructor(
                 onSoundClick
             )
         )
+        delegatesManager.addDelegate(
+            videoNativeAdDelegate(
+                compositeAdLoader,
+                orientation
+            )
+        )
     }
 
-    fun setData(newData: List<VideoItem>) {
+    fun setData(newData: List<VideoItemInList>) {
         val diffResult = DiffUtil.calculateDiff(DiffCallback(items, newData.toList()))
         items = newData
         diffResult.dispatchUpdatesTo(this)

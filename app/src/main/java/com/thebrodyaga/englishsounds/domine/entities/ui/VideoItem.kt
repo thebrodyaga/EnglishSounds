@@ -3,10 +3,12 @@ package com.thebrodyaga.englishsounds.domine.entities.ui
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.resources.SoundVideoRes
 
+interface VideoItemInList
+
 sealed class VideoItem constructor(
     open val videoId: String,
     open val title: String
-)
+) : VideoItemInList
 
 data class ContrastingSoundVideoItem constructor(
     override val videoId: String,

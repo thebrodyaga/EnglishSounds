@@ -18,6 +18,7 @@ import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment.Companion.calculateNoOfColumns
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
+import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_video_list.*
@@ -36,9 +37,7 @@ class VideoListFragment : BaseFragment(), VideoListView {
     @InjectPresenter
     lateinit var presenter: VideoListPresenter
 
-    private val adapter = VideoListAdapter(
-        RecyclerView.VERTICAL
-    ) { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) }
+    private lateinit var adapter: VideoListAdapter
     private lateinit var spanSizeLookup: SpanSizeLookup
 
     @ProvidePresenter
@@ -58,6 +57,10 @@ class VideoListFragment : BaseFragment(), VideoListView {
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
+        adapter = VideoListAdapter(
+            { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) },
+            CompositeAdLoader(requireContext(), lifecycle), RecyclerView.VERTICAL
+        )
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_video_list
@@ -76,7 +79,7 @@ class VideoListFragment : BaseFragment(), VideoListView {
         list.appbarBottomPadding(true)
     }
 
-    override fun setList(list: List<VideoItem>) {
+    override fun setList(list: List<VideoItemInList>) {
         adapter.setData(list)
     }
 
@@ -107,7 +110,7 @@ class VideoListFragment : BaseFragment(), VideoListView {
 interface VideoListView : MvpView {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun setList(list: List<VideoItem>)
+    fun setList(list: List<VideoItemInList>)
 }
 
 @InjectViewState

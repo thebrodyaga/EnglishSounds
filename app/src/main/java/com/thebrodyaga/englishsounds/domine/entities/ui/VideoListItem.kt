@@ -7,11 +7,11 @@ import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 sealed class VideoListItem constructor(
     @StringRes val title: Int,
     @StringRes val shortTitle: Int,
-    open val list: List<VideoItem>
+    open val list: List<VideoItemInList>
 ) : SoundsListItem
 
 data class ContrastingSoundVideoListItem constructor(
-    override val list: List<ContrastingSoundVideoItem>
+    override val list: List<VideoItemInList>
 ) : VideoListItem(
     R.string.contrasting_sound_video_title,
     R.string.contrasting_sound_video_title,
@@ -19,7 +19,7 @@ data class ContrastingSoundVideoListItem constructor(
 )
 
 data class MostCommonWordsVideoListItem constructor(
-    override val list: List<MostCommonWordsVideoItem>
+    override val list: List<VideoItemInList>
 ) : VideoListItem(
     R.string.most_common_words_video_title,
     R.string.most_common_words_video_title,
@@ -27,7 +27,7 @@ data class MostCommonWordsVideoListItem constructor(
 )
 
 data class AdvancedExercisesVideoListItem constructor(
-    override val list: List<AdvancedExercisesVideoItem>
+    override val list: List<VideoItemInList>
 ) : VideoListItem(
     R.string.advanced_exercises_video_title,
     R.string.advanced_exercises_video_title,
@@ -36,5 +36,5 @@ data class AdvancedExercisesVideoListItem constructor(
 
 data class SoundVideoListItem constructor(
     val soundType: SoundType,
-    override val list: List<SoundVideoItem>
+    override val list: List<VideoItemInList>
 ) : VideoListItem(soundType.humanName(), soundType.shortHumanName(), list)
