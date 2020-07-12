@@ -22,7 +22,7 @@ fun videoNativeAdDelegate(
 ) = adapterDelegateLayoutContainer<AdItem, Any>(
     if (orientation == RecyclerView.VERTICAL)
         R.layout.itme_ad_vertical_list
-    else R.layout.itme_ad_horisontal_list
+    else R.layout.itme_ad_horizontal_list
 ) {
 
     var disposable: Disposable? = null
