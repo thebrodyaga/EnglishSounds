@@ -76,4 +76,10 @@
     <style name="ProgressBar.Red" parent="AppTheme.Video">
         <item name="colorSecondary">@color/youtube_color</item>
     </style>
+
+    <style name="SoundItem" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="rippleColor">@color/ripple_accent</item>
+    </style>
 </resources>

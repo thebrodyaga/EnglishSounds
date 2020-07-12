@@ -3,8 +3,10 @@ package com.thebrodyaga.englishsounds.screen
 import android.content.Context
 import android.content.res.Configuration
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.core.view.forEach
 import androidx.recyclerview.widget.RecyclerView
 import com.thebrodyaga.englishsounds.R
@@ -47,6 +49,9 @@ fun RecyclerView.appbarBottomPadding(includeFabSize: Boolean = false) {
         setPadding(paddingLeft, paddingTop, paddingRight, actionBarHeight + halfOfFab)
     }
 }
+
+fun ViewGroup.inflate(@LayoutRes res: Int, attachToRoot: Boolean = false) =
+    LayoutInflater.from(context).inflate(res, this, attachToRoot)
 
 fun View.appbarBottomPadding() {
     val tv = TypedValue()

@@ -20,10 +20,7 @@ import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundHeader
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsListItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoListItem
-import com.thebrodyaga.englishsounds.screen.adapters.delegates.soundHeaderItemDelegate
-import com.thebrodyaga.englishsounds.screen.adapters.delegates.soundItemDelegate
-import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoListItemDelegate
-import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoNativeAdDelegate
+import com.thebrodyaga.englishsounds.screen.adapters.delegates.*
 import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
 
 class SoundsAdapter constructor(
@@ -54,24 +51,21 @@ class SoundsAdapter constructor(
             )
         )
         delegatesManager.addDelegate(
-            soundItemDelegate(
-                onCardSoundClick,
-                { context, colorRes -> getColor(context, colorRes) },
+            ConsonantSoundsDelegate(onCardSoundClick,
+                { singleCharMaxWight })
+        )
+        delegatesManager.addDelegate(
+            RControlledSoundsDelegate(onCardSoundClick,
+                { singleCharMaxWight })
+        )
+        delegatesManager.addDelegate(
+            VowelSoundsDelegate(onCardSoundClick,
                 { singleCharMaxWight })
         )
     }
 
     fun setData(newData: List<SoundsListItem>) {
         items = newData
-    }
-
-    private val soundsBackgroundColors = mutableMapOf<@ColorRes Int, ColorStateList>()
-
-    private fun getColor(context: Context, @ColorRes colorRes: Int): ColorStateList? {
-        return soundsBackgroundColors[colorRes] ?: ContextCompat.getColorStateList(
-            context,
-            colorRes
-        )?.also { soundsBackgroundColors[colorRes] = it }
     }
 
     private var singleCharMaxWight: Float? = null
