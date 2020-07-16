@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.ads.MobileAds
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.navigation.RouterTransition
@@ -15,6 +13,7 @@ import com.thebrodyaga.englishsounds.navigation.TransitionNavigator
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import com.thebrodyaga.englishsounds.screen.dialogs.RateAppDialog
+import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.englishsounds.screen.isSystemDarkMode
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
 import com.thebrodyaga.englishsounds.tools.RecordVoice
@@ -53,7 +52,7 @@ class AppActivity : BaseActivity(), AppActivityView {
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
     private val navigator: Navigator =
-            TransitionNavigator(this, supportFragmentManager, R.id.fragment_container)
+        TransitionNavigator(this, supportFragmentManager, R.id.fragment_container)
 
     private val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_container)
@@ -108,17 +107,17 @@ class AppActivity : BaseActivity(), AppActivityView {
         var result = 0
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             result =
-                    if (!isDarkTheme)
-                        view.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    else
-                        view.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+                if (!isDarkTheme)
+                    view.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                else
+                    view.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             result =
-                    if (!isDarkTheme)
-                        result or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-                    else
-                        result and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+                if (!isDarkTheme)
+                    result or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                else
+                    result and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
         }
         view.systemUiVisibility = result
     }
@@ -126,7 +125,8 @@ class AppActivity : BaseActivity(), AppActivityView {
 
     override fun showRateDialog() {
         if (settingManager.needShowRateRequest() &&
-                supportFragmentManager.findFragmentByTag(RateAppDialog.TAG) == null) {
+            supportFragmentManager.findFragmentByTag(RateAppDialog.TAG) == null
+        ) {
             RateAppDialog().showNow(supportFragmentManager, RateAppDialog.TAG)
             settingManager.onRateRequestShow()
         }
@@ -134,6 +134,11 @@ class AppActivity : BaseActivity(), AppActivityView {
 
     fun onSoundScreenClose() {
         presenter.onSoundScreenClose()
+    }
+
+    fun toggleFabMic(isShow: Boolean) {
+        (supportFragmentManager.fragments.first { it is MainFragment } as? MainFragment)
+            ?.toggleFabMic(isShow)
     }
 }
 

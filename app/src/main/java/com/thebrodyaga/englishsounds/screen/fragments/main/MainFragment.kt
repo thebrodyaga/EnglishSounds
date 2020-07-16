@@ -1,7 +1,10 @@
 package com.thebrodyaga.englishsounds.screen.fragments.main
 
 import android.os.Bundle
+import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
@@ -10,6 +13,7 @@ import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.FlowFragment
 import com.thebrodyaga.englishsounds.tools.RecordVoice
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
 
 class MainFragment : FlowFragment() {
@@ -25,11 +29,31 @@ class MainFragment : FlowFragment() {
 
 
     override val currentFragment: BaseFragment?
-        get() = childFragmentManager.fragments.firstOrNull { !it.isHidden } as? BaseFragment
+        get() = childFragmentManager.fragments.firstOrNull { !it.isDetached } as? BaseFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val result = super.onCreateView(inflater, container, savedInstanceState)
+
+        val tv = TypedValue()
+        if (result.context.theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            val layoutParams = result.mic_button.layoutParams as ViewGroup.MarginLayoutParams
+            val actionBarHeight =
+                TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+            val baseOffset = resources.getDimensionPixelSize(R.dimen.base_offset)
+            layoutParams.rightMargin = baseOffset
+            layoutParams.bottomMargin = actionBarHeight + baseOffset
+        }
+
+        return result
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,11 +101,11 @@ class MainFragment : FlowFragment() {
             if (newFragment == null)
                 add(R.id.fragment_container, createTabFragment(fragmentTag), fragmentTag)
             currentFragment?.let {
-                hide(it)
+                detach(it)
                 it.userVisibleHint = false
             }
             newFragment?.let {
-                show(it)
+                attach(it)
                 it.userVisibleHint = true
             }
         }.commitNow()
@@ -89,6 +113,12 @@ class MainFragment : FlowFragment() {
 
     private fun createTabFragment(tag: String): Fragment =
         TabContainerFragment.getNewInstance(tag)
+
+    fun toggleFabMic(isShow: Boolean) {
+        if (isShow)
+            mic_button?.show()
+        else mic_button?.hide()
+    }
 
     companion object {
         val FIRST_MAIN_PAGE = Pair(0, "FIRST_TAB_MAIN_PAGE")

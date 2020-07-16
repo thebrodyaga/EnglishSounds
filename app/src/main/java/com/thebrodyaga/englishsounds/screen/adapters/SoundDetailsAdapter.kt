@@ -4,12 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.app.BaseActivity
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.data.PracticeWordDto
 import com.thebrodyaga.englishsounds.domine.entities.data.SpellingWordDto
@@ -136,6 +135,9 @@ class SoundDetailsAdapter constructor(
         fun bind(item: AmericanSoundDto) = with(itemView) {
             Timber.i("SoundDetailsVH bind")
             this@SoundDetailsVH.item = item
+            Glide.with(sound_image.context)
+                .load(File(sound_image.context.filesDir, item.photoPath))
+                .into(sound_image)
             val videoUrl = videoMap?.get(item.transcription)
             if (videoUrl == null || videoUrl.isEmpty())
                 youtube_layout.isGone(true)

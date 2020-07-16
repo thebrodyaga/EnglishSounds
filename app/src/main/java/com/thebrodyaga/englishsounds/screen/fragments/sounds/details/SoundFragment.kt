@@ -2,14 +2,10 @@ package com.thebrodyaga.englishsounds.screen.fragments.sounds.details
 
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.ViewCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.bumptech.glide.Glide
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.AppActivity
@@ -19,14 +15,12 @@ import com.thebrodyaga.englishsounds.repository.SoundsRepository
 import com.thebrodyaga.englishsounds.screen.adapters.SoundDetailsAdapter
 import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
-import com.thebrodyaga.englishsounds.screen.getVideoAndDescription
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
 import com.thebrodyaga.englishsounds.tools.SettingManager
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.android.synthetic.main.fragment_sound.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
-import java.io.File
 import javax.inject.Inject
 
 class SoundFragment : BaseFragment(), SoundView {
@@ -65,14 +59,12 @@ class SoundFragment : BaseFragment(), SoundView {
         ViewCompat.setTransitionName(root_view, presenter.transcription)
         toolbar.setNavigationOnClickListener { onBackPressed() }
         list.appbarBottomPadding()
+        (activity as? AppActivity)?.toggleFabMic(true)
     }
 
     @SuppressLint("InflateParams")
     override fun setData(list: List<SoundsDetailsListItem>, soundDto: AmericanSoundDto) {
         toolbar_title.text = soundDto.name.plus(" ").plus("[${soundDto.transcription}]")
-        Glide.with(sound_image.context)
-            .load(File(sound_image.context.filesDir, soundDto.photoPath))
-            .into(sound_image)
         root_view.post { adapter.setData(list) }
     }
 
@@ -82,21 +74,6 @@ class SoundFragment : BaseFragment(), SoundView {
             it.onSoundScreenClose()
             settingManager.onSoundShowed()
         }
-    }
-
-    private class PageAdapter constructor(
-        fragment: BaseFragment,
-        val image: String,
-        val video: String
-    ) : FragmentStateAdapter(fragment) {
-        override fun createFragment(position: Int): Fragment =
-            when (position) {
-                0 -> VideoFragment.newInstance(video)
-                1 -> ImageFragment.newInstance(image)
-                else -> throw IllegalArgumentException("что за хуйня?")
-            }
-
-        override fun getItemCount(): Int = 2
     }
 
     companion object {

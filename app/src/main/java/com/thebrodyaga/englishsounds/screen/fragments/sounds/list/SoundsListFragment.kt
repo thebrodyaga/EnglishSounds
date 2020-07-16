@@ -18,7 +18,6 @@ import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.navigation.TransitionBox
 import com.thebrodyaga.englishsounds.screen.adapters.SoundsAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.AdItemDecorator
-import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
 import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
@@ -72,7 +71,6 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
                 R.dimen.ad_item_in_vertical_horizontal_offset
             )
         )
-        list.appbarBottomPadding(true)
         toolbar.setOnMenuItemClickListener(this)
     }
 

@@ -9,43 +9,36 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="?attr/actionBarSize"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bar"
-        style="@style/Widget.MaterialComponents.BottomAppBar"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        style="@style/Widget.MaterialComponents.BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
-        app:contentInsetStart="0dp"
-        app:contentInsetStartWithNavigation="0dp"
-        app:fabAlignmentMode="center">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:itemTextAppearanceActive="@style/BottomNavigationActive"
+        app:itemTextAppearanceInactive="@style/BottomNavigationInactive"
+        app:menu="@menu/main_bottom_menu" />
 
-        <com.thebrodyaga.englishsounds.screen.view.FabBottomNavigation
-            android:id="@+id/bottom_navigation"
-            style="@style/Widget.MaterialComponents.BottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            app:itemTextAppearanceActive="@style/BottomNavigationActive"
-            app:itemTextAppearanceInactive="@style/BottomNavigationInactive"
-            app:menu="@menu/main_bottom_menu" />
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <com.thebrodyaga.englishsounds.screen.view.MicFloatingButton
+    <com.thebrodyaga.englishsounds.screen.view.fab.MicFloatingButton
         android:id="@+id/mic_button"
         style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/base_offset"
+        android:layout_marginBottom="?attr/actionBarSize"
         android:backgroundTint="?attr/colorSurface"
         android:src="@drawable/ic_mic"
         app:backgroundTint="@color/colorPrimary"
         app:borderWidth="1dp"
         app:fabCustomSize="@dimen/fab_mic_size"
-        app:layout_anchor="@id/bar"
-        app:layout_anchorGravity="center_horizontal"
+        app:layout_anchor="@id/bottom_navigation"
+        app:layout_anchorGravity="top|end"
+        app:layout_behavior=".screen.view.fab.ScrollAwareFABBehavior"
         app:rippleColor="@color/ripple_accent"
         app:tint="@color/colorPrimary" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,8 +1,9 @@
-package com.thebrodyaga.englishsounds.screen.view
+package com.thebrodyaga.englishsounds.screen.view.fab
 
 import android.Manifest
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
 import android.widget.Toast
@@ -22,7 +23,8 @@ class MicFloatingButton : FloatingActionButton {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
             : super(context, attrs, defStyleAttr)
 
-    private var mode: Mode = Mode.MIC
+    private var mode: Mode =
+        Mode.MIC
         set(value) {
             when (value) {
                 Mode.MIC -> bindEmptyState()
@@ -50,6 +52,15 @@ class MicFloatingButton : FloatingActionButton {
     private val redColorState = ContextCompat.getColorStateList(context, R.color.error_object)
 
     private var recordVoice: RecordVoice? = null
+
+    override fun hide() {
+        super.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
+            override fun onHidden(fab: FloatingActionButton) {
+                super.onHidden(fab)
+                fab.visibility = View.INVISIBLE
+            }
+        })
+    }
 
     fun setRecordVoice(recordVoice: RecordVoice) {
         this.recordVoice = recordVoice

@@ -12,7 +12,6 @@ import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.GridOffsetItemDecoration
-import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment.Companion.calculateNoOfColumns
@@ -71,7 +70,6 @@ class VideoListFragment : BaseFragment(), VideoListView {
         )
         list.layoutManager = layoutManager
         list.adapter = adapter
-        list.appbarBottomPadding(true)
     }
 
     override fun setList(list: List<VideoItemInList>) {

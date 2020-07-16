@@ -30,7 +30,7 @@ abstract class BaseFragment : MvpAppCompatFragment(), GetRouter, Toolbar.OnMenuI
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(getLayoutId(), container, false)
+    ): View = inflater.inflate(getLayoutId(), container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

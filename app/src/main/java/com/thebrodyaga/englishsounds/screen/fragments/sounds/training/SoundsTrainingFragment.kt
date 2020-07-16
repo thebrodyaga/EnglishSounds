@@ -7,9 +7,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
+import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.englishsounds.domine.entities.data.PracticeWordDto
 import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
@@ -44,7 +44,13 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
         super.onViewCreated(view, savedInstanceState)
         toolbar.setOnMenuItemClickListener(this)
         play_icon.setRecordVoice(audioPlayer)
-        view.appbarBottomPadding()
+        view.post { (activity as? AppActivity)?.toggleFabMic(true) }
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden)
+            (activity as? AppActivity)?.toggleFabMic(true)
     }
 
     override fun setData(list: List<PracticeWordDto>) {

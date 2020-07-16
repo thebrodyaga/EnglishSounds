@@ -3,14 +3,9 @@ package com.thebrodyaga.englishsounds.screen.fragments.settings.all
 
 import android.os.Bundle
 import android.view.View
-import android.widget.CompoundButton
 import com.jakewharton.rxbinding3.widget.checkedChanges
-
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.englishsounds.app.AppActivity
-import com.thebrodyaga.englishsounds.app.BaseActivity
-import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.isGone
 import com.thebrodyaga.englishsounds.screen.isSystemDarkMode
@@ -32,7 +27,6 @@ class SettingsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.appbarBottomPadding()
         toolbar.setNavigationOnClickListener { getAnyRouter().exit() }
         setThemeSetting()
     }
