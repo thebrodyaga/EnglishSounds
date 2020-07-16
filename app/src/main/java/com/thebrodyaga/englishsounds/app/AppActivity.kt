@@ -136,9 +136,9 @@ class AppActivity : BaseActivity(), AppActivityView {
         presenter.onSoundScreenClose()
     }
 
-    fun toggleFabMic(isShow: Boolean) {
+    fun toggleFabMic(isShow: Boolean?, autoHide: Boolean?) {
         (supportFragmentManager.fragments.first { it is MainFragment } as? MainFragment)
-            ?.toggleFabMic(isShow)
+            ?.toggleFabMic(isShow, autoHide)
     }
 }
 

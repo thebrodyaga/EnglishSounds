@@ -5,7 +5,9 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.navigation.Screens
@@ -18,6 +20,8 @@ import javax.inject.Inject
 
 class MainFragment : FlowFragment() {
 
+    private var micBehavior: FloatingActionButton.Behavior? = null
+
     override fun getContainerId(): Int = R.id.fragment_container
 
     override fun getContainerName(): String = Screens.MainScreen.screenKey
@@ -27,9 +31,8 @@ class MainFragment : FlowFragment() {
 
     override fun getLayoutId(): Int = R.layout.fragment_main
 
-
     override val currentFragment: BaseFragment?
-        get() = childFragmentManager.fragments.firstOrNull { !it.isDetached } as? BaseFragment
+        get() = childFragmentManager.fragments.firstOrNull { !it.isHidden } as? BaseFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -53,7 +56,15 @@ class MainFragment : FlowFragment() {
             layoutParams.bottomMargin = actionBarHeight + baseOffset
         }
 
+        micBehavior = (result.mic_button.layoutParams as CoordinatorLayout.LayoutParams).behavior
+                as FloatingActionButton.Behavior
+
         return result
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        micBehavior = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,7 +73,8 @@ class MainFragment : FlowFragment() {
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             val position = when (item.itemId) {
                 R.id.main_menu_first -> (0)
-                R.id.main_menu_third -> (1)
+                R.id.main_menu_second -> (1)
+                R.id.main_menu_third -> (2)
                 else -> -1
             }
             if (position > -1)
@@ -101,11 +113,11 @@ class MainFragment : FlowFragment() {
             if (newFragment == null)
                 add(R.id.fragment_container, createTabFragment(fragmentTag), fragmentTag)
             currentFragment?.let {
-                detach(it)
+                hide(it)
                 it.userVisibleHint = false
             }
             newFragment?.let {
-                attach(it)
+                show(it)
                 it.userVisibleHint = true
             }
         }.commitNow()
@@ -114,10 +126,14 @@ class MainFragment : FlowFragment() {
     private fun createTabFragment(tag: String): Fragment =
         TabContainerFragment.getNewInstance(tag)
 
-    fun toggleFabMic(isShow: Boolean) {
-        if (isShow)
-            mic_button?.show()
-        else mic_button?.hide()
+    fun toggleFabMic(isShow: Boolean?, autoHide: Boolean?) {
+        when (isShow) {
+            true -> mic_button?.show()
+            false -> mic_button?.hide()
+        }
+        when (autoHide) {
+            false, true -> micBehavior?.isAutoHideEnabled = autoHide
+        }
     }
 
     companion object {

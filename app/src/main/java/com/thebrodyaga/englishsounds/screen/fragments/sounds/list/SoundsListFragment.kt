@@ -3,6 +3,7 @@ package com.thebrodyaga.englishsounds.screen.fragments.sounds.list
 
 import android.content.Context
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.GridLayoutManager

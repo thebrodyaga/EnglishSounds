@@ -2,6 +2,7 @@
     <string name="app_name">English Sounds</string>
 
     <string name="main_menu_tab_first">Звуки</string>
+    <string name="main_menu_tab_second">@string/videos</string>
     <string name="main_menu_tab_third">Тренировка</string>
     <string name="need_record_permission">Нужно разрешение для записи</string>
     <string name="vowel_sounds">Гласные звуки</string>

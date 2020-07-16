@@ -7,11 +7,12 @@
         android:title="@string/main_menu_tab_first" />
     <item
         android:id="@+id/main_menu_second"
-        android:enabled="false"
-        android:title="" />
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_second"
+        android:title="@string/main_menu_tab_second" />
     <item
         android:id="@+id/main_menu_third"
         android:enabled="true"
-        android:icon="@drawable/ic_menu_second"
+        android:icon="@drawable/ic_menu_third"
         android:title="@string/main_menu_tab_third" />
 </menu>

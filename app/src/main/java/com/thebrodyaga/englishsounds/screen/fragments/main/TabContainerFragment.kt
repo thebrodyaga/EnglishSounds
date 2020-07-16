@@ -28,9 +28,9 @@ class TabContainerFragment : FlowFragment() {
             if (containerName == MainFragment.FIRST_MAIN_PAGE.second)
                 localRouter.newRootScreen(Screens.SoundsListScreen)
             if (containerName == MainFragment.SECOND_MAIN_PAGE.second)
-                localRouter.newRootScreen(Screens.SoundsTrainingScreen)
+                localRouter.newRootScreen(Screens.AllVideoScreen())
             if (containerName == MainFragment.THIRD_MAIN_PAGE.second)
-                localRouter.newRootScreen(Screens.SettingsScreen)
+                localRouter.newRootScreen(Screens.SoundsTrainingScreen)
         }
     }
 

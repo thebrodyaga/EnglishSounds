@@ -59,7 +59,7 @@ class SoundFragment : BaseFragment(), SoundView {
         ViewCompat.setTransitionName(root_view, presenter.transcription)
         toolbar.setNavigationOnClickListener { onBackPressed() }
         list.appbarBottomPadding()
-        (activity as? AppActivity)?.toggleFabMic(true)
+        (activity as? AppActivity)?.toggleFabMic(true, autoHide = true)
     }
 
     @SuppressLint("InflateParams")

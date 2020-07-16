@@ -44,13 +44,22 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
         super.onViewCreated(view, savedInstanceState)
         toolbar.setOnMenuItemClickListener(this)
         play_icon.setRecordVoice(audioPlayer)
-        view.post { (activity as? AppActivity)?.toggleFabMic(true) }
+        showFab(isShow = true, autoHide = false)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        showFab(isShow = true, autoHide = true)
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        if (!hidden)
-            (activity as? AppActivity)?.toggleFabMic(true)
+        showFab(isShow = true, autoHide = hidden)
+    }
+
+
+    private fun showFab(isShow: Boolean?, autoHide: Boolean?) {
+        (activity as? AppActivity)?.toggleFabMic(isShow = isShow, autoHide = autoHide)
     }
 
     override fun setData(list: List<PracticeWordDto>) {
