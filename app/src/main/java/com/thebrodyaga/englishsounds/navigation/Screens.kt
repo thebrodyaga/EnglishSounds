@@ -8,6 +8,7 @@ import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFrag
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.AllVideoFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
+import com.thebrodyaga.englishsounds.screen.fragments.video.listoflists.ListOfVideoListsFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
@@ -42,10 +43,17 @@ object Screens {
         }
     }
 
-    data class AllVideoScreen(val showPage: VideoListType = VideoListType.All) :
+    data class AllVideoScreen(val showPage: VideoListType = VideoListType.ContrastingSounds) :
         SupportAppScreen() {
         override fun getFragment(): Fragment {
             return AllVideoFragment.newInstance(showPage)
+        }
+    }
+
+    object ListOfVideoListScreen :
+        SupportAppScreen() {
+        override fun getFragment(): Fragment {
+            return ListOfVideoListsFragment()
         }
     }
 }

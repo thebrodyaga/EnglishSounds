@@ -16,6 +16,7 @@ import com.thebrodyaga.englishsounds.screen.fragments.sounds.details.SoundFragme
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.list.VideoListFragment
+import com.thebrodyaga.englishsounds.screen.fragments.video.listoflists.ListOfVideoListsFragment
 import com.thebrodyaga.englishsounds.tools.SettingManager
 import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
 import dagger.BindsInstance
@@ -43,6 +44,7 @@ interface AppComponent {
     fun inject(dialog: RateAppDialog)
     fun inject(fragment: VideoListFragment)
     fun inject(activity: YoutubePlayerActivity)
+    fun inject(fragment: ListOfVideoListsFragment)
 
     @Component.Builder
     interface Builder {

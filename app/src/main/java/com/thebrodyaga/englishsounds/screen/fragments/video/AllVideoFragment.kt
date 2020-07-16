@@ -18,7 +18,7 @@ class AllVideoFragment : BaseFragment() {
     }
 
     private val pageList = listOf(
-        VideoListType.All, VideoListType.ContrastingSounds, VideoListType.MostCommonWords,
+        VideoListType.ContrastingSounds, VideoListType.MostCommonWords,
         VideoListType.AdvancedExercises, VideoListType.VowelSounds,
         VideoListType.RControlledVowels, VideoListType.ConsonantSounds
     )
@@ -57,10 +57,9 @@ class AllVideoFragment : BaseFragment() {
 }
 
 enum class VideoListType {
-    All, ContrastingSounds, MostCommonWords, AdvancedExercises, VowelSounds, RControlledVowels, ConsonantSounds;
+    ContrastingSounds, MostCommonWords, AdvancedExercises, VowelSounds, RControlledVowels, ConsonantSounds;
 
     fun titleRes(): Int = when (this) {
-        All -> R.string.all
         ContrastingSounds -> R.string.contrasting_sound_video_title
         MostCommonWords -> R.string.most_common_words_video_title
         AdvancedExercises -> R.string.advanced_exercises_video_title

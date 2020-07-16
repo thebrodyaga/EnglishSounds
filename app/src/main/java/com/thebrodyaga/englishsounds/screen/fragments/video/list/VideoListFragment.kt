@@ -120,7 +120,6 @@ class VideoListPresenter @Inject constructor(
                 .flatMapIterable { it }
                 .filter {
                     when (listType) {
-                        VideoListType.All -> true
                         VideoListType.ContrastingSounds -> it is ContrastingSoundVideoListItem
                         VideoListType.MostCommonWords -> it is MostCommonWordsVideoListItem
                         VideoListType.AdvancedExercises -> it is AdvancedExercisesVideoListItem
