@@ -137,7 +137,7 @@ class AppActivity : BaseActivity(), AppActivityView {
     }
 
     fun toggleFabMic(isShow: Boolean?, autoHide: Boolean?) {
-        (supportFragmentManager.fragments.first { it is MainFragment } as? MainFragment)
+        (supportFragmentManager.fragments.find { it is MainFragment } as? MainFragment)
             ?.toggleFabMic(isShow, autoHide)
     }
 }
