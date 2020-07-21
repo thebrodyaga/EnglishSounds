@@ -102,7 +102,7 @@ fun videoNativeAdDelegate(
         }
 
         disposable?.dispose()
-        disposable = compositeAdLoader.getByTagAndAdapterPosition(item.adTag, adapterPosition)
+        disposable = compositeAdLoader.getLoader(item.adTag, adapterPosition, item.customTag)
             .adsObservable
             .subscribe { adBox ->
                 constraintSet.clone(ad_container)

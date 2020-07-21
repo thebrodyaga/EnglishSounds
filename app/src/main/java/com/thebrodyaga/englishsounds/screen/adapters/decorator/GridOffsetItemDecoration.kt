@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class GridOffsetItemDecoration constructor(private val offset: Int, private val offsetLast: Boolean = true) : RecyclerView.ItemDecoration() {
+open class GridOffsetItemDecoration constructor(private val offset: Int, private val offsetLast: Boolean = true) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         val gridLayoutManager = parent.layoutManager as? GridLayoutManager

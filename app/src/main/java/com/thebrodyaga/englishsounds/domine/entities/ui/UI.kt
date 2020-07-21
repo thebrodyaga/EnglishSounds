@@ -34,7 +34,10 @@ data class ShowMore(
     var key: String = "ShowMore"
 ) : SoundsDetailsListItem
 
-data class AdItem constructor(val adTag: AdTag) : SoundsListItem, VideoItemInList
+data class AdItem constructor(
+    val adTag: AdTag,
+    val customTag: String? = null
+) : SoundsListItem, VideoItemInList
 
 interface SoundsListItem
 interface SoundsDetailsListItem

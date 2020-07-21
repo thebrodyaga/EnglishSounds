@@ -6,12 +6,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
+import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
 import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
-import com.thebrodyaga.englishsounds.screen.adapters.decorator.GridOffsetItemDecoration
+import com.thebrodyaga.englishsounds.screen.adapters.decorator.AdItemDecorator
+import com.thebrodyaga.englishsounds.screen.adapters.decorator.VideoListItemDecoration
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment.Companion.calculateNoOfColumns
@@ -54,7 +56,10 @@ class VideoListFragment : BaseFragment(), VideoListView {
             CompositeAdLoader(requireContext(), lifecycle), RecyclerView.VERTICAL
         )
         spanSizeLookup =
-            SpanSizeLookup(adapter, calculateNoOfColumns(requireContext(), R.dimen.card_video_width))
+            SpanSizeLookup(
+                adapter,
+                calculateNoOfColumns(requireContext(), R.dimen.card_video_width)
+            )
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_video_list
@@ -64,8 +69,12 @@ class VideoListFragment : BaseFragment(), VideoListView {
         val layoutManager = GridLayoutManager(context, spanSizeLookup.maxColumns)
             .also { it.spanSizeLookup = spanSizeLookup }
         list.addItemDecoration(
-            GridOffsetItemDecoration(
-                view.context.resources.getDimensionPixelOffset(R.dimen.base_offset_small)
+            VideoListItemDecoration(view.context.resources.getDimensionPixelOffset(R.dimen.base_offset_small))
+        )
+        list.addItemDecoration(
+            AdItemDecorator(
+                view.context, RecyclerView.VERTICAL,
+                R.dimen.ad_item_in_vertical_horizontal_offset
             )
         )
         list.layoutManager = layoutManager
@@ -130,6 +139,19 @@ class VideoListPresenter @Inject constructor(
                 }
                 .flatMapIterable { it.list }
                 .toList()
+                .map {
+                    val result = mutableListOf<VideoItemInList>()
+                    it.forEachIndexed { index, item ->
+                        when {
+                            index == 2 && index != it.lastIndex ->
+                                result.add(AdItem(AdTag.SOUNDS_FIRST, listType.name))
+                            index != 0 && index % 6 == 0 && index != it.lastIndex ->
+                                result.add(AdItem(AdTag.SOUNDS_FIRST, listType.name))
+                        }
+                        result.add(item)
+                    }
+                    result
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

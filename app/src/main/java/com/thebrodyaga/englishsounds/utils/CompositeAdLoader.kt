@@ -16,22 +16,20 @@ class CompositeAdLoader constructor(
         lifecycle.addObserver(this)
     }
 
-    fun getByTag(adTag: AdTag): NativeAdLoader {
-        Timber.i("getByTag for adTag = $adTag")
-        val key = adTag.name
+    fun getLoader(
+        adTag: AdTag,
+        adapterPosition: Int? = null,
+        customTag: String? = null
+    ): NativeAdLoader {
+        var key = adTag.name
+        if (adapterPosition != null)
+            key = key.plus(" $adapterPosition")
+        if (customTag != null)
+            key = key.plus(" $customTag")
+        Timber.i("getLoader for $key")
         return get(key) ?: NativeAdLoader(context, lifecycle, adTag)
             .also {
-                Timber.i("getByTag create new for adTag = $adTag")
-                put(key, it)
-            }
-    }
-
-    fun getByTagAndAdapterPosition(adTag: AdTag, adapterPosition: Int): NativeAdLoader {
-        Timber.i("getByTagAndAdapterPosition for adTag = $adTag adapterPosition = $adapterPosition")
-        val key = "${adTag.name} $adapterPosition"
-        return get(key) ?: NativeAdLoader(context, lifecycle, adTag)
-            .also {
-                Timber.i("getByTagAndAdapterPosition create new for adTag = $adTag adapterPosition = $adapterPosition")
+                Timber.i("getLoader create new for $key")
                 put(key, it)
             }
     }

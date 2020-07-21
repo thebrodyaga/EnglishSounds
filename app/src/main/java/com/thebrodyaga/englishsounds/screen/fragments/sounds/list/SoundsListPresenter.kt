@@ -10,6 +10,7 @@ import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.repository.SoundsRepository
 import com.thebrodyaga.englishsounds.repository.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
+import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function4
@@ -55,20 +56,6 @@ class SoundsListPresenter @Inject constructor(
         )
     }
 
-    private inline fun <T> List<T>.mapOrAd(transform: (T) -> VideoItemInList): List<VideoItemInList> {
-        val result = mutableListOf<VideoItemInList>()
-        forEachIndexed { index, item ->
-            when {
-                index == 2 && index != lastIndex ->
-                    result.add(AdItem(AdTag.SOUNDS_FIRST))
-                index != 0 && index % 6 == 0 && index != lastIndex ->
-                    result.add(AdItem(AdTag.SOUNDS_FIRST))
-            }
-            result.add(transform(item))
-        }
-        return result
-    }
-
     private fun mapForUi(box: SoundsListBox) {
         val sounds = box.sounds.values.sortedBy { it.transcription }
         val contrastingSoundVideo = box.contrastingSoundVideo
@@ -89,10 +76,10 @@ class SoundsListPresenter @Inject constructor(
             result.add(SoundHeader(SoundType.VOWEL_SOUNDS))
             result.addAll(vowelSounds)
         }
-//        result.add(AdItem(AdTag.SOUNDS_FIRST))
-        if (contrastingSoundVideo.isNotEmpty()) {
+        result.add(AdItem(AdTag.SOUNDS_FIRST))
+        /*if (contrastingSoundVideo.isNotEmpty()) {
             result.add(
-                ContrastingSoundVideoListItem(contrastingSoundVideo.mapOrAd {
+                ContrastingSoundVideoListItem(contrastingSoundVideo.map {
                     ContrastingSoundVideoItem(
                         it.videoId,
                         it.videoName,
@@ -101,28 +88,28 @@ class SoundsListPresenter @Inject constructor(
                     )
                 })
             )
-        }
+        }*/
         if (rControlledVowels.isNotEmpty()) {
             result.add(SoundHeader(SoundType.R_CONTROLLED_VOWELS))
             result.addAll(rControlledVowels)
         }
-        if (mostCommonWordsVideo.isNotEmpty()) {
+        /*if (mostCommonWordsVideo.isNotEmpty()) {
             result.add(
-                MostCommonWordsVideoListItem(mostCommonWordsVideo.mapOrAd {
+                MostCommonWordsVideoListItem(mostCommonWordsVideo.map {
                     MostCommonWordsVideoItem(
                         it.videoId,
                         it.videoName
                     )
                 })
             )
-        }
+        }*/
         if (consonantSounds.isNotEmpty()) {
             result.add(SoundHeader(SoundType.CONSONANT_SOUND))
             result.addAll(consonantSounds)
         }
-        if (advancedExercisesVideo.isNotEmpty()) {
+        /*if (advancedExercisesVideo.isNotEmpty()) {
             result.add(
-                AdvancedExercisesVideoListItem(advancedExercisesVideo.mapOrAd {
+                AdvancedExercisesVideoListItem(advancedExercisesVideo.map {
                     AdvancedExercisesVideoItem(
                         it.videoId,
                         it.videoName,
@@ -131,7 +118,7 @@ class SoundsListPresenter @Inject constructor(
                     )
                 })
             )
-        }
+        }*/
         viewState.setListData(result)
     }
 

@@ -1,5 +1,8 @@
 package com.thebrodyaga.englishsounds.screen.fragments.video.listoflists
 
+import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
+import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
+import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,27 +22,58 @@ class ListOfVideoListsPresenter @Inject constructor(
         super.onFirstViewAttach()
         unSubscribeOnDestroy(
             videoInteractor.getAllList()
-                /*.map { list ->
+                .map { list ->
                     val result = mutableListOf<SoundsListItem>()
-                    val contrastingSoundVideo: List<ContrastingSoundVideoListItem>
-                    val mostCommonWordsVideo: List<MostCommonWordsVideoListItem>
-                    val advancedExercisesVideo: List<AdvancedExercisesVideoListItem>
-                    val consonantSoundsVideo: List<SoundVideoListItem>
-                    val rControlledVowelsVideo: List<SoundVideoListItem>
-                    val vowelSoundsVideo: List<SoundVideoListItem>
 
-                    list.forEach {
-                        when (it) {
-
+                    list.forEach { videoItems: VideoListItem ->
+                        val adTag = when (videoItems) {
+                            is ContrastingSoundVideoListItem -> "ContrastingSoundVideoListItem"
+                            is MostCommonWordsVideoListItem -> "MostCommonWordsVideoListItem"
+                            is AdvancedExercisesVideoListItem -> "AdvancedExercisesVideoListItem"
+                            is SoundVideoListItem -> videoItems.soundType.name
                         }
+                        result.add(
+                            when (videoItems) {
+                                is ContrastingSoundVideoListItem -> ContrastingSoundVideoListItem(
+                                    videoItems.list.mapOrAd({ it }, adTag)
+                                )
+                                is MostCommonWordsVideoListItem -> MostCommonWordsVideoListItem(
+                                    videoItems.list.mapOrAd({ it }, adTag)
+                                )
+                                is AdvancedExercisesVideoListItem -> AdvancedExercisesVideoListItem(
+                                    videoItems.list.mapOrAd({ it }, adTag)
+                                )
+                                is SoundVideoListItem -> SoundVideoListItem(
+                                    videoItems.soundType,
+                                    videoItems.list.mapOrAd({ it }, adTag)
+                                )
+                            }
+                        )
                     }
                     result
-                }*/
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     viewState.setListData(it)
                 }, { Timber.e(it) })
         )
+    }
+
+    private inline fun <T> List<T>.mapOrAd(
+        transform: (T) -> VideoItemInList,
+        customAdTag: String? = null
+    ): List<VideoItemInList> {
+        val result = mutableListOf<VideoItemInList>()
+        forEachIndexed { index, item ->
+            when {
+                index == 2 && index != lastIndex ->
+                    result.add(AdItem(AdTag.SOUNDS_FIRST, customAdTag))
+                index != 0 && index % 6 == 0 && index != lastIndex ->
+                    result.add(AdItem(AdTag.SOUNDS_FIRST, customAdTag))
+            }
+            result.add(transform(item))
+        }
+        return result
     }
 }
