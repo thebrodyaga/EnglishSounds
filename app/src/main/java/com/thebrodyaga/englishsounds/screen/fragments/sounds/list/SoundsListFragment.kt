@@ -8,6 +8,7 @@ import android.view.View
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
@@ -50,7 +51,7 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
             { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) },
             { onShowAllVideoClick(it) },
             lifecycle,
-            CompositeAdLoader(requireContext(), lifecycle)
+            requireContext()
         )
         spanSizeLookup =
             SpanSizeLookup(
@@ -121,7 +122,7 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
         override fun getSpanSize(position: Int): Int {
             //getItemViewType равен индексу добавления в delegatesManager адаптера
             return when (adapter.getItemViewType(position)) {
-                0, 1, 2 -> maxColumns
+                0, 1, 2, 3 -> maxColumns
                 else -> 1
             }
         }

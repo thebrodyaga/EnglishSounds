@@ -13,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.formats.NativeAdOptions
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.data.AdBox
@@ -22,6 +23,7 @@ import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsListItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoListItem
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.*
 import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
+import com.thebrodyaga.englishsounds.utils.NativeAdLoader
 
 class SoundsAdapter constructor(
     positionList: MutableMap<Int, Pair<Int, Int>>,
@@ -29,15 +31,25 @@ class SoundsAdapter constructor(
     onSoundClick: (transcription: String) -> Unit,
     onShowAllClick: (videoListItem: VideoListItem) -> Unit,
     lifecycle: Lifecycle,
-    compositeAdLoader: CompositeAdLoader
+    context: Context
 ) : AsyncListDifferDelegationAdapter<Any>(DiffCallback()) {
 
 
     init {
+        val compositeAdLoader = CompositeAdLoader(context, lifecycle)
         delegatesManager.addDelegate(
             videoNativeAdDelegate(
                 compositeAdLoader,
                 RecyclerView.VERTICAL
+            )
+        )
+        delegatesManager.addDelegate(
+            videoNativeShortAdDelegate(
+                CompositeAdLoader(
+                    context,
+                    lifecycle,
+                    NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_SQUARE
+                )
             )
         )
         delegatesManager.addDelegate(soundHeaderItemDelegate())

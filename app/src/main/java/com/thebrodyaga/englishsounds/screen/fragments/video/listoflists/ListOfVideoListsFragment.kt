@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
@@ -46,7 +47,7 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
             { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) },
             { onShowAllVideoClick(it) },
             lifecycle,
-            CompositeAdLoader(requireContext(), lifecycle)
+            requireContext()
         )
     }
 

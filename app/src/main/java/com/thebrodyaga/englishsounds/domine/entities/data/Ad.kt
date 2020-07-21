@@ -23,6 +23,7 @@ enum class AdTag {
 
     @StringRes
     fun adUnitIdRes(): Int = when (this) {
-        SOUNDS_FIRST, SOUNDS_SECOND -> R.string.native_sound_list
+        SOUNDS_FIRST -> R.string.native_sound_list
+        SOUNDS_SECOND -> R.string.native_sound_list_second
     }
 }

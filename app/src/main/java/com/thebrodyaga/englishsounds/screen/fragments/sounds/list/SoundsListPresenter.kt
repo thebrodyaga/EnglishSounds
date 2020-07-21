@@ -93,6 +93,7 @@ class SoundsListPresenter @Inject constructor(
             result.add(SoundHeader(SoundType.R_CONTROLLED_VOWELS))
             result.addAll(rControlledVowels)
         }
+        result.add(ShortAdItem(AdTag.SOUNDS_SECOND))
         /*if (mostCommonWordsVideo.isNotEmpty()) {
             result.add(
                 MostCommonWordsVideoListItem(mostCommonWordsVideo.map {

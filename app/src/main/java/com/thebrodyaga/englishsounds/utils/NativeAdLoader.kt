@@ -7,8 +7,10 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MediaAspectRatio
 import com.google.android.gms.ads.VideoOptions
 import com.google.android.gms.ads.formats.NativeAdOptions
+import com.google.android.gms.ads.formats.NativeAdOptions.NativeMediaAspectRatio
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.thebrodyaga.englishsounds.domine.entities.data.AdBox
 import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
@@ -22,7 +24,8 @@ import java.util.concurrent.TimeUnit
 class NativeAdLoader constructor(
     context: Context,
     lifecycle: Lifecycle,
-    private val adTag: AdTag
+    private val adTag: AdTag,
+    @NativeMediaAspectRatio private val mediaAspectRatio: Int = NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE
 ) : LifecycleObserver {
 
     val adsObservable = BehaviorRelay.createDefault<AdBox>(AdBox(null, adTag))
@@ -81,7 +84,7 @@ class NativeAdLoader constructor(
         .build()
 
     private val adOptions = NativeAdOptions.Builder()
-        .setMediaAspectRatio(NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE)
+        .setMediaAspectRatio(mediaAspectRatio)
         .setVideoOptions(videoOptions)
         .build()
 }

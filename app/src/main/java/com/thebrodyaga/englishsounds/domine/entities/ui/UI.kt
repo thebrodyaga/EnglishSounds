@@ -39,6 +39,11 @@ data class AdItem constructor(
     val customTag: String? = null
 ) : SoundsListItem, VideoItemInList
 
+data class ShortAdItem constructor(
+    val adTag: AdTag,
+    val customTag: String? = null
+) : SoundsListItem, VideoItemInList
+
 interface SoundsListItem
 interface SoundsDetailsListItem
 
