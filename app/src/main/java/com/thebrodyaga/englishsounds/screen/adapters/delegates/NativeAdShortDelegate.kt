@@ -12,12 +12,12 @@ import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.ui.ShortAdItem
 import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.itme_ad_vertical_short.*
+import kotlinx.android.synthetic.main.item_ad_vertical_short.*
 
 fun videoNativeShortAdDelegate(
     nativeAdLoader: CompositeAdLoader
 ) = adapterDelegateLayoutContainer<ShortAdItem, Any>(
-    R.layout.itme_ad_vertical_short
+    R.layout.item_ad_vertical_short
 ) {
 
     var disposable: Disposable? = null

@@ -1,7 +1,10 @@
 package com.thebrodyaga.englishsounds.screen.fragments.sounds.details
 
+import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
+import com.thebrodyaga.englishsounds.domine.entities.ui.ShortAdItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsDetailsListItem
+import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsDetailsWithAd
 import com.thebrodyaga.englishsounds.domine.entities.ui.WordsHeader
 import com.thebrodyaga.englishsounds.repository.SoundsRepository
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
@@ -30,21 +33,25 @@ class SoundPresenter @Inject constructor(
 
     private fun mapForUi(soundDto: AmericanSoundDto) {
         val result = mutableListOf<SoundsDetailsListItem>()
-        result.add(soundDto)
+        result.add(SoundsDetailsWithAd(soundDto, ShortAdItem(AdTag.SOUND_DETAILS)))
         if (soundDto.spellingWordList.isNotEmpty()) {
             result.add(WordsHeader(WordsHeader.Type.SPELLING))
+            result.add(ShortAdItem(AdTag.SOUND_DETAILS))
             result.addAll(soundDto.spellingWordList)
         }
         if (soundDto.soundPracticeWords.beginningSound.isNotEmpty()) {
             result.add(WordsHeader(WordsHeader.Type.BEGINNING_SOUND))
+            result.add(ShortAdItem(AdTag.SOUND_DETAILS))
             result.addAll(soundDto.soundPracticeWords.beginningSound)
         }
         if (soundDto.soundPracticeWords.middleSound.isEmpty()) {
             result.add(WordsHeader(WordsHeader.Type.MIDDLE_SOUND))
+            result.add(ShortAdItem(AdTag.SOUND_DETAILS))
             result.addAll(soundDto.soundPracticeWords.middleSound)
         }
         if (soundDto.soundPracticeWords.endSound.isNotEmpty()) {
             result.add(WordsHeader(WordsHeader.Type.END_SOUND))
+            result.add(ShortAdItem(AdTag.SOUND_DETAILS))
             result.addAll(soundDto.soundPracticeWords.endSound)
         }
         viewState.setData(result, soundDto)

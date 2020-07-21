@@ -25,7 +25,10 @@ class ListOfVideoListsPresenter @Inject constructor(
                 .map { list ->
                     val result = mutableListOf<SoundsListItem>()
 
-                    list.forEach { videoItems: VideoListItem ->
+                    list.forEachIndexed { index, videoItems ->
+                        if (index == 2) {
+                            result.add(AdItem(AdTag.SOUND_LIST_OF_VIDEO_LIST))
+                        }
                         val adTag = when (videoItems) {
                             is ContrastingSoundVideoListItem -> "ContrastingSoundVideoListItem"
                             is MostCommonWordsVideoListItem -> "MostCommonWordsVideoListItem"
@@ -68,9 +71,9 @@ class ListOfVideoListsPresenter @Inject constructor(
         forEachIndexed { index, item ->
             when {
                 index == 2 && index != lastIndex ->
-                    result.add(AdItem(AdTag.SOUNDS_FIRST, customAdTag))
+                    result.add(AdItem(AdTag.SOUND_VIDEO_LIST, customAdTag))
                 index != 0 && index % 6 == 0 && index != lastIndex ->
-                    result.add(AdItem(AdTag.SOUNDS_FIRST, customAdTag))
+                    result.add(AdItem(AdTag.SOUND_VIDEO_LIST, customAdTag))
             }
             result.add(transform(item))
         }

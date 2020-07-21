@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.annotation.StringRes
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
+import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 import kotlinx.android.parcel.Parcelize
 
@@ -42,7 +43,12 @@ data class AdItem constructor(
 data class ShortAdItem constructor(
     val adTag: AdTag,
     val customTag: String? = null
-) : SoundsListItem, VideoItemInList
+) : SoundsListItem, VideoItemInList, SoundsDetailsListItem
+
+data class SoundsDetailsWithAd constructor(
+    val sound: AmericanSoundDto,
+    val shortAdItem: ShortAdItem
+) : SoundsDetailsListItem
 
 interface SoundsListItem
 interface SoundsDetailsListItem

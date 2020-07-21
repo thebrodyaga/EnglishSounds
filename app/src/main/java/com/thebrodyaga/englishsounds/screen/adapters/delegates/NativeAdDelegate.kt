@@ -14,15 +14,15 @@ import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.ui.AdItem
 import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.itme_ad_vertical_list.*
+import kotlinx.android.synthetic.main.item_ad_vertical_list.*
 
 fun videoNativeAdDelegate(
     compositeAdLoader: CompositeAdLoader,
     @RecyclerView.Orientation orientation: Int
 ) = adapterDelegateLayoutContainer<AdItem, Any>(
     if (orientation == RecyclerView.VERTICAL)
-        R.layout.itme_ad_vertical_list
-    else R.layout.itme_ad_horizontal_list
+        R.layout.item_ad_vertical_list
+    else R.layout.item_ad_horizontal_list
 ) {
 
     var disposable: Disposable? = null

@@ -19,11 +19,17 @@ data class AdBox constructor(
 enum class AdTag {
 
     SOUNDS_FIRST,
-    SOUNDS_SECOND;
+    SOUNDS_SECOND,
+    SOUND_DETAILS,
+    SOUND_VIDEO_LIST,
+    SOUND_LIST_OF_VIDEO_LIST;
 
     @StringRes
     fun adUnitIdRes(): Int = when (this) {
         SOUNDS_FIRST -> R.string.native_sound_list
         SOUNDS_SECOND -> R.string.native_sound_list_second
+        SOUND_DETAILS -> R.string.native_sound_details
+        SOUND_VIDEO_LIST -> R.string.native_sound_video_list
+        SOUND_LIST_OF_VIDEO_LIST -> R.string.native_sound_list_of_video_list
     }
 }

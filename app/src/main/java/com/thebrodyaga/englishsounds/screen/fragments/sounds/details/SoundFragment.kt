@@ -46,7 +46,7 @@ class SoundFragment : BaseFragment(), SoundView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
-        adapter = SoundDetailsAdapter(audioPlayer)
+        adapter = SoundDetailsAdapter(audioPlayer, requireContext(), lifecycle)
         super.onCreate(savedInstanceState)
     }
 

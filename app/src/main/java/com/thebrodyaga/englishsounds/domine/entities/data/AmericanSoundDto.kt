@@ -18,7 +18,7 @@ data class AmericanSoundDto constructor(
     val spellingWordList: List<SpellingWordDto>,
     val soundPracticeWords: SoundPracticeWords,
     val soundType: SoundType
-) : SoundDto, SoundsListItem, SoundsDetailsListItem
+) : SoundDto, SoundsListItem
 
 data class SoundPracticeWords constructor(
     val beginningSound: List<PracticeWordDto>,
