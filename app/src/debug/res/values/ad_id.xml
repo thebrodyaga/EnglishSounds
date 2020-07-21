@@ -7,4 +7,5 @@
     <string name="native_sound_details" translatable="false">@string/test_ad_id</string>
     <string name="native_sound_video_list" translatable="false">@string/test_ad_id</string>
     <string name="native_sound_list_of_video_list" translatable="false">@string/test_ad_id</string>
+    <string name="native_sound_training" translatable="false">@string/test_ad_id</string>
 </resources>

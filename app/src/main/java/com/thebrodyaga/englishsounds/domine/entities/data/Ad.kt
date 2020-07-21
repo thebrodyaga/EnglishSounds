@@ -22,7 +22,8 @@ enum class AdTag {
     SOUNDS_SECOND,
     SOUND_DETAILS,
     SOUND_VIDEO_LIST,
-    SOUND_LIST_OF_VIDEO_LIST;
+    SOUND_LIST_OF_VIDEO_LIST,
+    SOUND_TRAINING;
 
     @StringRes
     fun adUnitIdRes(): Int = when (this) {
@@ -31,5 +32,6 @@ enum class AdTag {
         SOUND_DETAILS -> R.string.native_sound_details
         SOUND_VIDEO_LIST -> R.string.native_sound_video_list
         SOUND_LIST_OF_VIDEO_LIST -> R.string.native_sound_list_of_video_list
+        SOUND_TRAINING -> R.string.native_sound_training
     }
 }
