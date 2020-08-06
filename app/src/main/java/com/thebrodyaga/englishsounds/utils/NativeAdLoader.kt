@@ -32,7 +32,16 @@ class NativeAdLoader constructor(
     private val builder = AdLoader.Builder(context, context.getString(adTag.adUnitIdRes()))
     private var workDisposable: Disposable? = null
 
+    private val videoOptions: VideoOptions = VideoOptions.Builder().build()
+
+    private val adOptions: NativeAdOptions
+
     init {
+        adOptions = NativeAdOptions.Builder()
+            .setMediaAspectRatio(mediaAspectRatio)
+            .setVideoOptions(videoOptions)
+            .build()
+
         lifecycle.addObserver(this)
     }
 
@@ -79,12 +88,4 @@ class NativeAdLoader constructor(
         Timber.i("loadAdObservable loadAds adTag = $adTag")
         adLoader.loadAd(AdRequest.Builder().build())
     }
-
-    private val videoOptions = VideoOptions.Builder()
-        .build()
-
-    private val adOptions = NativeAdOptions.Builder()
-        .setMediaAspectRatio(mediaAspectRatio)
-        .setVideoOptions(videoOptions)
-        .build()
 }
