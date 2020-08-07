@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_rate_app_dialog.*
 import javax.inject.Inject
 
 
-class RateAppDialog : BottomSheetDialogFragment() {
+class RateAppDialog constructor(): BottomSheetDialogFragment() {
 
     @Inject
     lateinit var settingManager: SettingManager
@@ -41,13 +41,13 @@ class RateAppDialog : BottomSheetDialogFragment() {
         rate_btn.setOnClickListener {
             when (app_rating_bar.selectedStar) {
                 1, 2, 3 -> {
-                    settingManager.onRateLessThenFour()
+//                    settingManager.onRateLessThenFour()
                     sendAnalyticsEvent(app_rating_bar.selectedStar)
                     dismiss()
                 }
                 null -> app_rating_bar.setOnError()
                 else -> {
-                    settingManager.onRated()
+//                    settingManager.onRated()
                     sendAnalyticsEvent(app_rating_bar.selectedStar)
                     showPlayMarket(it.context)
                     dismiss()
@@ -55,7 +55,7 @@ class RateAppDialog : BottomSheetDialogFragment() {
             }
         }
         rate_later_btn.setOnClickListener {
-            settingManager.onLaterRate()
+//            settingManager.onLaterRate()
             sendAnalyticsEvent(null)
             dismiss()
         }

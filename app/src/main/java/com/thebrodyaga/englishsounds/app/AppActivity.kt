@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManager
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.navigation.RouterTransition
@@ -12,7 +15,6 @@ import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.navigation.TransitionNavigator
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
-import com.thebrodyaga.englishsounds.screen.dialogs.RateAppDialog
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.englishsounds.screen.isSystemDarkMode
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
@@ -26,6 +28,7 @@ import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
+import timber.log.Timber
 import javax.inject.Inject
 
 class AppActivity : BaseActivity(), AppActivityView {
@@ -51,6 +54,8 @@ class AppActivity : BaseActivity(), AppActivityView {
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
+    private lateinit var reviewManager: ReviewManager
+    private var reviewInfo: ReviewInfo? = null
     private val navigator: Navigator =
         TransitionNavigator(this, supportFragmentManager, R.id.fragment_container)
 
@@ -66,6 +71,7 @@ class AppActivity : BaseActivity(), AppActivityView {
         App.appComponent.inject(this)
         isLightSystem(isSystemDarkMode())
         super.onCreate(savedInstanceState)
+        reviewManager = ReviewManagerFactory.create(this)
         if (BuildConfig.DEBUG)
             supportFragmentManager.registerFragmentLifecycleCallbacks(FragmentLifecycle(), true)
         setContentView(R.layout.layout_fragemnt_container)
@@ -124,11 +130,30 @@ class AppActivity : BaseActivity(), AppActivityView {
 
 
     override fun showRateDialog() {
-        if (settingManager.needShowRateRequest() &&
-            supportFragmentManager.findFragmentByTag(RateAppDialog.TAG) == null
-        ) {
-            RateAppDialog().showNow(supportFragmentManager, RateAppDialog.TAG)
-            settingManager.onRateRequestShow()
+        if (settingManager.needShowRateRequest()) {
+            reviewInfo?.let { reviewInfo ->
+                val flow = reviewManager.launchReviewFlow(this, reviewInfo)
+                flow.addOnCompleteListener {
+                    Timber.i("launchReviewFlow isSuccessful = ${it.isSuccessful}")
+                    if (it.isSuccessful)
+                        settingManager.onRateRequestShow()
+                    else
+                        Timber.e("launchReviewFlow error = ${it.exception?.message ?: "null"}")
+                }
+            } ?: kotlin.run { loadReviewRequest() }
+        }
+    }
+
+    private fun loadReviewRequest() {
+        if (reviewInfo != null)
+            return
+        reviewManager.requestReviewFlow().addOnCompleteListener { request ->
+            Timber.i("requestReviewFlow isSuccessful = ${request.isSuccessful}")
+            if (request.isSuccessful) {
+                this.reviewInfo = request.result
+            } else {
+                Timber.e("requestReviewFlow error = ${request.exception?.message ?: "null"}")
+            }
         }
     }
 

@@ -6,8 +6,8 @@ import com.thebrodyaga.englishsounds.domine.entities.data.AppRateDto
 import timber.log.Timber
 
 class SettingManager constructor(
-        private val sharedPreferences: SharedPreferences,
-        private val gson: Gson
+    private val sharedPreferences: SharedPreferences,
+    private val gson: Gson
 ) {
 
     private val isFirstAppStart: Boolean by lazy {
@@ -35,7 +35,7 @@ class SettingManager constructor(
 
     fun getCurrentTheme(): CurrentTheme {
         val fromSp = sharedPreferences.getString(THEME_KEY, null)
-                ?: return CurrentTheme.SYSTEM
+            ?: return CurrentTheme.SYSTEM
         return if (CurrentTheme.values().map { it.name }.contains(fromSp))
             CurrentTheme.valueOf(fromSp)
         else CurrentTheme.SYSTEM
@@ -59,52 +59,23 @@ class SettingManager constructor(
         return result
     }
 
-    fun onLaterRate() {
-        val rateDto = appRateDto
-        appRateDto = AppRateDto(0, rateDto.lessFourRateCount, false)
-        logRateLogic("onLaterRate", rateDto)
-    }
-
-    fun onRated() {
-        val rateDto = appRateDto
-        appRateDto = AppRateDto(rateDto.soundShowingCount, rateDto.lessFourRateCount, true)
-        logRateLogic("onRated", rateDto)
-    }
-
-    fun onRateLessThenFour() {
-        val rateDto = appRateDto
-        val inc = rateDto.lessFourRateCount.inc()
-        appRateDto = AppRateDto(0, inc, inc >= AppRateDto.MAX_RATE_TRY)
-        logRateLogic("onRateLessThenFour", rateDto)
-    }
-
     fun onRateRequestShow() {
         val rateDto = appRateDto
         showedRateDialog = true
-        appRateDto = AppRateDto(
-                when (rateDto.lessFourRateCount) {
-                    0 -> AppRateDto.SOUND_SHOW_COUNT_BEFORE_RATE / 2
-                    1 -> AppRateDto.SOUND_SHOW_COUNT_BEFORE_RATE_SECOND_TRY / 2
-                    else -> 0
-                }, rateDto.lessFourRateCount, rateDto.rated
-        )
+        appRateDto = AppRateDto(0)
         logRateLogic("onRateRequestShow", rateDto)
     }
 
     fun onSoundShowed() {
         val rateDto = appRateDto
-        if (!isFirstAppStart && !rateDto.rated && !showedRateDialog) {
-            appRateDto = AppRateDto(
-                    rateDto.soundShowingCount.inc(),
-                    rateDto.lessFourRateCount,
-                    rateDto.rated
-            )
+        if (!isFirstAppStart && !showedRateDialog) {
+            appRateDto = AppRateDto(rateDto.soundShowingCount.inc())
         }
         logRateLogic("onSoundShowed", rateDto)
     }
 
     private fun logRateLogic(method: String, appRateDto: AppRateDto) {
-        Timber.i("$method soundShowingCount=${appRateDto.soundShowingCount} lessFourRateCount=${appRateDto.lessFourRateCount} rated=${appRateDto.rated} ")
+        Timber.i("$method soundShowingCount=${appRateDto.soundShowingCount}")
     }
 
     companion object {
