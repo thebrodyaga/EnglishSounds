@@ -41,17 +41,17 @@ class SoundPresenter @Inject constructor(
         }
         if (soundDto.soundPracticeWords.beginningSound.isNotEmpty()) {
             result.add(WordsHeader(WordsHeader.Type.BEGINNING_SOUND))
-            result.add(ShortAdItem(AdTag.SOUND_DETAILS))
+            result.add(ShortAdItem(AdTag.SOUND_DETAILS_SECOND))
             result.addAll(soundDto.soundPracticeWords.beginningSound)
         }
         if (soundDto.soundPracticeWords.middleSound.isEmpty()) {
             result.add(WordsHeader(WordsHeader.Type.MIDDLE_SOUND))
-            result.add(ShortAdItem(AdTag.SOUND_DETAILS))
+            result.add(ShortAdItem(AdTag.SOUND_DETAILS_THIRD))
             result.addAll(soundDto.soundPracticeWords.middleSound)
         }
         if (soundDto.soundPracticeWords.endSound.isNotEmpty()) {
             result.add(WordsHeader(WordsHeader.Type.END_SOUND))
-            result.add(ShortAdItem(AdTag.SOUND_DETAILS))
+            result.add(ShortAdItem(AdTag.SOUND_DETAILS_FOURTH))
             result.addAll(soundDto.soundPracticeWords.endSound)
         }
         viewState.setData(result, soundDto)

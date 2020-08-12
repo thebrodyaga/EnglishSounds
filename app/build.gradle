@@ -35,8 +35,7 @@ android {
                                     addmob_app_id                 : props.getProperty('ADMOB_APP_ID')]
         }
         release {
-            shrinkResources true
-            minifyEnabled true
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             manifestPlaceholders = [enableCrashReporting          : "true",

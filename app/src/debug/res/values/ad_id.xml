@@ -5,6 +5,9 @@
     <string name="native_sound_list" translatable="false">@string/test_ad_id</string>
     <string name="native_sound_list_second" translatable="false">@string/test_ad_id</string>
     <string name="native_sound_details" translatable="false">@string/test_ad_id</string>
+    <string name="native_sound_details_second" translatable="false">@string/test_ad_id</string>
+    <string name="native_sound_details_third" translatable="false">@string/test_ad_id</string>
+    <string name="native_sound_details_fourth" translatable="false">@string/test_ad_id</string>
     <string name="native_sound_video_list" translatable="false">@string/test_ad_id</string>
     <string name="native_sound_list_of_video_list" translatable="false">@string/test_ad_id</string>
     <string name="native_sound_training" translatable="false">@string/test_ad_id</string>
