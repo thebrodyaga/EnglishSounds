@@ -11,7 +11,7 @@ android {
         applicationId "com.thebrodyaga.englishsounds"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 21
+        versionCode 22
         versionName "1.2.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.archivesBaseName = "English Sounds-v" + versionName + "(" + versionCode + ")"
@@ -35,7 +35,8 @@ android {
                                     addmob_app_id                 : props.getProperty('ADMOB_APP_ID')]
         }
         release {
-            debuggable true
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             manifestPlaceholders = [enableCrashReporting          : "true",

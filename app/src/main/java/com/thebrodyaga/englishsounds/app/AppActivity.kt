@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.play.core.tasks.Task
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.navigation.RouterTransition
@@ -55,7 +56,7 @@ class AppActivity : BaseActivity(), AppActivityView {
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
     private lateinit var reviewManager: ReviewManager
-    private var reviewInfo: ReviewInfo? = null
+    private var reviewInfo: Task<ReviewInfo>? = null
     private val navigator: Navigator =
         TransitionNavigator(this, supportFragmentManager, R.id.fragment_container)
 
@@ -130,31 +131,33 @@ class AppActivity : BaseActivity(), AppActivityView {
 
 
     override fun showRateDialog() {
-        if (settingManager.needShowRateRequest()) {
-            reviewInfo?.let { reviewInfo ->
-                val flow = reviewManager.launchReviewFlow(this, reviewInfo)
-                flow.addOnCompleteListener {
-                    Timber.i("launchReviewFlow isSuccessful = ${it.isSuccessful}")
-                    if (it.isSuccessful)
-                        settingManager.onRateRequestShow()
-                    else
-                        Timber.e("launchReviewFlow error = ${it.exception?.message ?: "null"}")
+        if (settingManager.needShowRateRequest() && reviewInfo == null) {
+            reviewInfo = reviewManager.requestReviewFlow().apply {
+                addOnCompleteListener { request ->
+                    Timber.i("requestReviewFlow isSuccessful = ${request.isSuccessful}")
+                    if (request.isSuccessful)
+                        showReviewDialog(request.result)
+                    else {
+                        Timber
+                            .e("requestReviewFlow error = ${request.exception?.message ?: "null"}")
+                        reviewInfo = null
+                    }
                 }
-            } ?: kotlin.run { loadReviewRequest() }
+            }
         }
     }
 
-    private fun loadReviewRequest() {
-        if (reviewInfo != null)
-            return
-        reviewManager.requestReviewFlow().addOnCompleteListener { request ->
-            Timber.i("requestReviewFlow isSuccessful = ${request.isSuccessful}")
-            if (request.isSuccessful) {
-                this.reviewInfo = request.result
-            } else {
-                Timber.e("requestReviewFlow error = ${request.exception?.message ?: "null"}")
-            }
+    private fun showReviewDialog(reviewInfo: ReviewInfo) {
+        val flow = reviewManager.launchReviewFlow(this@AppActivity, reviewInfo)
+        flow.addOnCompleteListener {
+            Timber.i("launchReviewFlow isSuccessful = ${it.isSuccessful}")
+            if (it.isSuccessful)
+                settingManager.onRateRequestShow()
+            else
+                Timber.e("launchReviewFlow error = ${it.exception?.message ?: "null"}")
+            this.reviewInfo = null
         }
+
     }
 
     fun onSoundScreenClose() {
