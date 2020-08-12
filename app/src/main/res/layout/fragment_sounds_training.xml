@@ -32,11 +32,12 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".screen.fragments.sounds.training.SoundsTrainingFragment">
 
-        <include
+        <com.thebrodyaga.englishsounds.screen.view.AdVerticalShortView
             android:id="@+id/include_ad"
-            layout="@layout/item_ad_vertical_short"
+            style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

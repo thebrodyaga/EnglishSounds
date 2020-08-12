@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
+import com.thebrodyaga.englishsounds.domine.entities.ui.AdItem
+import com.thebrodyaga.englishsounds.domine.entities.ui.ShortAdItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItemInList
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoItemDelegate
@@ -84,6 +86,8 @@ class VideoListAdapter constructor(
             val newItem = newList[newItemPosition]
             return when {
                 oldItem is VideoItem && newItem is VideoItem -> oldItem.videoId == newItem.videoId
+                oldItem is AdItem && newItem is AdItem -> oldItem == newItem
+                oldItem is ShortAdItem && newItem is ShortAdItem -> oldItem == newItem
                 else -> false
             }
         }
@@ -93,6 +97,8 @@ class VideoListAdapter constructor(
             val newItem = newList[newItemPosition]
             return when {
                 oldItem is VideoItem && newItem is VideoItem -> oldItem == newItem
+                oldItem is AdItem && newItem is AdItem -> oldItem == newItem
+                oldItem is ShortAdItem && newItem is ShortAdItem -> oldItem == newItem
                 else -> false
             }
         }

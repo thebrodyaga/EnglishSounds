@@ -42,8 +42,6 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
 
     @Inject
     lateinit var audioPlayer: AudioPlayer
-    private val constraintSet = ConstraintSet()
-    private var disposable: Disposable? = null
     private lateinit var nativeAdLoader: CompositeAdLoader
     private lateinit var item: ShortAdItem
 
@@ -68,94 +66,13 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
         toolbar.setOnMenuItemClickListener(this)
         play_icon.setRecordVoice(audioPlayer)
         showFab(isShow = true, autoHide = false)
-
-        include_ad.ad_view.apply {
-            // The MediaView will display a video asset if one is present in the ad, and the
-            // first image asset otherwise.
-            mediaView = ad_media
-
-            // Register the view used for each individual asset.
-            headlineView = ad_headline
-            callToActionView = ad_call_to_action
-            priceView = ad_price
-            starRatingView = ad_stars
-            storeView = ad_google_play_icon
-            advertiserView = ad_advertiser
-        }
-
-        fun setEmptyView(isEmpty: Boolean) {
-            if (isEmpty)
-                constraintSet.setVisibility(include_ad.ad_empty.id, ConstraintSet.VISIBLE)
-            else constraintSet.setVisibility(include_ad.ad_empty.id, ConstraintSet.INVISIBLE)
-        }
-
-        fun populateNativeAdView(
-            nativeAd: UnifiedNativeAd,
-            adView: UnifiedNativeAdView
-        ) {
-            // Some assets are guaranteed to be in every UnifiedNativeAd.
-            (adView.headlineView as TextView).text = nativeAd.headline
-            (adView.callToActionView as Button).text = nativeAd.callToAction
-
-            // These assets aren't guaranteed to be in every UnifiedNativeAd, so it's important to
-            // check before trying to display them.
-            if (nativeAd.price == null) {
-                constraintSet.setVisibility(adView.priceView.id, ConstraintSet.GONE)
-            } else {
-                constraintSet.setVisibility(adView.priceView.id, ConstraintSet.VISIBLE)
-                (adView.priceView as TextView).text = nativeAd.price
-            }
-            if (nativeAd.store == null) {
-                constraintSet.setVisibility(adView.storeView.id, ConstraintSet.GONE)
-            } else {
-                constraintSet.setVisibility(adView.storeView.id, ConstraintSet.VISIBLE)
-                (adView.storeView as? TextView)?.text = nativeAd.store
-            }
-            if (nativeAd.starRating == null) {
-                constraintSet.setVisibility(adView.starRatingView.id, ConstraintSet.GONE)
-            } else {
-                constraintSet.setVisibility(adView.starRatingView.id, ConstraintSet.VISIBLE)
-                (adView.starRatingView as RatingBar).rating = nativeAd.starRating.toFloat()
-            }
-            if (nativeAd.advertiser == null) {
-                constraintSet.setVisibility(adView.advertiserView.id, ConstraintSet.GONE)
-            } else {
-                constraintSet.setVisibility(adView.advertiserView.id, ConstraintSet.VISIBLE)
-                (adView.advertiserView as TextView).text = nativeAd.advertiser
-            }
-            // Assign native ad object to the native view.
-            adView.setNativeAd(nativeAd)
-        }
-
-        disposable?.dispose()
-        disposable = nativeAdLoader.getLoader(item.adTag, customTag = item.customTag)
-            .adsObservable
-            .subscribe { adBox ->
-                constraintSet.clone(include_ad.ad_container)
-                adBox.ad?.let {
-                    setEmptyView(false)
-                    if (it.mediaContent != null) {
-                        constraintSet.setVisibility(
-                            include_ad.ad_view.mediaView.id,
-                            ConstraintSet.VISIBLE
-                        )
-                    } else constraintSet.setVisibility(
-                        include_ad.ad_view.mediaView.id,
-                        ConstraintSet.GONE
-                    )
-                    populateNativeAdView(it, include_ad.ad_view)
-                } ?: kotlin.run {
-                    setEmptyView(true)
-                }
-                TransitionManager.beginDelayedTransition(include_ad.ad_container)
-                constraintSet.applyTo(include_ad.ad_container)
-            }
+        include_ad.setAd(item, nativeAdLoader)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         showFab(isShow = true, autoHide = true)
-        disposable?.dispose()
+        include_ad?.dispose()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

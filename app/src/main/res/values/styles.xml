@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -27,11 +27,11 @@
     </style>
 
     <style name="AdText" parent="BodyRegular">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize" tools:ignore="SpUsage">14dp</item>
     </style>
 
     <style name="AdText.Small" parent="AdText">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize" tools:ignore="SpUsage">12dp</item>
     </style>
 
     <style name="BottomNavigationActive">

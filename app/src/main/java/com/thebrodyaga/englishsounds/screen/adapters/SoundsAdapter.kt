@@ -18,9 +18,7 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.data.AdBox
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.ui.SoundHeader
-import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsListItem
-import com.thebrodyaga.englishsounds.domine.entities.ui.VideoListItem
+import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.*
 import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
 import com.thebrodyaga.englishsounds.utils.NativeAdLoader
@@ -103,7 +101,8 @@ class SoundsAdapter constructor(
                 oldItem is AmericanSoundDto && newItem is AmericanSoundDto -> oldItem.transcription == newItem.transcription
                 oldItem is SoundHeader && newItem is SoundHeader -> oldItem.soundType == newItem.soundType
                 oldItem is VideoListItem && newItem is VideoListItem -> oldItem.title == newItem.title
-                oldItem is AdBox && newItem is AdBox -> oldItem.ad == newItem.ad
+                oldItem is AdItem && newItem is AdItem -> oldItem == newItem
+                oldItem is ShortAdItem && newItem is ShortAdItem -> oldItem == newItem
                 else -> false
             }
         }
@@ -114,7 +113,8 @@ class SoundsAdapter constructor(
                 oldItem is AmericanSoundDto && newItem is AmericanSoundDto -> oldItem == newItem
                 oldItem is SoundHeader && newItem is SoundHeader -> oldItem == newItem
                 oldItem is VideoListItem && newItem is VideoListItem -> oldItem == newItem
-                oldItem is AdBox && newItem is AdBox -> oldItem.ad == newItem.ad
+                oldItem is AdItem && newItem is AdItem -> oldItem == newItem
+                oldItem is ShortAdItem && newItem is ShortAdItem -> oldItem == newItem
                 else -> false
             }
         }
