@@ -145,8 +145,8 @@ class VideoListPresenter @Inject constructor(
                         when {
                             index == 2 && index != it.lastIndex ->
                                 result.add(AdItem(AdTag.SOUND_VIDEO_LIST, listType.name))
-                            index != 0 && index % 6 == 0 && index != it.lastIndex ->
-                                result.add(AdItem(AdTag.SOUND_VIDEO_LIST, listType.name))
+                            /*index != 0 && index % 6 == 0 && index != it.lastIndex ->
+                                result.add(AdItem(AdTag.SOUND_VIDEO_LIST, listType.name))*/
                         }
                         result.add(item)
                     }

@@ -42,8 +42,8 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
 
     @Inject
     lateinit var audioPlayer: AudioPlayer
-    private lateinit var nativeAdLoader: CompositeAdLoader
-    private lateinit var item: ShortAdItem
+//    private lateinit var nativeAdLoader: CompositeAdLoader
+//    private lateinit var item: ShortAdItem
 
     @ProvidePresenter
     fun providePresenter() = presenter
@@ -53,12 +53,12 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        nativeAdLoader = CompositeAdLoader(
+        /*nativeAdLoader = CompositeAdLoader(
             requireContext(),
             lifecycle,
             NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_SQUARE
         )
-        item = ShortAdItem(AdTag.SOUND_TRAINING)
+        item = ShortAdItem(AdTag.SOUND_TRAINING)*/
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,13 +66,13 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
         toolbar.setOnMenuItemClickListener(this)
         play_icon.setRecordVoice(audioPlayer)
         showFab(isShow = true, autoHide = false)
-        include_ad.setAd(item, nativeAdLoader)
+//        include_ad.setAd(item, nativeAdLoader)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         showFab(isShow = true, autoHide = true)
-        include_ad?.dispose()
+//        include_ad?.dispose()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

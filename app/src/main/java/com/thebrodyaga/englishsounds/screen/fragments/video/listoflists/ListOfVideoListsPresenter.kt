@@ -69,12 +69,12 @@ class ListOfVideoListsPresenter @Inject constructor(
     ): List<VideoItemInList> {
         val result = mutableListOf<VideoItemInList>()
         forEachIndexed { index, item ->
-            when {
+            /*when {
                 index == 2 && index != lastIndex ->
                     result.add(AdItem(AdTag.SOUND_VIDEO_LIST, customAdTag))
                 index != 0 && index % 6 == 0 && index != lastIndex ->
                     result.add(AdItem(AdTag.SOUND_VIDEO_LIST, customAdTag))
-            }
+            }*/
             result.add(transform(item))
         }
         return result

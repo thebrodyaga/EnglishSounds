@@ -32,7 +32,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".screen.fragments.sounds.training.SoundsTrainingFragment">
 
-        <com.thebrodyaga.englishsounds.screen.view.AdVerticalShortView
+       <!-- <com.thebrodyaga.englishsounds.screen.view.AdVerticalShortView
             android:id="@+id/include_ad"
             style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="0dp"
@@ -40,7 +40,7 @@
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />-->
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
@@ -48,9 +48,8 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include_ad" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.thebrodyaga.englishsounds.screen.view.PlayImageView
             android:id="@+id/play_icon"

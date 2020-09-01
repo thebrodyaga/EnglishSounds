@@ -77,49 +77,15 @@ class SoundsListPresenter @Inject constructor(
             result.addAll(vowelSounds)
         }
         result.add(AdItem(AdTag.SOUNDS_FIRST))
-        /*if (contrastingSoundVideo.isNotEmpty()) {
-            result.add(
-                ContrastingSoundVideoListItem(contrastingSoundVideo.map {
-                    ContrastingSoundVideoItem(
-                        it.videoId,
-                        it.videoName,
-                        box.sounds[it.firstTranscription],
-                        box.sounds[it.secondTranscription]
-                    )
-                })
-            )
-        }*/
         if (rControlledVowels.isNotEmpty()) {
             result.add(SoundHeader(SoundType.R_CONTROLLED_VOWELS))
             result.addAll(rControlledVowels)
         }
-        result.add(ShortAdItem(AdTag.SOUNDS_SECOND))
-        /*if (mostCommonWordsVideo.isNotEmpty()) {
-            result.add(
-                MostCommonWordsVideoListItem(mostCommonWordsVideo.map {
-                    MostCommonWordsVideoItem(
-                        it.videoId,
-                        it.videoName
-                    )
-                })
-            )
-        }*/
+//        result.add(ShortAdItem(AdTag.SOUNDS_SECOND))
         if (consonantSounds.isNotEmpty()) {
             result.add(SoundHeader(SoundType.CONSONANT_SOUND))
             result.addAll(consonantSounds)
         }
-        /*if (advancedExercisesVideo.isNotEmpty()) {
-            result.add(
-                AdvancedExercisesVideoListItem(advancedExercisesVideo.map {
-                    AdvancedExercisesVideoItem(
-                        it.videoId,
-                        it.videoName,
-                        box.sounds[it.firstTranscription],
-                        box.sounds[it.secondTranscription]
-                    )
-                })
-            )
-        }*/
         viewState.setListData(result)
     }
 
