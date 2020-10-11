@@ -76,7 +76,7 @@ class SoundsListPresenter @Inject constructor(
             result.add(SoundHeader(SoundType.VOWEL_SOUNDS))
             result.addAll(vowelSounds)
         }
-        result.add(AdItem(AdTag.SOUNDS_FIRST))
+//        result.add(AdItem(AdTag.SOUNDS_FIRST))
         if (rControlledVowels.isNotEmpty()) {
             result.add(SoundHeader(SoundType.R_CONTROLLED_VOWELS))
             result.addAll(rControlledVowels)

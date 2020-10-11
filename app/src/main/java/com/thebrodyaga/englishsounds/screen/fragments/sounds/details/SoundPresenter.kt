@@ -33,7 +33,7 @@ class SoundPresenter @Inject constructor(
 
     private fun mapForUi(soundDto: AmericanSoundDto) {
         val result = mutableListOf<SoundsDetailsListItem>()
-        result.add(SoundsDetailsWithAd(soundDto, ShortAdItem(AdTag.SOUND_DETAILS)))
+//        result.add(SoundsDetailsWithAd(soundDto, ShortAdItem(AdTag.SOUND_DETAILS)))
         if (soundDto.spellingWordList.isNotEmpty()) {
             result.add(WordsHeader(WordsHeader.Type.SPELLING))
 //            result.add(ShortAdItem(AdTag.SOUND_DETAILS))
