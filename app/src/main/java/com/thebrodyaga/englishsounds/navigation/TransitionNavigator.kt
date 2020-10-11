@@ -8,22 +8,13 @@ import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Command
 
 
-open class TransitionNavigator : SupportAppNavigator {
-    private val fragmentManager: FragmentManager
-    private val containerId: Int
+open class TransitionNavigator(
+    activity: FragmentActivity,
+    fragmentManager: FragmentManager,
+    containerId: Int
+) : SupportAppNavigator(activity, fragmentManager, containerId) {
 
-    constructor(activity: FragmentActivity, containerId: Int) : super(activity, containerId) {
-        this.fragmentManager = activity.supportFragmentManager
-        this.containerId = containerId
-    }
-
-    constructor(activity: FragmentActivity, fragmentManager: FragmentManager, containerId: Int)
-            : super(activity, fragmentManager, containerId) {
-        this.fragmentManager = fragmentManager
-        this.containerId = containerId
-    }
-
-    override fun applyCommand(command: Command?) {
+    override fun applyCommand(command: Command) {
         when (command) {
             is ForwardWithTransition -> activityForward(command)
             is ReplaceWithTransition -> activityReplace(command)
@@ -32,22 +23,22 @@ open class TransitionNavigator : SupportAppNavigator {
     }
 
     override fun setupFragmentTransaction(
-            command: Command,
-            currentFragment: Fragment?,
-            nextFragment: Fragment,
-            fragmentTransaction: FragmentTransaction
+        command: Command,
+        currentFragment: Fragment?,
+        nextFragment: Fragment?,
+        fragmentTransaction: FragmentTransaction
     ) {
         if (command !is TransitionCommand)
             return
 
         command.transitionBox?.apply {
-            nextFragment.sharedElementEnterTransition = sharedElementEnterTransition
-            nextFragment.enterTransition = enterTransition
+            nextFragment?.sharedElementEnterTransition = sharedElementEnterTransition
+            nextFragment?.enterTransition = enterTransition
             currentFragment?.exitTransition = exitTransition
             currentFragment?.sharedElementReturnTransition = sharedElementReturnTransition
         }
         command.sharedElement
-                .forEach { fragmentTransaction.addSharedElement(it.first, it.second) }
+            .forEach { fragmentTransaction.addSharedElement(it.first, it.second) }
         fragmentTransaction.setReorderingAllowed(true)
     }
 }

@@ -28,56 +28,64 @@ class SoundsVideoRepositoryImpl constructor(
         getAdvancedExercisesVideoFromRes()
 
     private fun getSoundsVideoFromRes(): Single<List<SoundVideoRes>> {
-        val videoArray = context.resources.getStringArray(R.array.sound_video)
-        val videoMap = mutableListOf<SoundVideoRes>()
-        videoArray.forEach {
-            val split = it.split("::")
-            val transcription = split.first()
-            val soundType: SoundType = when (split[2]) {
-                "consonantSounds" -> SoundType.CONSONANT_SOUND
-                "rControlledVowels" -> SoundType.R_CONTROLLED_VOWELS
-                "vowelSounds" -> SoundType.VOWEL_SOUNDS
-                else -> throw IllegalArgumentException()
+        return Single.fromCallable {
+            val videoArray = context.resources.getStringArray(R.array.sound_video)
+            val videoMap = mutableListOf<SoundVideoRes>()
+            videoArray.forEach {
+                val split = it.split("::")
+                val transcription = split.first()
+                val soundType: SoundType = when (split[2]) {
+                    "consonantSounds" -> SoundType.CONSONANT_SOUND
+                    "rControlledVowels" -> SoundType.R_CONTROLLED_VOWELS
+                    "vowelSounds" -> SoundType.VOWEL_SOUNDS
+                    else -> throw IllegalArgumentException()
+                }
+                videoMap.add(SoundVideoRes(transcription, split[1], soundType, split[3]))
             }
-            videoMap.add(SoundVideoRes(transcription, split[1], soundType, split[3]))
+            videoMap
         }
-        return Single.just(videoMap)
     }
 
     private fun getContrastingSoundsVideoFromRes(): Single<List<ContrastingSoundVideoRes>> {
-        val videoArray = context.resources.getStringArray(R.array.sound_contrasting_video)
-        val videoList = mutableListOf<ContrastingSoundVideoRes>()
-        videoArray.forEach {
-            val split = it.split("::")
-            videoList.add(ContrastingSoundVideoRes(split[0], split[1], split[2], split[3]))
+        return Single.fromCallable {
+            val videoArray = context.resources.getStringArray(R.array.sound_contrasting_video)
+            val videoList = mutableListOf<ContrastingSoundVideoRes>()
+            videoArray.forEach {
+                val split = it.split("::")
+                videoList.add(ContrastingSoundVideoRes(split[0], split[1], split[2], split[3]))
+            }
+            videoList
         }
-        return Single.just(videoList)
     }
 
     private fun getMostCommonWordsVideoFromRes(): Single<List<MostCommonWordsVideoRes>> {
-        val videoArray = context.resources.getStringArray(R.array.most_common_words_video)
-        val videoList = mutableListOf<MostCommonWordsVideoRes>()
-        videoArray.forEach {
-            val split = it.split("::")
-            videoList.add(MostCommonWordsVideoRes(split[0], split[1]))
+        return Single.fromCallable {
+            val videoArray = context.resources.getStringArray(R.array.most_common_words_video)
+            val videoList = mutableListOf<MostCommonWordsVideoRes>()
+            videoArray.forEach {
+                val split = it.split("::")
+                videoList.add(MostCommonWordsVideoRes(split[0], split[1]))
+            }
+            videoList
         }
-        return Single.just(videoList)
     }
 
     private fun getAdvancedExercisesVideoFromRes(): Single<List<AdvancedExercisesVideoRes>> {
-        val videoArray = context.resources.getStringArray(R.array.advanced_exercises_video)
-        val videoList = mutableListOf<AdvancedExercisesVideoRes>()
-        videoArray.forEach {
-            val split = it.split("::")
-            videoList.add(
-                AdvancedExercisesVideoRes(
-                    split[0],
-                    split[1],
-                    split.getOrNull(2),
-                    split.getOrNull(3)
+        return Single.fromCallable {
+            val videoArray = context.resources.getStringArray(R.array.advanced_exercises_video)
+            val videoList = mutableListOf<AdvancedExercisesVideoRes>()
+            videoArray.forEach {
+                val split = it.split("::")
+                videoList.add(
+                    AdvancedExercisesVideoRes(
+                        split[0],
+                        split[1],
+                        split.getOrNull(2),
+                        split.getOrNull(3)
+                    )
                 )
-            )
+            }
+            videoList
         }
-        return Single.just(videoList)
     }
 }

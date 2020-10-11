@@ -20,13 +20,7 @@ class SettingManager constructor(
         isFirstAppStart
     }
 
-    private var appRateDto: AppRateDto
-        set(value) = sharedPreferences.edit().putString(APP_RATE_KEY, gson.toJson(value)).apply()
-        get() = try {
-            gson.fromJson(sharedPreferences.getString(APP_RATE_KEY, ""), AppRateDto::class.java)
-        } catch (e: Exception) {
-            AppRateDto()
-        }
+    private var appRateDto: AppRateDto = AppRateDto(0)
 
     fun setCurrentTheme(theme: CurrentTheme) {
         sharedPreferences.edit().putString(THEME_KEY, theme.name).apply()
@@ -53,7 +47,7 @@ class SettingManager constructor(
 
     fun needShowRateRequest(): Boolean {
         val rateDto = appRateDto
-        val result = !isFirstAppStart && !showedRateDialog && rateDto.needShowRateRequest()
+        val result = !showedRateDialog && rateDto.needShowRateRequest(isFirstAppStart)
         logRateLogic("needShowRateRequest", rateDto)
         Timber.i("needShowRateRequest result=$result")
         return result
@@ -68,7 +62,7 @@ class SettingManager constructor(
 
     fun onSoundShowed() {
         val rateDto = appRateDto
-        if (!isFirstAppStart && !showedRateDialog) {
+        if (!showedRateDialog) {
             appRateDto = AppRateDto(rateDto.soundShowingCount.inc())
         }
         logRateLogic("onSoundShowed", rateDto)
