@@ -171,7 +171,7 @@ class SoundDetailsAdapter constructor(
             setIsRecyclable(false)
 
             this@SoundDetailsVH.adItem = adItem
-            include_ad.setAd(adItem, nativeAdLoader, adapterPosition)
+//            include_ad.setAd(adItem, nativeAdLoader, adapterPosition)
         }
     }
 

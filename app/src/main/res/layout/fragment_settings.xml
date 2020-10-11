@@ -73,10 +73,28 @@
             android:text="@string/use_dark_theme"
             android:textAppearance="@style/BodyRegular"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/video_provide_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/system_theme"
             app:useMaterialThemeColors="true" />
+
+        <TextView
+            android:id="@+id/video_provide_text"
+            style="@style/BodyRegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:autoLink="all"
+            android:gravity="center"
+            android:linksClickable="true"
+            android:text="Video in app is provided by Sounds American www.youtube.com/SoundsAmerican"
+            android:textColorLink="?colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="HardcodedText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

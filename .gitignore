@@ -2,6 +2,7 @@
 .gradle
 /local.properties
 /app/src/main/res/values/api_keys.xml
+/.idea/*
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml

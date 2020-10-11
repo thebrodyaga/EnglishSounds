@@ -32,4 +32,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="videos">Videos</string>
+    <string name="video_provide_text" translatable="false">Video in app is provided\nby <a href="https://www.youtube.com/SoundsAmerican">Sounds American</a></string>
 </resources>
