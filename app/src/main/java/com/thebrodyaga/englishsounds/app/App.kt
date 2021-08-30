@@ -18,7 +18,7 @@ class App : Application() {
         app = this
         appComponent = DaggerAppComponent.builder().application(this).build()
         super.onCreate()
-        MobileAds.initialize(this)
+//        MobileAds.initialize(this)
         if (!BuildConfig.DEBUG) {
             FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
             Timber.plant(CrashReportingTree())
