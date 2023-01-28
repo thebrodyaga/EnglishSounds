@@ -1,0 +1,105 @@
+ext {
+
+    dagger_version = '2.40.5'
+    okhttp_version = '4.9.3'
+    retrofit_version = '2.9.0'
+
+    androidxCoreKtxVersion = '1.8.0'
+    appCompatVersion = '1.4.2'
+    fragmentVersion = '1.5.4'
+    recyclerviewVersion = '1.2.1'
+    materialDesignVersion = '1.6.1'
+
+    coroutinesVersion = '1.6.3'
+    adapterDelegatesVersion = '4.3.2'
+
+    androidLifecycleVersion = '2.4.1'
+
+    firebaseVersion = '31.2.0'
+    playServices = '20.2.0'
+
+    junitVersion = '4.13.2'
+    mockitoVersion = '4.0.0'
+    androidJunitVersion = '1.1.3'
+    espressoVersion = '3.4.0'
+
+    javaxInject = "javax.inject:javax.inject:1"
+
+    okHttpDependency = [
+            "com.squareup.okhttp3:okhttp:$okhttp_version",
+            "com.squareup.okhttp3:logging-interceptor:$okhttp_version",
+    ]
+
+    coroutines = [
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
+            "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesVersion"
+
+    ]
+
+    baseNetworkDependencies = [
+            "com.squareup.retrofit2:retrofit:$retrofit_version",
+            "com.squareup.retrofit2:converter-gson:$retrofit_version",
+    ] << okHttpDependency
+
+    playServices = [
+            "com.google.android.gms:play-services-auth:$playServices",
+    ]
+
+    glide = [
+            "com.github.bumptech.glide:glide:4.13.0",
+            "jp.wasabeef:glide-transformations:4.3.0",
+    ]
+
+    viewBindinDdelegate = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6"
+
+    unitTest = [
+            "junit:junit:$junitVersion",
+            "org.mockito:mockito-inline:$mockitoVersion",
+            "org.mockito:mockito-core:$mockitoVersion",
+            "org.mockito.kotlin:mockito-kotlin:$mockitoVersion",
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion",
+    ]
+
+    androidTest = [
+            "androidx.test.ext:junit:$androidJunitVersion",
+            "androidx.test.espresso:espresso-core:$espressoVersion",
+    ]
+
+    androidLifecycle = [
+            "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidLifecycleVersion",
+            "androidx.lifecycle:lifecycle-process:$androidLifecycleVersion",
+            "androidx.lifecycle:lifecycle-service:$androidLifecycleVersion",
+            "androidx.lifecycle:lifecycle-runtime-ktx:$androidLifecycleVersion",
+    ]
+
+    firebaseBom = { module ->
+        module.dependencies {
+            implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
+            implementation 'com.google.firebase:firebase-crashlytics-ktx'
+            implementation 'com.google.firebase:firebase-config-ktx'
+            implementation 'com.google.firebase:firebase-messaging-ktx'
+            implementation 'com.google.firebase:firebase-analytics-ktx'
+        }
+    }
+
+    baseAndroidDeps = [
+            "androidx.core:core-ktx:$androidxCoreKtxVersion",
+            "androidx.appcompat:appcompat:$appCompatVersion",
+            "androidx.fragment:fragment-ktx:$fragmentVersion",
+            "androidx.recyclerview:recyclerview:$recyclerviewVersion",
+            "com.google.android.material:material:$materialDesignVersion",
+    ]
+
+    adapterDelegates = [
+            "com.hannesdorfmann:adapterdelegates4-kotlin-dsl:$adapterDelegatesVersion",
+            "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegatesVersion"
+    ]
+
+    exoPlayer = [
+            "com.google.android.exoplayer:exoplayer:2.18.1"
+    ]
+
+    lottie =  "com.airbnb.android:lottie:5.2.0"
+    dynamicanimation =  "androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03"
+
+}

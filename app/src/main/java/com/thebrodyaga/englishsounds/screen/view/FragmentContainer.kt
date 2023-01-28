@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.WindowInsets
 import android.widget.FrameLayout
 import androidx.core.view.forEach
-import com.tbruyelle.rxpermissions2.RxPermissions
 
 class FragmentContainer : FrameLayout {
     constructor(context: Context) : super(context)

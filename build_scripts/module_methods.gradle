@@ -1,0 +1,180 @@
+apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
+
+ext {
+
+    //--------------Feature------------------------------------
+    applyFeatureApiModule = { module ->
+        //только native, кмм перспектива, а фичи через api можно запускать из domain
+        baseNativeModule(module)
+        module.dependencies {
+            implementation project(":base:navigation:api")
+        }
+    }
+
+    applyFeatureImplModule = { module ->
+        baseAndroidModule(module)
+        applyPlatformNavigation(module)
+        applyAndroidBinding(module)
+        applyGlide(module)
+    }
+
+    //--------------Data------------------------------------
+    applyDataApiAndroidModule = { module ->
+        //только native кмм перспектива
+        applyDataApiModule(module)
+    }
+
+    applyDataApiModule = { module ->
+        //только native кмм перспектива
+        baseNativeModule(module)
+    }
+
+    applyDataImplAndroidModule = { module ->
+
+    }
+
+    applyDataImplModule = { module ->
+        baseNativeModule(module)
+    }
+
+    //--------------Domain------------------------------------
+    applyDomainImplAndroidModule = { module ->
+
+    }
+
+    applyDomainImplModule = { module ->
+        baseNativeModule(module)
+    }
+
+    //--------------Base------------------------------------
+    applyBaseModule = { module ->
+        baseNativeModule(module)
+    }
+
+    applyBaseAndroidModule = { module ->
+        baseAndroidModule(module)
+    }
+
+    //--------------Core------------------------------------
+    applyCoreModule = { module ->
+        baseNativeModule(module)
+    }
+
+    applyCoreAndroidModule = { module ->
+
+    }
+
+    //--------------Common------------------------------------
+    baseNativeModule = { module ->
+        module.configure(module) {
+            apply plugin: 'java-library'
+            apply plugin: 'org.jetbrains.kotlin.jvm'
+            apply plugin: 'kotlin'
+
+            java {
+                sourceCompatibility = JavaVersion.VERSION_1_8
+                targetCompatibility = JavaVersion.VERSION_1_8
+            }
+        }
+        module.dependencies {
+            implementation javaxInject
+            testImplementation unitTest
+        }
+    }
+
+    baseAndroidModule = { module ->
+        module.configure(module) {
+            apply plugin: 'com.android.library'
+            apply plugin: 'kotlin-android'
+
+            android {
+                compileSdk compile_sdk_version
+
+                defaultConfig {
+                    minSdk min_sdk_version
+                    targetSdk target_sdk_version
+                    versionCode version_code
+                    versionName version_name
+
+                    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+                    consumerProguardFiles "proguard-rules.pro"
+                }
+
+                buildTypes {
+                    debug {
+                        minifyEnabled false
+                        debuggable true
+                    }
+                    release {
+                        minifyEnabled false
+                        debuggable false
+                    }
+                }
+
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_1_8
+                    targetCompatibility JavaVersion.VERSION_1_8
+                }
+
+                kotlinOptions {
+                    jvmTarget = JavaVersion.VERSION_1_8.toString()
+                }
+            }
+        }
+        module.dependencies {
+            implementation baseAndroidDeps
+            implementation coroutines
+            implementation androidLifecycle
+            implementation javaxInject
+
+            androidTestImplementation androidTest
+            testImplementation unitTest
+        }
+    }
+
+    //отдельный kapt, не везде нужен, а без него быстрее сборка
+    applyAndroidBinding = { module ->
+        module.configure(module) {
+            apply plugin: 'kotlin-kapt'
+
+            android {
+                buildFeatures {
+                    viewBinding true
+                }
+            }
+        }
+        module.dependencies {
+            implementation viewBindinDdelegate
+            implementation adapterDelegates
+        }
+    }
+
+    //отдельный kapt, не везде нужен, а без него быстрее сборка
+    applyGlide = { module ->
+        module.configure(module) {
+            apply plugin: 'kotlin-kapt'
+        }
+        module.dependencies {
+            implementation glide
+        }
+    }
+
+    applyPlatformNavigation = { module ->
+        module.dependencies {
+            implementation project(":base:navigation:api")
+            implementation project(":base:navigation:impl")
+        }
+    }
+
+    //отдельный kapt, не везде нужен, а без него быстрее сборка
+    //если нужны только анотации, то "implementation javaxInject"
+    applyDagger = { module ->
+        module.configure(module) {
+            apply plugin: 'kotlin-kapt'
+        }
+        module.dependencies {
+            implementation "com.google.dagger:dagger:$dagger_version"
+            kapt "com.google.dagger:dagger-compiler:$dagger_version"
+        }
+    }
+}

@@ -59,7 +59,7 @@ class VideoListAdapter constructor(
         viewCache = null
     }
 
-    private val soundsBackgroundColors = mutableMapOf<@ColorRes Int, ColorStateList>()
+    private val soundsBackgroundColors = mutableMapOf<Int, ColorStateList>()
 
     private fun getColor(context: Context, @ColorRes colorRes: Int): ColorStateList? {
         return soundsBackgroundColors[colorRes] ?: ContextCompat.getColorStateList(

@@ -57,7 +57,7 @@ class MainFragment : FlowFragment() {
         }
 
         micBehavior = (result.mic_button.layoutParams as CoordinatorLayout.LayoutParams).behavior
-                as FloatingActionButton.Behavior
+            as FloatingActionButton.Behavior
 
         return result
     }
@@ -130,9 +130,11 @@ class MainFragment : FlowFragment() {
         when (isShow) {
             true -> mic_button?.show()
             false -> mic_button?.hide()
+            null -> {}
         }
         when (autoHide) {
             false, true -> micBehavior?.isAutoHideEnabled = autoHide
+            null -> {}
         }
     }
 
