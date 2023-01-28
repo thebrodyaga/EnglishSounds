@@ -3,4 +3,5 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyBaseModule(this)
 
 dependencies {
+    implementation coroutines
 }

@@ -3,4 +3,5 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyBaseAndroidModule(this)
 
 dependencies {
+    implementation project(':base:navigation:api')
 }
