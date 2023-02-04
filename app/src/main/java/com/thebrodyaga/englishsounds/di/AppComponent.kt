@@ -2,6 +2,7 @@ package com.thebrodyaga.englishsounds.di
 
 import android.app.Application
 import com.google.gson.Gson
+import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.englishsounds.app.SplashActivity
 import com.thebrodyaga.englishsounds.base.di.BaseAppComponent
@@ -22,7 +23,6 @@ import com.thebrodyaga.englishsounds.tools.SettingManager
 import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
 import dagger.BindsInstance
 import dagger.Component
-import ru.terrakok.cicerone.NavigatorHolder
 import javax.inject.Singleton
 
 @Singleton

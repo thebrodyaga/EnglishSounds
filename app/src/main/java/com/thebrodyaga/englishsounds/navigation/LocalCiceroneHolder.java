@@ -1,8 +1,8 @@
 package com.thebrodyaga.englishsounds.navigation;
 
-import java.util.HashMap;
+import com.thebrodyaga.core.navigation.api.cicerone.Cicerone;
 
-import ru.terrakok.cicerone.Cicerone;
+import java.util.HashMap;
 
 /**
  * Created by terrakok 27.11.16

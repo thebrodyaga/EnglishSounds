@@ -1,8 +1,8 @@
 package com.thebrodyaga.englishsounds.di.modules;
 
-import android.app.Application;
-import android.content.Context;
-
+import com.thebrodyaga.core.navigation.api.cicerone.Cicerone;
+import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder;
+import com.thebrodyaga.core.navigation.api.cicerone.Router;
 import com.thebrodyaga.englishsounds.navigation.LocalCiceroneHolder;
 import com.thebrodyaga.englishsounds.navigation.RouterTransition;
 
@@ -10,9 +10,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.terrakok.cicerone.Cicerone;
-import ru.terrakok.cicerone.NavigatorHolder;
-import ru.terrakok.cicerone.Router;
 
 @Module
 public class

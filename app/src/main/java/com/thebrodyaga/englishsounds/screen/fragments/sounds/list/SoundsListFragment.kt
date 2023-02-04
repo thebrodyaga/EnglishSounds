@@ -17,12 +17,10 @@ import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.englishsounds.navigation.TransitionBox
 import com.thebrodyaga.englishsounds.screen.adapters.SoundsAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.AdItemDecorator
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
-import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
 import kotlinx.android.synthetic.main.fragment_sounds_list.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -81,14 +79,8 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
     }
 
     private fun onSoundClick(item: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) {
-        getAnyRouter().navigateToWithTransition(
+        getAnyRouter().navigateTo(
             Screens.SoundsDetailsScreen(item.transcription),
-            TransitionBox(
-                null,
-                null,
-                null
-            ),
-            *sharedElements
         )
 
         val bundle = Bundle()

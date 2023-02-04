@@ -1,6 +1,9 @@
 package com.thebrodyaga.englishsounds.navigation
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
+import com.thebrodyaga.core.navigation.api.cicerone.Screen
+import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.englishsounds.screen.fragments.settings.all.SettingsFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.details.SoundFragment
@@ -9,50 +12,49 @@ import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrai
 import com.thebrodyaga.englishsounds.screen.fragments.video.AllVideoFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
 import com.thebrodyaga.englishsounds.screen.fragments.video.listoflists.ListOfVideoListsFragment
-import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
 
-    object MainScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment {
+    object MainScreen : FragmentScreen {
+        override fun createFragment(factory: FragmentFactory): Fragment {
             return MainFragment()
         }
     }
 
-    object SoundsListScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment {
+    object SoundsListScreen : FragmentScreen {
+        override fun createFragment(factory: FragmentFactory): Fragment {
             return SoundsListFragment()
         }
     }
 
-    data class SoundsDetailsScreen constructor(val transcription: String) : SupportAppScreen() {
-        override fun getFragment(): Fragment {
+    data class SoundsDetailsScreen constructor(val transcription: String) : FragmentScreen {
+        override fun createFragment(factory: FragmentFactory): Fragment {
             return SoundFragment.newInstance(transcription)
         }
     }
 
-    object SoundsTrainingScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment {
+    object SoundsTrainingScreen : FragmentScreen {
+        override fun createFragment(factory: FragmentFactory): Fragment {
             return SoundsTrainingFragment()
         }
     }
 
-    object SettingsScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment {
+    object SettingsScreen : FragmentScreen {
+        override fun createFragment(factory: FragmentFactory): Fragment {
             return SettingsFragment()
         }
     }
 
     data class AllVideoScreen(val showPage: VideoListType = VideoListType.ContrastingSounds) :
-        SupportAppScreen() {
-        override fun getFragment(): Fragment {
+        FragmentScreen {
+        override fun createFragment(factory: FragmentFactory): Fragment {
             return AllVideoFragment.newInstance(showPage)
         }
     }
 
     object ListOfVideoListScreen :
-        SupportAppScreen() {
-        override fun getFragment(): Fragment {
+        FragmentScreen {
+        override fun createFragment(factory: FragmentFactory): Fragment {
             return ListOfVideoListsFragment()
         }
     }

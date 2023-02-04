@@ -1,19 +1,21 @@
 package com.thebrodyaga.englishsounds.app
 
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.thebrodyaga.core.navigation.api.cicerone.Navigator
+import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
+import com.thebrodyaga.core.navigation.impl.cicerone.AppNavigator
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.navigation.RouterTransition
 import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.englishsounds.navigation.TransitionNavigator
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
@@ -27,8 +29,6 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
-import ru.terrakok.cicerone.Navigator
-import ru.terrakok.cicerone.NavigatorHolder
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -58,7 +58,7 @@ class AppActivity : BaseActivity(), AppActivityView {
     private lateinit var reviewManager: ReviewManager
     private var reviewInfo: Task<ReviewInfo>? = null
     private val navigator: Navigator =
-        TransitionNavigator(this, supportFragmentManager, R.id.fragment_container)
+        AppNavigator(this, R.id.fragment_container, supportFragmentManager)
 
     private val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_container)

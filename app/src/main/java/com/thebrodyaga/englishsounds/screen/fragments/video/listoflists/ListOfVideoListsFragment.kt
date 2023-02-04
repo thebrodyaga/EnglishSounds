@@ -1,29 +1,31 @@
 package com.thebrodyaga.englishsounds.screen.fragments.video.listoflists
 
-import android.os.Bundle
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.formats.NativeAdOptions
+import android.os.Bundle
+import android.view.View
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
-import com.thebrodyaga.englishsounds.domine.entities.ui.*
+import com.thebrodyaga.englishsounds.domine.entities.ui.AdvancedExercisesVideoListItem
+import com.thebrodyaga.englishsounds.domine.entities.ui.ContrastingSoundVideoListItem
+import com.thebrodyaga.englishsounds.domine.entities.ui.MostCommonWordsVideoListItem
+import com.thebrodyaga.englishsounds.domine.entities.ui.SoundVideoListItem
+import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsListItem
+import com.thebrodyaga.englishsounds.domine.entities.ui.VideoListItem
 import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.englishsounds.navigation.TransitionBox
 import com.thebrodyaga.englishsounds.screen.adapters.SoundsAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.AdItemDecorator
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
-import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
-import kotlinx.android.synthetic.main.fragment_all_video.toolbar
-import kotlinx.android.synthetic.main.fragment_list_of_video_lists.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.fragment_all_video.toolbar
+import kotlinx.android.synthetic.main.fragment_list_of_video_lists.*
 
 class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
 
@@ -85,14 +87,8 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
     }
 
     private fun onSoundClick(item: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) {
-        getAnyRouter().navigateToWithTransition(
+        getAnyRouter().navigateTo(
             Screens.SoundsDetailsScreen(item.transcription),
-            TransitionBox(
-                null,
-                null,
-                null
-            ),
-            *sharedElements
         )
 
         val bundle = Bundle()

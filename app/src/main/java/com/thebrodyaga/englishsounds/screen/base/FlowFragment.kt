@@ -1,10 +1,10 @@
 package com.thebrodyaga.englishsounds.screen.base
 
+import com.thebrodyaga.core.navigation.api.cicerone.Cicerone
+import com.thebrodyaga.core.navigation.api.cicerone.Navigator
+import com.thebrodyaga.core.navigation.impl.cicerone.AppNavigator
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.navigation.RouterTransition
-import com.thebrodyaga.englishsounds.navigation.TransitionNavigator
-import ru.terrakok.cicerone.Cicerone
-import ru.terrakok.cicerone.Navigator
 
 /**
  * фрагмент контейнер для вложенной навигации, тут храниться локальный роутер,
@@ -13,15 +13,13 @@ import ru.terrakok.cicerone.Navigator
 abstract class FlowFragment : BaseFragment() {
 
     private val navigator: Navigator by lazy {
-        object : TransitionNavigator(requireActivity(), childFragmentManager, getContainerId()) {
+        object : AppNavigator(requireActivity(), getContainerId(), childFragmentManager) {
             /**
              * корректный выход из FlowFragment
              * если в текущем стеке пусто, то ищет любой роутер выше и там выходит
              */
-            override fun fragmentBack() {
-                if (childFragmentManager.backStackEntryCount > 0)
-                    super.fragmentBack()
-                else getAnyRouter().exit()
+            override fun activityBack() {
+                this@FlowFragment.parentFragmentManager.popBackStack()
             }
         }
     }
@@ -45,11 +43,11 @@ abstract class FlowFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        getCicerone().navigatorHolder.setNavigator(navigator)
+        getCicerone().getNavigatorHolder().setNavigator(navigator)
     }
 
     override fun onPause() {
-        getCicerone().navigatorHolder.removeNavigator()
+        getCicerone().getNavigatorHolder().removeNavigator()
         super.onPause()
     }
 
