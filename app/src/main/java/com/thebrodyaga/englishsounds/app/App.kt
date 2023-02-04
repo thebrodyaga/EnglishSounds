@@ -13,9 +13,15 @@ import timber.log.Timber.DebugTree
 
 class App : BaseApp() {
 
+    private val appComponent: AppComponent by lazy(LazyThreadSafetyMode.NONE) {
+        DaggerAppComponent.builder()
+            .application(this)
+            .build()
+    }
+
     override fun onCreate() {
         app = this
-        appComponent = DaggerAppComponent.builder().application(this).build()
+        component = appComponent
         super.onCreate()
 //        MobileAds.initialize(this)
         if (!BuildConfig.DEBUG) {
