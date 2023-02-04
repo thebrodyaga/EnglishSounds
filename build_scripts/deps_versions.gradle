@@ -1,19 +1,15 @@
 ext {
 
-    dagger_version = '2.40.5'
+    dagger_version = '2.44.2'
     okhttp_version = '4.9.3'
     retrofit_version = '2.9.0'
 
-    androidxCoreKtxVersion = '1.8.0'
-    appCompatVersion = '1.4.2'
-    fragmentVersion = '1.5.4'
-    recyclerviewVersion = '1.2.1'
-    materialDesignVersion = '1.6.1'
+    androidxCoreKtxVersion = '1.9.0'
+    appCompatVersion = '1.6.0'
+    materialDesignVersion = '1.8.0'
 
     coroutinesVersion = '1.6.3'
     adapterDelegatesVersion = '4.3.2'
-
-    androidLifecycleVersion = '2.4.1'
 
     firebaseVersion = '31.2.0'
     playServices = '20.2.0'
@@ -41,13 +37,10 @@ ext {
             "com.squareup.retrofit2:converter-gson:$retrofit_version",
     ] << okHttpDependency
 
-    playServices = [
-            "com.google.android.gms:play-services-auth:$playServices",
-    ]
+    googlePlayCore = "com.google.android.play:core-ktx:1.8.0"
 
     glide = [
             "com.github.bumptech.glide:glide:4.13.0",
-            "jp.wasabeef:glide-transformations:4.3.0",
     ]
 
     viewBindinDdelegate = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6"
@@ -65,13 +58,6 @@ ext {
             "androidx.test.espresso:espresso-core:$espressoVersion",
     ]
 
-    androidLifecycle = [
-            "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidLifecycleVersion",
-            "androidx.lifecycle:lifecycle-process:$androidLifecycleVersion",
-            "androidx.lifecycle:lifecycle-service:$androidLifecycleVersion",
-            "androidx.lifecycle:lifecycle-runtime-ktx:$androidLifecycleVersion",
-    ]
-
     firebaseBom = { module ->
         module.dependencies {
             implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
@@ -85,8 +71,8 @@ ext {
     baseAndroidDeps = [
             "androidx.core:core-ktx:$androidxCoreKtxVersion",
             "androidx.appcompat:appcompat:$appCompatVersion",
-            "androidx.fragment:fragment-ktx:$fragmentVersion",
-            "androidx.recyclerview:recyclerview:$recyclerviewVersion",
+//            "androidx.fragment:fragment-ktx:$fragmentVersion",
+//            "androidx.recyclerview:recyclerview:$recyclerviewVersion",
             "com.google.android.material:material:$materialDesignVersion",
     ]
 

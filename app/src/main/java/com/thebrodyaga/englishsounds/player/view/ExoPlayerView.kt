@@ -18,8 +18,7 @@ class ExoPlayerView @JvmOverloads constructor(
     }
 
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
-        override fun onDoubleTap(e: MotionEvent?): Boolean {
-            e ?: return false
+        override fun onDoubleTap(e: MotionEvent): Boolean {
             val oneThird = width / 3
             when (left + e.x.toInt()) {
                 in left..(left + oneThird) ->

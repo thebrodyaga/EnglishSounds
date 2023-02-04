@@ -42,12 +42,12 @@ class VideoListAdapter constructor(
     }
 
     fun setData(newData: List<VideoItemInList>) {
-        val diffResult = DiffUtil.calculateDiff(DiffCallback(items, newData.toList()))
+        val diffResult = DiffUtil.calculateDiff(DiffCallback(items ?: listOf(), newData.toList()))
         items = newData
         diffResult.dispatchUpdatesTo(this)
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = items?.size ?: 0
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)

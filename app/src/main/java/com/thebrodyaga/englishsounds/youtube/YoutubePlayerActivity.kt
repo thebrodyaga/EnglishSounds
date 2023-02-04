@@ -273,8 +273,7 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
     private inner class GestureListener(private val panel: View) :
         GestureDetector.SimpleOnGestureListener() {
 
-        override fun onDoubleTap(e: MotionEvent?): Boolean {
-            e ?: return false
+        override fun onDoubleTap(e: MotionEvent): Boolean {
             val oneThird = panel.width / 3
             when (panel.left + e.x.toInt()) {
                 in panel.left..(panel.left + oneThird) ->

@@ -25,12 +25,6 @@
             android:theme="@style/AppTheme.Video"
             tools:targetApi="n" />
         <activity
-            android:name=".player.VideoPlayerActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:resizeableActivity="true"
-            android:supportsPictureInPicture="true"
-            tools:targetApi="n" />
-        <activity
             android:name=".app.SplashActivity"
             android:exported="true"
             android:theme="@style/AppTheme.Launcher">

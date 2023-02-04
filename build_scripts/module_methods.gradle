@@ -4,10 +4,9 @@ ext {
 
     //--------------Feature------------------------------------
     applyFeatureApiModule = { module ->
-        //только native, кмм перспектива, а фичи через api можно запускать из domain
         baseNativeModule(module)
         module.dependencies {
-            implementation project(":base:navigation:api")
+            implementation project(":core:navigation:api")
         }
     }
 
@@ -61,7 +60,7 @@ ext {
     }
 
     applyCoreAndroidModule = { module ->
-
+        baseAndroidModule(module)
     }
 
     //--------------Common------------------------------------
@@ -124,7 +123,6 @@ ext {
         module.dependencies {
             implementation baseAndroidDeps
             implementation coroutines
-            implementation androidLifecycle
             implementation javaxInject
 
             androidTestImplementation androidTest
@@ -161,8 +159,8 @@ ext {
 
     applyPlatformNavigation = { module ->
         module.dependencies {
-            implementation project(":base:navigation:api")
-            implementation project(":base:navigation:impl")
+            implementation project(":core:navigation:api")
+            implementation project(":core:navigation:impl")
         }
     }
 

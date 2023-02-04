@@ -1,7 +1,7 @@
 include ':app'
 rootProject.name='English Sounds'
 
-include ':base:navigation:api'
-include ':base:navigation:impl'
+include ':core:navigation:api'
+include ':core:navigation:impl'
 include ':base:app'
 include ':base:di'
