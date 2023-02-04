@@ -32,6 +32,7 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import timber.log.Timber
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_video_player.*
 
 class YoutubePlayerActivity : BaseActivity(), MvpView {
 
@@ -105,6 +106,9 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
             .addFullScreenListener(FullScreenListener(youtube_player, legacyYouTubePlayerView))
 
         setUpUiController()
+        addOnPictureInPictureModeChangedListener {
+            onPicInPicModeChanged(it.isInPictureInPictureMode)
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -141,9 +145,7 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
 //        enterPicInPic()
     }
 
-    override fun onPictureInPictureModeChanged(
-        isInPictureInPictureMode: Boolean, newConfig: Configuration?
-    ) {
+    private fun onPicInPicModeChanged(isInPictureInPictureMode: Boolean) {
         youtube_player.getPlayerUiController()
             .showUi(!isInPictureInPictureMode)
         pic_in_pic_progress.isInvisible = !isInPictureInPictureMode
@@ -248,7 +250,6 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
         }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setPicInPicBuilderByPlayerState(state: PlayerConstants.PlayerState) {
         val picInPicBuilder = when (state) {
@@ -308,6 +309,7 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
 
         /** The default fast forward increment, in seconds.  */
         private const val DEFAULT_FAST_FORWARD_S = 15
+
         /** The default rewind increment, in seconds.  */
         private const val DEFAULT_REWIND_S = 5
 
@@ -326,7 +328,5 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
             }
             context.startActivity(intent)
         }
-
-
     }
 }

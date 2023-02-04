@@ -23,6 +23,10 @@ class VideoPlayerActivity : AppCompatActivity() {
         playerHolder = PlayerHolder(this, this)
         mediaManager = MediaManager(this, playerHolder, this)
         exo_player_view.player = playerHolder.exoPlayer
+
+        addOnPictureInPictureModeChangedListener {
+            exo_player_view.useController = !it.isInPictureInPictureMode
+        }
     }
 
     // Picture in Picture related functions.
@@ -37,12 +41,4 @@ class VideoPlayerActivity : AppCompatActivity() {
                 })
         }
     }
-
-    override fun onPictureInPictureModeChanged(
-        isInPictureInPictureMode: Boolean,
-        newConfig: Configuration?
-    ) {
-        exo_player_view.useController = !isInPictureInPictureMode
-    }
-
 }

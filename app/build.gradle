@@ -107,11 +107,8 @@ dependencies {
     //navigation
     implementation 'ru.terrakok.cicerone:cicerone:5.1.1'
 
-    // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:${retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${retrofit}"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofit}"
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    // network
+    implementation baseNetworkDependencies
 
     // RxJava
     implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
@@ -160,5 +157,11 @@ dependencies {
 
     //RecyclerView-animators
     implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
+
+
+    implementation project(":base:di")
+    implementation project(":base:app")
+    implementation project(":base:navigation:api")
+    implementation project(":base:navigation:impl")
 }
 apply plugin: 'com.google.gms.google-services'

@@ -1,18 +1,17 @@
 package com.thebrodyaga.englishsounds.app
 
-import android.app.Application
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
-import com.google.android.gms.ads.MobileAds
+import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.thebrodyaga.englishsounds.BuildConfig
+import com.thebrodyaga.englishsounds.base.app.BaseApp
 import com.thebrodyaga.englishsounds.di.AppComponent
 import com.thebrodyaga.englishsounds.di.DaggerAppComponent
 import com.thebrodyaga.englishsounds.tools.SettingManager
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
-class App : Application() {
+class App : BaseApp() {
 
     override fun onCreate() {
         app = this

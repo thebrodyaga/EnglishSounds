@@ -4,6 +4,7 @@ import android.app.Application
 import com.google.gson.Gson
 import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.englishsounds.app.SplashActivity
+import com.thebrodyaga.englishsounds.base.di.BaseAppComponent
 import com.thebrodyaga.englishsounds.di.modules.AppModule
 import com.thebrodyaga.englishsounds.di.modules.NavigationModule
 import com.thebrodyaga.englishsounds.navigation.LocalCiceroneHolder
@@ -26,7 +27,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [AppModule::class, NavigationModule::class])
-interface AppComponent {
+interface AppComponent : BaseAppComponent {
     fun getRouter(): RouterTransition
     fun getNavigatorHolder(): NavigatorHolder
     fun getSettingManager(): SettingManager
