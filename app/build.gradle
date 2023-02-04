@@ -81,7 +81,6 @@ ext {
 dependencies {
 
     implementation baseAndroidDeps
-    implementation baseNetworkDependencies
     testImplementation unitTest
     androidTestImplementation androidTest
 
@@ -89,12 +88,14 @@ dependencies {
     applyDagger(this)
     applyGlide(this)
 
+    implementation baseNetworkDependencies
     implementation googlePlayCore
     implementation adapterDelegates
     // If you use Kotlin Android Extensions and synthetic properties (alternative to findViewById())
     // deprecated
     implementation 'com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer:4.3.0'
 //    implementation exoPlayer
+    implementation googleAds
 
 
     implementation project(":base:di")
@@ -104,9 +105,6 @@ dependencies {
 
 
     // deprecated
-
-    //AdMob
-    implementation 'com.google.android.gms:play-services-ads:19.1.0'
 
     //navigation
     implementation 'ru.terrakok.cicerone:cicerone:5.1.1'

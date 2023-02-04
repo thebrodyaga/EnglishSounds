@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.google.android.play.core.tasks.Task
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.navigation.RouterTransition
@@ -129,14 +129,14 @@ class AppActivity : BaseActivity(), AppActivityView {
         view.systemUiVisibility = result
     }
 
-
     override fun showRateDialog() {
         if (settingManager.needShowRateRequest() && reviewInfo == null) {
             reviewInfo = reviewManager.requestReviewFlow().apply {
                 addOnCompleteListener { request ->
                     Timber.i("requestReviewFlow isSuccessful = ${request.isSuccessful}")
-                    if (request.isSuccessful)
-                        showReviewDialog(request.result)
+                    val result = request.result
+                    if (request.isSuccessful && result != null)
+                        showReviewDialog(result)
                     else {
                         Timber
                             .e("requestReviewFlow error = ${request.exception?.message ?: "null"}")
@@ -157,7 +157,6 @@ class AppActivity : BaseActivity(), AppActivityView {
                 Timber.e("launchReviewFlow error = ${it.exception?.message ?: "null"}")
             this.reviewInfo = null
         }
-
     }
 
     fun onSoundScreenClose() {
@@ -169,7 +168,6 @@ class AppActivity : BaseActivity(), AppActivityView {
             ?.toggleFabMic(isShow, autoHide)
     }
 }
-
 
 interface AppActivityView : MvpView {
     @StateStrategyType(OneExecutionStateStrategy::class)

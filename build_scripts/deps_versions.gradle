@@ -37,7 +37,11 @@ ext {
             "com.squareup.retrofit2:converter-gson:$retrofit_version",
     ] << okHttpDependency
 
-    googlePlayCore = "com.google.android.play:core-ktx:1.8.0"
+    googlePlayCore = [
+            "com.google.android.play:review-ktx:2.0.1",
+    ]
+
+    googleAds = "com.google.android.gms:play-services-ads:19.1.0"
 
     glide = [
             "com.github.bumptech.glide:glide:4.13.0",
@@ -71,8 +75,6 @@ ext {
     baseAndroidDeps = [
             "androidx.core:core-ktx:$androidxCoreKtxVersion",
             "androidx.appcompat:appcompat:$appCompatVersion",
-//            "androidx.fragment:fragment-ktx:$fragmentVersion",
-//            "androidx.recyclerview:recyclerview:$recyclerviewVersion",
             "com.google.android.material:material:$materialDesignVersion",
     ]
 
@@ -85,7 +87,7 @@ ext {
             "com.google.android.exoplayer:exoplayer:2.18.1"
     ]
 
-    lottie =  "com.airbnb.android:lottie:5.2.0"
-    dynamicanimation =  "androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03"
+    lottie = "com.airbnb.android:lottie:5.2.0"
+    dynamicanimation = "androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03"
 
 }
