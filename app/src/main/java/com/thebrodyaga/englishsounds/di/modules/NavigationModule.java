@@ -1,10 +1,9 @@
 package com.thebrodyaga.englishsounds.di.modules;
 
+import com.thebrodyaga.base.navigation.api.LocalCiceroneHolder;
 import com.thebrodyaga.core.navigation.api.cicerone.Cicerone;
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder;
 import com.thebrodyaga.core.navigation.api.cicerone.Router;
-import com.thebrodyaga.englishsounds.navigation.LocalCiceroneHolder;
-import com.thebrodyaga.englishsounds.navigation.RouterTransition;
 
 import javax.inject.Singleton;
 
@@ -14,16 +13,10 @@ import dagger.Provides;
 @Module
 public class
 NavigationModule {
-    private Cicerone<RouterTransition> cicerone;
+    private Cicerone<Router> cicerone;
 
     public NavigationModule() {
-        cicerone = Cicerone.create(new RouterTransition());
-    }
-
-    @Provides
-    @Singleton
-    RouterTransition provideTransitionRouter() {
-        return cicerone.getRouter();
+        cicerone = Cicerone.create(new Router());
     }
 
     @Provides

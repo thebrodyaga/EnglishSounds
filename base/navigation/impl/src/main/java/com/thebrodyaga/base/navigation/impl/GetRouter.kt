@@ -1,9 +1,8 @@
-package com.thebrodyaga.englishsounds.screen.base
+package com.thebrodyaga.base.navigation.impl
 
 import androidx.fragment.app.Fragment
-import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.englishsounds.navigation.RouterTransition
-import com.thebrodyaga.englishsounds.screen.fragments.main.TabContainerFragment
+import com.thebrodyaga.core.navigation.api.cicerone.Router
+import com.thebrodyaga.englishsounds.base.di.findComponent
 
 interface GetRouter {
 
@@ -14,28 +13,29 @@ interface GetRouter {
      * Идет по родительским фрагментам пока не дойдет до первого FlowFragment
      * Иначе null значит не вложен во FlowFragment
      */
-    fun getFlowRouter(): RouterTransition? {
-        var parentFragment: Fragment = fragment.parentFragment ?: return null
+    fun getFlowRouter(): Router? {
+        /*var parentFragment: Fragment = fragment.parentFragment ?: return null
         while (true) {
             if (parentFragment is FlowFragment) {
                 return parentFragment.localRouter
             }
             parentFragment = parentFragment.parentFragment ?: return null
-        }
+        }*/
+        return null
     }
 
     /**
      * Ищет первый роутер и так до глобального
      */
-    fun getAnyRouter(): RouterTransition {
-        return getFlowRouter() ?: getTabRouter() ?: App.appComponent.getRouter()
+    fun getAnyRouter(): Router {
+        return getFlowRouter() ?: getTabRouter() ?: fragment.findComponent().getRouter()
     }
 
     /**
      * Глобальный роутер, активити роутер
      */
-    fun getGlobalRouter(): RouterTransition {
-        return App.appComponent.getRouter()
+    fun getGlobalRouter(): Router {
+        return fragment.findComponent().getRouter()
     }
 
     /**
@@ -43,13 +43,14 @@ interface GetRouter {
      * Идет по родительским фрагментам пока не дойдет до первого TabContainerFragment
      * Иначе null значит не вложен в TabContainerFragment
      */
-    fun getTabRouter(): RouterTransition? {
-        var parentFragment: Fragment = fragment.parentFragment ?: return null
+    fun getTabRouter(): Router? {
+        /*var parentFragment: Fragment = fragment.parentFragment ?: return null
         while (true) {
             if (parentFragment is TabContainerFragment) {
                 return parentFragment.localRouter
             }
             parentFragment = parentFragment.parentFragment ?: return null
-        }
+        }*/
+        return null
     }
 }

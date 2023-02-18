@@ -3,12 +3,10 @@ package com.thebrodyaga.englishsounds.screen.fragments.sounds.list
 
 import android.content.Context
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
@@ -19,7 +17,7 @@ import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.adapters.SoundsAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.AdItemDecorator
-import com.thebrodyaga.englishsounds.screen.base.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
 import kotlinx.android.synthetic.main.fragment_sounds_list.*
 import moxy.presenter.InjectPresenter

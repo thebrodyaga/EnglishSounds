@@ -2,13 +2,10 @@ package com.thebrodyaga.englishsounds.screen.fragments.main
 
 import android.os.Bundle
 
-import javax.inject.Inject
-
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.navigation.LocalCiceroneHolder
 import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.englishsounds.screen.base.FlowFragment
+import com.thebrodyaga.englishsounds.base.app.FlowFragment
 
 /**
  * Created by terrakok 25.11.16

@@ -1,10 +1,9 @@
-package com.thebrodyaga.englishsounds.screen.base
+package com.thebrodyaga.englishsounds.base.app
 
 import com.thebrodyaga.core.navigation.api.cicerone.Cicerone
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
+import com.thebrodyaga.core.navigation.api.cicerone.Router
 import com.thebrodyaga.core.navigation.impl.cicerone.AppNavigator
-import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.englishsounds.navigation.RouterTransition
 
 /**
  * фрагмент контейнер для вложенной навигации, тут храниться локальный роутер,
@@ -34,11 +33,11 @@ abstract class FlowFragment : BaseFragment() {
      */
     protected abstract fun getContainerName(): String
 
-    private fun getCiceroneHolder() = App.appComponent.getLocalCiceroneHolder()
+    private fun getCiceroneHolder() = BaseApp.component.getLocalCiceroneHolder()
 
-    val localRouter: RouterTransition get() = getCicerone().router
+    val localRouter: Router get() = getCicerone().router
 
-    private fun getCicerone(): Cicerone<RouterTransition> =
+    private fun getCicerone(): Cicerone<Router> =
         getCiceroneHolder().getCicerone(getContainerName())
 
     override fun onResume() {

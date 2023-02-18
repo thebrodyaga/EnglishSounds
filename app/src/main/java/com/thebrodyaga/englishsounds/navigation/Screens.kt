@@ -2,7 +2,6 @@ package com.thebrodyaga.englishsounds.navigation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
-import com.thebrodyaga.core.navigation.api.cicerone.Screen
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.englishsounds.screen.fragments.settings.all.SettingsFragment

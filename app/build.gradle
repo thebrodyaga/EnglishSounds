@@ -73,7 +73,6 @@ android {
 ext {
     leakcanary = "1.5.4"
     room = "1.1.1"
-    moxy = '2.0.2'
     room_version = "2.2.1"
     exo_player = "2.11.5"
 }
@@ -87,6 +86,8 @@ dependencies {
     firebaseBom(this)
     applyDagger(this)
     applyGlide(this)
+    applyMoxy(this)
+    applyPlatformNavigation(this)
 
     implementation baseNetworkDependencies
     implementation googlePlayCore
@@ -103,8 +104,6 @@ dependencies {
     implementation project(":base:di")
     implementation project(":base:app")
     implementation project(":core:utils")
-    implementation project(":core:navigation:api")
-    implementation project(":core:navigation:impl")
     implementation project(":data:sounds:api")
     implementation project(":data:sounds:impl")
     implementation project(":feature:soundDetails:api")
@@ -120,12 +119,6 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-core:${exo_player}"
     implementation "com.google.android.exoplayer:exoplayer-ui:${exo_player}"
     implementation "com.google.android.exoplayer:extension-mediasession:${exo_player}"
-
-    //Moxy
-    implementation "com.github.moxy-community:moxy:${moxy}"
-    kapt "com.github.moxy-community:moxy-compiler:${moxy}"
-    implementation "com.github.moxy-community:moxy-androidx:${moxy}"
-    implementation "com.github.moxy-community:moxy-material:${moxy}"
 
     //youtube
     implementation('com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5') {

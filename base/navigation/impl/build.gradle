@@ -3,8 +3,8 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyBaseAndroidModule(this)
 
 dependencies {
+    implementation project(":core:navigation:api")
+    implementation project(":core:navigation:impl")
+    implementation project(":base:navigation:api")
     implementation project(":base:di")
-    implementation rxJava
-    applyPlatformNavigation(this)
-    applyMoxy(this)
 }

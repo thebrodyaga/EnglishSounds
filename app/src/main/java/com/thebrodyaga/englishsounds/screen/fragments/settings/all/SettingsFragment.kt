@@ -6,7 +6,7 @@ import android.view.View
 import com.jakewharton.rxbinding3.widget.checkedChanges
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.englishsounds.screen.base.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.screen.isGone
 import com.thebrodyaga.englishsounds.screen.isSystemDarkMode
 import com.thebrodyaga.data.sounds.impl.setting.SettingManager

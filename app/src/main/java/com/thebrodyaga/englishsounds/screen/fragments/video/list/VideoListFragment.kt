@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
@@ -14,7 +13,7 @@ import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.AdItemDecorator
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.VideoListItemDecoration
-import com.thebrodyaga.englishsounds.screen.base.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment.Companion.calculateNoOfColumns
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType

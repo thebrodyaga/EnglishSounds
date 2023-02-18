@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.screen.base.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.list.VideoListFragment
 import kotlinx.android.synthetic.main.fragment_all_video.*
 

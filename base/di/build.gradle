@@ -5,4 +5,6 @@ applyBaseAndroidModule(this)
 dependencies {
     implementation baseNetworkDependencies
     implementation project(":data:sounds:api")
+    implementation project(":core:navigation:api")
+    implementation project(":base:navigation:api")
 }

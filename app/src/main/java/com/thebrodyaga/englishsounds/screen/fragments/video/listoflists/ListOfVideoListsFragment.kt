@@ -19,7 +19,7 @@ import com.thebrodyaga.englishsounds.domine.entities.ui.VideoListItem
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.adapters.SoundsAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.AdItemDecorator
-import com.thebrodyaga.englishsounds.screen.base.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter

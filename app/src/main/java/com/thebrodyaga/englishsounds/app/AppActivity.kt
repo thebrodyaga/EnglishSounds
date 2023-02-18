@@ -11,18 +11,18 @@ import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
+import com.thebrodyaga.core.navigation.api.cicerone.Router
 import com.thebrodyaga.core.navigation.impl.cicerone.AppNavigator
+import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.navigation.RouterTransition
+import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.englishsounds.screen.isSystemDarkMode
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
 import com.thebrodyaga.englishsounds.tools.RecordVoice
-import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import moxy.InjectViewState
 import moxy.MvpView
 import moxy.presenter.InjectPresenter
@@ -35,7 +35,7 @@ import javax.inject.Inject
 class AppActivity : BaseActivity(), AppActivityView {
 
     @Inject
-    lateinit var router: RouterTransition
+    lateinit var router: Router
 
     @Inject
     lateinit var recordVoice: RecordVoice
