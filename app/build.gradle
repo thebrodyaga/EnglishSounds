@@ -99,6 +99,7 @@ dependencies {
     implementation exoPlayer
 
 
+    implementation project(":analytics")
     implementation project(":base:di")
     implementation project(":base:app")
     implementation project(":core:utils")

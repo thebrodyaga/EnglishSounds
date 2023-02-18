@@ -10,6 +10,7 @@ import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
+import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.domine.entities.ui.AdvancedExercisesVideoListItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.ContrastingSoundVideoListItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.MostCommonWordsVideoListItem
@@ -95,7 +96,7 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, item.transcription)
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.name)
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "sound")
-        (activity as? AppActivity)?.firebaseAnalytics?.logEvent(
+        AnalyticsEngine.logEvent(
             FirebaseAnalytics.Event.SELECT_CONTENT,
             bundle
         )

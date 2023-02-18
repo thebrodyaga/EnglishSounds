@@ -19,6 +19,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstan
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.thebrodyaga.englishsounds.R
+import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.domine.entities.ui.PlayVideoExtra
@@ -297,7 +298,7 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
                 bundle.putString(AppAnalytics.PARAM_VIDEO_NAME, playVideoExtra.videoName)
                 bundle.putString(AppAnalytics.PARAM_VIDEO_STATE, state.toString())
                 bundle.putInt(AppAnalytics.PARAM_VIDEO_DURATION, videoSecond.toInt())
-                firebaseAnalytics.logEvent(AppAnalytics.EVENT_PLAY_VIDEO, bundle)
+                AnalyticsEngine.logEvent(AppAnalytics.EVENT_PLAY_VIDEO, bundle)
             }
             else -> return
         }
@@ -314,13 +315,11 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
         private const val VIDEO_ID_EXTRA = "VIDEO_ID_EXTRA"
 
         fun startActivity(context: Context, playVideoExtra: PlayVideoExtra) {
-            (context as? BaseActivity)?.firebaseAnalytics?.let {
                 val bundle = Bundle()
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, playVideoExtra.videoId)
                 bundle.putString(AppAnalytics.PARAM_VIDEO_NAME, playVideoExtra.videoName)
                 bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "video")
-                it.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-            }
+            AnalyticsEngine.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
             val intent = Intent(context, YoutubePlayerActivity::class.java).apply {
                 putExtra(VIDEO_ID_EXTRA, playVideoExtra)
             }

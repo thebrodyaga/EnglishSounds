@@ -17,3 +17,4 @@ include ':base:navigation:impl'
 
 include ':feature:audioPlayer:api'
 include ':feature:audioPlayer:impl'
+include ':analytics'

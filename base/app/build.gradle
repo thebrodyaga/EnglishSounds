@@ -4,6 +4,7 @@ applyBaseAndroidModule(this)
 
 dependencies {
     implementation project(":base:di")
+    implementation project(":analytics")
     implementation rxJava
     applyPlatformNavigation(this)
     applyMoxy(this)
