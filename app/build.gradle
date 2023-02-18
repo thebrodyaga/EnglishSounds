@@ -96,22 +96,19 @@ dependencies {
     implementation 'com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer:4.3.0'
 //    implementation exoPlayer
     implementation googleAds
+    implementation rxJava
+    implementation timber
 
 
     implementation project(":base:di")
     implementation project(":base:app")
     implementation project(":core:navigation:api")
     implementation project(":core:navigation:impl")
+    implementation project(":data:sounds:api")
+    implementation project(":data:sounds:impl")
 
 
     // deprecated
-
-    // RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0'
 
     //premissions
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
@@ -126,9 +123,6 @@ dependencies {
     kapt "com.github.moxy-community:moxy-compiler:${moxy}"
     implementation "com.github.moxy-community:moxy-androidx:${moxy}"
     implementation "com.github.moxy-community:moxy-material:${moxy}"
-
-    //logging
-    implementation 'com.jakewharton.timber:timber:4.7.1'
 
     //youtube
     implementation('com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5') {

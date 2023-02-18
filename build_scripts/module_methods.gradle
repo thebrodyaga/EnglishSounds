@@ -22,7 +22,7 @@ ext {
     //--------------Data------------------------------------
     applyDataApiAndroidModule = { module ->
         //только native кмм перспектива
-        applyDataApiModule(module)
+        baseNativeModule(module)
     }
 
     applyDataApiModule = { module ->
@@ -31,7 +31,7 @@ ext {
     }
 
     applyDataImplAndroidModule = { module ->
-
+        baseAndroidModule(module)
     }
 
     applyDataImplModule = { module ->
@@ -40,7 +40,7 @@ ext {
 
     //--------------Domain------------------------------------
     applyDomainImplAndroidModule = { module ->
-
+        baseAndroidModule(module)
     }
 
     applyDomainImplModule = { module ->
@@ -132,7 +132,6 @@ ext {
         }
     }
 
-    //отдельный kapt, не везде нужен, а без него быстрее сборка
     applyAndroidBinding = { module ->
         module.configure(module) {
             apply plugin: 'kotlin-kapt'
@@ -149,7 +148,6 @@ ext {
         }
     }
 
-    //отдельный kapt, не везде нужен, а без него быстрее сборка
     applyGlide = { module ->
         module.configure(module) {
             apply plugin: 'kotlin-kapt'
@@ -166,8 +164,6 @@ ext {
         }
     }
 
-    //отдельный kapt, не везде нужен, а без него быстрее сборка
-    //если нужны только анотации, то "implementation javaxInject"
     applyDagger = { module ->
         module.configure(module) {
             apply plugin: 'kotlin-kapt'
