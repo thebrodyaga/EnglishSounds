@@ -15,8 +15,10 @@ ext {
         applyPlatformNavigation(module)
         applyAndroidBinding(module)
         applyGlide(module)
-        implementation project(":base:app")
-        implementation project(":base:di")
+        module.dependencies {
+            implementation project(":base:app")
+            implementation project(":base:di")
+        }
     }
 
     //--------------Data------------------------------------

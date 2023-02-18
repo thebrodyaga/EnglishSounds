@@ -107,6 +107,8 @@ dependencies {
     implementation project(":core:navigation:impl")
     implementation project(":data:sounds:api")
     implementation project(":data:sounds:impl")
+    implementation project(":feature:soundDetails:api")
+    implementation project(":feature:soundDetails:impl")
 
 
     // deprecated
