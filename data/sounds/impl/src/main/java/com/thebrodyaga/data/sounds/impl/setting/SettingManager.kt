@@ -1,8 +1,7 @@
-package com.thebrodyaga.englishsounds.tools
+package com.thebrodyaga.data.sounds.impl.setting
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.thebrodyaga.englishsounds.domine.entities.data.AppRateDto
 import timber.log.Timber
 
 class SettingManager constructor(

@@ -10,13 +10,12 @@ import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsDetailsListItem
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.englishsounds.screen.adapters.SoundDetailsAdapter
 import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
-import com.thebrodyaga.englishsounds.tools.SettingManager
+import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.android.synthetic.main.fragment_sound.*
 import moxy.presenter.InjectPresenter

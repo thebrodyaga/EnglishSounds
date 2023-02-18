@@ -1,18 +1,12 @@
-package com.thebrodyaga.englishsounds.utils;
-
-import android.content.Context;
-import android.content.res.AssetManager;
+package com.thebrodyaga.core.utils.zip;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import timber.log.Timber;
 
 public class UnzipFile {
     public static void unzip(File zip, File unzip) throws IOException {
@@ -27,8 +21,6 @@ public class UnzipFile {
                 String name = zipEntry.getName();
                 long size = zipEntry.getSize();
                 long compressedSize = zipEntry.getCompressedSize();
-                Timber.i("name: %-20s | size: %6d | compressed size: %6d\n",
-                        name, size, compressedSize);
 
                 // Do we need to create a directory ?
                 File file = new File(unzip, name);
@@ -74,7 +66,7 @@ public class UnzipFile {
     }
 
 
-    public static void copyFile(Context context, String file) {
+    /*public static void copyFile(Context context, String file) {
         AssetManager assetManager = context.getAssets();
         try {
             InputStream in = assetManager.open(file);
@@ -88,5 +80,5 @@ public class UnzipFile {
         } catch (Exception e) {
             e.getMessage();
         }
-    }
+    }*/
 }

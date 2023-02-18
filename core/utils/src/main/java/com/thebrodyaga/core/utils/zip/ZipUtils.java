@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.thebrodyaga.englishsounds.utils;
+package com.thebrodyaga.core.utils.zip;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

@@ -9,7 +9,7 @@ import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
 import com.thebrodyaga.englishsounds.screen.isGone
 import com.thebrodyaga.englishsounds.screen.isSystemDarkMode
-import com.thebrodyaga.englishsounds.tools.SettingManager
+import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import kotlinx.android.synthetic.main.fragment_settings.*
 import javax.inject.Inject
 

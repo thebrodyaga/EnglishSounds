@@ -8,11 +8,11 @@ import com.google.gson.GsonBuilder
 import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
-import com.thebrodyaga.englishsounds.repository.impl.AmericanSoundsRepositoryImpl
-import com.thebrodyaga.englishsounds.repository.impl.SoundsVideoRepositoryImpl
+import com.thebrodyaga.data.sounds.impl.AmericanSoundsRepositoryImpl
+import com.thebrodyaga.data.sounds.impl.SoundsVideoRepositoryImpl
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
 import com.thebrodyaga.englishsounds.tools.RecordVoice
-import com.thebrodyaga.englishsounds.tools.SettingManager
+import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

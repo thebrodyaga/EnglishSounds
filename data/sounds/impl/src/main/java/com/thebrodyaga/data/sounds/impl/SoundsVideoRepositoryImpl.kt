@@ -1,7 +1,6 @@
-package com.thebrodyaga.englishsounds.repository.impl
+package com.thebrodyaga.data.sounds.impl
 
 import android.content.Context
-import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.data.sounds.api.model.AdvancedExercisesVideoRes
 import com.thebrodyaga.data.sounds.api.model.ContrastingSoundVideoRes

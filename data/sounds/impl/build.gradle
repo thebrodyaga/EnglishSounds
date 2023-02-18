@@ -3,4 +3,9 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyDataImplAndroidModule(this)
 
 dependencies {
+    implementation project(":data:sounds:api")
+    implementation project(":core:utils")
+    implementation rxJava
+    implementation timber
+    implementation baseNetworkDependencies
 }

@@ -22,7 +22,7 @@ import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.englishsounds.screen.isSystemDarkMode
 import com.thebrodyaga.englishsounds.tools.AudioPlayer
 import com.thebrodyaga.englishsounds.tools.RecordVoice
-import com.thebrodyaga.englishsounds.tools.SettingManager
+import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import moxy.InjectViewState
 import moxy.MvpView
 import moxy.presenter.InjectPresenter

@@ -7,7 +7,7 @@ import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.base.app.BaseApp
 import com.thebrodyaga.englishsounds.di.AppComponent
 import com.thebrodyaga.englishsounds.di.DaggerAppComponent
-import com.thebrodyaga.englishsounds.tools.SettingManager
+import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 

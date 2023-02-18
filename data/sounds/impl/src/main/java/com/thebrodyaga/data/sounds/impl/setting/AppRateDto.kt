@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.domine.entities.data
+package com.thebrodyaga.data.sounds.impl.setting
 
 data class AppRateDto constructor(
     val soundShowingCount: Int = 0

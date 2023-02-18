@@ -19,7 +19,7 @@ import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFrag
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.list.VideoListFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.listoflists.ListOfVideoListsFragment
-import com.thebrodyaga.englishsounds.tools.SettingManager
+import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
 import dagger.BindsInstance
 import dagger.Component

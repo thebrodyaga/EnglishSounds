@@ -1,15 +1,12 @@
-package com.thebrodyaga.englishsounds.repository.impl
+package com.thebrodyaga.data.sounds.impl
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.thebrodyaga.englishsounds.BuildConfig
+import com.thebrodyaga.core.utils.zip.ZipUtils
+import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
-import com.thebrodyaga.data.sounds.api.SoundsRepository
-import com.thebrodyaga.englishsounds.tools.SettingManager
-import com.thebrodyaga.englishsounds.utils.UnzipFile
-import com.thebrodyaga.englishsounds.utils.ZipUtils
+import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import io.reactivex.Observable
 import io.reactivex.Single
 import timber.log.Timber
@@ -19,6 +16,8 @@ import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+
+private const val AMERICAN_SOUNDS_ZIP_VERSION = 1
 
 class AmericanSoundsRepositoryImpl constructor(
     private val context: Context,
@@ -61,20 +60,21 @@ class AmericanSoundsRepositoryImpl constructor(
                 val service = Executors.newCachedThreadPool()
                 val sourceDir = File(context.filesDir, americanSounds)
                 val lastVersionCode = settingManager.getLastVersionCode()
-                if (lastVersionCode < BuildConfig.VERSION_CODE && sourceDir.exists()) {
+                if (lastVersionCode < AMERICAN_SOUNDS_ZIP_VERSION && sourceDir.exists()) {
                     Timber.i("delete americanSoundsZip in internal because app new version")
                     ZipUtils.delete(sourceDir)
                 }
 
                 if (!sourceDir.exists()) {
                     Timber.i("copy americanSoundsZip")
-                    UnzipFile.copyFile(context, americanSoundsZip)
+                    val outputStream = File(context.filesDir, americanSoundsZip).outputStream()
+                    context.assets.open(americanSoundsZip).use { assets -> assets.copyTo(outputStream) }
                     val zipInInternal = File(context.filesDir, americanSoundsZip)
                     Timber.i("unzip americanSoundsZip")
                     ZipUtils.unzip(zipInInternal, context.filesDir)
                     Timber.i("delete americanSoundsZip in internal ")
                     ZipUtils.delete(zipInInternal)
-                    settingManager.setLastVersionCode(BuildConfig.VERSION_CODE)
+                    settingManager.setLastVersionCode(AMERICAN_SOUNDS_ZIP_VERSION)
                 }
                 val jsonDir: Array<File> = File(sourceDir, jsonPath).listFiles()
                     ?: throw IOException("где жисоны?")
@@ -107,7 +107,6 @@ class AmericanSoundsRepositoryImpl constructor(
         }
         practiceWords = result
     }
-
 
     companion object {
         private const val jsonPath = "json"
