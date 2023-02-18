@@ -1,6 +1,5 @@
 package com.thebrodyaga.englishsounds.screen.fragments.sounds.list
 
-import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.data.sounds.api.model.AdvancedExercisesVideoRes
@@ -9,8 +8,7 @@ import com.thebrodyaga.data.sounds.api.model.MostCommonWordsVideoRes
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
-import com.thebrodyaga.englishsounds.screen.base.BasePresenter
-import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
+import com.thebrodyaga.englishsounds.base.app.BasePresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function4

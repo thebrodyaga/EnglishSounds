@@ -14,7 +14,7 @@ import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.AdItemDecorator
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.VideoListItemDecoration
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
-import com.thebrodyaga.englishsounds.screen.base.BasePresenter
+import com.thebrodyaga.englishsounds.base.app.BasePresenter
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment.Companion.calculateNoOfColumns
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
 import com.thebrodyaga.englishsounds.utils.CompositeAdLoader

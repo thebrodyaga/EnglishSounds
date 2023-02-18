@@ -3,11 +3,10 @@ package com.thebrodyaga.englishsounds.screen.fragments.sounds.details
 import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.ShortAdItem
-import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsDetailsListItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsDetailsWithAd
 import com.thebrodyaga.englishsounds.domine.entities.ui.WordsHeader
 import com.thebrodyaga.data.sounds.api.SoundsRepository
-import com.thebrodyaga.englishsounds.screen.base.BasePresenter
+import com.thebrodyaga.englishsounds.base.app.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState

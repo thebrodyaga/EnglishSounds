@@ -3,11 +3,12 @@ package com.thebrodyaga.englishsounds.app
 import androidx.appcompat.app.AppCompatDelegate
 import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.thebrodyaga.data.sounds.api.CurrentTheme
+import com.thebrodyaga.data.sounds.api.SettingManager
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.base.app.BaseApp
 import com.thebrodyaga.englishsounds.di.AppComponent
 import com.thebrodyaga.englishsounds.di.DaggerAppComponent
-import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
@@ -31,14 +32,14 @@ class App : BaseApp() {
 
     fun updateTheme() {
         AppCompatDelegate.setDefaultNightMode(
-            when (appComponent.getSettingManager().getCurrentTheme()) {
-                SettingManager.CurrentTheme.SYSTEM -> {
+            when (appComponent.settingManager().getCurrentTheme()) {
+                CurrentTheme.SYSTEM -> {
                     AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                 }
-                SettingManager.CurrentTheme.DARK -> {
+                CurrentTheme.DARK -> {
                     AppCompatDelegate.MODE_NIGHT_YES
                 }
-                SettingManager.CurrentTheme.LIGHT -> {
+                CurrentTheme.LIGHT -> {
                     AppCompatDelegate.MODE_NIGHT_NO
                 }
             }

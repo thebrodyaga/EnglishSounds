@@ -2,12 +2,14 @@ package com.thebrodyaga.data.sounds.impl.setting
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.thebrodyaga.data.sounds.api.CurrentTheme
+import com.thebrodyaga.data.sounds.api.SettingManager
 import timber.log.Timber
 
-class SettingManager constructor(
+class SettingManagerImpl constructor(
     private val sharedPreferences: SharedPreferences,
     private val gson: Gson
-) {
+) : SettingManager {
 
     private val isFirstAppStart: Boolean by lazy {
         val result = sharedPreferences.getBoolean(FIRST_APP_START_KEY, true)
@@ -21,12 +23,11 @@ class SettingManager constructor(
 
     private var appRateDto: AppRateDto = AppRateDto(0)
 
-    fun setCurrentTheme(theme: CurrentTheme) {
+    override fun setCurrentTheme(theme: CurrentTheme) {
         sharedPreferences.edit().putString(THEME_KEY, theme.name).apply()
     }
 
-
-    fun getCurrentTheme(): CurrentTheme {
+    override fun getCurrentTheme(): CurrentTheme {
         val fromSp = sharedPreferences.getString(THEME_KEY, null)
             ?: return CurrentTheme.SYSTEM
         return if (CurrentTheme.values().map { it.name }.contains(fromSp))
@@ -34,17 +35,17 @@ class SettingManager constructor(
         else CurrentTheme.SYSTEM
     }
 
-    fun setLastVersionCode(versionCode: Int) {
+    override fun setLastVersionCode(versionCode: Int) {
         sharedPreferences.edit().putInt(VERSION_CODE_KEY, versionCode).apply()
     }
 
-    fun getLastVersionCode(): Int {
+    override fun getLastVersionCode(): Int {
         return sharedPreferences.getInt(VERSION_CODE_KEY, 0)
     }
 
     private var showedRateDialog = false
 
-    fun needShowRateRequest(): Boolean {
+    override fun needShowRateRequest(): Boolean {
         val rateDto = appRateDto
         val result = !showedRateDialog && rateDto.needShowRateRequest(isFirstAppStart)
         logRateLogic("needShowRateRequest", rateDto)
@@ -52,14 +53,14 @@ class SettingManager constructor(
         return result
     }
 
-    fun onRateRequestShow() {
+    override fun onRateRequestShow() {
         val rateDto = appRateDto
         showedRateDialog = true
         appRateDto = AppRateDto(0)
         logRateLogic("onRateRequestShow", rateDto)
     }
 
-    fun onSoundShowed() {
+    override fun onSoundShowed() {
         val rateDto = appRateDto
         if (!showedRateDialog) {
             appRateDto = AppRateDto(rateDto.soundShowingCount.inc())
@@ -76,9 +77,5 @@ class SettingManager constructor(
         private const val VERSION_CODE_KEY = "VERSION_CODE_KEY"
         private const val APP_RATE_KEY = "APP_RATE_KEY"
         private const val FIRST_APP_START_KEY = "FIRST_APP_START_KEY"
-    }
-
-    enum class CurrentTheme {
-        SYSTEM, DARK, LIGHT
     }
 }

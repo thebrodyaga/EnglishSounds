@@ -100,15 +100,21 @@ dependencies {
 
 
     implementation project(":analytics")
+    implementation project(":brandbook")
     implementation project(":base:di")
     implementation project(":base:app")
     implementation project(":core:utils")
+    implementation project(":core:uiUtils")
     implementation project(":data:sounds:api")
     implementation project(":data:sounds:impl")
+    implementation project(":feature:appActivity:api")
+    implementation project(":feature:appActivity:impl")
     implementation project(":feature:soundDetails:api")
     implementation project(":feature:soundDetails:impl")
     implementation project(":feature:audioPlayer:api")
     implementation project(":feature:audioPlayer:impl")
+    implementation project(":feature:mainScreen:api")
+    implementation project(":feature:mainScreen:impl")
 
 
     // deprecated

@@ -1,7 +1,7 @@
 package com.thebrodyaga.englishsounds.youtube
 
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
-import com.thebrodyaga.englishsounds.screen.base.BasePresenter
+import com.thebrodyaga.englishsounds.base.app.BasePresenter
 import moxy.InjectViewState
 import moxy.MvpView
 import javax.inject.Inject

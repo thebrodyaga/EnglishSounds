@@ -7,12 +7,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.englishsounds.app.AppActivity
+import com.thebrodyaga.feature.appActivity.impl.AppActivity
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
-import com.thebrodyaga.feature.audioPlayer.impl.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import kotlinx.android.synthetic.main.fragment_sounds_training.*
 import kotlinx.android.synthetic.main.fragment_word.view.*
 import moxy.presenter.InjectPresenter

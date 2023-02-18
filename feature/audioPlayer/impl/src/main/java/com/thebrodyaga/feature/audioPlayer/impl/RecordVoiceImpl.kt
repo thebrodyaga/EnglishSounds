@@ -5,20 +5,22 @@ import android.media.MediaRecorder
 import com.google.android.exoplayer2.Player
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.Relay
+import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.api.RecordState
+import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
 
-
-class RecordVoice constructor(
+class RecordVoiceImpl constructor(
     private val audioPlayer: AudioPlayer,
     private val context: Context
-) : Player.EventListener {
+) : RecordVoice {
 
     private var currentState = RecordState.EMPTY
     private var myAudioRecorder: MediaRecorder? = null
     private var outputFile = File(context.filesDir, "recording.m4a")
-    val stateSubject: Relay<RecordState> = BehaviorRelay.createDefault(RecordState.EMPTY)
+    override val stateSubject: Relay<RecordState> = BehaviorRelay.createDefault(RecordState.EMPTY)
 
     init {
         val state = stateSubject
@@ -27,7 +29,7 @@ class RecordVoice constructor(
         outputFile.createNewFile()
     }
 
-    fun startRecord() {
+    override fun startRecord() {
         if (myAudioRecorder == null)
             prepareRecord()
         try {
@@ -42,7 +44,7 @@ class RecordVoice constructor(
         }
     }
 
-    fun stopRecord() {
+    override fun stopRecord() {
         if (currentState == RecordState.RECORDING) {
             try {
                 myAudioRecorder?.stop()  // stop the recording
@@ -54,36 +56,33 @@ class RecordVoice constructor(
                 releaseMediaRecorder()
                 stateSubject.accept(RecordState.EMPTY)
             }
-
         }
     }
 
-    fun clearRecord() {
+    override fun clearRecord() {
         audioPlayer.stopPlay()
         stateSubject.accept(RecordState.EMPTY)
     }
 
-    fun playRecord() {
+    override fun playRecord() {
         if (outputFile.exists())
-            audioPlayer.playAudio(outputFile, this)
+            audioPlayer.playAudio(outputFile) { isPlaying ->
+                stateSubject.accept(if (isPlaying) RecordState.PLAYING_AUDIO else RecordState.AUDIO)
+            }
     }
 
-    fun stopPlayRecord() {
+    override fun stopPlayRecord() {
         if (currentState == RecordState.PLAYING_AUDIO)
             audioPlayer.stopPlay()
     }
 
-    fun onAppShow() {
+    override fun onAppShow() {
 //        prepareRecord()
     }
 
-    fun onAppHide() {
+    override fun onAppHide() {
         if (currentState == RecordState.RECORDING)
             stopRecord()
-    }
-
-    override fun onIsPlayingChanged(isPlaying: Boolean) {
-        stateSubject.accept(if (isPlaying) RecordState.PLAYING_AUDIO else RecordState.AUDIO)
     }
 
     private fun prepareRecord() {
@@ -118,9 +117,5 @@ class RecordVoice constructor(
             // MediaRecorder doesn't need it anymore and we will release it if the activity pauses.
             this.myAudioRecorder = null
         }
-    }
-
-    enum class RecordState {
-        EMPTY, RECORDING, AUDIO, PLAYING_AUDIO
     }
 }

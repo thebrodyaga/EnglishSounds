@@ -2,7 +2,7 @@ package com.thebrodyaga.englishsounds.screen.fragments.sounds.training
 
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.data.sounds.api.SoundsRepository
-import com.thebrodyaga.englishsounds.screen.base.BasePresenter
+import com.thebrodyaga.englishsounds.base.app.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState

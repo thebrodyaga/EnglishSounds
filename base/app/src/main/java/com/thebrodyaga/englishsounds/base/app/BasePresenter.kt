@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.screen.base
+package com.thebrodyaga.englishsounds.base.app
 
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

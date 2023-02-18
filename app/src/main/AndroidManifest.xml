@@ -34,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.AppActivity" />
+        <activity android:name="com.thebrodyaga.feature.appActivity.impl.AppActivity" />
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"

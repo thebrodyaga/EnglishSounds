@@ -7,4 +7,6 @@ dependencies {
     implementation project(":data:sounds:api")
     implementation project(":core:navigation:api")
     implementation project(":base:navigation:api")
+    implementation project(":feature:mainScreen:api")
+    implementation project(":feature:audioPlayer:api")
 }

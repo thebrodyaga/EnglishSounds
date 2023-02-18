@@ -1,15 +1,15 @@
 package com.thebrodyaga.englishsounds.screen.fragments.settings.all
 
-
 import android.os.Bundle
 import android.view.View
 import com.jakewharton.rxbinding3.widget.checkedChanges
+import com.thebrodyaga.data.sounds.api.CurrentTheme
+import com.thebrodyaga.data.sounds.api.SettingManager
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.screen.isGone
 import com.thebrodyaga.englishsounds.screen.isSystemDarkMode
-import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import kotlinx.android.synthetic.main.fragment_settings.*
 import javax.inject.Inject
 
@@ -39,16 +39,16 @@ class SettingsFragment : BaseFragment() {
 
     private fun setThemeSetting() {
         when (settingManager.getCurrentTheme()) {
-            SettingManager.CurrentTheme.SYSTEM -> {
+            CurrentTheme.SYSTEM -> {
                 system_theme.isChecked = true
                 is_dark_theme.isGone(true)
             }
-            SettingManager.CurrentTheme.DARK -> {
+            CurrentTheme.DARK -> {
                 system_theme.isChecked = false
                 is_dark_theme.isGone(false)
                 is_dark_theme.isChecked = true
             }
-            SettingManager.CurrentTheme.LIGHT -> {
+            CurrentTheme.LIGHT -> {
                 system_theme.isChecked = false
                 is_dark_theme.isGone(false)
                 is_dark_theme.isChecked = false
@@ -70,15 +70,15 @@ class SettingsFragment : BaseFragment() {
 
     private val onSystemThemeListener = { isChecked: Boolean ->
         if (isChecked) {
-            settingManager.setCurrentTheme(SettingManager.CurrentTheme.SYSTEM)
+            settingManager.setCurrentTheme(CurrentTheme.SYSTEM)
             is_dark_theme.isGone(true)
         } else {
             val isSystemDark = context?.isSystemDarkMode() ?: false
             is_dark_theme.isChecked = !isSystemDark
             settingManager.setCurrentTheme(
                 if (isSystemDark)
-                    SettingManager.CurrentTheme.LIGHT
-                else SettingManager.CurrentTheme.DARK
+                    CurrentTheme.LIGHT
+                else CurrentTheme.DARK
             )
             is_dark_theme.isGone(false)
         }
@@ -87,8 +87,8 @@ class SettingsFragment : BaseFragment() {
 
     private val onIsDarkThemeListener = { isChecked: Boolean ->
         settingManager.setCurrentTheme(
-            if (isChecked) SettingManager.CurrentTheme.DARK
-            else SettingManager.CurrentTheme.LIGHT
+            if (isChecked) CurrentTheme.DARK
+            else CurrentTheme.LIGHT
         )
         App.app.updateTheme()
     }

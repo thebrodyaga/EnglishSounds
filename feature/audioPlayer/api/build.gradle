@@ -3,4 +3,6 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureApiModule(this)
 
 dependencies {
+    implementation exoPlayer
+    implementation rxJava
 }

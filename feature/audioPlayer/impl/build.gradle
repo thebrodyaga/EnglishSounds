@@ -6,4 +6,5 @@ dependencies {
     implementation exoPlayer
     implementation timber
     implementation rxJava
+    implementation project(":feature:audioPlayer:api")
 }

@@ -1,0 +1,16 @@
+apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
+apply from: "$project.rootDir/build_scripts/module_methods.gradle"
+applyFeatureImplModule(this)
+
+dependencies {
+    implementation project(":brandbook")
+    implementation project(":core:uiUtils")
+    implementation project(":data:sounds:api")
+    implementation project(":feature:audioPlayer:api")
+    implementation project(":feature:mainScreen:api")
+    implementation project(":base:di")
+    implementation googlePlayCore
+    implementation timber
+    implementation exoPlayer
+    applyDagger(this)
+}

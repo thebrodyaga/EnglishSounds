@@ -12,7 +12,8 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.feature.audioPlayer.impl.RecordVoice
+import com.thebrodyaga.feature.audioPlayer.api.RecordState
+import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import io.reactivex.disposables.CompositeDisposable
 
 
@@ -70,17 +71,17 @@ class MicFloatingButton : FloatingActionButton {
     private fun subscribeOnRecordFileChange(recordVoice: RecordVoice) {
         compositeDisposable.add(recordVoice.stateSubject
             .distinctUntilChanged()
-            .subscribe { state: RecordVoice.RecordState ->
+            .subscribe { state: RecordState ->
                 setViewMode(state)
             })
     }
 
-    private fun setViewMode(state: RecordVoice.RecordState) {
+    private fun setViewMode(state: RecordState) {
         mode = when (state) {
-            RecordVoice.RecordState.EMPTY -> Mode.MIC
-            RecordVoice.RecordState.RECORDING -> Mode.RECORDING
-            RecordVoice.RecordState.AUDIO -> Mode.PLAY
-            RecordVoice.RecordState.PLAYING_AUDIO -> Mode.PLAYING
+            RecordState.EMPTY -> Mode.MIC
+            RecordState.RECORDING -> Mode.RECORDING
+            RecordState.AUDIO -> Mode.PLAY
+            RecordState.PLAYING_AUDIO -> Mode.PLAYING
         }
     }
 

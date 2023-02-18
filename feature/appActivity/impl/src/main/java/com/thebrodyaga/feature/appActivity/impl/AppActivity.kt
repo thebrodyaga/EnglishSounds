@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.app
+package com.thebrodyaga.feature.appActivity.impl
 
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -13,17 +13,17 @@ import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.api.cicerone.Router
 import com.thebrodyaga.core.navigation.impl.cicerone.AppNavigator
-import com.thebrodyaga.data.sounds.impl.setting.SettingManager
-import com.thebrodyaga.englishsounds.BuildConfig
-import com.thebrodyaga.englishsounds.R
+import com.thebrodyaga.core.uiUtils.isSystemDarkMode
+import com.thebrodyaga.data.sounds.api.SettingManager
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
-import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.englishsounds.screen.base.BasePresenter
-import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
-import com.thebrodyaga.englishsounds.screen.isSystemDarkMode
-import com.thebrodyaga.feature.audioPlayer.impl.AudioPlayer
-import com.thebrodyaga.feature.audioPlayer.impl.RecordVoice
+import com.thebrodyaga.englishsounds.base.app.BasePresenter
+import com.thebrodyaga.englishsounds.base.di.findComponent
+import com.thebrodyaga.feature.appActivity.impl.di.AppActivityComponent
+import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
+import com.thebrodyaga.feature.mainScreen.api.MainScreenAction
+import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import moxy.InjectViewState
 import moxy.MvpView
 import moxy.presenter.InjectPresenter
@@ -48,6 +48,9 @@ class AppActivity : BaseActivity(), AppActivityView {
     lateinit var settingManager: SettingManager
 
     @Inject
+    lateinit var mainScreenFactory: MainScreenFactory
+
+    @Inject
     @InjectPresenter
     lateinit var presenter: AppActivityPresenter
 
@@ -70,15 +73,13 @@ class AppActivity : BaseActivity(), AppActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         navigationBar = ContextCompat.getColor(this, R.color.navigation_bar)
         primaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark)
-        App.appComponent.inject(this)
+        AppActivityComponent.build(findComponent()).inject(this)
         isLightSystem(isSystemDarkMode())
         super.onCreate(savedInstanceState)
         reviewManager = ReviewManagerFactory.create(this)
-        if (BuildConfig.DEBUG)
-            supportFragmentManager.registerFragmentLifecycleCallbacks(FragmentLifecycle(), true)
         setContentView(R.layout.layout_fragemnt_container)
         if (currentFragment == null)
-            router.newRootScreen(Screens.MainScreen)
+            router.newRootScreen(mainScreenFactory.mainScreen())
     }
 
     override fun onResumeFragments() {
@@ -165,7 +166,8 @@ class AppActivity : BaseActivity(), AppActivityView {
     }
 
     fun toggleFabMic(isShow: Boolean?, autoHide: Boolean?) {
-        (supportFragmentManager.fragments.find { it is MainFragment } as? MainFragment)
+        val mainScreen = mainScreenFactory.mainScreen()
+        (supportFragmentManager.fragments.find { it.tag == mainScreen.screenKey } as? MainScreenAction)
             ?.toggleFabMic(isShow, autoHide)
     }
 }

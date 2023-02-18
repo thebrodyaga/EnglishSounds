@@ -7,12 +7,12 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util.getUserAgent
+import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import java.io.File
 
-
-class AudioPlayer constructor(
+class AudioPlayerImpl constructor(
     context: Context
-) {
+) : AudioPlayer {
 
     private var player = ExoPlayerFactory.newSimpleInstance(context)
     private var currentListener: Player.EventListener? = null
@@ -22,9 +22,14 @@ class AudioPlayer constructor(
     )
     private val sourceFactory = ProgressiveMediaSource.Factory(dataSourceFactory)
 
-    fun playAudio(audio: File, listener: Player.EventListener) {
+    override fun playAudio(audio: File, onIsPlayingChanged: (isPlaying: Boolean) -> Unit) {
         player.stop()
         currentListener?.also { player.removeListener(it) }
+        val listener = object :Player.EventListener{
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                onIsPlayingChanged(isPlaying)
+            }
+        }
         currentListener = listener
         player.addListener(listener)
         val source = sourceFactory.createMediaSource(Uri.fromFile(audio))
@@ -32,15 +37,14 @@ class AudioPlayer constructor(
         player.playWhenReady = true
     }
 
-    fun stopPlay() {
+    override fun stopPlay() {
         player.stop()
     }
 
-    fun onAppHide() {
+    override fun onAppHide() {
         stopPlay()
     }
 
-    fun onAppShow() {
-
+    override fun onAppShow() {
     }
 }

@@ -10,9 +10,13 @@ import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.data.sounds.impl.AmericanSoundsRepositoryImpl
 import com.thebrodyaga.data.sounds.impl.SoundsVideoRepositoryImpl
-import com.thebrodyaga.feature.audioPlayer.impl.AudioPlayer
-import com.thebrodyaga.feature.audioPlayer.impl.RecordVoice
-import com.thebrodyaga.data.sounds.impl.setting.SettingManager
+import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
+import com.thebrodyaga.data.sounds.api.SettingManager
+import com.thebrodyaga.data.sounds.impl.setting.SettingManagerImpl
+import com.thebrodyaga.feature.audioPlayer.impl.AudioPlayerImpl
+import com.thebrodyaga.feature.audioPlayer.impl.RecordVoiceImpl
+import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,15 +29,18 @@ class AppModule {
     fun provideContext(application: Application): Context = application.applicationContext
 
     @Provides
+    fun mainScreenFactory(): MainScreenFactory = TODO()
+
+    @Provides
     @Singleton
     fun provideRecordVoice(
         audioPlayer: AudioPlayer,
         context: Context
-    ): RecordVoice = RecordVoice(audioPlayer, context)
+    ): RecordVoice = RecordVoiceImpl(audioPlayer, context)
 
     @Provides
     @Singleton
-    fun provideAudioPlayer(context: Context): AudioPlayer = AudioPlayer(context)
+    fun provideAudioPlayer(context: Context): AudioPlayer = AudioPlayerImpl(context)
 
     @Provides
     @Singleton
@@ -71,6 +78,6 @@ class AppModule {
     @Provides
     @Singleton
     fun provideSetting(sharedPreferences: SharedPreferences, gson: Gson): SettingManager =
-        SettingManager(sharedPreferences, gson)
+        SettingManagerImpl(sharedPreferences, gson)
 
 }
