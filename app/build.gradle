@@ -108,6 +108,8 @@ dependencies {
     implementation project(":data:sounds:impl")
     implementation project(":feature:soundDetails:api")
     implementation project(":feature:soundDetails:impl")
+    implementation project(":feature:audioPlayer:api")
+    implementation project(":feature:audioPlayer:impl")
 
 
     // deprecated

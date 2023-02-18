@@ -14,3 +14,6 @@ include ':feature:soundDetails:api'
 include ':feature:soundDetails:impl'
 include ':base:navigation:api'
 include ':base:navigation:impl'
+
+include ':feature:audioPlayer:api'
+include ':feature:audioPlayer:impl'
