@@ -13,15 +13,11 @@ import timber.log.Timber.DebugTree
 
 class App : BaseApp() {
 
-    private val appComponent: AppComponent by lazy(LazyThreadSafetyMode.NONE) {
-        DaggerAppComponent.builder()
-            .application(this)
-            .build()
-    }
-
     override fun onCreate() {
         app = this
-        component = appComponent
+        component = DaggerAppComponent.builder()
+            .application(this)
+            .build()
         super.onCreate()
 //        MobileAds.initialize(this)
         if (!BuildConfig.DEBUG) {
@@ -32,7 +28,6 @@ class App : BaseApp() {
         }
         updateTheme()
     }
-
 
     fun updateTheme() {
         AppCompatDelegate.setDefaultNightMode(
@@ -69,7 +64,8 @@ class App : BaseApp() {
     }
 
     companion object {
-        lateinit var appComponent: AppComponent
+        val appComponent: AppComponent
+            get() = component as AppComponent
         lateinit var app: App
     }
 }
