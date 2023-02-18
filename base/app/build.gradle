@@ -7,4 +7,5 @@ dependencies {
     implementation rxJava
     applyPlatformNavigation(this)
     applyMoxy(this)
+    firebaseBom(this)
 }

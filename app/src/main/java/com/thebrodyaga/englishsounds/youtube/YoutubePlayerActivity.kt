@@ -20,7 +20,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.englishsounds.app.BaseActivity
+import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.domine.entities.ui.PlayVideoExtra
 import com.thebrodyaga.englishsounds.utils.*
 import com.thebrodyaga.englishsounds.utils.PicInPickHelper.Companion.isHavePicInPicMode
@@ -32,7 +32,6 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import timber.log.Timber
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.activity_video_player.*
 
 class YoutubePlayerActivity : BaseActivity(), MvpView {
 

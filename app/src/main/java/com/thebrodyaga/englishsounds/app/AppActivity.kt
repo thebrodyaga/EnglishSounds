@@ -16,6 +16,7 @@ import com.thebrodyaga.core.navigation.impl.cicerone.AppNavigator
 import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.R
+import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
