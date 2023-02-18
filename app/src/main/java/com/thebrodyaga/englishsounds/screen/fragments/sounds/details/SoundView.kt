@@ -1,6 +1,6 @@
 package com.thebrodyaga.englishsounds.screen.fragments.sounds.details
 
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsDetailsListItem
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
@@ -10,7 +10,7 @@ interface SoundView:MvpView {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun setData(
-        list: List<SoundsDetailsListItem>,
+        list: List<Any>,
         soundDto: AmericanSoundDto
     )
 }

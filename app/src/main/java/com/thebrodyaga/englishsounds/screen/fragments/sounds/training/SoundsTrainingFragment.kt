@@ -17,7 +17,7 @@ import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.AppActivity
 import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
-import com.thebrodyaga.englishsounds.domine.entities.data.PracticeWordDto
+import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.ShortAdItem
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment

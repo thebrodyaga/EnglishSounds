@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.AppActivity
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsDetailsListItem
-import com.thebrodyaga.englishsounds.repository.SoundsRepository
+import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.englishsounds.screen.adapters.SoundDetailsAdapter
 import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.screen.base.BaseFragment
@@ -63,7 +63,7 @@ class SoundFragment : BaseFragment(), SoundView {
     }
 
     @SuppressLint("InflateParams")
-    override fun setData(list: List<SoundsDetailsListItem>, soundDto: AmericanSoundDto) {
+    override fun setData(list: List<Any>, soundDto: AmericanSoundDto) {
         toolbar_title.text = soundDto.name.plus(" ").plus("[${soundDto.transcription}]")
         root_view.post { adapter.setData(list) }
     }

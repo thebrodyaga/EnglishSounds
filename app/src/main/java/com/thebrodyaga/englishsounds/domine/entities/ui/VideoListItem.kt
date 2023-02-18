@@ -2,7 +2,7 @@ package com.thebrodyaga.englishsounds.domine.entities.ui
 
 import androidx.annotation.StringRes
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
+import com.thebrodyaga.data.sounds.api.model.SoundType
 
 sealed class VideoListItem constructor(
     @StringRes val title: Int,

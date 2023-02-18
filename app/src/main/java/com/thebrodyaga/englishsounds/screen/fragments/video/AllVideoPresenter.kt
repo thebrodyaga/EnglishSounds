@@ -1,7 +1,7 @@
 package com.thebrodyaga.englishsounds.screen.fragments.video
 
-import com.thebrodyaga.englishsounds.repository.SoundsRepository
-import com.thebrodyaga.englishsounds.repository.SoundsVideoRepository
+import com.thebrodyaga.data.sounds.api.SoundsRepository
+import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import moxy.InjectViewState
 import javax.inject.Inject

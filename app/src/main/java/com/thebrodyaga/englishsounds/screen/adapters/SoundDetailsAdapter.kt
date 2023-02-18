@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.data.PracticeWordDto
-import com.thebrodyaga.englishsounds.domine.entities.data.SpellingWordDto
-import com.thebrodyaga.englishsounds.domine.entities.data.WordDto
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
+import com.thebrodyaga.data.sounds.api.model.SpellingWordDto
+import com.thebrodyaga.data.sounds.api.model.WordDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.screen.getVideoAndDescription
 import com.thebrodyaga.englishsounds.screen.isGone
@@ -44,10 +44,10 @@ class SoundDetailsAdapter constructor(
         NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_PORTRAIT
     )
 
-    var list = listOf<SoundsDetailsListItem>()
+    var list = listOf<Any>()
         private set
 
-    fun setData(newData: List<SoundsDetailsListItem>) {
+    fun setData(newData: List<Any>) {
         val diffResult = DiffUtil.calculateDiff(DiffCallback(list, newData.toList()))
         list = newData
         diffResult.dispatchUpdatesTo(this)
@@ -227,8 +227,8 @@ class SoundDetailsAdapter constructor(
     }
 
     class DiffCallback constructor(
-        private var oldList: List<SoundsDetailsListItem>,
-        private var newList: List<SoundsDetailsListItem>
+        private var oldList: List<Any>,
+        private var newList: List<Any>
     ) : DiffUtil.Callback() {
 
         override fun getOldListSize(): Int {

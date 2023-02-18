@@ -1,13 +1,13 @@
 package com.thebrodyaga.englishsounds.domine.interactors
 
-import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
-import com.thebrodyaga.englishsounds.domine.entities.resources.AdvancedExercisesVideoRes
-import com.thebrodyaga.englishsounds.domine.entities.resources.ContrastingSoundVideoRes
-import com.thebrodyaga.englishsounds.domine.entities.resources.MostCommonWordsVideoRes
-import com.thebrodyaga.englishsounds.domine.entities.resources.SoundVideoRes
+import com.thebrodyaga.data.sounds.api.model.SoundType
+import com.thebrodyaga.data.sounds.api.model.AdvancedExercisesVideoRes
+import com.thebrodyaga.data.sounds.api.model.ContrastingSoundVideoRes
+import com.thebrodyaga.data.sounds.api.model.MostCommonWordsVideoRes
+import com.thebrodyaga.data.sounds.api.model.SoundVideoRes
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
-import com.thebrodyaga.englishsounds.repository.SoundsRepository
-import com.thebrodyaga.englishsounds.repository.SoundsVideoRepository
+import com.thebrodyaga.data.sounds.api.SoundsRepository
+import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import io.reactivex.Observable
 import io.reactivex.functions.Function4
 

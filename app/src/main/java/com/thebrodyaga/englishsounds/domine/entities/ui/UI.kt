@@ -1,11 +1,12 @@
 package com.thebrodyaga.englishsounds.domine.entities.ui
 
+import androidx.annotation.ColorRes
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.SoundType
 import kotlinx.android.parcel.Parcelize
 
 data class SoundHeader constructor(
@@ -58,3 +59,25 @@ data class PlayVideoExtra constructor(
     val videoId: String,
     val videoName: String
 ) : Parcelable
+
+
+@ColorRes
+fun SoundType.color(): Int = when (this) {
+    SoundType.CONSONANT_SOUND -> R.color.consonant_sounds
+    SoundType.R_CONTROLLED_VOWELS -> R.color.r_controlled_vowels
+    SoundType.VOWEL_SOUNDS -> R.color.vowel_sounds
+}
+
+@StringRes
+fun SoundType.humanName(): Int = when (this) {
+    SoundType.CONSONANT_SOUND -> R.string.consonant_sounds
+    SoundType.R_CONTROLLED_VOWELS -> R.string.r_controlled_vowels
+    SoundType.VOWEL_SOUNDS -> R.string.vowel_sounds
+}
+
+@StringRes
+fun SoundType.shortHumanName(): Int = when (this) {
+    SoundType.CONSONANT_SOUND -> R.string.consonant_sounds_short
+    SoundType.R_CONTROLLED_VOWELS -> R.string.r_controlled_vowels_short
+    SoundType.VOWEL_SOUNDS -> R.string.vowel_sounds_short
+}

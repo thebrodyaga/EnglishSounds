@@ -13,8 +13,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.AppActivity
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.adapters.SoundsAdapter
@@ -74,7 +74,7 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
         toolbar.setOnMenuItemClickListener(this)
     }
 
-    override fun setListData(sounds: List<SoundsListItem>) {
+    override fun setListData(sounds: List<Any>) {
         adapter.setData(sounds)
     }
 

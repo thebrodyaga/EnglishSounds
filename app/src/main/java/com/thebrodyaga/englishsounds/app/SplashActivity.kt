@@ -3,7 +3,7 @@ package com.thebrodyaga.englishsounds.app
 import android.content.Intent
 import android.os.Bundle
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.repository.SoundsRepository
+import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

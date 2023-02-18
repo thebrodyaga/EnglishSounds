@@ -1,7 +1,7 @@
 package com.thebrodyaga.englishsounds.domine.entities.ui
 
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.resources.SoundVideoRes
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.SoundVideoRes
 
 interface VideoItemInList
 

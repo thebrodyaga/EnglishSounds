@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.thebrodyaga.englishsounds.BuildConfig
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.data.PracticeWordDto
-import com.thebrodyaga.englishsounds.repository.SoundsRepository
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
+import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.englishsounds.tools.SettingManager
 import com.thebrodyaga.englishsounds.utils.UnzipFile
 import com.thebrodyaga.englishsounds.utils.ZipUtils

@@ -1,9 +1,9 @@
-package com.thebrodyaga.englishsounds.repository
+package com.thebrodyaga.data.sounds.api
 
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.data.PracticeWordDto
-import com.thebrodyaga.englishsounds.domine.entities.data.SoundDto
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 
 interface SoundsRepository {
 

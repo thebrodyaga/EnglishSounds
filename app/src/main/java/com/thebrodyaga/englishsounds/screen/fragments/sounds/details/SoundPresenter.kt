@@ -1,12 +1,12 @@
 package com.thebrodyaga.englishsounds.screen.fragments.sounds.details
 
 import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.ShortAdItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsDetailsListItem
 import com.thebrodyaga.englishsounds.domine.entities.ui.SoundsDetailsWithAd
 import com.thebrodyaga.englishsounds.domine.entities.ui.WordsHeader
-import com.thebrodyaga.englishsounds.repository.SoundsRepository
+import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -32,7 +32,7 @@ class SoundPresenter @Inject constructor(
 
 
     private fun mapForUi(soundDto: AmericanSoundDto) {
-        val result = mutableListOf<SoundsDetailsListItem>()
+        val result = mutableListOf<Any>()
         result.add(SoundsDetailsWithAd(soundDto, ShortAdItem(AdTag.SOUND_DETAILS)))
         if (soundDto.spellingWordList.isNotEmpty()) {
             result.add(WordsHeader(WordsHeader.Type.SPELLING))

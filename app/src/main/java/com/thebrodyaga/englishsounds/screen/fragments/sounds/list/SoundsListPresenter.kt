@@ -1,14 +1,14 @@
 package com.thebrodyaga.englishsounds.screen.fragments.sounds.list
 
 import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
-import com.thebrodyaga.englishsounds.domine.entities.resources.AdvancedExercisesVideoRes
-import com.thebrodyaga.englishsounds.domine.entities.resources.ContrastingSoundVideoRes
-import com.thebrodyaga.englishsounds.domine.entities.resources.MostCommonWordsVideoRes
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.SoundType
+import com.thebrodyaga.data.sounds.api.model.AdvancedExercisesVideoRes
+import com.thebrodyaga.data.sounds.api.model.ContrastingSoundVideoRes
+import com.thebrodyaga.data.sounds.api.model.MostCommonWordsVideoRes
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
-import com.thebrodyaga.englishsounds.repository.SoundsRepository
-import com.thebrodyaga.englishsounds.repository.SoundsVideoRepository
+import com.thebrodyaga.data.sounds.api.SoundsRepository
+import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
 import io.reactivex.Observable
@@ -71,7 +71,7 @@ class SoundsListPresenter @Inject constructor(
                 SoundType.VOWEL_SOUNDS -> vowelSounds.add(it)
             }
         }
-        val result = mutableListOf<SoundsListItem>()
+        val result = mutableListOf<Any>()
         if (vowelSounds.isNotEmpty()) {
             result.add(SoundHeader(SoundType.VOWEL_SOUNDS))
             result.addAll(vowelSounds)

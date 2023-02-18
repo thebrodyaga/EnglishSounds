@@ -20,13 +20,7 @@ ext {
     }
 
     //--------------Data------------------------------------
-    applyDataApiAndroidModule = { module ->
-        //только native кмм перспектива
-        baseNativeModule(module)
-    }
-
     applyDataApiModule = { module ->
-        //только native кмм перспектива
         baseNativeModule(module)
     }
 
@@ -79,6 +73,7 @@ ext {
         }
         module.dependencies {
             implementation javaxInject
+            implementation coroutines
             testImplementation unitTest
         }
     }

@@ -12,7 +12,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.screen.adapters.utils.SoundItemViewCache
 import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity

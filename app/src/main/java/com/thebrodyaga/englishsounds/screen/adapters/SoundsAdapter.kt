@@ -17,7 +17,7 @@ import com.google.android.gms.ads.formats.NativeAdOptions
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.domine.entities.data.AdBox
-import com.thebrodyaga.englishsounds.domine.entities.data.AmericanSoundDto
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.*
 import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
@@ -74,7 +74,7 @@ class SoundsAdapter constructor(
         )
     }
 
-    fun setData(newData: List<SoundsListItem>) {
+    fun setData(newData: List<Any>) {
         items = newData
     }
 

@@ -1,7 +1,7 @@
 package com.thebrodyaga.englishsounds.screen.fragments.video.listoflists
 
 import com.thebrodyaga.englishsounds.domine.entities.data.AdTag
-import com.thebrodyaga.englishsounds.domine.entities.data.SoundType
+import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter

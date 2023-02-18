@@ -4,4 +4,5 @@ applyBaseAndroidModule(this)
 
 dependencies {
     implementation baseNetworkDependencies
+    implementation project(":data:sounds:api")
 }

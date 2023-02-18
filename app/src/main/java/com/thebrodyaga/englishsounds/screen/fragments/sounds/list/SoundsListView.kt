@@ -8,5 +8,5 @@ import moxy.viewstate.strategy.StateStrategyType
 interface SoundsListView : MvpView {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun setListData(sounds: List<SoundsListItem>)
+    fun setListData(sounds: List<Any>)
 }
