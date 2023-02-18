@@ -21,8 +21,8 @@ import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.base.BasePresenter
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.englishsounds.screen.isSystemDarkMode
-import com.thebrodyaga.englishsounds.tools.AudioPlayer
-import com.thebrodyaga.englishsounds.tools.RecordVoice
+import com.thebrodyaga.feature.audioPlayer.impl.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.impl.RecordVoice
 import moxy.InjectViewState
 import moxy.MvpView
 import moxy.presenter.InjectPresenter

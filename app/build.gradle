@@ -72,9 +72,6 @@ android {
 
 ext {
     leakcanary = "1.5.4"
-    room = "1.1.1"
-    room_version = "2.2.1"
-    exo_player = "2.11.5"
 }
 
 dependencies {
@@ -99,6 +96,7 @@ dependencies {
     implementation googleAds
     implementation rxJava
     implementation timber
+    implementation exoPlayer
 
 
     implementation project(":base:di")
@@ -116,11 +114,6 @@ dependencies {
 
     //premissions
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-
-    //exoplayer
-    implementation "com.google.android.exoplayer:exoplayer-core:${exo_player}"
-    implementation "com.google.android.exoplayer:exoplayer-ui:${exo_player}"
-    implementation "com.google.android.exoplayer:extension-mediasession:${exo_player}"
 
     //youtube
     implementation('com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5') {

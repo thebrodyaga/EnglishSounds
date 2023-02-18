@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.tools.RecordVoice
+import com.thebrodyaga.feature.audioPlayer.impl.RecordVoice
 import io.reactivex.disposables.CompositeDisposable
 
 

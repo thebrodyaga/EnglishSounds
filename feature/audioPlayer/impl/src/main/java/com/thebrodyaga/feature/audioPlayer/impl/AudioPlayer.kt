@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.tools
+package com.thebrodyaga.feature.audioPlayer.impl
 
 import android.content.Context
 import android.net.Uri
@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util.getUserAgent
-import com.thebrodyaga.englishsounds.R
 import java.io.File
 
 
@@ -19,7 +18,7 @@ class AudioPlayer constructor(
     private var currentListener: Player.EventListener? = null
     private val dataSourceFactory = DefaultDataSourceFactory(
         context,
-        getUserAgent(context, context.getString(R.string.app_name))
+        getUserAgent(context, "English Sounds")
     )
     private val sourceFactory = ProgressiveMediaSource.Factory(dataSourceFactory)
 

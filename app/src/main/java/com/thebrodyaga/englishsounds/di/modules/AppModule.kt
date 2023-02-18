@@ -10,8 +10,8 @@ import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.data.sounds.impl.AmericanSoundsRepositoryImpl
 import com.thebrodyaga.data.sounds.impl.SoundsVideoRepositoryImpl
-import com.thebrodyaga.englishsounds.tools.AudioPlayer
-import com.thebrodyaga.englishsounds.tools.RecordVoice
+import com.thebrodyaga.feature.audioPlayer.impl.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.impl.RecordVoice
 import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import dagger.Module
 import dagger.Provides

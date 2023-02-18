@@ -13,7 +13,7 @@ import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.englishsounds.screen.adapters.SoundDetailsAdapter
 import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
-import com.thebrodyaga.englishsounds.tools.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.impl.AudioPlayer
 import com.thebrodyaga.data.sounds.impl.setting.SettingManager
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator

@@ -12,10 +12,9 @@ import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
-import com.thebrodyaga.englishsounds.tools.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.impl.AudioPlayer
 import kotlinx.android.synthetic.main.fragment_sounds_training.*
 import kotlinx.android.synthetic.main.fragment_word.view.*
-import kotlinx.android.synthetic.main.item_ad_vertical_short.view.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import java.io.File

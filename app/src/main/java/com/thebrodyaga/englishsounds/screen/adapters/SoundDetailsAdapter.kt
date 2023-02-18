@@ -19,7 +19,7 @@ import com.thebrodyaga.data.sounds.api.model.WordDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.screen.getVideoAndDescription
 import com.thebrodyaga.englishsounds.screen.isGone
-import com.thebrodyaga.englishsounds.tools.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.impl.AudioPlayer
 import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
 import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
 import kotlinx.android.synthetic.main.item_ad_vertical_short.view.*

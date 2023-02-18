@@ -3,4 +3,7 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
 
 dependencies {
+    implementation exoPlayer
+    implementation timber
+    implementation rxJava
 }

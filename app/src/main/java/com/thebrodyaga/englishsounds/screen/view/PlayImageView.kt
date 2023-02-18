@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.Player
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.tools.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.impl.AudioPlayer
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.io.File
