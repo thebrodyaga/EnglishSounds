@@ -4,6 +4,7 @@ import android.app.Application
 import com.google.gson.Gson
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
+import com.thebrodyaga.data.sounds.impl.di.SoundsModule
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.SplashActivity
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
@@ -31,7 +32,8 @@ import javax.inject.Singleton
     modules = [
         AppModule::class,
         NavigationModule::class,
-        AudioPlayerModule::class
+        AudioPlayerModule::class,
+        SoundsModule::class,
     ]
 )
 interface AppComponent : AppDependencies,

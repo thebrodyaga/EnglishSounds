@@ -5,8 +5,9 @@ import com.google.gson.Gson
 import com.thebrodyaga.data.sounds.api.CurrentTheme
 import com.thebrodyaga.data.sounds.api.SettingManager
 import timber.log.Timber
+import javax.inject.Inject
 
-class SettingManagerImpl constructor(
+class SettingManagerImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val gson: Gson
 ) : SettingManager {

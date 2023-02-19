@@ -16,10 +16,11 @@ import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 private const val AMERICAN_SOUNDS_ZIP_VERSION = 1
 
-class AmericanSoundsRepositoryImpl constructor(
+class AmericanSoundsRepositoryImpl @Inject constructor(
     private val context: Context,
     private val gson: Gson,
     private val settingManager: SettingManager

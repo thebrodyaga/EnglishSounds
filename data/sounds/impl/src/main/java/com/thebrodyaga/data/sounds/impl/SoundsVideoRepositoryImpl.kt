@@ -9,8 +9,9 @@ import com.thebrodyaga.data.sounds.api.model.SoundVideoRes
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import io.reactivex.Single
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class SoundsVideoRepositoryImpl constructor(
+class SoundsVideoRepositoryImpl @Inject constructor(
     val context: Context
 ) : SoundsVideoRepository {
 

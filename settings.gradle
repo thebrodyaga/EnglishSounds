@@ -28,3 +28,5 @@ include ':brandbook'
 
 include ':feature:youtube:api'
 include ':feature:youtube:impl'
+include ':feature:setting:api'
+include ':feature:setting:impl'

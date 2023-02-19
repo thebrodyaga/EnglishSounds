@@ -3,6 +3,7 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyDataImplAndroidModule(this)
 
 dependencies {
+    applyDagger(this)
     implementation project(":data:sounds:api")
     implementation project(":core:utils")
     implementation rxJava

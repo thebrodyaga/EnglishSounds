@@ -40,22 +40,6 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideSoundRepository(
-        context: Context,
-        gson: Gson,
-        settingManager: SettingManager
-    ): SoundsRepository =
-        AmericanSoundsRepositoryImpl(context, gson, settingManager)
-
-    @Provides
-    @Singleton
-    fun provideSoundVideoRepository(
-        context: Context
-    ): SoundsVideoRepository =
-        SoundsVideoRepositoryImpl(context)
-
-    @Provides
-    @Singleton
     fun provideGson(): Gson =
         GsonBuilder().create()
 
@@ -63,10 +47,4 @@ class AppModule {
     @Singleton
     fun provideAppSharedPreferences(context: Context): SharedPreferences =
         context.getSharedPreferences("AppSharedPreferences", Context.MODE_PRIVATE)
-
-    @Provides
-    @Singleton
-    fun provideSetting(sharedPreferences: SharedPreferences, gson: Gson): SettingManager =
-        SettingManagerImpl(sharedPreferences, gson)
-
 }
