@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.utils
+package com.thebrodyaga.englishsounds.analytics
 
 object AppAnalytics {
 

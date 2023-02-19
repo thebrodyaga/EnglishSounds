@@ -25,3 +25,6 @@ include ':core:uiUtils'
 include ':feature:mainScreen:api'
 include ':feature:mainScreen:impl'
 include ':brandbook'
+
+include ':feature:youtube:api'
+include ':feature:youtube:impl'

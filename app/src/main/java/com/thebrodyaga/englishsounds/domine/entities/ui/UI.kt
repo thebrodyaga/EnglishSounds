@@ -54,13 +54,6 @@ data class SoundsDetailsWithAd constructor(
 interface SoundsListItem
 interface SoundsDetailsListItem
 
-@Parcelize
-data class PlayVideoExtra constructor(
-    val videoId: String,
-    val videoName: String
-) : Parcelable
-
-
 @ColorRes
 fun SoundType.color(): Int = when (this) {
     SoundType.CONSONANT_SOUND -> R.color.consonant_sounds

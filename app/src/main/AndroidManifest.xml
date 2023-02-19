@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".youtube.YoutubePlayerActivity"
+            android:name="com.thebrodyaga.feature.youtube.impl.YoutubePlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout|uiMode"
             android:launchMode="singleTask"
             android:resizeableActivity="true"

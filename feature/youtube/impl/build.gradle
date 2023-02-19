@@ -1,0 +1,18 @@
+apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
+apply from: "$project.rootDir/build_scripts/module_methods.gradle"
+applyFeatureImplModule(this)
+//todo
+apply plugin: 'kotlin-android-extensions'
+
+dependencies {
+    applyDagger(this)
+    implementation timber
+    implementation exoPlayer
+    implementation project(":analytics")
+    implementation project(":brandbook")
+    implementation project(":feature:youtube:api")
+    //youtube
+    implementation('com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5') {
+        exclude group: 'androidx.appcompat'
+    }
+}

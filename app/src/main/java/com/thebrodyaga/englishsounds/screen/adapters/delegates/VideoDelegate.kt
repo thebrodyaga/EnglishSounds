@@ -15,7 +15,8 @@ import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.screen.adapters.utils.SoundItemViewCache
-import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
+import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
+import com.thebrodyaga.feature.youtube.impl.YoutubePlayerActivity
 import kotlinx.android.synthetic.main.item_sound_min.view.*
 import kotlinx.android.synthetic.main.item_youtube_video.*
 import kotlinx.android.synthetic.main.item_youtube_video.view.*

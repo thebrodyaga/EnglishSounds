@@ -1,21 +1,20 @@
 package com.thebrodyaga.englishsounds.base.app
 
 import android.app.Application
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
-import com.thebrodyaga.englishsounds.base.di.BaseAppComponent
+import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.base.di.ComponentHolder
+import com.thebrodyaga.englishsounds.base.di.HasComponentDependencies
 
-abstract class BaseApp : Application(), ComponentHolder {
+abstract class BaseApp : Application(), ComponentHolder, HasComponentDependencies {
 
     companion object {
-        lateinit var component: BaseAppComponent
+        lateinit var component: AppDependencies
     }
 
     override fun onCreate() {
         super.onCreate()
-        AnalyticsEngine.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
     }
 
-    override fun component(): BaseAppComponent = component
+    override val dependencies: AppDependencies
+        get() = component
 }

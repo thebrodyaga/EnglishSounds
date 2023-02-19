@@ -8,7 +8,6 @@ dependencies {
     implementation project(":data:sounds:api")
     implementation project(":feature:audioPlayer:api")
     implementation project(":feature:mainScreen:api")
-    implementation project(":base:di")
     implementation googlePlayCore
     implementation timber
     implementation exoPlayer

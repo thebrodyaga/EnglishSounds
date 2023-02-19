@@ -21,7 +21,8 @@ import com.thebrodyaga.englishsounds.screen.getVideoAndDescription
 import com.thebrodyaga.englishsounds.screen.isGone
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
-import com.thebrodyaga.englishsounds.youtube.YoutubePlayerActivity
+import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
+import com.thebrodyaga.feature.youtube.impl.YoutubePlayerActivity
 import kotlinx.android.synthetic.main.item_ad_vertical_short.view.*
 import kotlinx.android.synthetic.main.item_show_more.view.*
 import kotlinx.android.synthetic.main.item_sound_details.view.*

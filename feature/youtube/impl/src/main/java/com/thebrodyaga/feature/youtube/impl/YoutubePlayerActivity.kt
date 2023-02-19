@@ -1,5 +1,10 @@
-package com.thebrodyaga.englishsounds.youtube
+package com.thebrodyaga.feature.youtube.impl
 
+import androidx.annotation.RequiresApi
+import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -9,30 +14,25 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import androidx.annotation.RequiresApi
-import androidx.core.view.GestureDetectorCompat
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
-import androidx.lifecycle.Lifecycle
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
-import com.thebrodyaga.englishsounds.app.App
+import com.thebrodyaga.englishsounds.analytics.AppAnalytics
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
-import com.thebrodyaga.englishsounds.domine.entities.ui.PlayVideoExtra
-import com.thebrodyaga.englishsounds.utils.*
-import com.thebrodyaga.englishsounds.utils.PicInPickHelper.Companion.isHavePicInPicMode
-import kotlinx.android.synthetic.main.activity_youtube_player.*
-import kotlinx.android.synthetic.main.ayp_default_player_ui.*
-import kotlinx.android.synthetic.main.ayp_default_player_ui.view.*
+import com.thebrodyaga.englishsounds.base.di.findDependencies
+import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
+import com.thebrodyaga.feature.youtube.impl.PicInPickHelper.Companion.isHavePicInPicMode
+import com.thebrodyaga.feature.youtube.impl.di.YoutubeActivityComponent
 import moxy.MvpView
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import timber.log.Timber
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_youtube_player.*
+import kotlinx.android.synthetic.main.ayp_default_player_ui.*
+import kotlinx.android.synthetic.main.ayp_default_player_ui.view.*
 
 class YoutubePlayerActivity : BaseActivity(), MvpView {
 
@@ -68,7 +68,7 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
     fun providePresenter() = presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
+        YoutubeActivityComponent.factory(findDependencies()).inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_youtube_player)
 
@@ -113,7 +113,7 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val newVideoId = intent?.getParcelableExtra<PlayVideoExtra>(VIDEO_ID_EXTRA)
+        val newVideoId = intent?.getSerializableExtra(VIDEO_ID_EXTRA) as PlayVideoExtra
             ?: return
         val videoId = newVideoId.videoId
         if (videoId != playVideoExtra.videoId) {
@@ -315,10 +315,10 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
         private const val VIDEO_ID_EXTRA = "VIDEO_ID_EXTRA"
 
         fun startActivity(context: Context, playVideoExtra: PlayVideoExtra) {
-                val bundle = Bundle()
-                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, playVideoExtra.videoId)
-                bundle.putString(AppAnalytics.PARAM_VIDEO_NAME, playVideoExtra.videoName)
-                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "video")
+            val bundle = Bundle()
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, playVideoExtra.videoId)
+            bundle.putString(AppAnalytics.PARAM_VIDEO_NAME, playVideoExtra.videoName)
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "video")
             AnalyticsEngine.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
             val intent = Intent(context, YoutubePlayerActivity::class.java).apply {
                 putExtra(VIDEO_ID_EXTRA, playVideoExtra)

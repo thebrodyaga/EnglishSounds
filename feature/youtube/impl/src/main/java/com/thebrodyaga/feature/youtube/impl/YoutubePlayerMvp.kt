@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.youtube
+package com.thebrodyaga.feature.youtube.impl
 
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.thebrodyaga.englishsounds.base.app.BasePresenter

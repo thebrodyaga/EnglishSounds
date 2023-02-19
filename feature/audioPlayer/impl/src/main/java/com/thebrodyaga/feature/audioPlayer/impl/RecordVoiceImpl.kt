@@ -11,8 +11,9 @@ import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
+import javax.inject.Inject
 
-class RecordVoiceImpl constructor(
+class RecordVoiceImpl @Inject constructor(
     private val audioPlayer: AudioPlayer,
     private val context: Context
 ) : RecordVoice {

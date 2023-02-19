@@ -9,8 +9,9 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util.getUserAgent
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import java.io.File
+import javax.inject.Inject
 
-class AudioPlayerImpl constructor(
+class AudioPlayerImpl @Inject constructor(
     context: Context
 ) : AudioPlayer {
 

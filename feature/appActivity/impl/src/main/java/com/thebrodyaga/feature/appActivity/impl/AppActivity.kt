@@ -19,6 +19,7 @@ import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.base.app.BasePresenter
 import com.thebrodyaga.englishsounds.base.di.findComponent
+import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.appActivity.impl.di.AppActivityComponent
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
@@ -73,7 +74,7 @@ class AppActivity : BaseActivity(), AppActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         navigationBar = ContextCompat.getColor(this, R.color.navigation_bar)
         primaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark)
-        AppActivityComponent.build(findComponent()).inject(this)
+        AppActivityComponent.factory(findDependencies()).inject(this)
         isLightSystem(isSystemDarkMode())
         super.onCreate(savedInstanceState)
         reviewManager = ReviewManagerFactory.create(this)

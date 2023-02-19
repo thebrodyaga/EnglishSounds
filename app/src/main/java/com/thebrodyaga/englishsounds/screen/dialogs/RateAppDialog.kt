@@ -13,7 +13,7 @@ import com.thebrodyaga.data.sounds.api.SettingManager
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
-import com.thebrodyaga.englishsounds.utils.AppAnalytics
+import com.thebrodyaga.englishsounds.analytics.AppAnalytics
 import kotlinx.android.synthetic.main.fragment_rate_app_dialog.*
 import javax.inject.Inject
 

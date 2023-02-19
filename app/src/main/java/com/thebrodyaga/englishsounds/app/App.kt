@@ -2,24 +2,34 @@ package com.thebrodyaga.englishsounds.app
 
 import androidx.appcompat.app.AppCompatDelegate
 import android.util.Log
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.thebrodyaga.data.sounds.api.CurrentTheme
 import com.thebrodyaga.data.sounds.api.SettingManager
 import com.thebrodyaga.englishsounds.BuildConfig
+import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.base.app.BaseApp
 import com.thebrodyaga.englishsounds.di.AppComponent
 import com.thebrodyaga.englishsounds.di.DaggerAppComponent
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+import javax.inject.Inject
 
 class App : BaseApp() {
 
+    @Inject
+    lateinit var settingManager: SettingManager
+
+    override val appComponent: AppComponent = DaggerAppComponent.builder()
+        .application(this)
+        .build()
+        .also { component = it }
+
     override fun onCreate() {
         app = this
-        component = DaggerAppComponent.builder()
-            .application(this)
-            .build()
+        appComponent.inject(this)
         super.onCreate()
+        AnalyticsEngine.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 //        MobileAds.initialize(this)
         if (!BuildConfig.DEBUG) {
             FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
@@ -32,7 +42,7 @@ class App : BaseApp() {
 
     fun updateTheme() {
         AppCompatDelegate.setDefaultNightMode(
-            when (appComponent.settingManager().getCurrentTheme()) {
+            when (settingManager.getCurrentTheme()) {
                 CurrentTheme.SYSTEM -> {
                     AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                 }
@@ -65,8 +75,9 @@ class App : BaseApp() {
     }
 
     companion object {
+        @Deprecated("delete")
         val appComponent: AppComponent
-            get() = component as AppComponent
+            get() = app.appComponent
         lateinit var app: App
     }
 }

@@ -33,17 +33,6 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideRecordVoice(
-        audioPlayer: AudioPlayer,
-        context: Context
-    ): RecordVoice = RecordVoiceImpl(audioPlayer, context)
-
-    @Provides
-    @Singleton
-    fun provideAudioPlayer(context: Context): AudioPlayer = AudioPlayerImpl(context)
-
-    @Provides
-    @Singleton
     fun provideAllVideoInteractor(
         soundsRepository: SoundsRepository,
         soundsVideoRepository: SoundsVideoRepository
