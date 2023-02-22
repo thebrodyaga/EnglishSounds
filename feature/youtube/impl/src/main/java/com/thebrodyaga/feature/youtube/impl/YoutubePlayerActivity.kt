@@ -307,12 +307,12 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
     companion object {
 
         /** The default fast forward increment, in seconds.  */
-        private const val DEFAULT_FAST_FORWARD_S = 15
+        internal const val DEFAULT_FAST_FORWARD_S = 15
 
         /** The default rewind increment, in seconds.  */
-        private const val DEFAULT_REWIND_S = 5
+        internal const val DEFAULT_REWIND_S = 5
 
-        private const val VIDEO_ID_EXTRA = "VIDEO_ID_EXTRA"
+        internal const val VIDEO_ID_EXTRA = "VIDEO_ID_EXTRA"
 
         fun startActivity(context: Context, playVideoExtra: PlayVideoExtra) {
             val bundle = Bundle()

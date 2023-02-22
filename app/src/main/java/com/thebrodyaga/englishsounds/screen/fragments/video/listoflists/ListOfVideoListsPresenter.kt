@@ -1,8 +1,13 @@
 package com.thebrodyaga.englishsounds.screen.fragments.video.listoflists
 
-import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.englishsounds.base.app.BasePresenter
+import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
+import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
+import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
+import com.thebrodyaga.legacy.SoundVideoListItem
+import com.thebrodyaga.legacy.SoundsListItem
+import com.thebrodyaga.legacy.VideoItemInList
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState

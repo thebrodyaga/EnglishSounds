@@ -2,13 +2,10 @@ package com.thebrodyaga.englishsounds.screen.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.view.View
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
@@ -16,12 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.domine.entities.data.AdBox
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.*
-import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
-import com.thebrodyaga.englishsounds.utils.NativeAdLoader
+import com.thebrodyaga.legacy.utils.CompositeAdLoader
+import com.thebrodyaga.legacy.AdItem
+import com.thebrodyaga.legacy.ShortAdItem
+import com.thebrodyaga.legacy.SoundHeader
+import com.thebrodyaga.legacy.VideoListItem
 
 class SoundsAdapter constructor(
     positionList: MutableMap<Int, Pair<Int, Int>>,

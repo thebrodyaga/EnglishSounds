@@ -7,14 +7,14 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
-import com.thebrodyaga.englishsounds.domine.entities.ui.AdItem
-import com.thebrodyaga.englishsounds.domine.entities.ui.ShortAdItem
-import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItem
-import com.thebrodyaga.englishsounds.domine.entities.ui.VideoItemInList
+import com.thebrodyaga.legacy.AdItem
+import com.thebrodyaga.legacy.ShortAdItem
+import com.thebrodyaga.legacy.VideoItem
+import com.thebrodyaga.legacy.VideoItemInList
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoItemDelegate
 import com.thebrodyaga.englishsounds.screen.adapters.delegates.videoNativeAdDelegate
 import com.thebrodyaga.englishsounds.screen.adapters.utils.SoundItemViewCache
-import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
+import com.thebrodyaga.legacy.utils.CompositeAdLoader
 
 class VideoListAdapter constructor(
     onSoundClick: (transcription: String) -> Unit,

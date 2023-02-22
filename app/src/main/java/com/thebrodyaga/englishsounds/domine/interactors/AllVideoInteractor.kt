@@ -5,9 +5,17 @@ import com.thebrodyaga.data.sounds.api.model.AdvancedExercisesVideoRes
 import com.thebrodyaga.data.sounds.api.model.ContrastingSoundVideoRes
 import com.thebrodyaga.data.sounds.api.model.MostCommonWordsVideoRes
 import com.thebrodyaga.data.sounds.api.model.SoundVideoRes
-import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
+import com.thebrodyaga.legacy.AdvancedExercisesVideoItem
+import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
+import com.thebrodyaga.legacy.ContrastingSoundVideoItem
+import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
+import com.thebrodyaga.legacy.MostCommonWordsVideoItem
+import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
+import com.thebrodyaga.legacy.SoundVideoItem
+import com.thebrodyaga.legacy.SoundVideoListItem
+import com.thebrodyaga.legacy.VideoListItem
 import io.reactivex.Observable
 import io.reactivex.functions.Function4
 

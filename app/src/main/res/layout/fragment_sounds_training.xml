@@ -32,7 +32,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".screen.fragments.sounds.training.SoundsTrainingFragment">
 
-       <!-- <com.thebrodyaga.englishsounds.screen.view.AdVerticalShortView
+       <!-- <com.thebrodyaga.legacy.AdVerticalShortView
             android:id="@+id/include_ad"
             style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="0dp"
@@ -51,7 +51,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.thebrodyaga.englishsounds.screen.view.PlayImageView
+        <com.thebrodyaga.brandbook.PlayImageView
             android:id="@+id/play_icon"
             android:layout_width="80dp"
             android:layout_height="80dp"

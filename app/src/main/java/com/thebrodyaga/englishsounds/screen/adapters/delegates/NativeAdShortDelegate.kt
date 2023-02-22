@@ -2,8 +2,8 @@ package com.thebrodyaga.englishsounds.screen.adapters.delegates
 
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.domine.entities.ui.ShortAdItem
-import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
+import com.thebrodyaga.legacy.ShortAdItem
+import com.thebrodyaga.legacy.utils.CompositeAdLoader
 import kotlinx.android.synthetic.main.item_ad_vertical_short.*
 
 fun videoNativeShortAdDelegate(

@@ -11,8 +11,8 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.domine.entities.ui.AdItem
-import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
+import com.thebrodyaga.legacy.AdItem
+import com.thebrodyaga.legacy.utils.CompositeAdLoader
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.item_ad_vertical_list.*
 

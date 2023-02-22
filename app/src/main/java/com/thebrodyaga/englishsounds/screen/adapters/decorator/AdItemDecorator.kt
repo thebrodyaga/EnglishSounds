@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.dsl.AdapterDelegateLayoutContainerViewHolder
-import com.thebrodyaga.englishsounds.domine.entities.ui.AdItem
+import com.thebrodyaga.legacy.AdItem
 import timber.log.Timber
 
 class AdItemDecorator constructor(

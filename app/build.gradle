@@ -119,6 +119,7 @@ dependencies {
     implementation project(":feature:youtube:impl")
     implementation project(":feature:setting:api")
     implementation project(":feature:setting:impl")
+    implementation project(":legacy")
 
 
     // deprecated

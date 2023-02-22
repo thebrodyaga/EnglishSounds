@@ -5,10 +5,10 @@ import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.data.sounds.api.model.AdvancedExercisesVideoRes
 import com.thebrodyaga.data.sounds.api.model.ContrastingSoundVideoRes
 import com.thebrodyaga.data.sounds.api.model.MostCommonWordsVideoRes
-import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.base.app.BasePresenter
+import com.thebrodyaga.legacy.SoundHeader
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function4

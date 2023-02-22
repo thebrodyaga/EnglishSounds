@@ -1,28 +1,31 @@
 package com.thebrodyaga.englishsounds.screen.adapters.delegates
 
-import android.content.Context
-import android.content.res.ColorStateList
-import android.view.View
-import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import android.content.Context
+import android.content.res.ColorStateList
+import android.view.View
+import android.view.ViewGroup
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
-import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
-import com.thebrodyaga.englishsounds.domine.entities.ui.*
+import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.screen.adapters.utils.SoundItemViewCache
 import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
 import com.thebrodyaga.feature.youtube.impl.YoutubePlayerActivity
+import com.thebrodyaga.legacy.AdvancedExercisesVideoItem
+import com.thebrodyaga.legacy.ContrastingSoundVideoItem
+import com.thebrodyaga.legacy.SoundVideoItem
+import com.thebrodyaga.legacy.VideoItem
+import com.thebrodyaga.legacy.color
+import timber.log.Timber
 import kotlinx.android.synthetic.main.item_sound_min.view.*
 import kotlinx.android.synthetic.main.item_youtube_video.*
 import kotlinx.android.synthetic.main.item_youtube_video.view.*
 import kotlinx.android.synthetic.main.view_youtube_thumbnail.view.*
-import timber.log.Timber
-import java.util.ArrayList
 
 fun videoItemDelegate(
     @RecyclerView.Orientation orientation: Int = RecyclerView.HORIZONTAL,
@@ -69,8 +72,10 @@ fun videoItemDelegate(
             val soundView = viewCache()?.popViewFromCache() ?: return@with
             soundView.setOnClickListener(onSoundViewClick)
             val sound = soundView.sound
-            sound.text = soundDto.transcription
-            sound.backgroundTintList = getColor(context, soundDto.soundType.color())
+            soundDto?.let {
+                sound.text = soundDto.transcription
+                sound.backgroundTintList = getColor(context, soundDto.soundType.color())
+            }
             youtube_video_layout.addView(soundView)
         }
         var previousSoundItem: CardView? = null

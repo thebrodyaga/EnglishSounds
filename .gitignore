@@ -20,4 +20,4 @@
 /app/english_sounds_key
 /app/release
 /app/src/main/res/values/ad_id.xml
-/app/src/release/res/values/ad_id.xml
+/legacy/src/release/res/values/ad_id.xml

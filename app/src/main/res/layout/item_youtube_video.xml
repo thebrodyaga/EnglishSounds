@@ -22,7 +22,7 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.65" />
 
-        <com.thebrodyaga.englishsounds.screen.view.YoutubeThumbnailView
+        <com.thebrodyaga.legacy.YoutubeThumbnailView
             android:id="@+id/item_youtube_video_thumbnail"
             android:layout_width="0dp"
             android:layout_height="0dp"

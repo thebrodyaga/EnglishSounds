@@ -1,7 +1,23 @@
 apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
+//todo
+apply plugin: 'kotlin-android-extensions'
 
 dependencies {
+    applyDagger(this)
+    implementation project(":core:uiUtils")
     implementation project(":data:sounds:api")
+    implementation project(":feature:audioPlayer:api")
+    implementation project(":feature:setting:api")
+    implementation project(":feature:youtube:api")
+    implementation project(":legacy")
+    implementation project(":brandbook")
+    implementation googleAds
+    implementation rxJava
+    implementation timber
+
+    //RecyclerView-animators todo
+    implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
+
 }

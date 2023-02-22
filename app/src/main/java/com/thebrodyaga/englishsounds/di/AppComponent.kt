@@ -13,7 +13,7 @@ import com.thebrodyaga.englishsounds.di.modules.NavigationModule
 import com.thebrodyaga.englishsounds.screen.dialogs.RateAppDialog
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.englishsounds.screen.fragments.main.TabContainerFragment
-import com.thebrodyaga.englishsounds.screen.fragments.sounds.details.SoundFragment
+import com.thebrodyaga.feature.soundDetails.impl.ui.SoundFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.list.VideoListFragment
@@ -24,6 +24,7 @@ import com.thebrodyaga.feature.audioPlayer.impl.di.AudioPlayerModule
 import com.thebrodyaga.feature.setting.impl.di.SettingDependencies
 import com.thebrodyaga.feature.setting.impl.di.SettingModule
 import com.thebrodyaga.feature.youtube.impl.di.YoutubeActivityDependencies
+import com.thebrodyaga.feature.youtube.impl.di.YoutubeModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -35,6 +36,7 @@ import javax.inject.Singleton
         NavigationModule::class,
         AudioPlayerModule::class,
         SoundsModule::class,
+        YoutubeModule::class,
         SettingModule::class,
     ]
 )

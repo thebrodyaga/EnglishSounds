@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.data.sounds.api.model.SoundType
-import com.thebrodyaga.englishsounds.domine.entities.ui.*
 import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
@@ -17,7 +16,12 @@ import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.base.app.BasePresenter
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment.Companion.calculateNoOfColumns
 import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
-import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
+import com.thebrodyaga.legacy.utils.CompositeAdLoader
+import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
+import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
+import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
+import com.thebrodyaga.legacy.SoundVideoListItem
+import com.thebrodyaga.legacy.VideoItemInList
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_video_list.*

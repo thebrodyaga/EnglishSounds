@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.domine.entities.ui.SoundHeader
-import com.thebrodyaga.englishsounds.domine.entities.ui.VideoListItem
-import com.thebrodyaga.englishsounds.domine.entities.ui.humanName
+import com.thebrodyaga.legacy.SoundHeader
+import com.thebrodyaga.legacy.VideoListItem
+import com.thebrodyaga.legacy.humanName
 import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
 import com.thebrodyaga.englishsounds.screen.adapters.decorator.OffsetItemDecoration
-import com.thebrodyaga.englishsounds.utils.CompositeAdLoader
+import com.thebrodyaga.legacy.utils.CompositeAdLoader
 import kotlinx.android.synthetic.main.item_sound_header.*
 import kotlinx.android.synthetic.main.item_video_list.*
 
