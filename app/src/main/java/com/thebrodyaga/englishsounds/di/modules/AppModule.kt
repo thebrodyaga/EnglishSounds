@@ -8,14 +8,6 @@ import com.google.gson.GsonBuilder
 import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
-import com.thebrodyaga.data.sounds.impl.AmericanSoundsRepositoryImpl
-import com.thebrodyaga.data.sounds.impl.SoundsVideoRepositoryImpl
-import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
-import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
-import com.thebrodyaga.data.sounds.api.SettingManager
-import com.thebrodyaga.data.sounds.impl.setting.SettingManagerImpl
-import com.thebrodyaga.feature.audioPlayer.impl.AudioPlayerImpl
-import com.thebrodyaga.feature.audioPlayer.impl.RecordVoiceImpl
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import dagger.Module
 import dagger.Provides

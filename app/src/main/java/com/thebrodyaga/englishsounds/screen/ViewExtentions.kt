@@ -71,16 +71,6 @@ fun View.isGone(isInvisible: Boolean) {
     this.visibility = if (isInvisible) View.GONE else View.VISIBLE
 }
 
-fun Context.isSystemDarkMode(): Boolean? {
-    return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-        // Night mode is not active, we're using the light theme
-        Configuration.UI_MODE_NIGHT_NO -> false
-        // Night mode is active, we're using dark theme
-        Configuration.UI_MODE_NIGHT_YES -> true
-        else -> null
-    }
-}
-
 fun Context.getVideoAndDescription(): Pair<MutableMap<String, String>, MutableMap<String, String>> {
     val videoArray = resources.getStringArray(R.array.sound_video)
     val soundArray = resources.getStringArray(R.array.sound_description)

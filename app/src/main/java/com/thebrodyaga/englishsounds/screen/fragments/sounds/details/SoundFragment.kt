@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.thebrodyaga.data.sounds.api.SettingManager
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.feature.appActivity.impl.AppActivity
@@ -15,6 +14,7 @@ import com.thebrodyaga.englishsounds.screen.adapters.SoundDetailsAdapter
 import com.thebrodyaga.englishsounds.screen.appbarBottomPadding
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
+import com.thebrodyaga.feature.setting.api.SettingManager
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.android.synthetic.main.fragment_sound.*
 import moxy.presenter.InjectPresenter

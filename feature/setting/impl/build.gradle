@@ -1,6 +1,14 @@
 apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
+//todo
+apply plugin: 'kotlin-android-extensions'
 
 dependencies {
+    applyDagger(this)
+    implementation project(":feature:setting:api")
+    implementation project(":core:uiUtils")
+    implementation timber
+    implementation rxJava
+    implementation baseNetworkDependencies
 }

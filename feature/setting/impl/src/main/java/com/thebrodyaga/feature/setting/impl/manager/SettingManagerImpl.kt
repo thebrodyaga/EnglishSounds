@@ -1,9 +1,10 @@
-package com.thebrodyaga.data.sounds.impl.setting
+package com.thebrodyaga.feature.setting.impl.manager
 
+import androidx.appcompat.app.AppCompatDelegate
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.thebrodyaga.data.sounds.api.CurrentTheme
-import com.thebrodyaga.data.sounds.api.SettingManager
+import com.thebrodyaga.feature.setting.api.CurrentTheme
+import com.thebrodyaga.feature.setting.api.SettingManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -67,6 +68,22 @@ class SettingManagerImpl @Inject constructor(
             appRateDto = AppRateDto(rateDto.soundShowingCount.inc())
         }
         logRateLogic("onSoundShowed", rateDto)
+    }
+
+    override fun updateTheme() {
+        AppCompatDelegate.setDefaultNightMode(
+            when (getCurrentTheme()) {
+                CurrentTheme.SYSTEM -> {
+                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                }
+                CurrentTheme.DARK -> {
+                    AppCompatDelegate.MODE_NIGHT_YES
+                }
+                CurrentTheme.LIGHT -> {
+                    AppCompatDelegate.MODE_NIGHT_NO
+                }
+            }
+        )
     }
 
     private fun logRateLogic(method: String, appRateDto: AppRateDto) {

@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
-import com.thebrodyaga.englishsounds.screen.fragments.settings.all.SettingsFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.details.SoundFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
@@ -35,12 +34,6 @@ object Screens {
     object SoundsTrainingScreen : FragmentScreen {
         override fun createFragment(factory: FragmentFactory): Fragment {
             return SoundsTrainingFragment()
-        }
-    }
-
-    object SettingsScreen : FragmentScreen {
-        override fun createFragment(factory: FragmentFactory): Fragment {
-            return SettingsFragment()
         }
     }
 

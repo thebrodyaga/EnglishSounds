@@ -9,11 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.thebrodyaga.data.sounds.api.SettingManager
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.analytics.AppAnalytics
+import com.thebrodyaga.feature.setting.api.SettingManager
 import kotlinx.android.synthetic.main.fragment_rate_app_dialog.*
 import javax.inject.Inject
 

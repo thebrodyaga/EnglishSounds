@@ -4,13 +4,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.thebrodyaga.data.sounds.api.CurrentTheme
-import com.thebrodyaga.data.sounds.api.SettingManager
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.base.app.BaseApp
 import com.thebrodyaga.englishsounds.di.AppComponent
 import com.thebrodyaga.englishsounds.di.DaggerAppComponent
+import com.thebrodyaga.feature.setting.api.CurrentTheme
+import com.thebrodyaga.feature.setting.api.SettingManager
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import javax.inject.Inject
@@ -41,19 +41,7 @@ class App : BaseApp() {
     }
 
     fun updateTheme() {
-        AppCompatDelegate.setDefaultNightMode(
-            when (settingManager.getCurrentTheme()) {
-                CurrentTheme.SYSTEM -> {
-                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                }
-                CurrentTheme.DARK -> {
-                    AppCompatDelegate.MODE_NIGHT_YES
-                }
-                CurrentTheme.LIGHT -> {
-                    AppCompatDelegate.MODE_NIGHT_NO
-                }
-            }
-        )
+        settingManager.updateTheme()
     }
 
     private inner class CrashReportingTree : Timber.Tree() {

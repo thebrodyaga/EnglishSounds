@@ -1,4 +1,4 @@
-package com.thebrodyaga.data.sounds.impl.setting
+package com.thebrodyaga.feature.setting.impl.manager
 
 data class AppRateDto constructor(
     val soundShowingCount: Int = 0

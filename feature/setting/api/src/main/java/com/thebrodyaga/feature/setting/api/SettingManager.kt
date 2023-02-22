@@ -1,4 +1,4 @@
-package com.thebrodyaga.data.sounds.api
+package com.thebrodyaga.feature.setting.api
 
 interface SettingManager {
     fun setCurrentTheme(theme: CurrentTheme)
@@ -8,6 +8,7 @@ interface SettingManager {
     fun needShowRateRequest(): Boolean
     fun onRateRequestShow()
     fun onSoundShowed()
+    fun updateTheme()
 }
 
 enum class CurrentTheme {

@@ -1,12 +1,12 @@
 package com.thebrodyaga.feature.appActivity.impl.di
 
-import com.thebrodyaga.data.sounds.api.SettingManager
 import com.thebrodyaga.englishsounds.base.di.ActivityScope
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.feature.appActivity.impl.AppActivity
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
+import com.thebrodyaga.feature.setting.api.SettingManager
 import dagger.Component
 
 @[ActivityScope Component(

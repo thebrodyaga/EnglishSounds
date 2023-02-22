@@ -117,6 +117,8 @@ dependencies {
     implementation project(":feature:mainScreen:impl")
     implementation project(":feature:youtube:api")
     implementation project(":feature:youtube:impl")
+    implementation project(":feature:setting:api")
+    implementation project(":feature:setting:impl")
 
 
     // deprecated

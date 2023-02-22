@@ -5,6 +5,7 @@ applyDataImplAndroidModule(this)
 dependencies {
     applyDagger(this)
     implementation project(":data:sounds:api")
+    implementation project(":feature:setting:api")
     implementation project(":core:utils")
     implementation rxJava
     implementation timber

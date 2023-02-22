@@ -6,7 +6,7 @@ import com.thebrodyaga.core.utils.zip.ZipUtils
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
-import com.thebrodyaga.data.sounds.api.SettingManager
+import com.thebrodyaga.feature.setting.api.SettingManager
 import io.reactivex.Observable
 import io.reactivex.Single
 import timber.log.Timber
