@@ -8,10 +8,12 @@ import com.thebrodyaga.englishsounds.app.SplashActivity
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.di.modules.AppModule
 import com.thebrodyaga.englishsounds.di.modules.NavigationModule
-import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
-import com.thebrodyaga.englishsounds.screen.fragments.main.TabContainerFragment
 import com.thebrodyaga.feature.appActivity.impl.di.AppActivityDependencies
 import com.thebrodyaga.feature.audioPlayer.impl.di.AudioPlayerModule
+import com.thebrodyaga.feature.mainScreen.impl.MainFragment
+import com.thebrodyaga.feature.mainScreen.impl.TabContainerFragment
+import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenDependencies
+import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenModule
 import com.thebrodyaga.feature.setting.impl.di.SettingDependencies
 import com.thebrodyaga.feature.setting.impl.di.SettingModule
 import com.thebrodyaga.feature.soundDetails.impl.di.SoundDetailsModule
@@ -39,6 +41,7 @@ import javax.inject.Singleton
         VideoListModule::class,
         SoundListModule::class,
         TrainingModule::class,
+        MainScreenModule::class,
         SettingModule::class,
     ]
 )
@@ -48,6 +51,7 @@ interface AppComponent : AppDependencies,
     SoundListDependencies,
     VideoListDependencies,
     TrainingDependencies,
+    MainScreenDependencies,
     YoutubeActivityDependencies {
     fun getGson(): Gson
     fun inject(app: App)

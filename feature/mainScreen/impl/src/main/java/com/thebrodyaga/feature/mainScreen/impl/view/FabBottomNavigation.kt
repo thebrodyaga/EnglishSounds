@@ -1,16 +1,15 @@
-package com.thebrodyaga.englishsounds.screen.view
+package com.thebrodyaga.feature.mainScreen.impl.view
 
-import android.content.Context
-import android.graphics.Paint
-import android.util.AttributeSet
-import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.ViewCompat
+import android.content.Context
+import android.graphics.Paint
+import android.util.AttributeSet
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
-import com.thebrodyaga.englishsounds.R
+import com.thebrodyaga.feature.mainScreen.impl.R
 
 class FabBottomNavigation : BottomNavigationView {
 

@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.screen.view;
+package com.thebrodyaga.feature.mainScreen.impl.view;
 
 import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 

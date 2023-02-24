@@ -1,7 +1,7 @@
 package com.thebrodyaga.feature.soundList.impl.di
 
-import com.thebrodyaga.feature.soundList.api.SoundListFactory
-import com.thebrodyaga.feature.soundList.impl.screen.SoundListFactoryImpl
+import com.thebrodyaga.feature.soundList.api.SoundListScreenFactory
+import com.thebrodyaga.feature.soundList.impl.screen.SoundListScreenFactoryImpl
 import dagger.Binds
 import dagger.Module
 
@@ -9,5 +9,5 @@ import dagger.Module
 interface SoundListModule {
 
     @Binds
-    fun soundListFactory(SoundListFactory: SoundListFactoryImpl): SoundListFactory
+    fun soundListFactory(SoundListFactory: SoundListScreenFactoryImpl): SoundListScreenFactory
 }

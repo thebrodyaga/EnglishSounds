@@ -1,19 +1,30 @@
-package com.thebrodyaga.englishsounds.screen.fragments.main
+package com.thebrodyaga.feature.mainScreen.impl
 
 import android.os.Bundle
-
-import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.base.app.FlowFragment
+import com.thebrodyaga.englishsounds.base.di.findDependencies
+import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenComponent
+import com.thebrodyaga.feature.soundList.api.SoundListScreenFactory
+import com.thebrodyaga.feature.training.api.TrainingScreenFactory
+import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
+import javax.inject.Inject
 
 /**
  * Created by terrakok 25.11.16
  */
 class TabContainerFragment : FlowFragment() {
 
+    @Inject
+    lateinit var soundListScreenFactory: SoundListScreenFactory
+
+    @Inject
+    lateinit var videoListScreenFactory: VideoScreenFactory
+
+    @Inject
+    lateinit var trainingScreenFactory: TrainingScreenFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
+        MainScreenComponent.factory(findDependencies()).inject(this)
         super.onCreate(savedInstanceState)
     }
 
@@ -23,11 +34,11 @@ class TabContainerFragment : FlowFragment() {
         if (currentFragment == null) {
             val containerName = getContainerName()
             if (containerName == MainFragment.FIRST_MAIN_PAGE.second)
-                localRouter.newRootScreen(Screens.SoundsListScreen)
+                localRouter.newRootScreen(soundListScreenFactory.soundListFactory())
             if (containerName == MainFragment.SECOND_MAIN_PAGE.second)
-                localRouter.newRootScreen(Screens.ListOfVideoListScreen)
+                localRouter.newRootScreen(videoListScreenFactory.videoListScreen())
             if (containerName == MainFragment.THIRD_MAIN_PAGE.second)
-                localRouter.newRootScreen(Screens.SoundsTrainingScreen)
+                localRouter.newRootScreen(trainingScreenFactory.trainingScreen())
         }
     }
 

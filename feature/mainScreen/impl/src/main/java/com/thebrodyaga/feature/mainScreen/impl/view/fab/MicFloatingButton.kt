@@ -1,5 +1,7 @@
-package com.thebrodyaga.englishsounds.screen.view.fab
+package com.thebrodyaga.feature.mainScreen.impl.view.fab
 
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import android.Manifest
 import android.content.Context
 import android.util.AttributeSet
@@ -7,15 +9,12 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tbruyelle.rxpermissions2.RxPermissions
-import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.feature.audioPlayer.api.RecordState
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
+import com.thebrodyaga.feature.mainScreen.impl.R
 import io.reactivex.disposables.CompositeDisposable
-
 
 class MicFloatingButton : FloatingActionButton {
 

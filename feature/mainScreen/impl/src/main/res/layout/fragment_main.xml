@@ -24,7 +24,7 @@
         app:itemTextAppearanceInactive="@style/BottomNavigationInactive"
         app:menu="@menu/main_bottom_menu" />
 
-    <com.thebrodyaga.englishsounds.screen.view.fab.MicFloatingButton
+    <com.thebrodyaga.feature.mainScreen.impl.view.fab.MicFloatingButton
         android:id="@+id/mic_button"
         style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
         app:fabCustomSize="@dimen/fab_mic_size"
         app:layout_anchor="@id/bottom_navigation"
         app:layout_anchorGravity="top|end"
-        app:layout_behavior=".screen.view.fab.ScrollAwareFABBehavior"
+        app:layout_behavior=".view.fab.ScrollAwareFABBehavior"
         app:rippleColor="@color/ripple_accent"
         app:tint="@color/colorPrimary" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

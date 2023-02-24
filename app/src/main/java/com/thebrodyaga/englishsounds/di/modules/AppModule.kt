@@ -21,9 +21,6 @@ class AppModule {
     fun provideContext(application: Application): Context = application.applicationContext
 
     @Provides
-    fun mainScreenFactory(): MainScreenFactory = TODO()
-
-    @Provides
     @Singleton
     fun provideGson(): Gson =
         GsonBuilder().create()

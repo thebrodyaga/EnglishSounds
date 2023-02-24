@@ -3,5 +3,13 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
 
 dependencies {
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    applyDagger(this)
+    implementation rxJava
+    implementation project(":legacy")
     implementation project(":feature:mainScreen:api")
+    implementation project(":feature:audioPlayer:api")
+    implementation project(":feature:soundList:api")
+    implementation project(":feature:training:api")
+    implementation project(":feature:videoList:api")
 }

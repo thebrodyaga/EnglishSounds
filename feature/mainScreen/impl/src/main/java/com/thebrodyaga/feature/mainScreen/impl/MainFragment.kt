@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.screen.fragments.main
+package com.thebrodyaga.feature.mainScreen.impl
 
 import android.os.Bundle
 import android.util.TypedValue
@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.base.app.FlowFragment
+import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
+import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
+import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenComponent
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
@@ -24,10 +24,13 @@ class MainFragment : FlowFragment() {
 
     override fun getContainerId(): Int = R.id.fragment_container
 
-    override fun getContainerName(): String = Screens.MainScreen.screenKey
+    override fun getContainerName(): String = mainScreenFactory.mainScreen().screenKey
 
     @Inject
     lateinit var recordVoice: RecordVoice
+
+    @Inject
+    lateinit var mainScreenFactory: MainScreenFactory
 
     override fun getLayoutId(): Int = R.layout.fragment_main
 
@@ -35,7 +38,7 @@ class MainFragment : FlowFragment() {
         get() = childFragmentManager.fragments.firstOrNull { !it.isHidden } as? BaseFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
+        MainScreenComponent.factory(findDependencies()).inject(this)
         super.onCreate(savedInstanceState)
     }
 
