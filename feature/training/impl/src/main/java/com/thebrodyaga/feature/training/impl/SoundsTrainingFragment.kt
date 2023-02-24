@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.screen.fragments.sounds.training
+package com.thebrodyaga.feature.training.impl
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -6,12 +6,12 @@ import androidx.viewpager2.widget.ViewPager2
 import android.os.Bundle
 import android.view.View
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
-import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
-import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.feature.appActivity.impl.AppActivity
+import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
+import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
+import com.thebrodyaga.feature.training.impl.di.TrainingComponent
+import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -29,6 +29,12 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
 
     @Inject
     lateinit var audioPlayer: AudioPlayer
+
+    @Inject
+    lateinit var soundDetailsScreenFactory: SoundDetailsScreenFactory
+
+    @Inject
+    lateinit var videoScreenFactory: VideoScreenFactory
 //    private lateinit var nativeAdLoader: CompositeAdLoader
 //    private lateinit var item: ShortAdItem
 
@@ -38,7 +44,7 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
     private var adapter: PageAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
+        TrainingComponent.factory(findDependencies()).inject(this)
         super.onCreate(savedInstanceState)
         /*nativeAdLoader = CompositeAdLoader(
             requireContext(),
@@ -67,19 +73,18 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
         showFab(isShow = true, autoHide = hidden)
     }
 
-
     private fun showFab(isShow: Boolean?, autoHide: Boolean?) {
-        (activity as? AppActivity)?.toggleFabMic(isShow = isShow, autoHide = autoHide)
+//        (activity as? AppActivity)?.toggleFabMic(isShow = isShow, autoHide = autoHide)
     }
 
     override fun setData(list: List<PracticeWordDto>) {
         video_lib_icon.setOnClickListener {
-            getAnyRouter().navigateTo(Screens.AllVideoScreen(VideoListType.MostCommonWords))
+            getAnyRouter().navigateTo(videoScreenFactory.allVideoScreen(VideoListType.MostCommonWords))
         }
         info_icon.setOnClickListener {
             adapter?.also {
                 val practiceWordDto = it.list.getOrNull(view_pager.currentItem)
-                practiceWordDto?.apply { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(this.sound)) }
+                practiceWordDto?.apply { getAnyRouter().navigateTo(soundDetailsScreenFactory.soundDetailsScreen(this.sound)) }
             }
         }
         adapter = PageAdapter(this).also {
@@ -90,7 +95,6 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
                     super.onPageSelected(position)
                     play_icon.audioFile =
                         File(view_pager.context.filesDir, it.list[position].audioPath)
-
                 }
             })
         }
@@ -99,7 +103,7 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
     private val onInfoClick = View.OnClickListener {
         adapter?.also {
             val practiceWordDto = it.list.getOrNull(view_pager.currentItem)
-            practiceWordDto?.apply { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(this.sound)) }
+            practiceWordDto?.apply { getAnyRouter().navigateTo(soundDetailsScreenFactory.soundDetailsScreen(this.sound)) }
         }
     }
 
@@ -125,12 +129,10 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
             view.word.text = arguments?.getString(WORD_KEY) ?: ""
         }
 
-
         companion object {
             private const val WORD_KEY = "WORD_KEY"
             fun newInstance(word: String): WordFragment = WordFragment()
                 .apply { arguments = Bundle().also { it.putString(WORD_KEY, word) } }
-
         }
     }
 }

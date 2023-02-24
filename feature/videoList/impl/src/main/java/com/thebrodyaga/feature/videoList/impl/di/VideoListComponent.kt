@@ -5,7 +5,7 @@ import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.base.di.FeatureScope
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
-import com.thebrodyaga.feature.videoList.api.VideoListScreenFactory
+import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor
 import com.thebrodyaga.feature.videoList.impl.list.VideoListFragment
 import com.thebrodyaga.feature.videoList.impl.listoflists.ListOfVideoListsFragment
@@ -40,6 +40,6 @@ interface VideoListDependencies : AppDependencies {
     fun soundsVideoRepository(): SoundsVideoRepository
     fun soundDetailsScreenFactory(): SoundDetailsScreenFactory
     fun youtubeScreenFactory(): YoutubeScreenFactory
-    fun videoListScreenFactory(): VideoListScreenFactory
+    fun videoListScreenFactory(): VideoScreenFactory
     fun allVideoInteractor(): AllVideoInteractor
 }

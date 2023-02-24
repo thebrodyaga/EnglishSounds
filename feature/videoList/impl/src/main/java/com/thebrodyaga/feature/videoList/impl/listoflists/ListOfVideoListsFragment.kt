@@ -18,7 +18,7 @@ import com.thebrodyaga.legacy.AdItemDecorator
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
-import com.thebrodyaga.feature.videoList.api.VideoListScreenFactory
+import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.R
 import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
@@ -45,7 +45,7 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
     lateinit var soundScreenFactory: SoundDetailsScreenFactory
 
     @Inject
-    lateinit var videoListScreenFactory: VideoListScreenFactory
+    lateinit var videoScreenFactory: VideoScreenFactory
 
     @ProvidePresenter
     fun providePresenter() = presenter
@@ -96,7 +96,7 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
                 SoundType.VOWEL_SOUNDS -> VideoListType.VowelSounds
             }
         }
-        getAnyRouter().navigateTo(videoListScreenFactory.allVideoScreen(showPage))
+        getAnyRouter().navigateTo(videoScreenFactory.allVideoScreen(showPage))
     }
 
     private fun onSoundClick(item: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) {

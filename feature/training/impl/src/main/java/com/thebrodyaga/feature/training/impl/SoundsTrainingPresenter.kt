@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.screen.fragments.sounds.training
+package com.thebrodyaga.feature.training.impl
 
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.data.sounds.api.SoundsRepository

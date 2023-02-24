@@ -4,13 +4,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.thebrodyaga.core.navigation.api.cicerone.Screen
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
-import com.thebrodyaga.feature.videoList.api.VideoListScreenFactory
+import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.AllVideoFragment
 import com.thebrodyaga.feature.videoList.impl.listoflists.ListOfVideoListsFragment
 import javax.inject.Inject
 
-class VideoListScreenFactoryImpl @Inject constructor() : VideoListScreenFactory {
+class VideoScreenFactoryImpl @Inject constructor() : VideoScreenFactory {
 
     override fun videoListScreen(): Screen {
         return object : FragmentScreen {

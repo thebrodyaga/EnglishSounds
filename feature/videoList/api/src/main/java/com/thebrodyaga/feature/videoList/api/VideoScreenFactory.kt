@@ -2,7 +2,7 @@ package com.thebrodyaga.feature.videoList.api
 
 import com.thebrodyaga.core.navigation.api.cicerone.Screen
 
-interface VideoListScreenFactory {
+interface VideoScreenFactory {
 
     fun videoListScreen(): Screen
     fun allVideoScreen(showPage: VideoListType): Screen

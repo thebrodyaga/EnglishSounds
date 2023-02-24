@@ -123,6 +123,8 @@ dependencies {
     implementation project(":feature:soundList:impl")
     implementation project(":feature:videoList:api")
     implementation project(":feature:videoList:impl")
+    implementation project(":feature:training:api")
+    implementation project(":feature:training:impl")
     implementation project(":legacy")
 
 

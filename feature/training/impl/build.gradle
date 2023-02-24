@@ -1,0 +1,16 @@
+apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
+apply from: "$project.rootDir/build_scripts/module_methods.gradle"
+applyFeatureImplModule(this)
+
+dependencies {
+    applyDagger(this)
+    implementation rxJava
+    implementation timber
+    implementation project(":feature:training:api")
+    implementation project(":feature:audioPlayer:api")
+    implementation project(":feature:videoList:api")
+    implementation project(":feature:soundDetails:api")
+    implementation project(":data:sounds:api")
+    implementation project(":brandbook")
+    implementation project(":legacy")
+}

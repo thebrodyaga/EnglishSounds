@@ -2,17 +2,10 @@ package com.thebrodyaga.feature.videoList.impl.di
 
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
-import com.thebrodyaga.englishsounds.base.di.AppDependencies
-import com.thebrodyaga.englishsounds.base.di.FeatureScope
-import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
-import com.thebrodyaga.feature.videoList.api.VideoListScreenFactory
+import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor
-import com.thebrodyaga.feature.videoList.impl.list.VideoListFragment
-import com.thebrodyaga.feature.videoList.impl.listoflists.ListOfVideoListsFragment
-import com.thebrodyaga.feature.videoList.impl.screen.VideoListScreenFactoryImpl
-import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
+import com.thebrodyaga.feature.videoList.impl.screen.VideoScreenFactoryImpl
 import dagger.Binds
-import dagger.Component
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -21,7 +14,7 @@ import javax.inject.Singleton
 interface VideoListModule {
 
     @Binds
-    fun videoListScreenFactory(videoListScreenFactory: VideoListScreenFactoryImpl): VideoListScreenFactory
+    fun videoListScreenFactory(videoListScreenFactory: VideoScreenFactoryImpl): VideoScreenFactory
 
     companion object {
         @Provides
