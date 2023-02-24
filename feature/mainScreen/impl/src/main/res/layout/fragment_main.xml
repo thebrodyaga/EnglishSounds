@@ -38,7 +38,6 @@
         app:fabCustomSize="@dimen/fab_mic_size"
         app:layout_anchor="@id/bottom_navigation"
         app:layout_anchorGravity="top|end"
-        app:layout_behavior=".view.fab.ScrollAwareFABBehavior"
         app:rippleColor="@color/ripple_accent"
         app:tint="@color/colorPrimary" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

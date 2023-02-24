@@ -1,5 +1,7 @@
 package com.thebrodyaga.data.sounds.api.model
 
+import com.google.gson.annotations.SerializedName
+
 sealed interface SoundDto
 
 data class AmericanSoundDto constructor(
@@ -20,7 +22,10 @@ data class SoundPracticeWords constructor(
 )
 
 enum class SoundType {
+    @SerializedName("consonantSounds")
     CONSONANT_SOUND,
+    @SerializedName("rControlledVowels")
     R_CONTROLLED_VOWELS,
+    @SerializedName("vowelSounds")
     VOWEL_SOUNDS;
 }

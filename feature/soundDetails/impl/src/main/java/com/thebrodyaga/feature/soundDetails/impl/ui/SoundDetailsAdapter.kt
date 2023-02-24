@@ -1,15 +1,16 @@
 package com.thebrodyaga.feature.soundDetails.impl.ui
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.thebrodyaga.core.navigation.api.cicerone.Router
@@ -31,7 +32,6 @@ import java.io.File
 import kotlinx.android.synthetic.main.item_ad_vertical_short.view.*
 import kotlinx.android.synthetic.main.item_show_more.view.*
 import kotlinx.android.synthetic.main.item_sound_details.view.*
-import kotlinx.android.synthetic.main.item_sound_header.view.*
 import kotlinx.android.synthetic.main.item_word.view.*
 
 class SoundDetailsAdapter(
@@ -147,7 +147,7 @@ class SoundDetailsAdapter(
                 item?.let { item ->
                     val videoUrl = videoMap?.get(item.transcription)
                     if (videoUrl != null && videoUrl.isNotEmpty()) {
-                        router.navigateTo(youtubeScreenFactory.youtubeScreen( PlayVideoExtra(videoUrl, item.name)))
+                        router.navigateTo(youtubeScreenFactory.youtubeScreen(PlayVideoExtra(videoUrl, item.name)))
                     }
                 }
             }
@@ -196,9 +196,10 @@ class SoundDetailsAdapter(
 
     private inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+        private val textView = view.findViewById<TextView>(com.thebrodyaga.legacy.R.id.headerTitle)
 
         fun bind(header: WordsHeader) = with(itemView) {
-            title.setText(header.type.humanName())
+            textView.setText(header.type.humanName())
         }
     }
 

@@ -16,6 +16,7 @@ import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenDependencies
 import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenModule
 import com.thebrodyaga.feature.setting.impl.di.SettingDependencies
 import com.thebrodyaga.feature.setting.impl.di.SettingModule
+import com.thebrodyaga.feature.soundDetails.impl.di.SoundDetailsDependencies
 import com.thebrodyaga.feature.soundDetails.impl.di.SoundDetailsModule
 import com.thebrodyaga.feature.soundList.impl.di.SoundListDependencies
 import com.thebrodyaga.feature.soundList.impl.di.SoundListModule
@@ -50,6 +51,7 @@ interface AppComponent : AppDependencies,
     SettingDependencies,
     SoundListDependencies,
     VideoListDependencies,
+    SoundDetailsDependencies,
     TrainingDependencies,
     MainScreenDependencies,
     YoutubeActivityDependencies {

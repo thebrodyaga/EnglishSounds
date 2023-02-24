@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.widget.TextView
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import com.thebrodyaga.core.navigation.api.cicerone.Router
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
@@ -76,6 +77,6 @@ fun soundHeaderItemDelegate() =
     adapterDelegateLayoutContainer<SoundHeader, Any>(R.layout.item_sound_header) {
 
         bind {
-            title.setText(item.soundType.humanName())
+            findViewById<TextView>(R.id.headerTitle).setText(item.soundType.humanName())
         }
     }

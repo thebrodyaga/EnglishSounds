@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class MainFragment : FlowFragment() {
 
-    private var micBehavior: FloatingActionButton.Behavior? = null
+//    private var micBehavior: FloatingActionButton.Behavior? = null
 
     override fun getContainerId(): Int = R.id.fragment_container
 
@@ -59,15 +59,15 @@ class MainFragment : FlowFragment() {
             layoutParams.bottomMargin = actionBarHeight + baseOffset
         }
 
-        micBehavior = (result.mic_button.layoutParams as CoordinatorLayout.LayoutParams).behavior
-            as FloatingActionButton.Behavior
+//        micBehavior = (result.mic_button.layoutParams as CoordinatorLayout.LayoutParams).behavior
+//            as FloatingActionButton.Behavior
 
         return result
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        micBehavior = null
+//        micBehavior = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -135,10 +135,10 @@ class MainFragment : FlowFragment() {
             false -> mic_button?.hide()
             null -> {}
         }
-        when (autoHide) {
-            false, true -> micBehavior?.isAutoHideEnabled = autoHide
-            null -> {}
-        }
+//        when (autoHide) {
+//            false, true -> micBehavior?.isAutoHideEnabled = autoHide
+//            null -> {}
+//        }
     }
 
     companion object {

@@ -82,8 +82,7 @@ class AmericanSoundsRepositoryImpl @Inject constructor(
 
                 jsonDir.forEach { soundFilePath ->
                     service.submit {
-                        val sound =
-                            gson.fromJson(FileReader(soundFilePath), AmericanSoundDto::class.java)
+                        val sound = gson.fromJson(FileReader(soundFilePath), AmericanSoundDto::class.java)
                         synchronizedList.add(sound)
                     }
                 }

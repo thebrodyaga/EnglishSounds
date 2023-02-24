@@ -4,4 +4,5 @@ applyDataApiModule(this)
 
 dependencies {
     implementation rxJava
+    implementation baseNetworkDependencies
 }
