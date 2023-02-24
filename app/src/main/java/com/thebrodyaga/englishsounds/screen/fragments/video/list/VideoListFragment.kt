@@ -9,19 +9,20 @@ import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.englishsounds.screen.adapters.VideoListAdapter
-import com.thebrodyaga.englishsounds.screen.adapters.decorator.AdItemDecorator
-import com.thebrodyaga.englishsounds.screen.adapters.decorator.VideoListItemDecoration
+import com.thebrodyaga.legacy.adapters.VideoListAdapter
+import com.thebrodyaga.legacy.AdItemDecorator
+import com.thebrodyaga.legacy.adapters.decorator.VideoListItemDecoration
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.base.app.BasePresenter
-import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment.Companion.calculateNoOfColumns
-import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
+import com.thebrodyaga.feature.soundList.impl.SoundsListFragment.Companion.calculateNoOfColumns
+import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.utils.CompositeAdLoader
 import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
 import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
 import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoListItem
 import com.thebrodyaga.legacy.VideoItemInList
+import com.thebrodyaga.legacy.VideoListType
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_video_list.*
@@ -40,6 +41,9 @@ class VideoListFragment : BaseFragment(), VideoListView {
     @InjectPresenter
     lateinit var presenter: VideoListPresenter
 
+    @Inject
+    lateinit var youtubeScreenFactory: YoutubeScreenFactory
+
     private lateinit var adapter: VideoListAdapter
     private lateinit var spanSizeLookup: SpanSizeLookup
 
@@ -56,7 +60,8 @@ class VideoListFragment : BaseFragment(), VideoListView {
         super.onCreate(savedInstanceState)
         adapter = VideoListAdapter(
             { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) },
-            CompositeAdLoader(requireContext(), lifecycle), RecyclerView.VERTICAL
+            CompositeAdLoader(requireContext(), lifecycle), RecyclerView.VERTICAL,
+            youtubeScreenFactory, getAnyRouter()
         )
         spanSizeLookup =
             SpanSizeLookup(

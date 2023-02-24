@@ -78,7 +78,9 @@ ext {
     adapterDelegatesVersion = '4.3.2'
     adapterDelegates = [
             "com.hannesdorfmann:adapterdelegates4-kotlin-dsl:$adapterDelegatesVersion",
-            "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegatesVersion"
+            "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegatesVersion",
+            // todo delete
+            "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer:$adapterDelegatesVersion",
     ]
 
     exo_player = "2.11.5"

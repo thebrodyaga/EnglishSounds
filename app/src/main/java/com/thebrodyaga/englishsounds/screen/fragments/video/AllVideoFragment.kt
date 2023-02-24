@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.list.VideoListFragment
+import com.thebrodyaga.legacy.VideoListType
 import kotlinx.android.synthetic.main.fragment_all_video.*
 
 class AllVideoFragment : BaseFragment() {
@@ -53,18 +54,5 @@ class AllVideoFragment : BaseFragment() {
         fun newInstance(showPage: VideoListType) = AllVideoFragment().apply {
             arguments = Bundle().also { it.putString(TYPE_EXTRA, showPage.name) }
         }
-    }
-}
-
-enum class VideoListType {
-    ContrastingSounds, MostCommonWords, AdvancedExercises, VowelSounds, RControlledVowels, ConsonantSounds;
-
-    fun titleRes(): Int = when (this) {
-        ContrastingSounds -> R.string.contrasting_sound_video_title
-        MostCommonWords -> R.string.most_common_words_video_title
-        AdvancedExercises -> R.string.advanced_exercises_video_title
-        VowelSounds -> R.string.vowel_sounds_short
-        RControlledVowels -> R.string.r_controlled_vowels_short
-        ConsonantSounds -> R.string.consonant_sounds_short
     }
 }

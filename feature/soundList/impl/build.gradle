@@ -3,4 +3,15 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
 
 dependencies {
+    applyDagger(this)
+    implementation rxJava
+    implementation timber
+    implementation googleAds
+    implementation project(":analytics")
+    implementation project(":legacy")
+    implementation project(":brandbook")
+    implementation project(":feature:soundList:api")
+    implementation project(":feature:soundDetails:api")
+    implementation project(":feature:youtube:api")
+    implementation project(":data:sounds:api")
 }

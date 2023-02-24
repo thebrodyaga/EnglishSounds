@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.thebrodyaga.feature.soundList.impl.SoundsListFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -17,12 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/common"
-            app:title="@string/main_menu_tab_second"
+            app:title="@string/main_menu_tab_first"
             app:titleTextAppearance="@style/Title2Regular" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.thebrodyaga.englishsounds.screen.view.OrientationAwareRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

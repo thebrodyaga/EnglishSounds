@@ -9,6 +9,7 @@ dependencies {
     implementation project(":core:uiUtils")
     implementation project(":data:sounds:api")
     implementation project(":feature:audioPlayer:api")
+    implementation project(":feature:soundDetails:api")
     implementation project(":feature:setting:api")
     implementation project(":feature:youtube:api")
     implementation project(":legacy")

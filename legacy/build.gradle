@@ -6,9 +6,12 @@ apply plugin: 'kotlin-android-extensions'
 
 dependencies {
     implementation project(':data:sounds:api')
+    implementation project(':feature:audioPlayer:api')
+    implementation project(':feature:youtube:api')
+    implementation project(':core:uiUtils')
     implementation project(':brandbook')
     implementation googleAds
     implementation timber
     implementation rxJava
-
+    implementation adapterDelegates
 }

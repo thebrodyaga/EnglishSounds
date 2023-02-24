@@ -13,8 +13,6 @@ import com.thebrodyaga.englishsounds.di.modules.NavigationModule
 import com.thebrodyaga.englishsounds.screen.dialogs.RateAppDialog
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.englishsounds.screen.fragments.main.TabContainerFragment
-import com.thebrodyaga.feature.soundDetails.impl.ui.SoundFragment
-import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.list.VideoListFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.listoflists.ListOfVideoListsFragment
@@ -23,6 +21,9 @@ import com.thebrodyaga.feature.appActivity.impl.di.AppActivityDependencies
 import com.thebrodyaga.feature.audioPlayer.impl.di.AudioPlayerModule
 import com.thebrodyaga.feature.setting.impl.di.SettingDependencies
 import com.thebrodyaga.feature.setting.impl.di.SettingModule
+import com.thebrodyaga.feature.soundDetails.impl.di.SoundDetailsModule
+import com.thebrodyaga.feature.soundDetails.impl.ui.SoundFragment
+import com.thebrodyaga.feature.soundList.impl.di.SoundListDependencies
 import com.thebrodyaga.feature.youtube.impl.di.YoutubeActivityDependencies
 import com.thebrodyaga.feature.youtube.impl.di.YoutubeModule
 import dagger.BindsInstance
@@ -37,21 +38,20 @@ import javax.inject.Singleton
         AudioPlayerModule::class,
         SoundsModule::class,
         YoutubeModule::class,
+        SoundDetailsModule::class,
         SettingModule::class,
     ]
 )
 interface AppComponent : AppDependencies,
     AppActivityDependencies,
     SettingDependencies,
+    SoundListDependencies,
     YoutubeActivityDependencies {
-    fun soundsRepository(): SoundsRepository
-    fun soundsVideoRepository(): SoundsVideoRepository
     fun getGson(): Gson
     fun inject(app: App)
     fun inject(activity: AppActivity)
     fun inject(fragment: TabContainerFragment)
     fun inject(fragment: MainFragment)
-    fun inject(fragment: SoundsListFragment)
     fun inject(activity: SplashActivity)
     fun inject(fragment: SoundFragment)
     fun inject(fragment: SoundsTrainingFragment)

@@ -5,11 +5,11 @@ import androidx.fragment.app.FragmentFactory
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.feature.soundDetails.impl.ui.SoundFragment
-import com.thebrodyaga.englishsounds.screen.fragments.sounds.list.SoundsListFragment
+import com.thebrodyaga.feature.soundList.impl.SoundsListFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.AllVideoFragment
-import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
 import com.thebrodyaga.englishsounds.screen.fragments.video.listoflists.ListOfVideoListsFragment
+import com.thebrodyaga.legacy.VideoListType
 
 object Screens {
 
@@ -21,7 +21,7 @@ object Screens {
 
     object SoundsListScreen : FragmentScreen {
         override fun createFragment(factory: FragmentFactory): Fragment {
-            return SoundsListFragment()
+            return com.thebrodyaga.feature.soundList.impl.SoundsListFragment()
         }
     }
 

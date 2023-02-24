@@ -119,6 +119,8 @@ dependencies {
     implementation project(":feature:youtube:impl")
     implementation project(":feature:setting:api")
     implementation project(":feature:setting:impl")
+    implementation project(":feature:soundList:api")
+    implementation project(":feature:soundList:impl")
     implementation project(":legacy")
 
 

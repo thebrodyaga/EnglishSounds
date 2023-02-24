@@ -17,10 +17,11 @@ import com.thebrodyaga.legacy.SoundVideoListItem
 import com.thebrodyaga.legacy.SoundsListItem
 import com.thebrodyaga.legacy.VideoListItem
 import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.englishsounds.screen.adapters.SoundsAdapter
-import com.thebrodyaga.englishsounds.screen.adapters.decorator.AdItemDecorator
+import com.thebrodyaga.feature.soundList.impl.SoundsAdapter
+import com.thebrodyaga.legacy.AdItemDecorator
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
-import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
+import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
+import com.thebrodyaga.legacy.VideoListType
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -34,6 +35,9 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
     @Inject
     @InjectPresenter
     lateinit var presenter: ListOfVideoListsPresenter
+
+    @Inject
+    lateinit var youtubeScreenFactory: YoutubeScreenFactory
 
     @ProvidePresenter
     fun providePresenter() = presenter
@@ -49,7 +53,8 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
             { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) },
             { onShowAllVideoClick(it) },
             lifecycle,
-            requireContext()
+            requireContext(),
+            youtubeScreenFactory, getAnyRouter()
         )
     }
 

@@ -50,14 +50,3 @@ fun View.appbarBottomPadding(includeFabSize: Boolean = false) {
         setPadding(paddingLeft, paddingTop, paddingRight, actionBarHeight + halfOfFab)
     }
 }
-
-fun ViewGroup.inflate(@LayoutRes res: Int, attachToRoot: Boolean = false) =
-    LayoutInflater.from(context).inflate(res, this, attachToRoot)
-
-fun View.isInvisible(isInvisible: Boolean) {
-    this.visibility = if (isInvisible) View.INVISIBLE else View.VISIBLE
-}
-
-fun View.isGone(isInvisible: Boolean) {
-    this.visibility = if (isInvisible) View.GONE else View.VISIBLE
-}

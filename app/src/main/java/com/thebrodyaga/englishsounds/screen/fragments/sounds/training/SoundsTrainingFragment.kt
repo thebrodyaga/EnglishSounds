@@ -1,24 +1,24 @@
 package com.thebrodyaga.englishsounds.screen.fragments.sounds.training
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import android.os.Bundle
+import android.view.View
+import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.feature.appActivity.impl.AppActivity
-import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
-import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
-import com.thebrodyaga.englishsounds.screen.fragments.video.VideoListType
+import com.thebrodyaga.englishsounds.navigation.Screens
+import com.thebrodyaga.feature.appActivity.impl.AppActivity
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
-import kotlinx.android.synthetic.main.fragment_sounds_training.*
-import kotlinx.android.synthetic.main.fragment_word.view.*
+import com.thebrodyaga.legacy.VideoListType
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import java.io.File
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.fragment_sounds_training.*
+import kotlinx.android.synthetic.main.fragment_word.view.*
 
 class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
     override fun getLayoutId(): Int = R.layout.fragment_sounds_training
