@@ -1,5 +1,6 @@
 package com.thebrodyaga.core.uiUtils
 
+import androidx.annotation.DimenRes
 import androidx.annotation.LayoutRes
 import android.content.Context
 import android.content.res.Configuration
@@ -29,3 +30,14 @@ fun View.appbarBottomPadding() {
 
 fun ViewGroup.inflate(@LayoutRes res: Int, attachToRoot: Boolean = false) =
     LayoutInflater.from(context).inflate(res, this, attachToRoot)
+
+fun calculateNoOfColumns(
+    context: Context,
+    @DimenRes columnWidthRes: Int
+): Int {
+    val displayMetrics = context.resources.displayMetrics
+    val screenWidthPx = displayMetrics.widthPixels / displayMetrics.density
+    val columnWidthPx =
+        context.resources.getDimension(columnWidthRes) / displayMetrics.density
+    return (screenWidthPx / columnWidthPx + 0.5).toInt()// +0.5 for correct rounding to int.
+}

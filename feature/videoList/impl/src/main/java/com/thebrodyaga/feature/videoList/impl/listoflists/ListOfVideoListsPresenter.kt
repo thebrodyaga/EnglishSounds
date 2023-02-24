@@ -1,7 +1,7 @@
-package com.thebrodyaga.englishsounds.screen.fragments.video.listoflists
+package com.thebrodyaga.feature.videoList.impl.listoflists
 
-import com.thebrodyaga.englishsounds.domine.interactors.AllVideoInteractor
 import com.thebrodyaga.englishsounds.base.app.BasePresenter
+import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor
 import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
 import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
 import com.thebrodyaga.legacy.MostCommonWordsVideoListItem

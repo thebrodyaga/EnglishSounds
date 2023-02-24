@@ -12,6 +12,8 @@ dependencies {
     implementation project(":brandbook")
     implementation project(":feature:soundList:api")
     implementation project(":feature:soundDetails:api")
+    implementation project(":feature:videoList:api")
     implementation project(":feature:youtube:api")
     implementation project(":data:sounds:api")
+    implementation project(":core:uiUtils")
 }

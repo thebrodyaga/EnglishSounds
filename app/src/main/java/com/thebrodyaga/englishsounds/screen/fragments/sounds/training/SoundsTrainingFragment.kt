@@ -12,7 +12,7 @@ import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.navigation.Screens
 import com.thebrodyaga.feature.appActivity.impl.AppActivity
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
-import com.thebrodyaga.legacy.VideoListType
+import com.thebrodyaga.feature.videoList.api.VideoListType
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import java.io.File

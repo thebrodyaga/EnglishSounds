@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
@@ -14,6 +15,7 @@ import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.soundList.impl.di.SoundListComponent
+import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.AdItemDecorator
 import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
@@ -21,7 +23,7 @@ import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
 import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoListItem
 import com.thebrodyaga.legacy.VideoListItem
-import com.thebrodyaga.legacy.VideoListType
+import com.thebrodyaga.legacy.adapters.SoundsAdapter
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -127,19 +129,6 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
                 0, 1, 2, 3 -> maxColumns
                 else -> 1
             }
-        }
-    }
-
-    companion object {
-        fun calculateNoOfColumns(
-            context: Context,
-            @DimenRes columnWidthRes: Int
-        ): Int {
-            val displayMetrics = context.resources.displayMetrics
-            val screenWidthPx = displayMetrics.widthPixels / displayMetrics.density
-            val columnWidthPx =
-                context.resources.getDimension(columnWidthRes) / displayMetrics.density
-            return (screenWidthPx / columnWidthPx + 0.5).toInt()// +0.5 for correct rounding to int.
         }
     }
 }

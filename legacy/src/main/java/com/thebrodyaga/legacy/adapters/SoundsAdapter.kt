@@ -1,22 +1,22 @@
-package com.thebrodyaga.feature.soundList.impl
+package com.thebrodyaga.legacy.adapters
 
+import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.view.View
-import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.Lifecycle
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.thebrodyaga.core.navigation.api.cicerone.Router
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
-import com.thebrodyaga.legacy.utils.CompositeAdLoader
 import com.thebrodyaga.legacy.AdItem
+import com.thebrodyaga.legacy.R
 import com.thebrodyaga.legacy.ShortAdItem
 import com.thebrodyaga.legacy.SoundHeader
 import com.thebrodyaga.legacy.VideoListItem
@@ -27,6 +27,7 @@ import com.thebrodyaga.legacy.delegates.soundHeaderItemDelegate
 import com.thebrodyaga.legacy.delegates.videoListItemDelegate
 import com.thebrodyaga.legacy.delegates.videoNativeAdDelegate
 import com.thebrodyaga.legacy.delegates.videoNativeShortAdDelegate
+import com.thebrodyaga.legacy.utils.CompositeAdLoader
 
 class SoundsAdapter constructor(
     positionList: MutableMap<Int, Pair<Int, Int>>,

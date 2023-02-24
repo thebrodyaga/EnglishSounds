@@ -20,7 +20,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/common"
             app:title="@string/main_menu_tab_third"
             app:titleTextAppearance="@style/Title2Regular" />
 

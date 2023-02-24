@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.screen.fragments.video.listoflists
+package com.thebrodyaga.feature.videoList.impl.listoflists
 
 import com.thebrodyaga.legacy.SoundsListItem
 import moxy.MvpView

@@ -8,6 +8,7 @@ dependencies {
     implementation project(':data:sounds:api')
     implementation project(':feature:audioPlayer:api')
     implementation project(':feature:youtube:api')
+    implementation project(':feature:videoList:api')
     implementation project(':core:uiUtils')
     implementation project(':brandbook')
     implementation googleAds

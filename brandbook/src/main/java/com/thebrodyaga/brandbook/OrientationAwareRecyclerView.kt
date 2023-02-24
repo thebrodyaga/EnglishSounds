@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.screen.view
+package com.thebrodyaga.brandbook
 
 import android.content.Context
 import android.util.AttributeSet

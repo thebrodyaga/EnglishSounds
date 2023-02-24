@@ -1,12 +1,10 @@
-package com.thebrodyaga.englishsounds.screen.fragments.video.listoflists
+package com.thebrodyaga.feature.videoList.impl.listoflists
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.os.Bundle
 import android.view.View
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.thebrodyaga.englishsounds.R
-import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
@@ -16,12 +14,16 @@ import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoListItem
 import com.thebrodyaga.legacy.SoundsListItem
 import com.thebrodyaga.legacy.VideoListItem
-import com.thebrodyaga.englishsounds.navigation.Screens
-import com.thebrodyaga.feature.soundList.impl.SoundsAdapter
 import com.thebrodyaga.legacy.AdItemDecorator
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.di.findDependencies
+import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
+import com.thebrodyaga.feature.videoList.api.VideoListScreenFactory
+import com.thebrodyaga.feature.videoList.api.VideoListType
+import com.thebrodyaga.feature.videoList.impl.R
+import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
-import com.thebrodyaga.legacy.VideoListType
+import com.thebrodyaga.legacy.adapters.SoundsAdapter
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -39,18 +41,24 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
     @Inject
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
 
+    @Inject
+    lateinit var soundScreenFactory: SoundDetailsScreenFactory
+
+    @Inject
+    lateinit var videoListScreenFactory: VideoListScreenFactory
+
     @ProvidePresenter
     fun providePresenter() = presenter
 
     override fun getLayoutId(): Int = R.layout.fragment_list_of_video_lists
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
+        VideoListComponent.factory(findDependencies()).inject(this)
         super.onCreate(savedInstanceState)
         adapter = SoundsAdapter(
             presenter.positionList,
             { soundDto, sharedElements -> onSoundClick(soundDto, sharedElements) },
-            { getAnyRouter().navigateTo(Screens.SoundsDetailsScreen(it)) },
+            { getAnyRouter().navigateTo(soundScreenFactory.soundDetailsScreen(it)) },
             { onShowAllVideoClick(it) },
             lifecycle,
             requireContext(),
@@ -88,12 +96,12 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
                 SoundType.VOWEL_SOUNDS -> VideoListType.VowelSounds
             }
         }
-        getAnyRouter().navigateTo(Screens.AllVideoScreen(showPage))
+        getAnyRouter().navigateTo(videoListScreenFactory.allVideoScreen(showPage))
     }
 
     private fun onSoundClick(item: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) {
         getAnyRouter().navigateTo(
-            Screens.SoundsDetailsScreen(item.transcription),
+            soundScreenFactory.soundDetailsScreen(item.transcription),
         )
 
         val bundle = Bundle()

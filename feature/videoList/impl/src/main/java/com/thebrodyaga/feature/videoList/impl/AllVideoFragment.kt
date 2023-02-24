@@ -1,13 +1,13 @@
-package com.thebrodyaga.englishsounds.screen.fragments.video
+package com.thebrodyaga.feature.videoList.impl
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
-import com.thebrodyaga.englishsounds.screen.fragments.video.list.VideoListFragment
-import com.thebrodyaga.legacy.VideoListType
+import com.thebrodyaga.feature.videoList.api.VideoListType
+import com.thebrodyaga.feature.videoList.impl.list.VideoListFragment
+import com.thebrodyaga.legacy.titleRes
 import kotlinx.android.synthetic.main.fragment_all_video.*
 
 class AllVideoFragment : BaseFragment() {

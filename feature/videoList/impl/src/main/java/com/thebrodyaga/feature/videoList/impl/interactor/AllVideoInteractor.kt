@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.domine.interactors
+package com.thebrodyaga.feature.videoList.impl.interactor
 
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.data.sounds.api.model.AdvancedExercisesVideoRes
