@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentFactory
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.feature.soundDetails.impl.ui.SoundFragment
-import com.thebrodyaga.feature.soundList.impl.SoundsListFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.AllVideoFragment
 import com.thebrodyaga.englishsounds.screen.fragments.video.listoflists.ListOfVideoListsFragment

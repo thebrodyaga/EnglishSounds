@@ -34,3 +34,5 @@ include ':legacy'
 
 include ':feature:soundList:api'
 include ':feature:soundList:impl'
+include ':feature:videoList:api'
+include ':feature:videoList:impl'

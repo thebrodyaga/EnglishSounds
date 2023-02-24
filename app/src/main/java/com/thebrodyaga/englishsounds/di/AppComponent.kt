@@ -2,15 +2,12 @@ package com.thebrodyaga.englishsounds.di
 
 import android.app.Application
 import com.google.gson.Gson
-import com.thebrodyaga.data.sounds.api.SoundsRepository
-import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.data.sounds.impl.di.SoundsModule
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.SplashActivity
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.di.modules.AppModule
 import com.thebrodyaga.englishsounds.di.modules.NavigationModule
-import com.thebrodyaga.englishsounds.screen.dialogs.RateAppDialog
 import com.thebrodyaga.englishsounds.screen.fragments.main.MainFragment
 import com.thebrodyaga.englishsounds.screen.fragments.main.TabContainerFragment
 import com.thebrodyaga.englishsounds.screen.fragments.sounds.training.SoundsTrainingFragment
@@ -55,7 +52,6 @@ interface AppComponent : AppDependencies,
     fun inject(activity: SplashActivity)
     fun inject(fragment: SoundFragment)
     fun inject(fragment: SoundsTrainingFragment)
-    fun inject(dialog: RateAppDialog)
     fun inject(fragment: VideoListFragment)
     fun inject(activity: com.thebrodyaga.feature.youtube.impl.YoutubePlayerActivity)
     fun inject(fragment: ListOfVideoListsFragment)
