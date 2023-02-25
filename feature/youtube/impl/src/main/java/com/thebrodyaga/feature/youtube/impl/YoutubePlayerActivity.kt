@@ -14,25 +14,26 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBar
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.analytics.AppAnalytics
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
 import com.thebrodyaga.feature.youtube.impl.PicInPickHelper.Companion.isHavePicInPicMode
+import com.thebrodyaga.feature.youtube.impl.databinding.ActivityYoutubePlayerBinding
 import com.thebrodyaga.feature.youtube.impl.di.YoutubeActivityComponent
 import moxy.MvpView
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import timber.log.Timber
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.activity_youtube_player.*
-import kotlinx.android.synthetic.main.ayp_default_player_ui.*
-import kotlinx.android.synthetic.main.ayp_default_player_ui.view.*
 
 class YoutubePlayerActivity : BaseActivity(), MvpView {
 
@@ -64,6 +65,13 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
     @RequiresApi(Build.VERSION_CODES.O)
     private lateinit var picInPickHelper: PicInPickHelper
 
+    private val binding by viewBinding(ActivityYoutubePlayerBinding::bind)
+
+
+    private lateinit var youtube_player_seekbar: YouTubePlayerSeekBar
+    private lateinit var panel: View
+    private lateinit var pic_in_pic_button: ImageView
+
     @ProvidePresenter
     fun providePresenter() = presenter
 
@@ -71,6 +79,9 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
         YoutubeActivityComponent.factory(findDependencies()).inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_youtube_player)
+        youtube_player_seekbar = binding.youtubePlayer.findViewById(R.id.youtube_player_seekbar)
+        panel = binding.youtubePlayer.findViewById(R.id.panel)
+        pic_in_pic_button = binding.youtubePlayer.findViewById(R.id.pic_in_pic_button)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             picInPickHelper = PicInPickHelper(this)
@@ -82,9 +93,9 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
         playVideoExtra = intent.getParcelableExtra(VIDEO_ID_EXTRA)
             ?: throw IllegalArgumentException("need put videoID")
 
-        val legacyYouTubePlayerView = youtube_player.panel.parent.parent as ViewGroup
+        val legacyYouTubePlayerView = panel.parent.parent as ViewGroup
 
-        root_view.setOnApplyWindowInsetsListener { v, insets ->
+        binding.rootView.setOnApplyWindowInsetsListener { v, insets ->
             if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
                 v.setPadding(
                     insets.systemWindowInsetLeft,
@@ -96,14 +107,14 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
             insets
         }
 
-        lifecycle.addObserver(youtube_player)
-        pic_in_pic_progress.setUpView(youtube_player)
-        youtube_player.addYouTubePlayerListener(YouTubePlayerListener())
-        youtube_player.getPlayerUiController()
+        lifecycle.addObserver(binding.youtubePlayer)
+        binding.picInPicProgress.setUpView(binding.youtubePlayer)
+        binding.youtubePlayer.addYouTubePlayerListener(YouTubePlayerListener())
+        binding.youtubePlayer.getPlayerUiController()
             .setFullScreenButtonClickListener(View.OnClickListener { toggleFullScreen() })
 
-        youtube_player
-            .addFullScreenListener(FullScreenListener(youtube_player, legacyYouTubePlayerView))
+        binding.youtubePlayer
+            .addFullScreenListener(FullScreenListener(binding.youtubePlayer, legacyYouTubePlayerView))
 
         setUpUiController()
         addOnPictureInPictureModeChangedListener {
@@ -135,8 +146,8 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
         super.onConfigurationChanged(newConfig)
         orientationListener.onConfigurationChanged(newConfig)
         when (newConfig.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> youtube_player.exitFullScreen()
-            Configuration.ORIENTATION_LANDSCAPE -> youtube_player.enterFullScreen()
+            Configuration.ORIENTATION_PORTRAIT -> binding.youtubePlayer.exitFullScreen()
+            Configuration.ORIENTATION_LANDSCAPE -> binding.youtubePlayer.enterFullScreen()
         }
     }
 
@@ -146,9 +157,9 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
     }
 
     private fun onPicInPicModeChanged(isInPictureInPictureMode: Boolean) {
-        youtube_player.getPlayerUiController()
+        binding.youtubePlayer.getPlayerUiController()
             .showUi(!isInPictureInPictureMode)
-        pic_in_pic_progress.isInvisible = !isInPictureInPictureMode
+        binding.picInPicProgress.isInvisible = !isInPictureInPictureMode
         if (isInPictureInPictureMode)
             picInPicReceiver = PicInPicReceiver {
                 onPipControlReceive(it)
@@ -186,8 +197,8 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
         currentSecond = newSecond
         youTubePlayer?.apply {
             seekTo(currentSecond)
-            youtube_player?.youtube_player_seekbar?.onCurrentSecond(this, currentSecond)
-            pic_in_pic_progress.progress = currentSecond.toInt()
+            youtube_player_seekbar.onCurrentSecond(this, currentSecond)
+            binding.picInPicProgress.progress = currentSecond.toInt()
         }
     }
 
@@ -209,7 +220,7 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
             }
         }
 
-        val youtubeViewPanel = youtube_player.panel
+        val youtubeViewPanel = panel
         val mDetector =
             GestureDetectorCompat(this, GestureListener(youtubeViewPanel))
         youtubeViewPanel.setOnTouchListener { _, event -> mDetector.onTouchEvent(event) }
