@@ -10,18 +10,18 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.view.View
 import android.view.ViewGroup
-import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
+import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.thebrodyaga.core.navigation.api.cicerone.Router
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.AdvancedExercisesVideoItem
 import com.thebrodyaga.legacy.ContrastingSoundVideoItem
-import com.thebrodyaga.legacy.R
 import com.thebrodyaga.legacy.SoundVideoItem
 import com.thebrodyaga.legacy.VideoItem
 import com.thebrodyaga.legacy.adapters.utils.SoundItemViewCache
 import com.thebrodyaga.legacy.color
+import com.thebrodyaga.legacy.databinding.ItemYoutubeVideoBinding
 import timber.log.Timber
 import kotlinx.android.synthetic.main.item_sound_min.view.*
 import kotlinx.android.synthetic.main.item_youtube_video.*
@@ -35,12 +35,14 @@ fun videoItemDelegate(
     onSoundClick: (transcription: String) -> Unit,
     youtubeScreenFactory: YoutubeScreenFactory,
     router: Router,
-) = adapterDelegateLayoutContainer<VideoItem, Any>(R.layout.item_youtube_video) {
+) = adapterDelegateViewBinding<VideoItem, Any, ItemYoutubeVideoBinding>(
+    { layoutInflater, root -> ItemYoutubeVideoBinding.inflate(layoutInflater, root, false) }
+) {
 
     val constraintSet = ConstraintSet()
     val onSoundViewClick = View.OnClickListener { onSoundClick(it.sound.text.toString()) }
 
-    (containerView as ConstraintLayout).apply {
+    (itemView as ConstraintLayout).apply {
         if (orientation == RecyclerView.VERTICAL) {
             itemView.layoutParams = itemView.layoutParams.apply {
                 width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -173,12 +175,12 @@ fun videoItemDelegate(
         }
     }
 
-    onViewRecycled { removeSoundViews(containerView) }
+    onViewRecycled { removeSoundViews(itemView) }
 
     bind {
-        item_youtube_video_thumbnail.loadYoutubeThumbnail(item.videoId)
-        item_youtube_video_title.text = item.title
-        removeSoundViews(containerView)
+        binding.itemYoutubeVideoThumbnail.loadYoutubeThumbnail(item.videoId)
+        binding.itemYoutubeVideoTitle.text = item.title
+        removeSoundViews(itemView)
         addIfNeedSoundItems(item)
     }
 }

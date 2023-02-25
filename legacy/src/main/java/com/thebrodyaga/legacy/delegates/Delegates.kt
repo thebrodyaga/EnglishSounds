@@ -5,8 +5,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.widget.TextView
-import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
+import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.thebrodyaga.core.navigation.api.cicerone.Router
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.R
@@ -14,6 +13,8 @@ import com.thebrodyaga.legacy.SoundHeader
 import com.thebrodyaga.legacy.VideoListItem
 import com.thebrodyaga.legacy.adapters.VideoListAdapter
 import com.thebrodyaga.legacy.adapters.decorator.OffsetItemDecoration
+import com.thebrodyaga.legacy.databinding.ItemSoundHeaderBinding
+import com.thebrodyaga.legacy.databinding.ItemVideoListBinding
 import com.thebrodyaga.legacy.humanName
 import com.thebrodyaga.legacy.utils.CompositeAdLoader
 import kotlinx.android.synthetic.main.item_sound_header.*
@@ -27,10 +28,14 @@ fun videoListItemDelegate(
     compositeAdLoader: CompositeAdLoader,
     youtubeScreenFactory: YoutubeScreenFactory,
     router: Router,
-) = adapterDelegateLayoutContainer<VideoListItem, Any>(R.layout.item_video_list) {
+) = adapterDelegateViewBinding<VideoListItem, Any, ItemVideoListBinding>(
+    { layoutInflater, root -> ItemVideoListBinding.inflate(layoutInflater, root, false) }
+) {
 
-    val adapter = VideoListAdapter(onSoundClick, compositeAdLoader,
-        youtubeScreenFactory = youtubeScreenFactory, router = router)
+    val adapter = VideoListAdapter(
+        onSoundClick, compositeAdLoader,
+        youtubeScreenFactory = youtubeScreenFactory, router = router
+    )
     val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 
     val lifecycleObserver = object : LifecycleObserver {
@@ -38,16 +43,16 @@ fun videoListItemDelegate(
         @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         fun saveState() {
             val positionIndex = layoutManager.findFirstVisibleItemPosition()
-            val startView = video_list_recycler_view.getChildAt(0)
+            val startView = binding.videoListRecyclerView.getChildAt(0)
             val topView =
-                if (startView == null) 0 else startView.left - video_list_recycler_view.paddingLeft
+                if (startView == null) 0 else startView.left - binding.videoListRecyclerView.paddingLeft
             positionList[adapterPosition] = Pair(positionIndex, topView)
         }
     }
 
-    video_list_show_all.setOnClickListener { onShowAllClick(item) }
+    binding.videoListShowAll.setOnClickListener { onShowAllClick(item) }
 
-    video_list_recycler_view.apply {
+    binding.videoListRecyclerView.apply {
         lifecycle.addObserver(lifecycleObserver)
         this.layoutManager = layoutManager
         this.adapter = adapter
@@ -69,14 +74,16 @@ fun videoListItemDelegate(
         // Retrieve and set the saved position
         positionList[adapterPosition]
             ?.let { layoutManager.scrollToPositionWithOffset(it.first, it.second) }
-        video_list_title.setText(item.title)
+        binding.videoListTitle.setText(item.title)
     }
 }
 
 fun soundHeaderItemDelegate() =
-    adapterDelegateLayoutContainer<SoundHeader, Any>(R.layout.item_sound_header) {
+    adapterDelegateViewBinding<SoundHeader, Any, ItemSoundHeaderBinding>(
+        { layoutInflater, root -> ItemSoundHeaderBinding.inflate(layoutInflater, root, false) }
+    ) {
 
         bind {
-            findViewById<TextView>(R.id.headerTitle).setText(item.soundType.humanName())
+            binding.headerTitle.setText(item.soundType.humanName())
         }
     }
