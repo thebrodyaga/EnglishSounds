@@ -1,16 +1,16 @@
 package com.thebrodyaga.legacy.delegates
 
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.thebrodyaga.core.uiUtils.inflate
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.legacy.R
-import kotlinx.android.synthetic.main.item_sound.view.*
 
 abstract class SoundItemDelegate(
     private val itemClickedListener: (soundDto: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) -> Unit,
@@ -71,6 +71,8 @@ class SoundItemVH constructor(
 ) : RecyclerView.ViewHolder(view) {
 
     var item: AmericanSoundDto? = null
+    private val word = view.findViewById<TextView>(R.id.word)
+    private val sound = view.findViewById<TextView>(R.id.sound)
 
     init {
         itemView.setOnClickListener {

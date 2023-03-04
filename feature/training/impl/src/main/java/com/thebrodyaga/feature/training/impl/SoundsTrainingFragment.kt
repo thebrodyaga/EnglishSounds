@@ -5,20 +5,21 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import android.os.Bundle
 import android.view.View
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
+import com.thebrodyaga.feature.training.impl.databinding.FragmentSoundsTrainingBinding
+import com.thebrodyaga.feature.training.impl.databinding.FragmentWordBinding
 import com.thebrodyaga.feature.training.impl.di.TrainingComponent
-import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoListType
+import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import java.io.File
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.fragment_sounds_training.*
-import kotlinx.android.synthetic.main.fragment_word.view.*
 
 class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
     override fun getLayoutId(): Int = R.layout.fragment_sounds_training
@@ -32,6 +33,7 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
 
     @Inject
     lateinit var soundDetailsScreenFactory: SoundDetailsScreenFactory
+    private val binding by viewBinding(FragmentSoundsTrainingBinding::bind)
 
     @Inject
     lateinit var videoScreenFactory: VideoScreenFactory
@@ -56,8 +58,8 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar.setOnMenuItemClickListener(this)
-        play_icon.setRecordVoice(audioPlayer)
+        binding.toolbar.setOnMenuItemClickListener(this)
+        binding.playIcon.setRecordVoice(audioPlayer)
         showFab(isShow = true, autoHide = false)
 //        include_ad.setAd(item, nativeAdLoader)
     }
@@ -78,23 +80,23 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
     }
 
     override fun setData(list: List<PracticeWordDto>) {
-        video_lib_icon.setOnClickListener {
+        binding.videoLibIcon.setOnClickListener {
             getAnyRouter().navigateTo(videoScreenFactory.allVideoScreen(VideoListType.MostCommonWords))
         }
-        info_icon.setOnClickListener {
+        binding.infoIcon.setOnClickListener {
             adapter?.also {
-                val practiceWordDto = it.list.getOrNull(view_pager.currentItem)
+                val practiceWordDto = it.list.getOrNull(binding.viewPager.currentItem)
                 practiceWordDto?.apply { getAnyRouter().navigateTo(soundDetailsScreenFactory.soundDetailsScreen(this.sound)) }
             }
         }
         adapter = PageAdapter(this).also {
             it.setData(list)
-            view_pager.adapter = it
-            view_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            binding.viewPager.adapter = it
+            binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    play_icon.audioFile =
-                        File(view_pager.context.filesDir, it.list[position].audioPath)
+                    binding.playIcon.audioFile =
+                        File(binding.viewPager.context.filesDir, it.list[position].audioPath)
                 }
             })
         }
@@ -102,7 +104,7 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
 
     private val onInfoClick = View.OnClickListener {
         adapter?.also {
-            val practiceWordDto = it.list.getOrNull(view_pager.currentItem)
+            val practiceWordDto = it.list.getOrNull(binding.viewPager.currentItem)
             practiceWordDto?.apply { getAnyRouter().navigateTo(soundDetailsScreenFactory.soundDetailsScreen(this.sound)) }
         }
     }
@@ -123,10 +125,11 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
 
     class WordFragment : BaseFragment() {
         override fun getLayoutId(): Int = R.layout.fragment_word
+        private val binding by viewBinding(FragmentWordBinding::bind)
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            view.word.text = arguments?.getString(WORD_KEY) ?: ""
+            binding.word.text = arguments?.getString(WORD_KEY) ?: ""
         }
 
         companion object {

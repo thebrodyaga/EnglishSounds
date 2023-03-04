@@ -86,8 +86,6 @@ ext {
         module.configure(module) {
             apply plugin: 'com.android.library'
             apply plugin: 'kotlin-android'
-            // todo
-            apply plugin: 'kotlin-android-extensions'
 
             android {
                 compileSdk compile_sdk_version
@@ -120,11 +118,6 @@ ext {
 
                 kotlinOptions {
                     jvmTarget = JavaVersion.VERSION_1_8.toString()
-                }
-
-                // todo
-                androidExtensions {
-                    experimental = true
                 }
             }
         }

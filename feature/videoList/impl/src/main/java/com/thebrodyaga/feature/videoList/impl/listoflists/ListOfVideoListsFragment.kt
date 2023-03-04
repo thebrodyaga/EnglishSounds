@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.os.Bundle
 import android.view.View
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
@@ -21,14 +22,13 @@ import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.R
+import com.thebrodyaga.feature.videoList.impl.databinding.FragmentListOfVideoListsBinding
 import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.adapters.SoundsAdapter
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.fragment_all_video.toolbar
-import kotlinx.android.synthetic.main.fragment_list_of_video_lists.*
 
 class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
 
@@ -49,6 +49,7 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
 
     @ProvidePresenter
     fun providePresenter() = presenter
+    private val binding by viewBinding(FragmentListOfVideoListsBinding::bind)
 
     override fun getLayoutId(): Int = R.layout.fragment_list_of_video_lists
 
@@ -69,16 +70,16 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        list.layoutManager = LinearLayoutManager(context)
-        list.adapter = adapter
-        list.itemAnimator = null
-        list.addItemDecoration(
+        binding.list.layoutManager = LinearLayoutManager(context)
+        binding.list.adapter = adapter
+        binding.list.itemAnimator = null
+        binding.list.addItemDecoration(
             AdItemDecorator(
                 context, RecyclerView.VERTICAL,
                 R.dimen.ad_item_in_vertical_horizontal_offset
             )
         )
-        toolbar.setOnMenuItemClickListener(this)
+        binding.toolbar.setOnMenuItemClickListener(this)
     }
 
     override fun setListData(videos: List<SoundsListItem>) {

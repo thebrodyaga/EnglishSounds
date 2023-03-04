@@ -17,8 +17,6 @@ import com.thebrodyaga.legacy.databinding.ItemSoundHeaderBinding
 import com.thebrodyaga.legacy.databinding.ItemVideoListBinding
 import com.thebrodyaga.legacy.humanName
 import com.thebrodyaga.legacy.utils.CompositeAdLoader
-import kotlinx.android.synthetic.main.item_sound_header.*
-import kotlinx.android.synthetic.main.item_video_list.*
 
 fun videoListItemDelegate(
     positionList: MutableMap<Int, Pair<Int, Int>>,

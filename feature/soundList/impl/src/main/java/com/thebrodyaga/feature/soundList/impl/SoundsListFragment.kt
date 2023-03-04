@@ -1,11 +1,10 @@
 package com.thebrodyaga.feature.soundList.impl
 
-import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.content.Context
 import android.os.Bundle
 import android.view.View
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
@@ -14,6 +13,7 @@ import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
+import com.thebrodyaga.feature.soundList.impl.databinding.FragmentSoundsListBinding
 import com.thebrodyaga.feature.soundList.impl.di.SoundListComponent
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
@@ -27,7 +27,6 @@ import com.thebrodyaga.legacy.adapters.SoundsAdapter
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.fragment_sounds_list.*
 
 class SoundsListFragment : BaseFragment(), SoundsListView {
 
@@ -36,6 +35,7 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
     @Inject
     @InjectPresenter
     lateinit var presenter: SoundsListPresenter
+    private val binding by viewBinding(FragmentSoundsListBinding::bind)
 
     @Inject
     lateinit var detailsScreenFactory: SoundDetailsScreenFactory
@@ -72,17 +72,17 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        list.layoutManager = GridLayoutManager(context, spanSizeLookup.maxColumns)
+        binding.list.layoutManager = GridLayoutManager(context, spanSizeLookup.maxColumns)
             .also { it.spanSizeLookup = spanSizeLookup }
-        list.adapter = adapter
-        list.itemAnimator = null
-        list.addItemDecoration(
+        binding.list.adapter = adapter
+        binding.list.itemAnimator = null
+        binding.list.addItemDecoration(
             AdItemDecorator(
                 context, RecyclerView.VERTICAL,
                 R.dimen.ad_item_in_vertical_horizontal_offset
             )
         )
-        toolbar.setOnMenuItemClickListener(this)
+        binding.toolbar.setOnMenuItemClickListener(this)
     }
 
     override fun setListData(sounds: List<Any>) {

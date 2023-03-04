@@ -9,12 +9,13 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.transition.TransitionManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import com.google.android.material.card.MaterialCardView
+import com.thebrodyaga.legacy.databinding.ViewAdVerticalShortBinding
 import com.thebrodyaga.legacy.utils.CompositeAdLoader
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.view_ad_vertical_short.view.*
 
 class AdVerticalShortView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -22,6 +23,7 @@ class AdVerticalShortView @JvmOverloads constructor(
 
     private val constraintSet = ConstraintSet()
     private var disposable: Disposable? = null
+    val binding by viewBinding(ViewAdVerticalShortBinding::bind)
 
     init {
 
@@ -31,19 +33,19 @@ class AdVerticalShortView @JvmOverloads constructor(
     }
 
     private fun setUpView() {
-        ad_view.apply {
+        binding.adView.apply {
             // The MediaView will display a video asset if one is present in the ad, and the
             // first image asset otherwise.
 //            mediaView = ad_media
 
             // Register the view used for each individual asset.
-            headlineView = ad_headline
-            iconView = ad_icon
-            callToActionView = ad_call_to_action
-            priceView = ad_price
-            starRatingView = ad_stars
-            storeView = ad_google_play_icon
-            bodyView = ad_advertiser
+            headlineView = binding.adHeadline
+            iconView = binding.adIcon
+            callToActionView = binding.adCallToAction
+            priceView = binding.adPrice
+            starRatingView = binding.adStars
+            storeView = binding.adGooglePlayIcon
+            bodyView = binding.adAdvertiser
         }
     }
 
@@ -65,25 +67,25 @@ class AdVerticalShortView @JvmOverloads constructor(
         disposable = nativeAdLoader.getLoader(ad.adTag, adapterPosition, ad.customTag)
             .adsObservable
             .subscribe { adBox ->
-                constraintSet.clone(ad_container)
+                constraintSet.clone(binding.adContainer)
                 adBox.ad?.let {
                     setEmptyView(false)
                     /*if (it.mediaContent != null) {
                         constraintSet.setVisibility(ad_view.mediaView.id, ConstraintSet.VISIBLE)
                     } else constraintSet.setVisibility(ad_view.mediaView.id, ConstraintSet.GONE)*/
-                    populateNativeAdView(it, ad_view)
+                    populateNativeAdView(it, binding.adView)
                 } ?: kotlin.run {
                     setEmptyView(true)
                 }
-                TransitionManager.beginDelayedTransition(ad_container)
-                constraintSet.applyTo(ad_container)
+                TransitionManager.beginDelayedTransition(binding.adContainer)
+                constraintSet.applyTo(binding.adContainer)
             }
     }
 
     private fun setEmptyView(isEmpty: Boolean) {
         if (isEmpty)
-            constraintSet.setVisibility(ad_empty.id, ConstraintSet.VISIBLE)
-        else constraintSet.setVisibility(ad_empty.id, ConstraintSet.INVISIBLE)
+            constraintSet.setVisibility(binding.adEmpty.id, ConstraintSet.VISIBLE)
+        else constraintSet.setVisibility(binding.adEmpty.id, ConstraintSet.INVISIBLE)
     }
 
     private fun populateNativeAdView(

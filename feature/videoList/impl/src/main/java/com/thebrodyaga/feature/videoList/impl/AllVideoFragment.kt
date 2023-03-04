@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.feature.videoList.api.VideoListType
+import com.thebrodyaga.feature.videoList.impl.databinding.FragmentAllVideoBinding
 import com.thebrodyaga.feature.videoList.impl.list.VideoListFragment
 import com.thebrodyaga.legacy.titleRes
-import kotlinx.android.synthetic.main.fragment_all_video.*
 
 class AllVideoFragment : BaseFragment() {
 
@@ -23,15 +24,16 @@ class AllVideoFragment : BaseFragment() {
         VideoListType.AdvancedExercises, VideoListType.VowelSounds,
         VideoListType.RControlledVowels, VideoListType.ConsonantSounds
     )
+    private val binding by viewBinding(FragmentAllVideoBinding::bind)
 
     override fun getLayoutId(): Int = R.layout.fragment_all_video
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tab_layout.setupWithViewPager(pager)
-        pager.adapter = VideoPageAdapter()
-        pager.setCurrentItem(pageList.indexOf(showPage), false)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.tabLayout.setupWithViewPager(binding.pager)
+        binding.pager.adapter = VideoPageAdapter()
+        binding.pager.setCurrentItem(pageList.indexOf(showPage), false)
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
     private inner class VideoPageAdapter :

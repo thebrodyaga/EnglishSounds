@@ -5,7 +5,9 @@ import android.graphics.Rect
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.RecyclerView
+import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.dsl.AdapterDelegateLayoutContainerViewHolder
+import com.hannesdorfmann.adapterdelegates4.dsl.AdapterDelegateViewBindingViewHolder
 import timber.log.Timber
 
 class AdItemDecorator constructor(
@@ -41,7 +43,7 @@ class AdItemDecorator constructor(
         val viewHolder = parent.getChildViewHolder(view)
         if (position == RecyclerView.NO_POSITION)
             return
-        if (viewHolder !is AdapterDelegateLayoutContainerViewHolder<*> || viewHolder.item !is AdItem)
+        if (viewHolder !is AdapterDelegateViewBindingViewHolder<*, *> || viewHolder.item !is AdItem)
             return
         val count = state.itemCount
         when (orientation) {

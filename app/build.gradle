@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.crashlytics'
 apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
@@ -62,10 +61,6 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-
-    androidExtensions {
-        experimental = true
     }
 }
 

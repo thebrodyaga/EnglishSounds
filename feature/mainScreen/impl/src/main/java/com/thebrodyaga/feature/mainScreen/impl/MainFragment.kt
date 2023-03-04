@@ -5,17 +5,15 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.base.app.FlowFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
+import com.thebrodyaga.feature.mainScreen.impl.databinding.FragmentMainBinding
 import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenComponent
-import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
 
 class MainFragment : FlowFragment() {
@@ -28,6 +26,7 @@ class MainFragment : FlowFragment() {
 
     @Inject
     lateinit var recordVoice: RecordVoice
+    private val binding by viewBinding(FragmentMainBinding::bind)
 
     @Inject
     lateinit var mainScreenFactory: MainScreenFactory
@@ -51,7 +50,7 @@ class MainFragment : FlowFragment() {
 
         val tv = TypedValue()
         if (result.context.theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            val layoutParams = result.mic_button.layoutParams as ViewGroup.MarginLayoutParams
+            val layoutParams = result.findViewById<View>(R.id.mic_button).layoutParams as ViewGroup.MarginLayoutParams
             val actionBarHeight =
                 TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
             val baseOffset = resources.getDimensionPixelSize(R.dimen.base_offset)
@@ -73,7 +72,7 @@ class MainFragment : FlowFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             val position = when (item.itemId) {
                 R.id.main_menu_first -> (0)
                 R.id.main_menu_second -> (1)
@@ -84,12 +83,12 @@ class MainFragment : FlowFragment() {
                 onBottomBarClick(position)
             position > -1
         }
-        bottom_navigation.setOnNavigationItemReselectedListener {
+        binding.bottomNavigation.setOnNavigationItemReselectedListener {
             (currentFragment as? TabContainerFragment)
                 ?.localRouter?.backTo(null)
         }
         if (currentFragment == null) onBottomBarClick(FIRST_MAIN_PAGE.first)
-        mic_button.setRecordVoice(recordVoice)
+        binding.micButton.setRecordVoice(recordVoice)
     }
 
     private fun onBottomBarClick(position: Int): Boolean {
@@ -131,8 +130,8 @@ class MainFragment : FlowFragment() {
 
     fun toggleFabMic(isShow: Boolean?, autoHide: Boolean?) {
         when (isShow) {
-            true -> mic_button?.show()
-            false -> mic_button?.hide()
+            true -> binding.micButton?.show()
+            false -> binding.micButton?.hide()
             null -> {}
         }
 //        when (autoHide) {

@@ -3,20 +3,22 @@ package com.thebrodyaga.feature.setting.impl
 import androidx.core.view.isGone
 import android.os.Bundle
 import android.view.View
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.jakewharton.rxbinding3.widget.checkedChanges
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.setting.api.CurrentTheme
 import com.thebrodyaga.feature.setting.api.SettingManager
+import com.thebrodyaga.feature.setting.impl.databinding.FragmentSettingsBinding
 import com.thebrodyaga.feature.setting.impl.di.SettingComponent
-import kotlinx.android.synthetic.main.fragment_settings.*
 import javax.inject.Inject
 
 class SettingsFragment : BaseFragment() {
 
     @Inject
     lateinit var settingManager: SettingManager
+    private val binding by viewBinding(FragmentSettingsBinding::bind)
 
     override fun getLayoutId(): Int = R.layout.fragment_settings
 
@@ -27,42 +29,42 @@ class SettingsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar.setNavigationOnClickListener { getAnyRouter().exit() }
+        binding.toolbar.setNavigationOnClickListener { getAnyRouter().exit() }
         setThemeSetting()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        system_theme.setOnCheckedChangeListener(null)
-        is_dark_theme.setOnCheckedChangeListener(null)
+        binding.systemTheme.setOnCheckedChangeListener(null)
+        binding.isDarkTheme .setOnCheckedChangeListener(null)
     }
 
     private fun setThemeSetting() {
         when (settingManager.getCurrentTheme()) {
             CurrentTheme.SYSTEM -> {
-                system_theme.isChecked = true
-                is_dark_theme.isGone = (true)
+                binding.systemTheme.isChecked = true
+                binding.isDarkTheme.isGone = (true)
             }
             CurrentTheme.DARK -> {
-                system_theme.isChecked = false
-                is_dark_theme.isGone = (false)
-                is_dark_theme.isChecked = true
+                binding.systemTheme.isChecked = false
+                binding.isDarkTheme.isGone = (false)
+                binding.isDarkTheme.isChecked = true
             }
             CurrentTheme.LIGHT -> {
-                system_theme.isChecked = false
-                is_dark_theme.isGone = false
-                is_dark_theme.isChecked = false
+                binding.systemTheme.isChecked = false
+                binding.isDarkTheme.isGone = false
+                binding.isDarkTheme.isChecked = false
             }
         }
 
         unSubscribeOnDestroy(
-            system_theme.checkedChanges()
+            binding.systemTheme.checkedChanges()
                 .skipInitialValue()
                 .subscribe { onSystemThemeListener.invoke(it) }
         )
 
         unSubscribeOnDestroy(
-            is_dark_theme.checkedChanges()
+            binding.isDarkTheme.checkedChanges()
                 .skipInitialValue()
                 .subscribe { onIsDarkThemeListener.invoke(it) }
         )
@@ -71,16 +73,16 @@ class SettingsFragment : BaseFragment() {
     private val onSystemThemeListener = { isChecked: Boolean ->
         if (isChecked) {
             settingManager.setCurrentTheme(CurrentTheme.SYSTEM)
-            is_dark_theme.isGone = (true)
+            binding.isDarkTheme.isGone = (true)
         } else {
             val isSystemDark = context?.isSystemDarkMode() ?: false
-            is_dark_theme.isChecked = !isSystemDark
+            binding.isDarkTheme.isChecked = !isSystemDark
             settingManager.setCurrentTheme(
                 if (isSystemDark)
                     CurrentTheme.LIGHT
                 else CurrentTheme.DARK
             )
-            is_dark_theme.isGone = (false)
+            binding.isDarkTheme.isGone = (false)
         }
         settingManager.updateTheme()
     }

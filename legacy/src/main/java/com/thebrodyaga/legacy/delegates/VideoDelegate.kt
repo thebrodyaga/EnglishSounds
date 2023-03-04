@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.thebrodyaga.core.navigation.api.cicerone.Router
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
@@ -17,16 +18,13 @@ import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.AdvancedExercisesVideoItem
 import com.thebrodyaga.legacy.ContrastingSoundVideoItem
+import com.thebrodyaga.legacy.R
 import com.thebrodyaga.legacy.SoundVideoItem
 import com.thebrodyaga.legacy.VideoItem
 import com.thebrodyaga.legacy.adapters.utils.SoundItemViewCache
 import com.thebrodyaga.legacy.color
 import com.thebrodyaga.legacy.databinding.ItemYoutubeVideoBinding
 import timber.log.Timber
-import kotlinx.android.synthetic.main.item_sound_min.view.*
-import kotlinx.android.synthetic.main.item_youtube_video.*
-import kotlinx.android.synthetic.main.item_youtube_video.view.*
-import kotlinx.android.synthetic.main.view_youtube_thumbnail.view.*
 
 fun videoItemDelegate(
     @RecyclerView.Orientation orientation: Int = RecyclerView.HORIZONTAL,
@@ -40,7 +38,6 @@ fun videoItemDelegate(
 ) {
 
     val constraintSet = ConstraintSet()
-    val onSoundViewClick = View.OnClickListener { onSoundClick(it.sound.text.toString()) }
 
     (itemView as ConstraintLayout).apply {
         if (orientation == RecyclerView.VERTICAL) {
@@ -49,17 +46,19 @@ fun videoItemDelegate(
             }
             constraintSet.clone(this)
             constraintSet.constrainHeight(
-                youtube_video_layout.id,
+                binding.youtubeVideoLayout.id,
                 ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
             )
             constraintSet.applyTo(this)
         }
         setOnClickListener {
-            router.navigateTo(youtubeScreenFactory.youtubeScreen(
-                PlayVideoExtra(item.videoId, item.title)
-            ))
+            router.navigateTo(
+                youtubeScreenFactory.youtubeScreen(
+                    PlayVideoExtra(item.videoId, item.title)
+                )
+            )
         }
-        item_youtube_video_thumbnail.youtube_play_icon.isVisible = false
+        binding.itemYoutubeVideoThumbnail.binding.youtubePlayIcon.isVisible = false
     }
 
     fun addIfNeedSoundItems(item: VideoItem) = with(itemView) {
@@ -77,17 +76,17 @@ fun videoItemDelegate(
         }
         sounds.forEach { soundDto ->
             val soundView = viewCache()?.popViewFromCache() ?: return@with
-            soundView.setOnClickListener(onSoundViewClick)
-            val sound = soundView.sound
-            soundDto?.let {
+            val sound = soundView.findViewById<TextView>(R.id.sound)
+            soundView.setOnClickListener { onSoundClick(sound.text.toString()) }
+            soundDto.let {
                 sound.text = soundDto.transcription
                 sound.backgroundTintList = getColor(context, soundDto.soundType.color())
             }
-            youtube_video_layout.addView(soundView)
+            binding.youtubeVideoLayout.addView(soundView)
         }
         var previousSoundItem: CardView? = null
-        val soundViews = youtube_video_layout.children.filterIsInstance<CardView>()
-        constraintSet.clone(youtube_video_layout)
+        val soundViews = binding.youtubeVideoLayout.children.filterIsInstance<CardView>()
+        constraintSet.clone(binding.youtubeVideoLayout)
 
         soundViews.forEachIndexed { index, soundView ->
             constraintSet.setDimensionRatio(soundView.id, "w,1:1")
@@ -98,7 +97,7 @@ fun videoItemDelegate(
             constraintSet.connect(
                 soundView.id,
                 ConstraintSet.TOP,
-                guideline.id,
+                binding.guideline.id,
                 ConstraintSet.BOTTOM
             )
             constraintSet.connect(
@@ -164,13 +163,13 @@ fun videoItemDelegate(
                 }
             }
         }
-        constraintSet.applyTo(youtube_video_layout)
+        constraintSet.applyTo(binding.youtubeVideoLayout)
     }
 
     fun removeSoundViews(itemView: View) = with(itemView) {
-        youtube_video_layout.children.filterIsInstance<CardView>().forEach {
+        binding.youtubeVideoLayout.children.filterIsInstance<CardView>().forEach {
             Timber.i("removeSoundView")
-            youtube_video_layout.removeViewInLayout(it)
+            binding.youtubeVideoLayout.removeViewInLayout(it)
             viewCache()?.setToCache(it)
         }
     }

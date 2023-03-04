@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.os.Bundle
 import android.view.View
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
@@ -12,6 +13,7 @@ import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.R
+import com.thebrodyaga.feature.videoList.impl.databinding.FragmentVideoListBinding
 import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
 import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
@@ -34,7 +36,6 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import timber.log.Timber
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.fragment_video_list.*
 
 class VideoListFragment : BaseFragment(), VideoListView {
 
@@ -50,6 +51,7 @@ class VideoListFragment : BaseFragment(), VideoListView {
 
     private lateinit var adapter: VideoListAdapter
     private lateinit var spanSizeLookup: SpanSizeLookup
+    private val binding by viewBinding(FragmentVideoListBinding::bind)
 
     @ProvidePresenter
     fun providePresenter() = presenter.also {
@@ -80,17 +82,17 @@ class VideoListFragment : BaseFragment(), VideoListView {
         super.onViewCreated(view, savedInstanceState)
         val layoutManager = GridLayoutManager(context, spanSizeLookup.maxColumns)
             .also { it.spanSizeLookup = spanSizeLookup }
-        list.addItemDecoration(
+        binding.list.addItemDecoration(
             VideoListItemDecoration(view.context.resources.getDimensionPixelOffset(R.dimen.base_offset_small))
         )
-        list.addItemDecoration(
+        binding.list.addItemDecoration(
             AdItemDecorator(
                 view.context, RecyclerView.VERTICAL,
                 R.dimen.ad_item_in_vertical_horizontal_offset
             )
         )
-        list.layoutManager = layoutManager
-        list.adapter = adapter
+        binding.list.layoutManager = layoutManager
+        binding.list.adapter = adapter
     }
 
     override fun setList(list: List<VideoItemInList>) {

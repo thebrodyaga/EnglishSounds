@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.thebrodyaga.core.navigation.api.cicerone.Router
@@ -20,6 +21,10 @@ import com.thebrodyaga.data.sounds.api.model.SpellingWordDto
 import com.thebrodyaga.data.sounds.api.model.WordDto
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.soundDetails.impl.R
+import com.thebrodyaga.feature.soundDetails.impl.databinding.ItemAdVerticalShortBinding
+import com.thebrodyaga.feature.soundDetails.impl.databinding.ItemShowMoreBinding
+import com.thebrodyaga.feature.soundDetails.impl.databinding.ItemSoundDetailsBinding
+import com.thebrodyaga.feature.soundDetails.impl.databinding.ItemWordBinding
 import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.ShortAdItem
@@ -29,10 +34,6 @@ import com.thebrodyaga.legacy.WordsHeader
 import com.thebrodyaga.legacy.utils.CompositeAdLoader
 import timber.log.Timber
 import java.io.File
-import kotlinx.android.synthetic.main.item_ad_vertical_short.view.*
-import kotlinx.android.synthetic.main.item_show_more.view.*
-import kotlinx.android.synthetic.main.item_sound_details.view.*
-import kotlinx.android.synthetic.main.item_word.view.*
 
 class SoundDetailsAdapter(
     private val router: Router,
@@ -120,14 +121,15 @@ class SoundDetailsAdapter(
 
     private abstract inner class BaseWordVH<T : WordDto>(view: View) :
         RecyclerView.ViewHolder(view) {
+        protected val binding by viewBinding(ItemWordBinding::bind)
 
         init {
-            view.word_root_view.setOnClickListener { it.play_icon.performClick() }
-            view.play_icon.setRecordVoice(audioPlayer)
+            binding.wordRootView.setOnClickListener { binding.playIcon.performClick() }
+            binding.playIcon.setRecordVoice(audioPlayer)
         }
 
         open fun bind(item: T) = with(itemView) {
-            play_icon.audioFile = File(context.filesDir, item.audioPath)
+            binding.playIcon.audioFile = File(context.filesDir, item.audioPath)
         }
     }
 
@@ -136,14 +138,15 @@ class SoundDetailsAdapter(
         private val nativeAdLoader: CompositeAdLoader
     ) : RecyclerView.ViewHolder(view) {
         private var item: AmericanSoundDto? = null
+        private val binding by viewBinding(ItemSoundDetailsBinding::bind)
 
         var adItem: ShortAdItem? = null
 
         init {
-            view.include.setOnClickListener { it.play_icon.performClick() }
-            view.include.play_icon.setRecordVoice(audioPlayer)
-            view.include.play_icon.setRecordVoice(audioPlayer)
-            view.youtube_layout.setOnClickListener {
+            binding.include.root.setOnClickListener { binding.include.playIcon.performClick() }
+            binding.include.playIcon.setRecordVoice(audioPlayer)
+            binding.include.playIcon.setRecordVoice(audioPlayer)
+            binding.youtubeLayout.setOnClickListener {
                 item?.let { item ->
                     val videoUrl = videoMap?.get(item.transcription)
                     if (videoUrl != null && videoUrl.isNotEmpty()) {
@@ -158,18 +161,18 @@ class SoundDetailsAdapter(
         fun bind(
             item: AmericanSoundDto,
             adItem: ShortAdItem
-        ) = with(itemView) {
+        ) = with(binding) {
             Timber.i("SoundDetailsVH bind")
             this@SoundDetailsVH.item = item
-            Glide.with(sound_image.context)
-                .load(File(sound_image.context.filesDir, item.photoPath))
-                .into(sound_image)
+            Glide.with(soundImage.context)
+                .load(File(soundImage.context.filesDir, item.photoPath))
+                .into(soundImage)
             val videoUrl = videoMap?.get(item.transcription)
             if (videoUrl == null || videoUrl.isEmpty())
-                youtube_layout.isVisible = (true)
-            else youtube_layout.loadYoutubeThumbnail(videoUrl)
+                youtubeLayout.isVisible = (true)
+            else youtubeLayout.loadYoutubeThumbnail(videoUrl)
             include.word.text = item.name.plus(" ").plus("[${item.transcription}]")
-            include.play_icon.audioFile = File(context.filesDir, item.audioPath)
+            include.playIcon.audioFile = File(root.context.filesDir, item.audioPath)
             description.text = descriptionMap?.get(item.transcription) ?: ""
             setIsRecyclable(false)
 
@@ -182,7 +185,7 @@ class SoundDetailsAdapter(
 
         override fun bind(item: SpellingWordDto) = with(itemView) {
             super.bind(item)
-            word.text = HtmlCompat.fromHtml(item.transcription, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            binding.word.text = HtmlCompat.fromHtml(item.transcription, HtmlCompat.FROM_HTML_MODE_LEGACY)
         }
     }
 
@@ -190,7 +193,7 @@ class SoundDetailsAdapter(
 
         override fun bind(item: PracticeWordDto) = with(itemView) {
             super.bind(item)
-            word.text = item.name
+            binding.word.text = item.name
         }
     }
 
@@ -207,9 +210,10 @@ class SoundDetailsAdapter(
         view: View,
         private val nativeAdLoader: CompositeAdLoader
     ) : RecyclerView.ViewHolder(view) {
+        private val binding by viewBinding(ItemAdVerticalShortBinding::bind)
 
         fun bind(item: ShortAdItem) = with(itemView) {
-            ad_root_view.setAd(item, nativeAdLoader, adapterPosition)
+            binding.adRootView.setAd(item, nativeAdLoader, adapterPosition)
         }
     }
 
@@ -219,9 +223,10 @@ class SoundDetailsAdapter(
     ) : RecyclerView.ViewHolder(view) {
 
         var item: ShowMore? = null
+        private val binding by viewBinding(ItemShowMoreBinding::bind)
 
         init {
-            view.button
+            binding.button
                 .setOnClickListener { item?.also { onClick.invoke(adapterPosition, it) } }
         }
 

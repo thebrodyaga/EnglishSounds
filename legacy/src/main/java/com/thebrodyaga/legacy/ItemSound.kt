@@ -4,12 +4,15 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.View
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.item_sound.view.*
+import com.thebrodyaga.legacy.databinding.ItemSoundBinding
 
 class ItemSound @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : MaterialCardView(context, attrs, defStyleAttr) {
+
+    val binding by viewBinding(ItemSoundBinding::bind)
 
     init {
         View.inflate(context, R.layout.item_sound, this)
@@ -26,6 +29,6 @@ class ItemSound @JvmOverloads constructor(
     }
 
     fun setSoundColor(soundColor: ColorStateList?) {
-        sound.backgroundTintList = soundColor
+        binding.sound.backgroundTintList = soundColor
     }
 }
