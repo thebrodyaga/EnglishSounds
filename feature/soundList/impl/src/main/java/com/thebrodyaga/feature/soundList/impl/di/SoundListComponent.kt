@@ -11,7 +11,7 @@ import dagger.Component
 
 @[FeatureScope Component(
     dependencies = [SoundListDependencies::class],
-    modules = [SoundListFeatureModule::class]
+    modules = [SoundListModule::class]
 )]
 interface SoundListComponent {
     @Component.Factory

@@ -8,7 +8,7 @@ import dagger.Component
 
 @[FeatureScope Component(
     dependencies = [SettingDependencies::class],
-    modules = [SettingFeatureModule::class],
+    modules = [SettingModule::class],
 )]
 interface SettingComponent {
 

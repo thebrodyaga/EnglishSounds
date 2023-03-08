@@ -14,7 +14,7 @@ import dagger.Component
 
 @[FeatureScope Component(
     dependencies = [VideoListDependencies::class],
-    modules = [VideoListFeatureModule::class]
+    modules = [VideoListModule::class]
 )]
 interface VideoListComponent {
     @Component.Factory

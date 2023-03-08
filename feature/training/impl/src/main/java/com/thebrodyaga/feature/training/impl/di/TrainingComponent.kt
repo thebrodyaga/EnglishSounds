@@ -11,7 +11,7 @@ import dagger.Component
 
 @[FeatureScope Component(
     dependencies = [TrainingDependencies::class],
-    modules = [TrainingFeatureModule::class],
+    modules = [TrainingModule::class],
 )]
 interface TrainingComponent {
     @Component.Factory

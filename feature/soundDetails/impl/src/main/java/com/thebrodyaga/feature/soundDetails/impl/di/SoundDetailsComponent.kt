@@ -1,7 +1,6 @@
 package com.thebrodyaga.feature.soundDetails.impl.di
 
 import com.thebrodyaga.data.sounds.api.SoundsRepository
-import com.thebrodyaga.englishsounds.base.di.ActivityScope
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.base.di.FeatureScope
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
@@ -12,7 +11,7 @@ import dagger.Component
 
 @[FeatureScope Component(
     dependencies = [SoundDetailsDependencies::class],
-    modules = [SoundDetailsFeatureModule::class]
+    modules = [SoundDetailsModule::class]
 )]
 interface SoundDetailsComponent {
     @Component.Factory

@@ -1,22 +1,23 @@
-package com.thebrodyaga.feature.soundList.impl.di
+package com.thebrodyaga.feature.training.impl.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.app.ViewModelKey
-import com.thebrodyaga.feature.soundList.impl.SoundsListViewModel
+import com.thebrodyaga.feature.training.impl.SoundsTrainingViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-interface SoundListFeatureModule {
+interface TrainingModule {
 
     @Binds
     fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     @Binds
     @IntoMap
-    @ViewModelKey(SoundsListViewModel::class)
-    fun soundsListViewModel(viewModel: SoundsListViewModel): ViewModel
+    @ViewModelKey(SoundsTrainingViewModel::class)
+    fun soundsTrainingViewModel(viewModel: SoundsTrainingViewModel): ViewModel
+
 }
