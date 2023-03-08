@@ -7,6 +7,7 @@ import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.setting.api.SettingManager
 import com.thebrodyaga.feature.soundDetails.impl.ui.SoundFragment
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
+import dagger.BindsInstance
 import dagger.Component
 
 @[FeatureScope Component(
@@ -16,7 +17,10 @@ import dagger.Component
 interface SoundDetailsComponent {
     @Component.Factory
     interface Factory {
-        fun create(dependencies: SoundDetailsDependencies): SoundDetailsComponent
+        fun create(
+            dependencies: SoundDetailsDependencies,
+            @BindsInstance transcription: String
+        ): SoundDetailsComponent
     }
 
     fun inject(fragment: SoundFragment)
@@ -25,9 +29,10 @@ interface SoundDetailsComponent {
 
         fun factory(
             dependencies: SoundDetailsDependencies,
+            transcription: String,
         ): SoundDetailsComponent {
             return DaggerSoundDetailsComponent.factory()
-                .create(dependencies)
+                .create(dependencies, transcription)
         }
     }
 }

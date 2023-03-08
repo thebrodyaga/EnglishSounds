@@ -6,10 +6,10 @@ import com.thebrodyaga.feature.youtube.impl.YoutubePlayerActivity
 import dagger.Component
 
 @[ActivityScope Component(
-    dependencies = [YoutubeActivityDependencies::class]
+    dependencies = [YoutubeActivityDependencies::class],
+    modules = [YoutubeActivityModule::class],
 )]
 interface YoutubeActivityComponent {
-
 
     @Component.Factory
     interface Factory {
@@ -29,5 +29,5 @@ interface YoutubeActivityComponent {
     }
 }
 
-interface YoutubeActivityDependencies:AppDependencies {
+interface YoutubeActivityDependencies : AppDependencies {
 }

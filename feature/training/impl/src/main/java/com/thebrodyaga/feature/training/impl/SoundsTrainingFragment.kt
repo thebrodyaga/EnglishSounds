@@ -2,6 +2,8 @@ package com.thebrodyaga.feature.training.impl
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import android.os.Bundle
@@ -22,13 +24,12 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import java.io.File
 import javax.inject.Inject
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
+class SoundsTrainingFragment : BaseFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_sounds_training
-
-    @Inject
-    @InjectPresenter
-    lateinit var presenter: SoundsTrainingPresenter
 
     @Inject
     lateinit var audioPlayer: AudioPlayer
@@ -45,9 +46,6 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: SoundsTrainingViewModel by viewModels { viewModelFactory }
-
-    @ProvidePresenter
-    fun providePresenter() = presenter
 
     private var adapter: PageAdapter? = null
 
@@ -68,6 +66,11 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
         binding.playIcon.setRecordVoice(audioPlayer)
         showFab(isShow = true, autoHide = false)
 //        include_ad.setAd(item, nativeAdLoader)
+        viewModel.getState()
+            .filterIsInstance<SoundsTrainingState.Content>()
+            .onEach { setData(it.sounds) }
+            .flowWithLifecycle(lifecycle)
+            .launchIn(lifecycleScope)
     }
 
     override fun onDestroyView() {
@@ -85,7 +88,7 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
 //        (activity as? AppActivity)?.toggleFabMic(isShow = isShow, autoHide = autoHide)
     }
 
-    override fun setData(list: List<PracticeWordDto>) {
+    private fun setData(list: List<PracticeWordDto>) {
         binding.videoLibIcon.setOnClickListener {
             getAnyRouter().navigateTo(videoScreenFactory.allVideoScreen(VideoListType.MostCommonWords))
         }

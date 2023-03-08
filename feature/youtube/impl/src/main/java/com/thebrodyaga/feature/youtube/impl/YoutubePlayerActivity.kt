@@ -1,9 +1,11 @@
 package com.thebrodyaga.feature.youtube.impl
 
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import android.annotation.SuppressLint
 import android.content.Context
@@ -24,6 +26,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlay
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.analytics.AppAnalytics
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
+import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
 import com.thebrodyaga.feature.youtube.impl.PicInPickHelper.Companion.isHavePicInPicMode
@@ -37,20 +40,17 @@ import javax.inject.Inject
 
 class YoutubePlayerActivity : BaseActivity(), MvpView {
 
-    @Inject
-    @InjectPresenter
-    lateinit var presenter: YoutubePlayerPresenter
 
     private var currentSecond: Float
-        get() = presenter.currentSecond
+        get() = viewModel.currentSecond
         set(value) {
-            presenter.currentSecond = value
+            viewModel.currentSecond = value
         }
 
     private var playerState: PlayerConstants.PlayerState
-        get() = presenter.playerState
+        get() = viewModel.playerState
         set(value) {
-            presenter.playerState = value
+            viewModel.playerState = value
         }
 
     private var youTubePlayer: YouTubePlayer? = null
@@ -67,13 +67,14 @@ class YoutubePlayerActivity : BaseActivity(), MvpView {
 
     private val binding by viewBinding(ActivityYoutubePlayerBinding::bind)
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: YoutubePlayerViewModel by viewModels { viewModelFactory }
+
 
     private lateinit var youtube_player_seekbar: YouTubePlayerSeekBar
     private lateinit var panel: View
     private lateinit var pic_in_pic_button: ImageView
-
-    @ProvidePresenter
-    fun providePresenter() = presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         YoutubeActivityComponent.factory(findDependencies()).inject(this)

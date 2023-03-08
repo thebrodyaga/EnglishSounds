@@ -1,6 +1,8 @@
 package com.thebrodyaga.feature.videoList.impl.listoflists
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.os.Bundle
@@ -26,20 +28,20 @@ import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.R
 import com.thebrodyaga.feature.videoList.impl.databinding.FragmentListOfVideoListsBinding
 import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
+import com.thebrodyaga.feature.videoList.impl.list.VideoListState
 import com.thebrodyaga.feature.videoList.impl.list.VideoListViewModel
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.adapters.SoundsAdapter
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
+class ListOfVideoListsFragment : BaseFragment() {
 
     private lateinit var adapter: SoundsAdapter
-
-    @Inject
-    @InjectPresenter
-    lateinit var presenter: ListOfVideoListsPresenter
 
     @Inject
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
@@ -54,17 +56,15 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: ListOfVideoListsViewModel by viewModels { viewModelFactory }
 
-    @ProvidePresenter
-    fun providePresenter() = presenter
     private val binding by viewBinding(FragmentListOfVideoListsBinding::bind)
 
     override fun getLayoutId(): Int = R.layout.fragment_list_of_video_lists
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        VideoListComponent.factory(findDependencies()).inject(this)
+        VideoListComponent.factory(findDependencies(), null).inject(this)
         super.onCreate(savedInstanceState)
         adapter = SoundsAdapter(
-            presenter.positionList,
+            viewModel.positionList,
             { soundDto, sharedElements -> onSoundClick(soundDto, sharedElements) },
             { getAnyRouter().navigateTo(soundScreenFactory.soundDetailsScreen(it)) },
             { onShowAllVideoClick(it) },
@@ -87,10 +87,11 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
             )
         )
         binding.toolbar.setOnMenuItemClickListener(this)
-    }
-
-    override fun setListData(videos: List<SoundsListItem>) {
-        adapter.setData(videos)
+        viewModel.getState()
+            .filterIsInstance<ListOfVideoListsState.Content>()
+            .onEach { adapter.setData(it.list) }
+            .flowWithLifecycle(lifecycle)
+            .launchIn(lifecycleScope)
     }
 
     private fun onShowAllVideoClick(videoListItem: VideoListItem) {

@@ -16,7 +16,6 @@ import com.thebrodyaga.core.navigation.impl.cicerone.AppNavigator
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
-import com.thebrodyaga.englishsounds.base.app.BasePresenter
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.appActivity.impl.di.AppActivityComponent
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
@@ -24,16 +23,10 @@ import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenAction
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import com.thebrodyaga.feature.setting.api.SettingManager
-import moxy.InjectViewState
-import moxy.MvpView
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
-import moxy.viewstate.strategy.OneExecutionStateStrategy
-import moxy.viewstate.strategy.StateStrategyType
 import timber.log.Timber
 import javax.inject.Inject
 
-class AppActivity : BaseActivity(), AppActivityView {
+class AppActivity : BaseActivity() {
 
     @Inject
     lateinit var router: Router
@@ -49,13 +42,6 @@ class AppActivity : BaseActivity(), AppActivityView {
 
     @Inject
     lateinit var mainScreenFactory: MainScreenFactory
-
-    @Inject
-    @InjectPresenter
-    lateinit var presenter: AppActivityPresenter
-
-    @ProvidePresenter
-    fun providePresenter() = presenter
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
@@ -131,7 +117,7 @@ class AppActivity : BaseActivity(), AppActivityView {
         view.systemUiVisibility = result
     }
 
-    override fun showRateDialog() {
+    fun showRateDialog() {
         if (settingManager.needShowRateRequest() && reviewInfo == null) {
             reviewInfo = reviewManager.requestReviewFlow().apply {
                 addOnCompleteListener { request ->
@@ -161,26 +147,9 @@ class AppActivity : BaseActivity(), AppActivityView {
         }
     }
 
-    fun onSoundScreenClose() {
-        presenter.onSoundScreenClose()
-    }
-
     fun toggleFabMic(isShow: Boolean?, autoHide: Boolean?) {
         val mainScreen = mainScreenFactory.mainScreen()
         (supportFragmentManager.fragments.find { it.tag == mainScreen.screenKey } as? MainScreenAction)
             ?.toggleFabMic(isShow, autoHide)
-    }
-}
-
-interface AppActivityView : MvpView {
-    @StateStrategyType(OneExecutionStateStrategy::class)
-    fun showRateDialog()
-}
-
-@InjectViewState
-class AppActivityPresenter @Inject constructor() : BasePresenter<AppActivityView>() {
-
-    fun onSoundScreenClose() {
-        viewState.showRateDialog()
     }
 }

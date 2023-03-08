@@ -5,11 +5,13 @@ import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.base.di.FeatureScope
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
+import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor
 import com.thebrodyaga.feature.videoList.impl.list.VideoListFragment
 import com.thebrodyaga.feature.videoList.impl.listoflists.ListOfVideoListsFragment
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
+import dagger.BindsInstance
 import dagger.Component
 
 @[FeatureScope Component(
@@ -19,7 +21,10 @@ import dagger.Component
 interface VideoListComponent {
     @Component.Factory
     interface Factory {
-        fun create(dependencies: VideoListDependencies): VideoListComponent
+        fun create(
+            dependencies: VideoListDependencies,
+            @BindsInstance listType: VideoListType?
+        ): VideoListComponent
     }
 
     fun inject(fragment: ListOfVideoListsFragment)
@@ -29,9 +34,10 @@ interface VideoListComponent {
 
         fun factory(
             dependencies: VideoListDependencies,
+            listType: VideoListType?,
         ): VideoListComponent {
             return DaggerVideoListComponent.factory()
-                .create(dependencies)
+                .create(dependencies, listType)
         }
     }
 }

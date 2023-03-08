@@ -5,11 +5,9 @@ import android.os.Bundle
 import com.thebrodyaga.englishsounds.R
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
-import com.thebrodyaga.englishsounds.base.app.BasePresenter
 import com.thebrodyaga.feature.appActivity.impl.AppActivity
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
+import moxy.MvpPresenter
 import moxy.MvpView
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -17,11 +15,13 @@ import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
 
 class SplashActivity : BaseActivity(), SplashView {
     override fun forward() {
@@ -51,7 +51,9 @@ class SplashActivity : BaseActivity(), SplashView {
 @InjectViewState
 class SplashPresenter @Inject constructor(
     private val soundsRepository: SoundsRepository
-) : BasePresenter<SplashView>() {
+) : MvpPresenter<SplashView>(), CoroutineScope {
+    override val coroutineContext: CoroutineContext = SupervisorJob() + Dispatchers.Main
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         soundsRepository.tryCopySounds()

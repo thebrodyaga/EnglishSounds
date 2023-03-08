@@ -2,6 +2,8 @@ package com.thebrodyaga.feature.soundDetails.impl.ui
 
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -23,13 +25,13 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class SoundFragment : BaseFragment(), SoundView {
+class SoundFragment : BaseFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_sound
 
-    @Inject
-    @InjectPresenter
-    lateinit var presenter: SoundPresenter
     @Inject
     lateinit var soundsRepository: SoundsRepository
     @Inject
@@ -46,14 +48,11 @@ class SoundFragment : BaseFragment(), SoundView {
 
     private lateinit var adapter: SoundDetailsAdapter
 
-    @ProvidePresenter
-    fun providePresenter() = presenter.also {
-        it.transcription = arguments?.getString(EXTRA)
-            ?: throw IllegalArgumentException("need put sound id")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        SoundDetailsComponent.factory(findDependencies()).inject(this)
+        val transcription = arguments?.getString(EXTRA)
+            ?: throw IllegalArgumentException("need put sound id")
+
+        SoundDetailsComponent.factory(findDependencies(), transcription).inject(this)
         adapter = SoundDetailsAdapter(getAnyRouter(), youtubeScreenFactory, audioPlayer, requireContext(), lifecycle)
         super.onCreate(savedInstanceState)
     }
@@ -64,13 +63,17 @@ class SoundFragment : BaseFragment(), SoundView {
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
         binding.list.itemAnimator = SlideInUpAnimator().apply { addDuration = 300 }
-        ViewCompat.setTransitionName(binding.rootView, presenter.transcription)
+        ViewCompat.setTransitionName(binding.rootView, viewModel.transcription)
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.list.appbarBottomPadding()
+        viewModel.getState()
+            .filterIsInstance<SoundState.Content>()
+            .onEach { setData(it.list, it.soundDto) }
+            .flowWithLifecycle(lifecycle)
+            .launchIn(lifecycleScope)
     }
 
-    @SuppressLint("InflateParams")
-    override fun setData(list: List<Any>, soundDto: AmericanSoundDto) {
+    fun setData(list: List<Any>, soundDto: AmericanSoundDto) {
         binding.toolbarTitle.text = soundDto.name.plus(" ").plus("[${soundDto.transcription}]")
         binding.rootView.post { adapter.setData(list) }
     }

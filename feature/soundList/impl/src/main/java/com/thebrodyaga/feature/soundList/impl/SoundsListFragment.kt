@@ -1,6 +1,8 @@
 package com.thebrodyaga.feature.soundList.impl
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.os.Bundle
@@ -26,17 +28,15 @@ import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoListItem
 import com.thebrodyaga.legacy.VideoListItem
 import com.thebrodyaga.legacy.adapters.SoundsAdapter
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class SoundsListFragment : BaseFragment(), SoundsListView {
+class SoundsListFragment : BaseFragment() {
 
     override fun getLayoutId(): Int = R.layout.fragment_sounds_list
 
-    @Inject
-    @InjectPresenter
-    lateinit var presenter: SoundsListPresenter
     private val binding by viewBinding(FragmentSoundsListBinding::bind)
 
     @Inject
@@ -49,9 +49,6 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: SoundsListViewModel by viewModels { viewModelFactory }
 
-    @ProvidePresenter
-    fun providePresenter() = presenter
-
     private lateinit var adapter: SoundsAdapter
     private lateinit var spanSizeLookup: SpanSizeLookup
 
@@ -59,7 +56,7 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
         SoundListComponent.factory(findDependencies()).inject(this)
         super.onCreate(savedInstanceState)
         adapter = SoundsAdapter(
-            presenter.positionList,
+            viewModel.positionList,
             { soundDto, sharedElements -> onSoundClick(soundDto, sharedElements) },
             { getAnyRouter().navigateTo(detailsScreenFactory.soundDetailsScreen(it)) },
             { onShowAllVideoClick(it) },
@@ -89,10 +86,12 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
             )
         )
         binding.toolbar.setOnMenuItemClickListener(this)
-    }
 
-    override fun setListData(sounds: List<Any>) {
-        adapter.setData(sounds)
+        viewModel.getState()
+            .filterIsInstance<SoundsListState.Content>()
+            .onEach { adapter.setData(it.sounds) }
+            .flowWithLifecycle(lifecycle)
+            .launchIn(lifecycleScope)
     }
 
     private fun onSoundClick(item: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) {
