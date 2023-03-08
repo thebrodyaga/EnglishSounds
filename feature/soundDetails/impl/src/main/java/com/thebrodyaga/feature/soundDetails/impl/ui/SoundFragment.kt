@@ -1,6 +1,7 @@
 package com.thebrodyaga.feature.soundDetails.impl.ui
 
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,6 +11,7 @@ import com.thebrodyaga.core.uiUtils.appbarBottomPadding
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.setting.api.SettingManager
@@ -37,6 +39,10 @@ class SoundFragment : BaseFragment(), SoundView {
     @Inject
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
     private val binding by viewBinding(FragmentSoundBinding::bind)
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: SoundViewModel by viewModels { viewModelFactory }
 
     private lateinit var adapter: SoundDetailsAdapter
 

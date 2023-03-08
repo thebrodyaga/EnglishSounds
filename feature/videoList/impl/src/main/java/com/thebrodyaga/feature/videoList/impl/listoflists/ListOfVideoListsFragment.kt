@@ -1,5 +1,6 @@
 package com.thebrodyaga.feature.videoList.impl.listoflists
 
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.os.Bundle
@@ -17,6 +18,7 @@ import com.thebrodyaga.legacy.SoundsListItem
 import com.thebrodyaga.legacy.VideoListItem
 import com.thebrodyaga.legacy.AdItemDecorator
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
@@ -24,6 +26,7 @@ import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.R
 import com.thebrodyaga.feature.videoList.impl.databinding.FragmentListOfVideoListsBinding
 import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
+import com.thebrodyaga.feature.videoList.impl.list.VideoListViewModel
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.adapters.SoundsAdapter
 import moxy.presenter.InjectPresenter
@@ -46,6 +49,10 @@ class ListOfVideoListsFragment : BaseFragment(), ListOfVideoListsView {
 
     @Inject
     lateinit var videoScreenFactory: VideoScreenFactory
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: ListOfVideoListsViewModel by viewModels { viewModelFactory }
 
     @ProvidePresenter
     fun providePresenter() = presenter

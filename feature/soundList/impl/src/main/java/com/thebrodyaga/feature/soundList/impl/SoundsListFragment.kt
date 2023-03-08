@@ -1,5 +1,6 @@
 package com.thebrodyaga.feature.soundList.impl
 
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.os.Bundle
@@ -11,6 +12,7 @@ import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.soundList.impl.databinding.FragmentSoundsListBinding
@@ -42,6 +44,10 @@ class SoundsListFragment : BaseFragment(), SoundsListView {
 
     @Inject
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: SoundsListViewModel by viewModels { viewModelFactory }
 
     @ProvidePresenter
     fun providePresenter() = presenter

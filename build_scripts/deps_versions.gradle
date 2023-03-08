@@ -67,12 +67,18 @@ ext {
     }
 
     androidxCoreKtxVersion = '1.9.0'
-    appCompatVersion = '1.6.0'
+    appCompatVersion = '1.6.1'
     materialDesignVersion = '1.8.0'
+    fragmentKtx = '1.5.5'
+    lifecycleKtx = '2.5.1'
+    activityKtx = '1.6.1'
     baseAndroidDeps = [
             "androidx.core:core-ktx:$androidxCoreKtxVersion",
             "androidx.appcompat:appcompat:$appCompatVersion",
             "com.google.android.material:material:$materialDesignVersion",
+            "androidx.fragment:fragment-ktx:$fragmentKtx",
+            "androidx.activity:activity-ktx:1.6.1",
+            "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleKtx",
     ]
 
     adapterDelegatesVersion = '4.3.2'

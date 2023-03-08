@@ -10,7 +10,8 @@ import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import dagger.Component
 
 @[FeatureScope Component(
-    dependencies = [TrainingDependencies::class]
+    dependencies = [TrainingDependencies::class],
+    modules = [TrainingFeatureModule::class],
 )]
 interface TrainingComponent {
     @Component.Factory

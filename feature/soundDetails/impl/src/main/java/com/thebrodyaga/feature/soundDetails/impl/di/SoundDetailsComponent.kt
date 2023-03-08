@@ -11,7 +11,8 @@ import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import dagger.Component
 
 @[FeatureScope Component(
-    dependencies = [SoundDetailsDependencies::class]
+    dependencies = [SoundDetailsDependencies::class],
+    modules = [SoundDetailsFeatureModule::class]
 )]
 interface SoundDetailsComponent {
     @Component.Factory

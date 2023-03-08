@@ -9,4 +9,5 @@ dependencies {
     applyPlatformNavigation(this)
     applyMoxy(this)
     firebaseBom(this)
+    applyDagger(this)
 }

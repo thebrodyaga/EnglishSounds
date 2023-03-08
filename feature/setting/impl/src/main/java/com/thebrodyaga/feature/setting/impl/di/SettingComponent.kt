@@ -1,13 +1,14 @@
 package com.thebrodyaga.feature.setting.impl.di
 
-import com.thebrodyaga.englishsounds.base.di.ActivityScope
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
+import com.thebrodyaga.englishsounds.base.di.FeatureScope
 import com.thebrodyaga.feature.setting.api.SettingManager
 import com.thebrodyaga.feature.setting.impl.SettingsFragment
 import dagger.Component
 
-@[ActivityScope Component(
-    dependencies = [SettingDependencies::class]
+@[FeatureScope Component(
+    dependencies = [SettingDependencies::class],
+    modules = [SettingFeatureModule::class],
 )]
 interface SettingComponent {
 

@@ -13,7 +13,8 @@ import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import dagger.Component
 
 @[FeatureScope Component(
-    dependencies = [VideoListDependencies::class]
+    dependencies = [VideoListDependencies::class],
+    modules = [VideoListFeatureModule::class]
 )]
 interface VideoListComponent {
     @Component.Factory

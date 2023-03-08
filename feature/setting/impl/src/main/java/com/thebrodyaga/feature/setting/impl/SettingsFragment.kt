@@ -1,12 +1,14 @@
 package com.thebrodyaga.feature.setting.impl
 
 import androidx.core.view.isGone
+import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.jakewharton.rxbinding3.widget.checkedChanges
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.setting.api.CurrentTheme
 import com.thebrodyaga.feature.setting.api.SettingManager
@@ -19,6 +21,10 @@ class SettingsFragment : BaseFragment() {
     @Inject
     lateinit var settingManager: SettingManager
     private val binding by viewBinding(FragmentSettingsBinding::bind)
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: SettingsViewModel by viewModels { viewModelFactory }
 
     override fun getLayoutId(): Int = R.layout.fragment_settings
 
@@ -36,7 +42,7 @@ class SettingsFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding.systemTheme.setOnCheckedChangeListener(null)
-        binding.isDarkTheme .setOnCheckedChangeListener(null)
+        binding.isDarkTheme.setOnCheckedChangeListener(null)
     }
 
     private fun setThemeSetting() {

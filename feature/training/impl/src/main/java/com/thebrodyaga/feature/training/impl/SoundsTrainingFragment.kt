@@ -1,6 +1,7 @@
 package com.thebrodyaga.feature.training.impl
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
@@ -39,6 +41,10 @@ class SoundsTrainingFragment : BaseFragment(), SoundsTrainingView {
     lateinit var videoScreenFactory: VideoScreenFactory
 //    private lateinit var nativeAdLoader: CompositeAdLoader
 //    private lateinit var item: ShortAdItem
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: SoundsTrainingViewModel by viewModels { viewModelFactory }
 
     @ProvidePresenter
     fun providePresenter() = presenter
