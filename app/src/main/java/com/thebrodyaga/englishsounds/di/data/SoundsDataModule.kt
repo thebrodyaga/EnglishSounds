@@ -1,4 +1,4 @@
-package com.thebrodyaga.data.sounds.impl.di
+package com.thebrodyaga.englishsounds.di.data
 
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
@@ -9,7 +9,7 @@ import dagger.Module
 import javax.inject.Singleton
 
 @Module
-interface SoundsModule {
+interface SoundsDataModule {
     @Binds
     @Singleton
     fun soundsRepository(americanSoundsRepositoryImpl: AmericanSoundsRepositoryImpl): SoundsRepository

@@ -1,4 +1,4 @@
-package com.thebrodyaga.feature.setting.impl.di
+package com.thebrodyaga.englishsounds.di.feature
 
 import com.thebrodyaga.feature.setting.api.SettingManager
 import com.thebrodyaga.feature.setting.api.SettingsScreenFactory
@@ -9,7 +9,7 @@ import dagger.Module
 import javax.inject.Singleton
 
 @Module
-interface SettingModule {
+interface SettingFeatureModule {
 
     @Binds
     @Singleton

@@ -1,4 +1,4 @@
-package com.thebrodyaga.feature.videoList.impl.di
+package com.thebrodyaga.englishsounds.di.feature
 
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
@@ -11,7 +11,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-interface VideoListModule {
+interface VideoListFeatureModule {
 
     @Binds
     fun videoListScreenFactory(videoListScreenFactory: VideoScreenFactoryImpl): VideoScreenFactory

@@ -1,4 +1,4 @@
-package com.thebrodyaga.feature.training.impl.di
+package com.thebrodyaga.englishsounds.di.feature
 
 import com.thebrodyaga.feature.training.api.TrainingScreenFactory
 import com.thebrodyaga.feature.training.impl.screen.TrainingScreenFactoryImpl
@@ -6,7 +6,7 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-interface TrainingModule {
+interface TrainingFeatureModule {
 
     @Binds
     fun trainingScreenFactory(trainingScreenFactory: TrainingScreenFactoryImpl): TrainingScreenFactory

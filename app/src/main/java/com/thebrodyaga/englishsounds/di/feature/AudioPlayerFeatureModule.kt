@@ -1,4 +1,4 @@
-package com.thebrodyaga.feature.audioPlayer.impl.di
+package com.thebrodyaga.englishsounds.di.feature
 
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
@@ -9,7 +9,7 @@ import dagger.Module
 import javax.inject.Singleton
 
 @Module
-interface AudioPlayerModule {
+interface AudioPlayerFeatureModule {
     @Binds
     @Singleton
     fun audioPlayer(audioPlayerImpl: AudioPlayerImpl): AudioPlayer
