@@ -13,6 +13,12 @@ import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
 import timber.log.Timber
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 
 @InjectViewState
 class ListOfVideoListsPresenter @Inject constructor(
@@ -23,47 +29,44 @@ class ListOfVideoListsPresenter @Inject constructor(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        unSubscribeOnDestroy(
-            videoInteractor.getAllList()
-                .map { list ->
-                    val result = mutableListOf<SoundsListItem>()
+        videoInteractor.getAllList()
+            .map { list ->
+                val result = mutableListOf<SoundsListItem>()
 
-                    list.forEachIndexed { index, videoItems ->
-                        /*if (index == 2) {
-                            result.add(AdItem(AdTag.SOUND_LIST_OF_VIDEO_LIST))
-                        }*/
-                        val adTag = when (videoItems) {
-                            is ContrastingSoundVideoListItem -> "ContrastingSoundVideoListItem"
-                            is MostCommonWordsVideoListItem -> "MostCommonWordsVideoListItem"
-                            is AdvancedExercisesVideoListItem -> "AdvancedExercisesVideoListItem"
-                            is SoundVideoListItem -> videoItems.soundType.name
-                        }
-                        result.add(
-                            when (videoItems) {
-                                is ContrastingSoundVideoListItem -> ContrastingSoundVideoListItem(
-                                    videoItems.list.mapOrAd({ it }, adTag)
-                                )
-                                is MostCommonWordsVideoListItem -> MostCommonWordsVideoListItem(
-                                    videoItems.list.mapOrAd({ it }, adTag)
-                                )
-                                is AdvancedExercisesVideoListItem -> AdvancedExercisesVideoListItem(
-                                    videoItems.list.mapOrAd({ it }, adTag)
-                                )
-                                is SoundVideoListItem -> SoundVideoListItem(
-                                    videoItems.soundType,
-                                    videoItems.list.mapOrAd({ it }, adTag)
-                                )
-                            }
-                        )
+                list.forEachIndexed { index, videoItems ->
+                    /*if (index == 2) {
+                        result.add(AdItem(AdTag.SOUND_LIST_OF_VIDEO_LIST))
+                    }*/
+                    val adTag = when (videoItems) {
+                        is ContrastingSoundVideoListItem -> "ContrastingSoundVideoListItem"
+                        is MostCommonWordsVideoListItem -> "MostCommonWordsVideoListItem"
+                        is AdvancedExercisesVideoListItem -> "AdvancedExercisesVideoListItem"
+                        is SoundVideoListItem -> videoItems.soundType.name
                     }
-                    result
+                    result.add(
+                        when (videoItems) {
+                            is ContrastingSoundVideoListItem -> ContrastingSoundVideoListItem(
+                                videoItems.list.mapOrAd({ it }, adTag)
+                            )
+                            is MostCommonWordsVideoListItem -> MostCommonWordsVideoListItem(
+                                videoItems.list.mapOrAd({ it }, adTag)
+                            )
+                            is AdvancedExercisesVideoListItem -> AdvancedExercisesVideoListItem(
+                                videoItems.list.mapOrAd({ it }, adTag)
+                            )
+                            is SoundVideoListItem -> SoundVideoListItem(
+                                videoItems.soundType,
+                                videoItems.list.mapOrAd({ it }, adTag)
+                            )
+                        }
+                    )
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    viewState.setListData(it)
-                }, { Timber.e(it) })
-        )
+                result
+            }
+            .flowOn(Dispatchers.IO)
+            .onEach { viewState.setListData(it) }
+            .onCompletion { it?.let { Timber.e(it) } }
+            .launchIn(this)
     }
 
     private inline fun <T> List<T>.mapOrAd(

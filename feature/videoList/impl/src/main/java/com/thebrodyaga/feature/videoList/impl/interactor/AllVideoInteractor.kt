@@ -18,6 +18,16 @@ import com.thebrodyaga.legacy.SoundVideoListItem
 import com.thebrodyaga.legacy.VideoListItem
 import io.reactivex.Observable
 import io.reactivex.functions.Function4
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onEach
 
 class AllVideoInteractor constructor(
     private val soundsRepository: SoundsRepository,
@@ -28,67 +38,63 @@ class AllVideoInteractor constructor(
 
     fun getAllList() =
         if (allListCache.isNotEmpty())
-            Observable.just(allListCache)
+            flowOf(allListCache)
         else loadAddList()
 
-    private fun loadAddList(): Observable<List<VideoListItem>> =
+    private fun loadAddList(): Flow<List<VideoListItem>> =
         soundsRepository.getAllSounds()
-            .flatMap { sounds ->
-                Observable.combineLatest<List<ContrastingSoundVideoRes>, List<MostCommonWordsVideoRes>, List<AdvancedExercisesVideoRes>, List<SoundVideoRes>, List<VideoListItem>>(
-                    soundsVideoRepository.getContrastingSoundsVideo().toObservable(),
-                    soundsVideoRepository.getMostCommonWordsVideo().toObservable(),
-                    soundsVideoRepository.getAdvancedExercisesVideo().toObservable(),
-                    soundsVideoRepository.getSoundsVideo().toObservable(),
-                    Function4 { t1, t2, t3, t4 ->
-                        val result = mutableListOf<VideoListItem>()
+            .mapLatest { sounds ->
+                val t1 = soundsVideoRepository.getContrastingSoundsVideo().first()
+                val t2 = soundsVideoRepository.getMostCommonWordsVideo().first()
+                val t3 = soundsVideoRepository.getAdvancedExercisesVideo().first()
+                val t4 = soundsVideoRepository.getSoundsVideo().first()
+                val result = mutableListOf<VideoListItem>()
 
-                        val contrastingSounds = t1.map { video ->
-                            ContrastingSoundVideoItem(
-                                video.videoId,
-                                video.videoName,
-                                sounds.find { it.transcription == video.firstTranscription },
-                                sounds.find { it.transcription == video.secondTranscription })
-                        }
-                        result.add(ContrastingSoundVideoListItem(contrastingSounds))
+                val contrastingSounds = t1.map { video ->
+                    ContrastingSoundVideoItem(
+                        video.videoId,
+                        video.videoName,
+                        sounds.find { it.transcription == video.firstTranscription },
+                        sounds.find { it.transcription == video.secondTranscription })
+                }
+                result.add(ContrastingSoundVideoListItem(contrastingSounds))
 
-                        val mostCommonWords = t2.map { video ->
-                            MostCommonWordsVideoItem(
-                                video.videoId,
-                                video.videoName
-                            )
-                        }
-                        result.add(MostCommonWordsVideoListItem(mostCommonWords))
+                val mostCommonWords = t2.map { video ->
+                    MostCommonWordsVideoItem(
+                        video.videoId,
+                        video.videoName
+                    )
+                }
+                result.add(MostCommonWordsVideoListItem(mostCommonWords))
 
-                        val advancedExercises = t3.map { video ->
-                            AdvancedExercisesVideoItem(
-                                video.videoId,
-                                video.videoName,
-                                sounds.find { it.transcription == video.firstTranscription },
-                                sounds.find { it.transcription == video.secondTranscription }
-                            )
-                        }
+                val advancedExercises = t3.map { video ->
+                    AdvancedExercisesVideoItem(
+                        video.videoId,
+                        video.videoName,
+                        sounds.find { it.transcription == video.firstTranscription },
+                        sounds.find { it.transcription == video.secondTranscription }
+                    )
+                }
 
-                        result.add(AdvancedExercisesVideoListItem(advancedExercises))
+                result.add(AdvancedExercisesVideoListItem(advancedExercises))
 
-                        fun mapToSoundVideoItem(video: SoundVideoRes) = SoundVideoItem(
-                            video,
-                            sounds.find { it.transcription == video.transcription },
-                            video.videoName
-                        )
-
-                        fun mapToSoundVideoListItem(soundType: SoundType) =
-                            SoundVideoListItem(
-                                soundType,
-                                t4.filter { it.soundType == soundType }
-                                    .map { mapToSoundVideoItem(it) })
-
-
-                        result.add(mapToSoundVideoListItem(SoundType.VOWEL_SOUNDS))
-                        result.add(mapToSoundVideoListItem(SoundType.R_CONTROLLED_VOWELS))
-                        result.add(mapToSoundVideoListItem(SoundType.CONSONANT_SOUND))
-
-                        result
-                    }
+                fun mapToSoundVideoItem(video: SoundVideoRes) = SoundVideoItem(
+                    video,
+                    sounds.find { it.transcription == video.transcription },
+                    video.videoName
                 )
-            }.doOnNext { allListCache = it }
+
+                fun mapToSoundVideoListItem(soundType: SoundType) =
+                    SoundVideoListItem(
+                        soundType,
+                        t4.filter { it.soundType == soundType }
+                            .map { mapToSoundVideoItem(it) })
+
+
+                result.add(mapToSoundVideoListItem(SoundType.VOWEL_SOUNDS))
+                result.add(mapToSoundVideoListItem(SoundType.R_CONTROLLED_VOWELS))
+                result.add(mapToSoundVideoListItem(SoundType.CONSONANT_SOUND))
+
+                result
+            }.onEach { allListCache = it }
 }

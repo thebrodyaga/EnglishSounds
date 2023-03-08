@@ -4,12 +4,12 @@ import com.thebrodyaga.data.sounds.api.model.AdvancedExercisesVideoRes
 import com.thebrodyaga.data.sounds.api.model.ContrastingSoundVideoRes
 import com.thebrodyaga.data.sounds.api.model.MostCommonWordsVideoRes
 import com.thebrodyaga.data.sounds.api.model.SoundVideoRes
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 interface SoundsVideoRepository {
 
-    fun getSoundsVideo(): Single<List<SoundVideoRes>>
-    fun getContrastingSoundsVideo(): Single<List<ContrastingSoundVideoRes>>
-    fun getMostCommonWordsVideo(): Single<List<MostCommonWordsVideoRes>>
-    fun getAdvancedExercisesVideo(): Single<List<AdvancedExercisesVideoRes>>
+    fun getSoundsVideo(): Flow<List<SoundVideoRes>>
+    fun getContrastingSoundsVideo(): Flow<List<ContrastingSoundVideoRes>>
+    fun getMostCommonWordsVideo(): Flow<List<MostCommonWordsVideoRes>>
+    fun getAdvancedExercisesVideo(): Flow<List<AdvancedExercisesVideoRes>>
 }

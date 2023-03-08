@@ -17,6 +17,10 @@ import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 private const val AMERICAN_SOUNDS_ZIP_VERSION = 1
 
@@ -25,7 +29,7 @@ class AmericanSoundsRepositoryImpl @Inject constructor(
     private val gson: Gson,
     private val settingManager: SettingManager
 ) : SoundsRepository {
-    override fun getSounds(transcription: String): Observable<AmericanSoundDto> {
+    override fun getSounds(transcription: String): Flow<AmericanSoundDto> {
         return getAllSounds()
             .map { it.first { soundDao -> soundDao.transcription == transcription } }
     }
@@ -33,66 +37,61 @@ class AmericanSoundsRepositoryImpl @Inject constructor(
     private var soundsCash = listOf<AmericanSoundDto>()
     private var practiceWords = listOf<PracticeWordDto>()
 
-    override fun tryCopySounds(): Observable<List<AmericanSoundDto>> {
+    override fun tryCopySounds(): Flow<List<AmericanSoundDto>> {
         return when {
-            soundsCash.isEmpty() || practiceWords.isEmpty()
-            -> soundsFromAssets().toObservable()
-            else -> Observable.fromCallable { soundsCash }
+            soundsCash.isEmpty() || practiceWords.isEmpty() -> soundsFromAssets()
+            else -> flow { emit(soundsCash) }
         }
     }
 
-    override fun getAllSounds(fromDb: Boolean): Observable<List<AmericanSoundDto>> {
+    override fun getAllSounds(fromDb: Boolean): Flow<List<AmericanSoundDto>> {
         return if (fromDb || this.soundsCash.isEmpty())
             tryCopySounds()
-        else Observable.fromCallable { this.soundsCash }
+        else flow { emit(this@AmericanSoundsRepositoryImpl.soundsCash) }
     }
 
-    override fun getAllPracticeWords(fromDb: Boolean): Observable<List<PracticeWordDto>> {
+    override fun getAllPracticeWords(fromDb: Boolean): Flow<List<PracticeWordDto>> {
         return if (fromDb || this.practiceWords.isEmpty())
             tryCopySounds().map { practiceWords }
-        else Observable.fromCallable { this.practiceWords }
+        else flow { emit(this@AmericanSoundsRepositoryImpl.practiceWords) }
     }
 
-    private fun soundsFromAssets(): Single<List<AmericanSoundDto>> {
-        return Single.create<List<AmericanSoundDto>> {
-            try {
-                val synchronizedList =
-                    Collections.synchronizedList(mutableListOf<AmericanSoundDto>())
-                val service = Executors.newCachedThreadPool()
-                val sourceDir = File(context.filesDir, americanSounds)
-                val lastVersionCode = settingManager.getLastVersionCode()
-                if (lastVersionCode < AMERICAN_SOUNDS_ZIP_VERSION && sourceDir.exists()) {
-                    Timber.i("delete americanSoundsZip in internal because app new version")
-                    ZipUtils.delete(sourceDir)
-                }
-
-                if (!sourceDir.exists()) {
-                    Timber.i("copy americanSoundsZip")
-                    val outputStream = File(context.filesDir, americanSoundsZip).outputStream()
-                    context.assets.open(americanSoundsZip).use { assets -> assets.copyTo(outputStream) }
-                    val zipInInternal = File(context.filesDir, americanSoundsZip)
-                    Timber.i("unzip americanSoundsZip")
-                    ZipUtils.unzip(zipInInternal, context.filesDir)
-                    Timber.i("delete americanSoundsZip in internal ")
-                    ZipUtils.delete(zipInInternal)
-                    settingManager.setLastVersionCode(AMERICAN_SOUNDS_ZIP_VERSION)
-                }
-                val jsonDir: Array<File> = File(sourceDir, jsonPath).listFiles()
-                    ?: throw IOException("где жисоны?")
-
-                jsonDir.forEach { soundFilePath ->
-                    service.submit {
-                        val sound = gson.fromJson(FileReader(soundFilePath), AmericanSoundDto::class.java)
-                        synchronizedList.add(sound)
-                    }
-                }
-                service.shutdown()
-                service.awaitTermination(1, TimeUnit.MINUTES)
-                it.onSuccess(synchronizedList)
-            } catch (e: Throwable) {
-                it.tryOnError(e)
+    private fun soundsFromAssets(): Flow<List<AmericanSoundDto>> {
+        return flow {
+            val synchronizedList =
+                Collections.synchronizedList(mutableListOf<AmericanSoundDto>())
+            val service = Executors.newCachedThreadPool()
+            val sourceDir = File(context.filesDir, americanSounds)
+            val lastVersionCode = settingManager.getLastVersionCode()
+            if (lastVersionCode < AMERICAN_SOUNDS_ZIP_VERSION && sourceDir.exists()) {
+                Timber.i("delete americanSoundsZip in internal because app new version")
+                ZipUtils.delete(sourceDir)
             }
-        }.doOnSuccess {
+
+            if (!sourceDir.exists()) {
+                Timber.i("copy americanSoundsZip")
+                val outputStream = File(context.filesDir, americanSoundsZip).outputStream()
+                context.assets.open(americanSoundsZip).use { assets -> assets.copyTo(outputStream) }
+                val zipInInternal = File(context.filesDir, americanSoundsZip)
+                Timber.i("unzip americanSoundsZip")
+                ZipUtils.unzip(zipInInternal, context.filesDir)
+                Timber.i("delete americanSoundsZip in internal ")
+                ZipUtils.delete(zipInInternal)
+                settingManager.setLastVersionCode(AMERICAN_SOUNDS_ZIP_VERSION)
+            }
+            val jsonDir: Array<File> = File(sourceDir, jsonPath).listFiles()
+                ?: throw IOException("где жисоны?")
+
+            jsonDir.forEach { soundFilePath ->
+                service.submit {
+                    val sound = gson.fromJson(FileReader(soundFilePath), AmericanSoundDto::class.java)
+                    synchronizedList.add(sound)
+                }
+            }
+            service.shutdown()
+            service.awaitTermination(1, TimeUnit.MINUTES)
+            emit(synchronizedList)
+        }.onEach {
             soundsCash = it.sortedBy { sound -> sound.transcription }
             updatePracticeWords(it)
         }

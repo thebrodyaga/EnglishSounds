@@ -10,25 +10,27 @@ import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import io.reactivex.Single
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class SoundsVideoRepositoryImpl @Inject constructor(
     val context: Context
 ) : SoundsVideoRepository {
 
-    override fun getSoundsVideo(): Single<List<SoundVideoRes>> =
+    override fun getSoundsVideo(): Flow<List<SoundVideoRes>> =
         getSoundsVideoFromRes()
 
-    override fun getContrastingSoundsVideo(): Single<List<ContrastingSoundVideoRes>> =
+    override fun getContrastingSoundsVideo(): Flow<List<ContrastingSoundVideoRes>> =
         getContrastingSoundsVideoFromRes()
 
-    override fun getMostCommonWordsVideo(): Single<List<MostCommonWordsVideoRes>> =
+    override fun getMostCommonWordsVideo(): Flow<List<MostCommonWordsVideoRes>> =
         getMostCommonWordsVideoFromRes()
 
-    override fun getAdvancedExercisesVideo(): Single<List<AdvancedExercisesVideoRes>> =
+    override fun getAdvancedExercisesVideo(): Flow<List<AdvancedExercisesVideoRes>> =
         getAdvancedExercisesVideoFromRes()
 
-    private fun getSoundsVideoFromRes(): Single<List<SoundVideoRes>> {
-        return Single.fromCallable {
+    private fun getSoundsVideoFromRes(): Flow<List<SoundVideoRes>> {
+        return flow {
             val videoArray = context.resources.getStringArray(R.array.sound_video)
             val videoMap = mutableListOf<SoundVideoRes>()
             videoArray.forEach {
@@ -42,36 +44,36 @@ class SoundsVideoRepositoryImpl @Inject constructor(
                 }
                 videoMap.add(SoundVideoRes(transcription, split[1], soundType, split[3]))
             }
-            videoMap
+            emit(videoMap)
         }
     }
 
-    private fun getContrastingSoundsVideoFromRes(): Single<List<ContrastingSoundVideoRes>> {
-        return Single.fromCallable {
+    private fun getContrastingSoundsVideoFromRes(): Flow<List<ContrastingSoundVideoRes>> {
+        return flow {
             val videoArray = context.resources.getStringArray(R.array.sound_contrasting_video)
             val videoList = mutableListOf<ContrastingSoundVideoRes>()
             videoArray.forEach {
                 val split = it.split("::")
                 videoList.add(ContrastingSoundVideoRes(split[0], split[1], split[2], split[3]))
             }
-            videoList
+            emit(videoList)
         }
     }
 
-    private fun getMostCommonWordsVideoFromRes(): Single<List<MostCommonWordsVideoRes>> {
-        return Single.fromCallable {
+    private fun getMostCommonWordsVideoFromRes(): Flow<List<MostCommonWordsVideoRes>> {
+        return flow {
             val videoArray = context.resources.getStringArray(R.array.most_common_words_video)
             val videoList = mutableListOf<MostCommonWordsVideoRes>()
             videoArray.forEach {
                 val split = it.split("::")
                 videoList.add(MostCommonWordsVideoRes(split[0], split[1]))
             }
-            videoList
+            emit(videoList)
         }
     }
 
-    private fun getAdvancedExercisesVideoFromRes(): Single<List<AdvancedExercisesVideoRes>> {
-        return Single.fromCallable {
+    private fun getAdvancedExercisesVideoFromRes(): Flow<List<AdvancedExercisesVideoRes>> {
+        return flow {
             val videoArray = context.resources.getStringArray(R.array.advanced_exercises_video)
             val videoList = mutableListOf<AdvancedExercisesVideoRes>()
             videoArray.forEach {
@@ -85,7 +87,7 @@ class SoundsVideoRepositoryImpl @Inject constructor(
                     )
                 )
             }
-            videoList
+            emit(videoList)
         }
     }
 }

@@ -12,6 +12,11 @@ import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
 import timber.log.Timber
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 
 @InjectViewState
 class SoundPresenter @Inject constructor(
@@ -21,12 +26,11 @@ class SoundPresenter @Inject constructor(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        unSubscribeOnDestroy(
             repository.getSounds(transcription)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ mapForUi(it) }, { Timber.e(it) })
-        )
+                .flowOn(Dispatchers.IO)
+                .onEach { mapForUi(it) }
+                .onCompletion { it?.let { Timber.e(it) } }
+                .launchIn(this)
     }
 
 

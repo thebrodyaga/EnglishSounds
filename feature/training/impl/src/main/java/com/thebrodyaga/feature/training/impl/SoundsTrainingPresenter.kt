@@ -8,6 +8,12 @@ import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
 import timber.log.Timber
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 
 @InjectViewState
 class SoundsTrainingPresenter @Inject constructor(
@@ -18,17 +24,16 @@ class SoundsTrainingPresenter @Inject constructor(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        unSubscribeOnDestroy(
-            repository.getAllPracticeWords()
-                .subscribeOn(Schedulers.io())
-                .map { it.shuffled() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        currentList = it
-                        viewState.setData(it)
-                    }
-                    , { Timber.e(it) })
-        )
+        repository.getAllPracticeWords()
+            .flowOn(Dispatchers.IO)
+            .map { it.shuffled() }
+            .onEach {
+                currentList = it
+                viewState.setData(it)
+            }
+            .onCompletion { error ->
+                if (error != null) Timber.e(error)
+            }
+            .launchIn(this)
     }
 }

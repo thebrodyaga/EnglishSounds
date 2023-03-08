@@ -15,6 +15,14 @@ import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
 import timber.log.Timber
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @InjectViewState
 class SoundsListPresenter @Inject constructor(
@@ -27,24 +35,22 @@ class SoundsListPresenter @Inject constructor(
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
-        unSubscribeOnDestroy(
-            Observable.combineLatest(
-                soundsRepository.getAllSounds()
-                    .map { list -> list.map { it.transcription to it }.toMap() },
-                soundsVideoRepository.getContrastingSoundsVideo().toObservable(),
-                soundsVideoRepository.getMostCommonWordsVideo().toObservable(),
-                soundsVideoRepository.getAdvancedExercisesVideo().toObservable()
-            ) { sounds, contrastingSoundVideo, mostCommonWordsVideo, advancedExercisesVideo ->
-                SoundsListBox(
-                    sounds,
-                    contrastingSoundVideo,
-                    mostCommonWordsVideo,
-                    advancedExercisesVideo
-                )
-            }.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ mapForUi(it) }, { Timber.e(it) })
-        )
+        combine(
+            soundsRepository.getAllSounds().map { list -> list.associateBy { it.transcription } },
+            soundsVideoRepository.getContrastingSoundsVideo(),
+            soundsVideoRepository.getMostCommonWordsVideo(),
+            soundsVideoRepository.getAdvancedExercisesVideo(),
+        ) { sounds, contrastingSoundVideo, mostCommonWordsVideo, advancedExercisesVideo ->
+            SoundsListBox(
+                sounds,
+                contrastingSoundVideo,
+                mostCommonWordsVideo,
+                advancedExercisesVideo
+            )
+        }.flowOn(Dispatchers.IO)
+            .onEach { mapForUi(it) }
+            .onCompletion { it?.let { Timber.e(it) } }
+            .launchIn(this)
     }
 
     private fun mapForUi(box: SoundsListBox) {

@@ -38,6 +38,16 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import timber.log.Timber
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 
 class VideoListFragment : BaseFragment(), VideoListView {
 
@@ -144,9 +154,9 @@ class VideoListPresenter @Inject constructor(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        unSubscribeOnDestroy(
-            videoInteractor.getAllList()
-                .flatMapIterable { it }
+        launch {
+            val flow = videoInteractor.getAllList()
+                .flatMapLatest { it.asFlow() }
                 .filter {
                     when (listType) {
                         VideoListType.ContrastingSounds -> it is ContrastingSoundVideoListItem
@@ -157,26 +167,29 @@ class VideoListPresenter @Inject constructor(
                         VideoListType.ConsonantSounds -> it is SoundVideoListItem && it.soundType == SoundType.CONSONANT_SOUND
                     }
                 }
-                .flatMapIterable { it.list }
-                .toList()
+                .flatMapLatest { it.list.asFlow() }
                 /*.map {
-                    val result = mutableListOf<VideoItemInList>()
-                    it.forEachIndexed { index, item ->
-                        when {
-                            index == 2 && index != it.lastIndex ->
-                                result.add(AdItem(AdTag.SOUND_VIDEO_LIST, listType.name))
-                            *//*index != 0 && index % 6 == 0 && index != it.lastIndex ->
+                val result = mutableListOf<VideoItemInList>()
+                it.forEachIndexed { index, item ->
+                    when {
+                        index == 2 && index != it.lastIndex ->
+                            result.add(AdItem(AdTag.SOUND_VIDEO_LIST, listType.name))
+                        *//*index != 0 && index % 6 == 0 && index != it.lastIndex ->
                                 result.add(AdItem(AdTag.SOUND_VIDEO_LIST, listType.name))*//*
                         }
                         result.add(item)
                     }
                     result
                 }*/
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    viewState.setList(it)
-                }, { Timber.e(it) })
-        )
+                .flowOn(Dispatchers.IO)
+                .onCompletion { it?.let { Timber.e(it) } }
+
+            try {
+                viewState.setList(flow.toList())
+            } catch (e: Throwable) {
+                Timber.e(e)
+            }
+
+        }
     }
 }

@@ -17,7 +17,11 @@ import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import timber.log.Timber
 import javax.inject.Inject
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 
 class SplashActivity : BaseActivity(), SplashView {
     override fun forward() {
@@ -50,15 +54,17 @@ class SplashPresenter @Inject constructor(
 ) : BasePresenter<SplashView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        unSubscribeOnDestroy(
-            soundsRepository.tryCopySounds()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ viewState.forward() }, {
-                    Timber.e(it)
+        soundsRepository.tryCopySounds()
+            .flowOn(Dispatchers.IO)
+            .onCompletion { error ->
+                if (error == null)
+                    viewState.forward()
+                else {
+                    Timber.e(error)
                     viewState.error()
-                })
-        )
+                }
+            }
+            .launchIn(this)
     }
 }
 
