@@ -1,9 +1,8 @@
 package com.thebrodyaga.legacy.adapters.decorator
 
+import androidx.recyclerview.widget.RecyclerView
 import android.graphics.Rect
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
-import com.hannesdorfmann.adapterdelegates4.dsl.AdapterDelegateLayoutContainerViewHolder
 import com.hannesdorfmann.adapterdelegates4.dsl.AdapterDelegateViewBindingViewHolder
 import com.thebrodyaga.legacy.AdItem
 
