@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="?attr/materialCardViewElevatedStyle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:contentPadding="16dp">
+    tools:contentPadding="16dp"
+    tools:parentTag="com.google.android.material.card.MaterialCardView"
+    tools:style="?attr/materialCardViewElevatedStyle">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_layout"
@@ -49,4 +50,4 @@
             tools:text="class" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+</merge>

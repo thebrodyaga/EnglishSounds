@@ -8,4 +8,5 @@ dependencies {
     implementation exoPlayer
     implementation googleAds
     implementation project(":feature:audioPlayer:api")
+x    implementation project(":core:uiUtils")
 }
