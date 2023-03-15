@@ -11,7 +11,7 @@ typealias BindingWithViews = Pair<ViewBinding, List<View>>
 
 class ComponentViewPool<Model : UiModel>(
     private val viewGroup: ViewGroup,
-    private val inflater: KClass<out Model>.() -> ViewBinding
+    private val inflater: (type: KClass<out Model>) -> ViewBinding
 ) {
 
     private val viewPool = mutableMapOf<KClass<out Model>, BindingWithViews>()

@@ -10,7 +10,7 @@
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageViewIcon"
+        android:id="@+id/iconWrapperSingleIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:duplicateParentState="true"
