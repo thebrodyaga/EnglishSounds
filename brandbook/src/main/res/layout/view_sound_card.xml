@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/sound"
+            android:id="@+id/soundCardSound"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/background_circle_accent"
@@ -23,8 +23,8 @@
             android:gravity="center"
             android:paddingBottom="6dp"
             android:textAppearance="?attr/textAppearanceTitleLarge"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintBottom_toTopOf="@+id/word"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@+id/soundCardWord"
             app:layout_constraintDimensionRatio="h,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_min="60dp"
@@ -35,18 +35,19 @@
             tools:text="æ" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/word"
+            android:id="@+id/soundCardWord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:maxLines="1"
-            android:text="?attr/colorOnSurface"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurface"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sound"
+            app:layout_constraintTop_toBottomOf="@+id/soundCardSound"
             tools:text="class" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

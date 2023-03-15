@@ -38,14 +38,14 @@ class SoundCardView @JvmOverloads constructor(
 
     fun bind(model: SoundCardUiModel) = with(binding) {
         _item = model
-        sound.bind(model.transcription)
-        word.bind(model.word)
-        sound.backgroundTintList = ContextCompat.getColorStateList(context, model.transcriptionTint)
+        soundCardSound.bind(model.transcription)
+        soundCardWord.bind(model.word)
+        soundCardSound.backgroundTintList = ContextCompat.getColorStateList(context, model.transcriptionTint)
     }
 }
 
 fun soundCardDelegate(
-    inflateListener: ((soundCard: SoundCardView) -> Unit)? = null,
+    inflateListener: ((view: SoundCardView) -> Unit)? = null,
     bindListener: ((view: SoundCardView, item: SoundCardUiModel) -> Unit)? = null,
 ): AdapterDelegate<List<UiModel>> =
     adapterDelegateViewBinding<SoundCardUiModel, UiModel, ItemSoundCardBinding>(

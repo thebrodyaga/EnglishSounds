@@ -1,22 +1,20 @@
 package com.thebrodyaga.brandbook
 
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View.OnClickListener
 import com.bumptech.glide.Glide
+import com.google.android.material.imageview.ShapeableImageView
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.io.File
 
-class PlayImageView : AppCompatImageView {
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
-        : super(context, attrs, defStyleAttr)
+class PlayImageView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null
+) : ShapeableImageView(context, attrs) {
 
     private var audioPlayer: AudioPlayer? = null
     var audioFile: File? = null
