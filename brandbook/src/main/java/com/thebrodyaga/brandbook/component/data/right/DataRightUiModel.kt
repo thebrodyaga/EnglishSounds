@@ -15,4 +15,10 @@ sealed interface DataRightUiModel : UiModel {
         val text: TextViewUiModel? = null,
         val icon: ImageViewUiModel? = null,
     ) : DataRightUiModel
+
+    sealed interface Button : DataRightUiModel {
+        data class Text(
+            val text: TextViewUiModel? = null,
+        ) : Button
+    }
 }

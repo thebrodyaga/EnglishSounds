@@ -11,7 +11,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.TypedValue
-import com.google.android.material.textview.MaterialTextView
+import android.widget.TextView
 import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.utils.drawable.DrawableUiModel
 import com.thebrodyaga.brandbook.utils.drawable.bindBackground
@@ -85,17 +85,17 @@ fun badgeRounded(
     tint = tint,
 )
 
-fun MaterialTextView.bindOrGone(model: TextViewUiModel?) {
+fun TextView.bindOrGone(model: TextViewUiModel?) {
     this.isVisible = model != null
     if (model != null) bind(model)
 }
 
-fun MaterialTextView.bindOrInvisible(model: TextViewUiModel?) {
+fun TextView.bindOrInvisible(model: TextViewUiModel?) {
     this.isInvisible = model == null
     if (model != null) bind(model)
 }
 
-fun MaterialTextView.bind(model: TextViewUiModel) {
+fun TextView.bind(model: TextViewUiModel) {
     if (equalsNewTextUiModel(model)) return
     when (model) {
         is TextViewUiModel.Raw -> bind(model)
@@ -103,7 +103,7 @@ fun MaterialTextView.bind(model: TextViewUiModel) {
     }
 }
 
-fun MaterialTextView.bind(model: TextViewUiModel.Raw) {
+fun TextView.bind(model: TextViewUiModel.Raw) {
     val initialTextStyle = saveAndGetInitialTextStyle()
     model.textAppearance?.let { TextViewCompat.setTextAppearance(this, getAttrStyle(it)) }
         ?: kotlin.run {
@@ -151,7 +151,7 @@ fun MaterialTextView.bind(model: TextViewUiModel.Raw) {
     bind(model.text)
 }
 
-fun MaterialTextView.bindSkeleton(model: TextViewUiModel.Skeleton) {
+fun TextView.bindSkeleton(model: TextViewUiModel.Skeleton) {
     saveAndGetInitialTextStyle()
     val transparent = getColorStateList(R.attr.colorTransparent)
     setTextColor(transparent)
@@ -160,7 +160,7 @@ fun MaterialTextView.bindSkeleton(model: TextViewUiModel.Skeleton) {
     bindSkeleton(model.skeleton)
 }
 
-private fun MaterialTextView.saveAndGetInitialTextStyle(): InitialTextStyle {
+private fun TextView.saveAndGetInitialTextStyle(): InitialTextStyle {
     val tagKey = R.id.initial_text_style_tag_id
     return getTag(tagKey) as? InitialTextStyle ?: let {
         val initialTextStyle = InitialTextStyle(this)
@@ -169,7 +169,7 @@ private fun MaterialTextView.saveAndGetInitialTextStyle(): InitialTextStyle {
     }
 }
 
-private fun MaterialTextView.equalsNewTextUiModel(newModel: TextViewUiModel): Boolean {
+private fun TextView.equalsNewTextUiModel(newModel: TextViewUiModel): Boolean {
     val previewModel = previewTextViewUiModel()
     val isEquals = previewModel != null &&
         newModel.hashCode() == previewModel.hashCode() &&
@@ -180,7 +180,7 @@ private fun MaterialTextView.equalsNewTextUiModel(newModel: TextViewUiModel): Bo
     return isEquals
 }
 
-private fun MaterialTextView.previewTextViewUiModel(): TextViewUiModel? {
+private fun TextView.previewTextViewUiModel(): TextViewUiModel? {
     val tagKey = R.id.preview_text_ui_model_tag_id
     return getTag(tagKey) as? TextViewUiModel
 }
@@ -193,7 +193,7 @@ private data class InitialTextStyle(
     val textViewAutoSizeConfiguration: TextViewAutoSizeConfiguration,
     val maxLines: Int,
 ) {
-    constructor(textView: MaterialTextView) : this(
+    constructor(textView: TextView) : this(
         textAppearance = InitialTextAppearanceStyle(
             textSize = textView.textSize,
             letterSpacing = textView.letterSpacing,

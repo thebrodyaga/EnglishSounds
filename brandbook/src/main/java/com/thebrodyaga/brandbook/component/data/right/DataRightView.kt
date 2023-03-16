@@ -4,11 +4,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import android.content.Context
 import android.util.AttributeSet
 import com.thebrodyaga.brandbook.R
+import com.thebrodyaga.brandbook.databinding.ViewDataRightTextButtonBinding
 import com.thebrodyaga.brandbook.databinding.ViewDataRightTextWithIconBinding
 import com.thebrodyaga.brandbook.databinding.ViewDataRightTwoLineTextBinding
-import com.thebrodyaga.brandbook.utils.viewPool.ComponentViewPool
 import com.thebrodyaga.brandbook.utils.image.bindOrGone
 import com.thebrodyaga.brandbook.utils.text.bindOrGone
+import com.thebrodyaga.brandbook.utils.viewPool.ComponentViewPool
 import com.thebrodyaga.core.uiUtils.common.inflater
 
 class DataRightView @JvmOverloads constructor(
@@ -21,6 +22,7 @@ class DataRightView @JvmOverloads constructor(
         when (it) {
             DataRightUiModel.TwoLineText::class -> ViewDataRightTwoLineTextBinding.inflate(inflater, this)
             DataRightUiModel.TextWithIcon::class -> ViewDataRightTextWithIconBinding.inflate(inflater, this)
+            DataRightUiModel.Button.Text::class -> ViewDataRightTextButtonBinding.inflate(inflater, this)
             else -> error("No type for viewPool: $this")
         }
     }
@@ -36,6 +38,7 @@ class DataRightView @JvmOverloads constructor(
         when (model) {
             is DataRightUiModel.TwoLineText -> (pair.first as ViewDataRightTwoLineTextBinding).bind(model)
             is DataRightUiModel.TextWithIcon -> (pair.first as ViewDataRightTextWithIconBinding).bind(model)
+            is DataRightUiModel.Button.Text -> (pair.first as ViewDataRightTextButtonBinding).bind(model)
         }
         this.currentModel = model
     }
@@ -48,5 +51,9 @@ class DataRightView @JvmOverloads constructor(
     private fun ViewDataRightTextWithIconBinding.bind(model: DataRightUiModel.TextWithIcon) {
         this.dataRightTextWithIconText.bindOrGone(model.text)
         this.dataRightTextWithIconIcon.bindOrGone(model.icon)
+    }
+
+    private fun ViewDataRightTextButtonBinding.bind(model: DataRightUiModel.Button.Text) {
+        this.dataRightTextButton.bindOrGone(model.text)
     }
 }
