@@ -4,7 +4,7 @@ import androidx.core.view.forEach
 import androidx.viewbinding.ViewBinding
 import android.view.View
 import android.view.ViewGroup
-import com.thebrodyaga.brandbook.recycler.model.UiModel
+import com.thebrodyaga.brandbook.model.UiModel
 import kotlin.reflect.KClass
 
 typealias BindingWithViews = Pair<ViewBinding, List<View>>

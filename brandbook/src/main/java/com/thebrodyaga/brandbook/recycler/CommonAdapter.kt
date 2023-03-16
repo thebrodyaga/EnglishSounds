@@ -3,7 +3,7 @@ package com.thebrodyaga.brandbook.recycler
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
-import com.thebrodyaga.brandbook.recycler.model.UiModel
+import com.thebrodyaga.brandbook.model.UiModel
 import java.util.*
 
 class CommonAdapter(

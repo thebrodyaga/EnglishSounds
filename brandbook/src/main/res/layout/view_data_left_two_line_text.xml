@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_goneMarginStart="0dp"
-        tools:text="dataLeftTwoLineFirst" />
+        tools:text="Title" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/dataLeftTwoLineSecond"
@@ -45,6 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dataLeftTwoLineFirst"
         app:layout_goneMarginStart="0dp"
-        tools:text="dataLeftTwoLineSecond" />
+        tools:text="Subtitle" />
 
 </merge>

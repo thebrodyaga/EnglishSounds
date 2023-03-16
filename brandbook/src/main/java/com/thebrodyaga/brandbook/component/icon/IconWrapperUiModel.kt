@@ -1,6 +1,6 @@
 package com.thebrodyaga.brandbook.component.icon
 
-import com.thebrodyaga.brandbook.recycler.model.UiModel
+import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.core.uiUtils.image.ImageViewUiModel
 
 sealed interface IconWrapperUiModel : UiModel {

@@ -10,7 +10,7 @@ import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.databinding.ItemSoundCardBinding
 import com.thebrodyaga.brandbook.databinding.ViewSoundCardBinding
-import com.thebrodyaga.brandbook.recycler.model.UiModel
+import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.core.uiUtils.resources.px
 import com.thebrodyaga.core.uiUtils.text.bind
 

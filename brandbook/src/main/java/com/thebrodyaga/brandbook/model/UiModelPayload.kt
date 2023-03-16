@@ -1,4 +1,4 @@
-package com.thebrodyaga.brandbook.recycler.model
+package com.thebrodyaga.brandbook.model
 
 interface UiModelPayload {
     val payload: Any?

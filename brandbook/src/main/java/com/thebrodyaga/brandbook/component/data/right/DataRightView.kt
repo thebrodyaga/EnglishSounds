@@ -9,7 +9,7 @@ import com.thebrodyaga.brandbook.databinding.ViewDataRightTwoLineTextBinding
 import com.thebrodyaga.brandbook.utils.viewPool.ComponentViewPool
 import com.thebrodyaga.core.uiUtils.image.bindOrGone
 import com.thebrodyaga.core.uiUtils.text.bindOrGone
-import com.thebrodyaga.core.uiUtils.view.inflater
+import com.thebrodyaga.core.uiUtils.common.inflater
 
 class DataRightView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null

@@ -1,7 +1,7 @@
 package com.thebrodyaga.brandbook.component.data.left
 
 import com.thebrodyaga.brandbook.component.icon.IconWrapperUiModel
-import com.thebrodyaga.brandbook.recycler.model.UiModel
+import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 
 sealed interface DataLeftUiModel : UiModel {

@@ -1,6 +1,6 @@
 package com.thebrodyaga.brandbook.component.data.right
 
-import com.thebrodyaga.brandbook.recycler.model.UiModel
+import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.core.uiUtils.image.ImageViewUiModel
 import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 
