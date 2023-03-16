@@ -2,6 +2,7 @@ package com.thebrodyaga.core.uiUtils.common
 
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.StyleRes
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
@@ -13,6 +14,9 @@ val View.inflater: LayoutInflater
 
 @ColorInt
 fun View.getAttrColor(@AttrRes attr: Int): Int = context.getAttrColor(attr)
+
+@ColorRes
+fun View.getAttrColorRes(@AttrRes attr: Int): Int = context.getAttrColorRes(attr)
 
 fun View.getColorStateList(@AttrRes attr: Int?): ColorStateList? =
     attr?.let { MaterialColors.getColorStateListOrNull(context, attr) }

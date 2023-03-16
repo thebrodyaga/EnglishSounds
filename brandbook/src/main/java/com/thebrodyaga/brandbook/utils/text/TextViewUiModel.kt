@@ -2,7 +2,6 @@ package com.thebrodyaga.brandbook.utils.text
 
 import androidx.annotation.AttrRes
 import androidx.annotation.Px
-import androidx.annotation.StyleRes
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
@@ -20,6 +19,7 @@ import com.thebrodyaga.brandbook.utils.drawable.shapeDrawable
 import com.thebrodyaga.brandbook.utils.skeleton.SkeletonDrawable
 import com.thebrodyaga.brandbook.utils.skeleton.SkeletonUiModel
 import com.thebrodyaga.brandbook.utils.skeleton.bindSkeleton
+import com.thebrodyaga.core.uiUtils.common.getAttrStyle
 import com.thebrodyaga.core.uiUtils.common.getColorStateList
 import com.thebrodyaga.core.uiUtils.insets.InitialViewPadding
 import com.thebrodyaga.core.uiUtils.resources.px
@@ -29,7 +29,7 @@ sealed interface TextViewUiModel {
 
     data class Raw(
         val text: TextContainer,
-        @StyleRes val textAppearance: Int? = null,
+        @AttrRes val textAppearance: Int? = null,
         @AttrRes val textColor: Int? = null,
         val textSize: TextViewSize? = null,
         val gravity: Int? = null,
@@ -105,23 +105,23 @@ fun MaterialTextView.bind(model: TextViewUiModel) {
 
 fun MaterialTextView.bind(model: TextViewUiModel.Raw) {
     val initialTextStyle = saveAndGetInitialTextStyle()
-    model.textAppearance?.let { TextViewCompat.setTextAppearance(this, it) }
+    model.textAppearance?.let { TextViewCompat.setTextAppearance(this, getAttrStyle(it)) }
         ?: kotlin.run {
-            typeface = initialTextStyle.typeface
-            letterSpacing = initialTextStyle.letterSpacing
+            typeface = initialTextStyle.textAppearance.typeface
+            letterSpacing = initialTextStyle.textAppearance.letterSpacing
         }
     model.textColor?.let { setTextColor(getColorStateList(it)) }
-        ?: kotlin.run { setTextColor(initialTextStyle.textColors) }
+        ?: kotlin.run { setTextColor(initialTextStyle.textAppearance.textColors) }
 
     model.textSize?.let { setTextSize(it.typedValue, it.textSize) }
-        ?: kotlin.run { setTextSize(TypedValue.COMPLEX_UNIT_PX, initialTextStyle.textSize) }
+        ?: kotlin.run { setTextSize(TypedValue.COMPLEX_UNIT_PX, initialTextStyle.textAppearance.textSize) }
     gravity = model.gravity ?: initialTextStyle.gravity
     model.badgeBackground?.background?.let { bindBackground(it) }
         ?: kotlin.run {
             background = initialTextStyle.background
             backgroundTintList = initialTextStyle.backgroundTint
         }
-    setHintTextColor(initialTextStyle.hintTextColors)
+    setHintTextColor(initialTextStyle.textAppearance.hintTextColors)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && foreground is SkeletonDrawable) {
         foreground = null
     }
@@ -186,11 +186,7 @@ private fun MaterialTextView.previewTextViewUiModel(): TextViewUiModel? {
 }
 
 private data class InitialTextStyle(
-    @Px val textSize: Float,
-    val textColors: ColorStateList?,
-    val hintTextColors: ColorStateList?,
-    val letterSpacing: Float,
-    val typeface: Typeface?,
+    val textAppearance: InitialTextAppearanceStyle,
     val background: Drawable?,
     val backgroundTint: ColorStateList?,
     val gravity: Int,
@@ -198,14 +194,16 @@ private data class InitialTextStyle(
     val maxLines: Int,
 ) {
     constructor(textView: MaterialTextView) : this(
-        textSize = textView.textSize,
-        letterSpacing = textView.letterSpacing,
-        textColors = textView.textColors,
-        typeface = textView.typeface,
+        textAppearance = InitialTextAppearanceStyle(
+            textSize = textView.textSize,
+            letterSpacing = textView.letterSpacing,
+            textColors = textView.textColors,
+            typeface = textView.typeface,
+            hintTextColors = textView.hintTextColors,
+        ),
         background = textView.background,
         backgroundTint = textView.backgroundTintList,
         gravity = textView.gravity,
-        hintTextColors = textView.hintTextColors,
         maxLines = textView.maxLines,
         textViewAutoSizeConfiguration = TextViewAutoSizeConfiguration(
             autoSizeTextType = TextViewCompat.getAutoSizeTextType(textView),
@@ -216,3 +214,11 @@ private data class InitialTextStyle(
         ),
     )
 }
+
+private data class InitialTextAppearanceStyle(
+    @Px val textSize: Float,
+    val textColors: ColorStateList?,
+    val hintTextColors: ColorStateList?,
+    val letterSpacing: Float,
+    val typeface: Typeface?,
+)
