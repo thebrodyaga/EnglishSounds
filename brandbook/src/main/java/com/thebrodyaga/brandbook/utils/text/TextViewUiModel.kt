@@ -1,9 +1,8 @@
-package com.thebrodyaga.core.uiUtils.text
+package com.thebrodyaga.brandbook.utils.text
 
-import androidx.annotation.ColorRes
+import androidx.annotation.AttrRes
 import androidx.annotation.Px
 import androidx.annotation.StyleRes
-import androidx.core.content.ContextCompat.getColorStateList
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
@@ -14,23 +13,24 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.TypedValue
 import com.google.android.material.textview.MaterialTextView
-import com.thebrodyaga.core.uiUtils.R
-import com.thebrodyaga.core.uiUtils.drawable.DrawableUiModel
-import com.thebrodyaga.core.uiUtils.drawable.applyBackground
-import com.thebrodyaga.core.uiUtils.drawable.shapeDrawable
+import com.thebrodyaga.brandbook.R
+import com.thebrodyaga.brandbook.utils.drawable.DrawableUiModel
+import com.thebrodyaga.brandbook.utils.drawable.bindBackground
+import com.thebrodyaga.brandbook.utils.drawable.shapeDrawable
+import com.thebrodyaga.brandbook.utils.skeleton.SkeletonDrawable
+import com.thebrodyaga.brandbook.utils.skeleton.SkeletonUiModel
+import com.thebrodyaga.brandbook.utils.skeleton.bindSkeleton
+import com.thebrodyaga.core.uiUtils.common.getColorStateList
 import com.thebrodyaga.core.uiUtils.insets.InitialViewPadding
 import com.thebrodyaga.core.uiUtils.resources.px
 import com.thebrodyaga.core.uiUtils.shape.shapeRoundedAll
-import com.thebrodyaga.core.uiUtils.skeleton.SkeletonUiModel
-import com.thebrodyaga.core.uiUtils.skeleton.SkeletonDrawable
-import com.thebrodyaga.core.uiUtils.skeleton.bindSkeleton
 
 sealed interface TextViewUiModel {
 
     data class Raw(
         val text: TextContainer,
         @StyleRes val textAppearance: Int? = null,
-        @ColorRes val textColor: Int? = null,
+        @AttrRes val textColor: Int? = null,
         val textSize: TextViewSize? = null,
         val gravity: Int? = null,
         val badgeBackground: TextViewBackgroundModel? = null,
@@ -79,7 +79,7 @@ fun badgePadding(
 
 fun badgeRounded(
     @Px cornerSize: Float = 32f.px,
-    @ColorRes tint: Int = android.R.color.transparent,
+    @AttrRes tint: Int = R.attr.colorTransparent,
 ): DrawableUiModel = DrawableUiModel(
     drawable = shapeDrawable(shapeRoundedAll(cornerSize)),
     tint = tint,
@@ -110,13 +110,13 @@ fun MaterialTextView.bind(model: TextViewUiModel.Raw) {
             typeface = initialTextStyle.typeface
             letterSpacing = initialTextStyle.letterSpacing
         }
-    model.textColor?.let { setTextColor(getColorStateList(context, it)) }
+    model.textColor?.let { setTextColor(getColorStateList(it)) }
         ?: kotlin.run { setTextColor(initialTextStyle.textColors) }
 
     model.textSize?.let { setTextSize(it.typedValue, it.textSize) }
         ?: kotlin.run { setTextSize(TypedValue.COMPLEX_UNIT_PX, initialTextStyle.textSize) }
     gravity = model.gravity ?: initialTextStyle.gravity
-    model.badgeBackground?.background?.applyBackground(this)
+    model.badgeBackground?.background?.let { bindBackground(it) }
         ?: kotlin.run {
             background = initialTextStyle.background
             backgroundTintList = initialTextStyle.backgroundTint
@@ -153,7 +153,7 @@ fun MaterialTextView.bind(model: TextViewUiModel.Raw) {
 
 fun MaterialTextView.bindSkeleton(model: TextViewUiModel.Skeleton) {
     saveAndGetInitialTextStyle()
-    val transparent = getColorStateList(context, android.R.color.transparent)
+    val transparent = getColorStateList(R.attr.colorTransparent)
     setTextColor(transparent)
     setHintTextColor(transparent)
     text = ""

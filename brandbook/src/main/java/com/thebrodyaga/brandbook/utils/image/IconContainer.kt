@@ -1,4 +1,4 @@
-package com.thebrodyaga.core.uiUtils.image
+package com.thebrodyaga.brandbook.utils.image
 
 import androidx.annotation.DrawableRes
 import android.widget.ImageView

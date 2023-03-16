@@ -12,7 +12,7 @@ import com.thebrodyaga.brandbook.databinding.ItemSoundCardBinding
 import com.thebrodyaga.brandbook.databinding.ViewSoundCardBinding
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.core.uiUtils.resources.px
-import com.thebrodyaga.core.uiUtils.text.bind
+import com.thebrodyaga.brandbook.utils.text.bind
 
 class SoundCardView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null

@@ -3,7 +3,7 @@ package com.thebrodyaga.brandbook.component.sound
 import androidx.annotation.ColorRes
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.model.UiModelPayload
-import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
+import com.thebrodyaga.brandbook.utils.text.TextViewUiModel
 
 data class SoundCardUiModel(
     val transcription: TextViewUiModel,

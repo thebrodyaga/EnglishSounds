@@ -1,4 +1,4 @@
-package com.thebrodyaga.core.uiUtils.text
+package com.thebrodyaga.brandbook.utils.text
 
 import androidx.annotation.StringRes
 import android.widget.TextView

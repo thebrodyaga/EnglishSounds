@@ -9,8 +9,8 @@ import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.databinding.ViewIconWrapperSingleBinding
 import com.thebrodyaga.brandbook.databinding.ViewIconWrapperTwoBinding
 import com.thebrodyaga.brandbook.utils.viewPool.ComponentViewPool
-import com.thebrodyaga.core.uiUtils.image.bind
-import com.thebrodyaga.core.uiUtils.image.bindOrGone
+import com.thebrodyaga.brandbook.utils.image.bind
+import com.thebrodyaga.brandbook.utils.image.bindOrGone
 import com.thebrodyaga.core.uiUtils.common.inflater
 
 class IconWrapperView @JvmOverloads constructor(

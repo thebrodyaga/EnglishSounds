@@ -1,58 +1,59 @@
-package com.thebrodyaga.core.uiUtils.drawable
+package com.thebrodyaga.brandbook.utils.drawable
 
-import androidx.annotation.ColorRes
+import androidx.annotation.AttrRes
 import androidx.annotation.Px
-import androidx.core.content.ContextCompat.getColorStateList
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
+import com.thebrodyaga.brandbook.R
+import com.thebrodyaga.core.uiUtils.common.getColorStateList
 import com.thebrodyaga.core.uiUtils.shape.shapeRectangle
 
 data class DrawableUiModel(
     val drawable: Drawable = shapeDrawable(),
-    @ColorRes val tint: Int = android.R.color.transparent,
+    @AttrRes val tint: Int = R.attr.colorTransparent,
     // only MaterialShapeDrawable support
     @Px val strokeWidth: Float = 0f,
     // only MaterialShapeDrawable support
-    @ColorRes val strokeColor: Int = android.R.color.transparent,
+    @AttrRes val strokeColor: Int = R.attr.colorTransparent,
 )
 
 fun shapeDrawable(
     shape: ShapeAppearanceModel = shapeRectangle(),
 ): MaterialShapeDrawable = MaterialShapeDrawable(shape)
 
-fun DrawableUiModel?.applyBackground(view: View) {
-    val model = this
+fun View.bindBackground(model: DrawableUiModel?) {
     if (model == null) {
-        view.background = null
-        view.backgroundTintList = null
+        background = null
+        backgroundTintList = null
         return
     }
-    val drawable = model.mutateDrawable(view.context)
-    view.background = drawable
-    view.backgroundTintList = getColorStateList(view.context, model.tint)
+    R.attr.colorAccent
+    val drawable = model.mutateDrawable(context)
+    background = drawable
+    backgroundTintList = getColorStateList(model.tint)
 }
 
-fun DrawableUiModel?.applyForeground(view: View) {
+fun View.bindForeground(model: DrawableUiModel?) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
-    val model = this
     if (model == null) {
-        view.foreground = null
-        view.foregroundTintList = null
+        foreground = null
+        foregroundTintList = null
         return
     }
-    val drawable = model.mutateDrawable(view.context)
-    view.foreground = drawable
-    view.foregroundTintList = view.context.getColorStateList(model.tint)
+    val drawable = model.mutateDrawable(context)
+    foreground = drawable
+    foregroundTintList = getColorStateList(model.tint)
 }
 
 private fun DrawableUiModel.mutateDrawable(context: Context): Drawable? {
     val drawable = this.drawable.mutate().constantState?.newDrawable()
     if (drawable is MaterialShapeDrawable) {
-        drawable.strokeColor = getColorStateList(context, this.strokeColor)
+        drawable.strokeColor = MaterialColors.getColorStateListOrNull(context, tint)
         drawable.strokeWidth = this.strokeWidth
     }
     return drawable

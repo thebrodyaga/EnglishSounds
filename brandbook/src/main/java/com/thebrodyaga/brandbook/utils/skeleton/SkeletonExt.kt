@@ -1,8 +1,8 @@
-package com.thebrodyaga.core.uiUtils.skeleton
+package com.thebrodyaga.brandbook.utils.skeleton
 
 import androidx.annotation.Px
 import android.view.Gravity
-import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
+import com.thebrodyaga.brandbook.utils.text.TextViewUiModel
 
 fun textViewSkeleton(
     @Px height: Int,
