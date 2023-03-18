@@ -1,7 +1,6 @@
 package com.thebrodyaga.feature.mainScreen.impl.view.fab
 
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import android.Manifest
 import android.content.Context
 import android.util.AttributeSet
@@ -10,18 +9,18 @@ import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.tbruyelle.rxpermissions2.RxPermissions
+import com.thebrodyaga.core.uiUtils.view.viewScope
 import com.thebrodyaga.feature.audioPlayer.api.RecordState
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.impl.R
+import dev.shreyaspatil.permissionFlow.PermissionFlow
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class MicFloatingButton : FloatingActionButton {
-
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
-            : super(context, attrs, defStyleAttr)
+class MicFloatingButton @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null
+) : FloatingActionButton(context, attrs) {
 
     private var mode: Mode =
         Mode.MIC
@@ -35,7 +34,8 @@ class MicFloatingButton : FloatingActionButton {
             field = value
         }
     private val compositeDisposable = CompositeDisposable()
-    private val rxPermissions = RxPermissions(this.let { it.context as FragmentActivity })
+    private val permissionFlow = PermissionFlow.getInstance()
+//    private val rxPermissions = RxPermissions(this.let { it.context as FragmentActivity })
 
     private val micIcon =
         ContextCompat.getDrawable(context, R.drawable.ic_mic) ?: throw IllegalArgumentException()
@@ -98,7 +98,6 @@ class MicFloatingButton : FloatingActionButton {
         setColorFilter(accentColor, android.graphics.PorterDuff.Mode.SRC_IN)
         setOnClickListener(onPlayRecordClick)
         setOnLongClickListener(onDeleteRecordClick)
-
     }
 
     private fun bindRecordState() {
@@ -107,7 +106,6 @@ class MicFloatingButton : FloatingActionButton {
         setImageDrawable(recordIcon)
         setOnClickListener(onStopRecordClick)
         setOnLongClickListener(null)
-
     }
 
     private fun bindEmptyState() {
@@ -123,17 +121,21 @@ class MicFloatingButton : FloatingActionButton {
         compositeDisposable.clear()
     }
 
-    private val onStartRecordClick = OnClickListener {
-        rxPermissions
-            .request(Manifest.permission.RECORD_AUDIO)
-            .subscribe { granted ->
-                if (granted) {
+    fun observePermission() {
+        permissionFlow.getPermissionState(Manifest.permission.RECORD_AUDIO)
+            .onEach { state ->
+                if (state.isGranted) {
                     recordVoice?.startRecord()
                 } else {
                     Toast.makeText(context, R.string.need_record_permission, Toast.LENGTH_SHORT)
                         .show()
                 }
             }
+            .launchIn(viewScope)
+    }
+
+    private val onStartRecordClick = OnClickListener {
+        observePermission()
     }
     private val onStopRecordClick = OnClickListener { recordVoice?.stopRecord() }
     private val onPlayRecordClick = OnClickListener { recordVoice?.playRecord() }
@@ -146,5 +148,4 @@ class MicFloatingButton : FloatingActionButton {
     private enum class Mode {
         MIC, RECORDING, PLAY, PLAYING
     }
-
 }

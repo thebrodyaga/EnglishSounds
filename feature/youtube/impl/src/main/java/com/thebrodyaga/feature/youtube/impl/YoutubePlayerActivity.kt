@@ -5,7 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import android.annotation.SuppressLint
 import android.content.Context
@@ -32,14 +31,10 @@ import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
 import com.thebrodyaga.feature.youtube.impl.PicInPickHelper.Companion.isHavePicInPicMode
 import com.thebrodyaga.feature.youtube.impl.databinding.ActivityYoutubePlayerBinding
 import com.thebrodyaga.feature.youtube.impl.di.YoutubeActivityComponent
-import moxy.MvpView
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import timber.log.Timber
 import javax.inject.Inject
 
-class YoutubePlayerActivity : BaseActivity(), MvpView {
-
+class YoutubePlayerActivity : BaseActivity() {
 
     private var currentSecond: Float
         get() = viewModel.currentSecond

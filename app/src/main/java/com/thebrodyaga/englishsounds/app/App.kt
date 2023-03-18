@@ -11,6 +11,7 @@ import com.thebrodyaga.englishsounds.di.AppComponent
 import com.thebrodyaga.englishsounds.di.DaggerAppComponent
 import com.thebrodyaga.feature.setting.api.CurrentTheme
 import com.thebrodyaga.feature.setting.api.SettingManager
+import dev.shreyaspatil.permissionFlow.PermissionFlow
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import javax.inject.Inject
@@ -29,6 +30,7 @@ class App : BaseApp() {
         app = this
         appComponent.inject(this)
         super.onCreate()
+        PermissionFlow.init(this)
         AnalyticsEngine.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 //        MobileAds.initialize(this)
         if (!BuildConfig.DEBUG) {

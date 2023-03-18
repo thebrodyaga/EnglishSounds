@@ -3,4 +3,5 @@
     <item name="initial_view_padding_tag_id" type="id" />
     <item name="initial_text_style_tag_id" type="id" />
     <item name="preview_text_ui_model_tag_id" type="id" />
+    <item name="view_coroutine_scope" type="id" />
 </resources>

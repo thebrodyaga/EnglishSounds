@@ -3,6 +3,7 @@ ext {
     dagger_version = '2.44.2'
     playServices = '20.2.0'
     moxy = '2.0.2'
+    flowPermissionVersion = '1.0.0'
 
 
     javaxInject = "javax.inject:javax.inject:1"
@@ -106,4 +107,7 @@ ext {
     ]
 
     timber = 'com.jakewharton.timber:timber:4.7.1'
+
+    //premissions
+    flowPermission = "dev.shreyaspatil.permission-flow:permission-flow-android:$flowPermissionVersion"
 }

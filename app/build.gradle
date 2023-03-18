@@ -89,6 +89,7 @@ dependencies {
     implementation rxJava
     implementation timber
     implementation exoPlayer
+    implementation flowPermission
 
 
     implementation project(":analytics")
@@ -121,9 +122,6 @@ dependencies {
 
 
     // deprecated
-
-    //premissions
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 
     //RecyclerView-animators
     implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
