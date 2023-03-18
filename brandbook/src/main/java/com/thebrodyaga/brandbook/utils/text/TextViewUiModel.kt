@@ -30,8 +30,6 @@ sealed interface TextViewUiModel {
     data class Raw(
         val text: TextContainer,
         @AttrRes val textAppearance: Int? = null,
-        @AttrRes val textColor: Int? = null,
-        val textSize: TextViewSize? = null,
         val gravity: Int? = null,
         val badgeBackground: TextViewBackgroundModel? = null,
         val autoSizeConfiguration: TextViewAutoSizeConfiguration? = null,
@@ -110,11 +108,6 @@ fun TextView.bind(model: TextViewUiModel.Raw) {
             typeface = initialTextStyle.textAppearance.typeface
             letterSpacing = initialTextStyle.textAppearance.letterSpacing
         }
-    model.textColor?.let { setTextColor(getColorStateList(it)) }
-        ?: kotlin.run { setTextColor(initialTextStyle.textAppearance.textColors) }
-
-    model.textSize?.let { setTextSize(it.typedValue, it.textSize) }
-        ?: kotlin.run { setTextSize(TypedValue.COMPLEX_UNIT_PX, initialTextStyle.textAppearance.textSize) }
     gravity = model.gravity ?: initialTextStyle.gravity
     model.badgeBackground?.background?.let { bindBackground(it) }
         ?: kotlin.run {

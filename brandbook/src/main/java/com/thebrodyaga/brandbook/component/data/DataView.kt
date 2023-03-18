@@ -6,6 +6,7 @@ import androidx.core.view.updatePadding
 import android.content.Context
 import android.util.AttributeSet
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.component.data.left.DataLeftView
 import com.thebrodyaga.brandbook.component.data.right.DataRightView
 import com.thebrodyaga.brandbook.databinding.ViewDataBinding
@@ -29,6 +30,7 @@ class DataView @JvmOverloads constructor(
 
 
     init {
+        inflate(context, R.layout.view_data, this)
         val paddingHorizontal = 16.px
         val paddingVertical = 12.px
         updatePadding(

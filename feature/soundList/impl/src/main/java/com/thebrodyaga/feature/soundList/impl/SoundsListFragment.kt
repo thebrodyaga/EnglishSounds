@@ -9,6 +9,9 @@ import android.os.Bundle
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
+import com.thebrodyaga.brandbook.component.sound.soundCardDelegate
+import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
@@ -27,7 +30,6 @@ import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
 import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoListItem
 import com.thebrodyaga.legacy.VideoListItem
-import com.thebrodyaga.legacy.adapters.SoundsAdapter
 import javax.inject.Inject
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
@@ -49,33 +51,24 @@ class SoundsListFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: SoundsListViewModel by viewModels { viewModelFactory }
 
-    private lateinit var adapter: SoundsAdapter
-    private lateinit var spanSizeLookup: SpanSizeLookup
+    private val maxColumns: Int by lazy { calculateNoOfColumns(requireContext(), R.dimen.card_sound_width) }
+    private var spanSizeLookup = SpanSizeLookup()
+    private var adapter = CommonAdapter(
+        soundCardDelegate(inflateListener = {
+            it.setOnClickAction { view, item ->  }
+        }),
+        dataViewCommonDelegate(),
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         SoundListComponent.factory(findDependencies()).inject(this)
         super.onCreate(savedInstanceState)
-        adapter = SoundsAdapter(
-            viewModel.positionList,
-            { soundDto, sharedElements -> onSoundClick(soundDto, sharedElements) },
-            { getAnyRouter().navigateTo(detailsScreenFactory.soundDetailsScreen(it)) },
-            { onShowAllVideoClick(it) },
-            lifecycle,
-            requireContext(),
-            youtubeScreenFactory,
-            getAnyRouter(),
-        )
-        spanSizeLookup =
-            SpanSizeLookup(
-                adapter,
-                calculateNoOfColumns(requireContext(), R.dimen.card_sound_width)
-            )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        binding.list.layoutManager = GridLayoutManager(context, spanSizeLookup.maxColumns)
+        binding.list.layoutManager = GridLayoutManager(context, maxColumns)
             .also { it.spanSizeLookup = spanSizeLookup }
         binding.list.adapter = adapter
         binding.list.itemAnimator = null
@@ -89,7 +82,7 @@ class SoundsListFragment : BaseFragment() {
 
         viewModel.getState()
             .filterIsInstance<SoundsListState.Content>()
-            .onEach { adapter.setData(it.sounds) }
+            .onEach { adapter.items = it.sounds }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
     }
@@ -124,14 +117,11 @@ class SoundsListFragment : BaseFragment() {
 //        getAnyRouter().navigateTo(Screens.AllVideoScreen(showPage))
     }
 
-    private class SpanSizeLookup constructor(
-        private val adapter: SoundsAdapter,
-        val maxColumns: Int
-    ) : GridLayoutManager.SpanSizeLookup() {
+    private inner class SpanSizeLookup : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
             //getItemViewType равен индексу добавления в delegatesManager адаптера
             return when (adapter.getItemViewType(position)) {
-                0, 1, 2, 3 -> maxColumns
+                1 -> maxColumns
                 else -> 1
             }
         }
