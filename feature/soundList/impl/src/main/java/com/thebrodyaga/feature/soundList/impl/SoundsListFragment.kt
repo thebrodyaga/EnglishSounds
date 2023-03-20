@@ -1,15 +1,16 @@
 package com.thebrodyaga.feature.soundList.impl
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.os.Bundle
-import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
+import com.thebrodyaga.brandbook.component.sound.SoundCardUiModel
 import com.thebrodyaga.brandbook.component.sound.soundCardDelegate
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
@@ -30,10 +31,10 @@ import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
 import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoListItem
 import com.thebrodyaga.legacy.VideoListItem
-import javax.inject.Inject
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 class SoundsListFragment : BaseFragment() {
 
@@ -54,10 +55,12 @@ class SoundsListFragment : BaseFragment() {
     private val maxColumns: Int by lazy { calculateNoOfColumns(requireContext(), R.dimen.card_sound_width) }
     private var spanSizeLookup = SpanSizeLookup()
     private var adapter = CommonAdapter(
-        soundCardDelegate(inflateListener = {
-            it.setOnClickAction { view, item ->  }
-        }),
-        dataViewCommonDelegate(),
+            soundCardDelegate(inflateListener = {
+                it.setOnClickAction { _, item ->
+                    onSoundClick(item)
+                }
+            }),
+            dataViewCommonDelegate(),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,36 +72,37 @@ class SoundsListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
         binding.list.layoutManager = GridLayoutManager(context, maxColumns)
-            .also { it.spanSizeLookup = spanSizeLookup }
+                .also { it.spanSizeLookup = spanSizeLookup }
         binding.list.adapter = adapter
         binding.list.itemAnimator = null
         binding.list.addItemDecoration(
-            AdItemDecorator(
-                context, RecyclerView.VERTICAL,
-                R.dimen.ad_item_in_vertical_horizontal_offset
-            )
+                AdItemDecorator(
+                        context, RecyclerView.VERTICAL,
+                        R.dimen.ad_item_in_vertical_horizontal_offset
+                )
         )
         binding.toolbar.setOnMenuItemClickListener(this)
 
         viewModel.getState()
-            .filterIsInstance<SoundsListState.Content>()
-            .onEach { adapter.items = it.sounds }
-            .flowWithLifecycle(lifecycle)
-            .launchIn(lifecycleScope)
+                .filterIsInstance<SoundsListState.Content>()
+                .onEach { adapter.items = it.sounds }
+                .flowWithLifecycle(lifecycle)
+                .launchIn(lifecycleScope)
     }
 
-    private fun onSoundClick(item: AmericanSoundDto, sharedElements: Array<Pair<View, String>>) {
+    private fun onSoundClick(model: SoundCardUiModel) {
+        val sound = model.payload as? AmericanSoundDto ?: return
         getAnyRouter().navigateTo(
-            detailsScreenFactory.soundDetailsScreen(item.transcription),
+                detailsScreenFactory.soundDetailsScreen(sound.transcription),
         )
 
         val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, item.transcription)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.name)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, sound.transcription)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, sound.name)
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "sound")
         AnalyticsEngine.logEvent(
-            FirebaseAnalytics.Event.SELECT_CONTENT,
-            bundle
+                FirebaseAnalytics.Event.SELECT_CONTENT,
+                bundle
         )
     }
 
