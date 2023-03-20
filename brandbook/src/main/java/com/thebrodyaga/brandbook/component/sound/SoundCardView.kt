@@ -1,6 +1,5 @@
 package com.thebrodyaga.brandbook.component.sound
 
-import androidx.core.content.ContextCompat
 import android.content.Context
 import android.util.AttributeSet
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -11,8 +10,9 @@ import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.databinding.ItemSoundCardBinding
 import com.thebrodyaga.brandbook.databinding.ViewSoundCardBinding
 import com.thebrodyaga.brandbook.model.UiModel
-import com.thebrodyaga.core.uiUtils.resources.px
+import com.thebrodyaga.brandbook.utils.drawable.bindBackground
 import com.thebrodyaga.brandbook.utils.text.bind
+import com.thebrodyaga.core.uiUtils.resources.px
 
 class SoundCardView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -39,8 +39,8 @@ class SoundCardView @JvmOverloads constructor(
     fun bind(model: SoundCardUiModel) = with(binding) {
         _item = model
         soundCardSound.bind(model.transcription)
+        soundCardSound.bindBackground(model.transcriptionBg)
         soundCardWord.bind(model.word)
-        soundCardSound.backgroundTintList = ContextCompat.getColorStateList(context, model.transcriptionTint)
     }
 }
 

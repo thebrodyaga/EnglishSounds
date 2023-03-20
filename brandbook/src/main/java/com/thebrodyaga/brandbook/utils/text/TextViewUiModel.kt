@@ -77,7 +77,7 @@ fun badgePadding(
 
 fun badgeRounded(
     @Px cornerSize: Float = 32f.px,
-    @AttrRes tint: Int = R.attr.colorTransparent,
+    @AttrRes tint: Int = R.attr.staticColorTransparent,
 ): DrawableUiModel = DrawableUiModel(
     drawable = shapeDrawable(shapeRoundedAll(cornerSize)),
     tint = tint,
@@ -146,7 +146,7 @@ fun TextView.bind(model: TextViewUiModel.Raw) {
 
 fun TextView.bindSkeleton(model: TextViewUiModel.Skeleton) {
     saveAndGetInitialTextStyle()
-    val transparent = getColorStateList(R.attr.colorTransparent)
+    val transparent = getColorStateList(R.attr.staticColorTransparent)
     setTextColor(transparent)
     setHintTextColor(transparent)
     text = ""

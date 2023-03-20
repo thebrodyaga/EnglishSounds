@@ -1,11 +1,15 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppMaterial" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-<!--        <item name="colorSecondary">@color/colorAccent</item>-->
-        <item name="colorTransparent">@android:color/transparent</item>
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorSecondary">@color/colorAccent</item>-->
+        <item name="staticColorTransparent">@android:color/transparent</item>
+        <item name="staticColorConsonantSounds">@color/consonant_sounds</item>
+        <item name="staticColorRControlledVowelsSounds">@color/r_controlled_vowels</item>
+        <item name="staticColorVowelSounds">@color/vowel_sounds</item>
+        <item name="staticColorWhite">@android:color/white</item>
     </style>
 </resources>

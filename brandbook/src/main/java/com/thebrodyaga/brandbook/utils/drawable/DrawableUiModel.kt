@@ -15,11 +15,11 @@ import com.thebrodyaga.core.uiUtils.shape.shapeRectangle
 
 data class DrawableUiModel(
     val drawable: Drawable = shapeDrawable(),
-    @AttrRes val tint: Int = R.attr.colorTransparent,
+    @AttrRes val tint: Int = R.attr.staticColorTransparent,
     // only MaterialShapeDrawable support
     @Px val strokeWidth: Float = 0f,
     // only MaterialShapeDrawable support
-    @AttrRes val strokeColor: Int = R.attr.colorTransparent,
+    @AttrRes val strokeColor: Int = R.attr.staticColorTransparent,
 )
 
 fun shapeDrawable(

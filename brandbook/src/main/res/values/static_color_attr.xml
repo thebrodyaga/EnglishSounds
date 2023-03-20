@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="staticColorTransparent" format="reference|color" />
+    <attr name="staticColorConsonantSounds" format="reference|color" />
+    <attr name="staticColorRControlledVowelsSounds" format="reference|color" />
+    <attr name="staticColorVowelSounds" format="reference|color" />
+    <attr name="staticColorWhite" format="reference|color" />
+</resources>
