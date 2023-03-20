@@ -9,16 +9,16 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
+        style="?attr/appBarLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
+            style="?attr/toolbarStyle"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/main_menu_tab_first"
-            app:titleTextAppearance="@style/Title2Regular" />
+            android:layout_height="wrap_content"
+            app:title="@string/main_menu_tab_first" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

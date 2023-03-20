@@ -77,5 +77,5 @@ fun View.requestApplyInsetsWhenAttached() {
 data class InitialViewPadding(val left: Int, val top: Int, val right: Int, val bottom: Int)
 
 fun recordInitialPaddingForView(view: View): InitialViewPadding = InitialViewPadding(
-    view.paddingLeft, view.paddingTop, view.paddingRight, view.paddingBottom
+    view.paddingStart, view.paddingTop, view.paddingEnd, view.paddingBottom
 )

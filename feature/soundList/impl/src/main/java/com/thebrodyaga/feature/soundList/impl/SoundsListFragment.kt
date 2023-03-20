@@ -14,6 +14,11 @@ import com.thebrodyaga.brandbook.component.sound.SoundCardUiModel
 import com.thebrodyaga.brandbook.component.sound.soundCardDelegate
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
+import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
+import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
+import com.thebrodyaga.core.uiUtils.insets.consume
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
@@ -55,12 +60,12 @@ class SoundsListFragment : BaseFragment() {
     private val maxColumns: Int by lazy { calculateNoOfColumns(requireContext(), R.dimen.card_sound_width) }
     private var spanSizeLookup = SpanSizeLookup()
     private var adapter = CommonAdapter(
-            soundCardDelegate(inflateListener = {
-                it.setOnClickAction { _, item ->
-                    onSoundClick(item)
-                }
-            }),
-            dataViewCommonDelegate(),
+        soundCardDelegate(inflateListener = {
+            it.setOnClickAction { _, item ->
+                onSoundClick(item)
+            }
+        }),
+        dataViewCommonDelegate(),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,28 +77,37 @@ class SoundsListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
         binding.list.layoutManager = GridLayoutManager(context, maxColumns)
-                .also { it.spanSizeLookup = spanSizeLookup }
+            .also { it.spanSizeLookup = spanSizeLookup }
         binding.list.adapter = adapter
         binding.list.itemAnimator = null
         binding.list.addItemDecoration(
-                AdItemDecorator(
-                        context, RecyclerView.VERTICAL,
-                        R.dimen.ad_item_in_vertical_horizontal_offset
-                )
+            AdItemDecorator(
+                context, RecyclerView.VERTICAL,
+                R.dimen.ad_item_in_vertical_horizontal_offset
+            )
         )
         binding.toolbar.setOnMenuItemClickListener(this)
 
         viewModel.getState()
-                .filterIsInstance<SoundsListState.Content>()
-                .onEach { adapter.items = it.sounds }
-                .flowWithLifecycle(lifecycle)
-                .launchIn(lifecycleScope)
+            .filterIsInstance<SoundsListState.Content>()
+            .onEach { adapter.items = it.sounds }
+            .flowWithLifecycle(lifecycle)
+            .launchIn(lifecycleScope)
+    }
+
+    override fun applyWindowInsets(rootView: View) {
+        rootView.doOnApplyWindowInsets { _, insets, _ ->
+            insets.systemAndIme().consume {
+                binding.appbar.appleTopInsets(this)
+                binding.list.appleBottomInsets(this)
+            }
+        }
     }
 
     private fun onSoundClick(model: SoundCardUiModel) {
         val sound = model.payload as? AmericanSoundDto ?: return
         getAnyRouter().navigateTo(
-                detailsScreenFactory.soundDetailsScreen(sound.transcription),
+            detailsScreenFactory.soundDetailsScreen(sound.transcription),
         )
 
         val bundle = Bundle()
@@ -101,8 +115,8 @@ class SoundsListFragment : BaseFragment() {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, sound.name)
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "sound")
         AnalyticsEngine.logEvent(
-                FirebaseAnalytics.Event.SELECT_CONTENT,
-                bundle
+            FirebaseAnalytics.Event.SELECT_CONTENT,
+            bundle
         )
     }
 

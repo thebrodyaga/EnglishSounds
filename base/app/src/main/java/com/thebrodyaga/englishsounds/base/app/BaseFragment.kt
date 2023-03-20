@@ -6,9 +6,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.thebrodyaga.base.navigation.impl.GetRouter
+import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
+import com.thebrodyaga.core.uiUtils.insets.consume
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import moxy.MvpAppCompatFragment
@@ -33,7 +36,16 @@ abstract class BaseFragment : MvpAppCompatFragment(), GetRouter, Toolbar.OnMenuI
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ViewCompat.requestApplyInsets(view)
+        applyWindowInsets(view)
+    }
+
+
+    protected open fun applyWindowInsets(rootView: View) {
+        rootView.doOnApplyWindowInsets { view, insets, _ ->
+            insets.systemAndIme().consume {
+                view.appleInsetPadding(left = left, top = top, right = right, bottom = bottom)
+            }
+        }
     }
 
     override fun onDestroyView() {

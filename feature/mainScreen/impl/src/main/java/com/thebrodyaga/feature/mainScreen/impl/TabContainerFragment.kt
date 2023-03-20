@@ -1,6 +1,7 @@
 package com.thebrodyaga.feature.mainScreen.impl
 
 import android.os.Bundle
+import android.view.View
 import com.thebrodyaga.englishsounds.base.app.FlowFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenComponent
@@ -41,6 +42,8 @@ class TabContainerFragment : FlowFragment() {
                 localRouter.newRootScreen(trainingScreenFactory.trainingScreen())
         }
     }
+
+    override fun applyWindowInsets(rootView: View) = Unit
 
     override fun getLayoutId(): Int {
         return R.layout.layout_fragemnt_container

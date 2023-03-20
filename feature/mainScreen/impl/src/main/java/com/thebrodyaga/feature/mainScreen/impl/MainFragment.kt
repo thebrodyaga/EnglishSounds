@@ -5,8 +5,13 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.ime
+import com.thebrodyaga.core.uiUtils.insets.systemBars
 import com.thebrodyaga.englishsounds.base.app.BaseFragment
 import com.thebrodyaga.englishsounds.base.app.FlowFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
@@ -89,6 +94,21 @@ class MainFragment : FlowFragment() {
         }
         if (currentFragment == null) onBottomBarClick(FIRST_MAIN_PAGE.first)
         binding.micButton.setRecordVoice(recordVoice)
+    }
+
+    override fun applyWindowInsets(rootView: View) {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigation, null)
+        rootView.doOnApplyWindowInsets { view, insets, initialPadding ->
+            val systemBars = insets.systemBars()
+            val ime = insets.ime()
+            val bottomNavigationHeight = binding.bottomNavigation.height
+            binding.bottomNavigation.appleInsetPadding(left = 0, top = 0, right = 0, bottom = systemBars.bottom)
+
+            // check is keyboard overlay bottomNavigation
+            val bottomConsume = if (ime.bottom > bottomNavigationHeight) bottomNavigationHeight else ime.bottom
+            // remove from the bottom bottomNavigationHeight or low height ime
+            insets.inset(0, 0, 0, systemBars.bottom + bottomConsume)
+        }
     }
 
     private fun onBottomBarClick(position: Int): Boolean {

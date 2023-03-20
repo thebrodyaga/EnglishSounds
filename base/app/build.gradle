@@ -3,9 +3,10 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyBaseAndroidModule(this)
 
 dependencies {
+    implementation rxJava
     implementation project(":base:di")
     implementation project(":analytics")
-    implementation rxJava
+    implementation project(path: ':core:uiUtils')
     applyPlatformNavigation(this)
     applyMoxy(this)
     firebaseBom(this)

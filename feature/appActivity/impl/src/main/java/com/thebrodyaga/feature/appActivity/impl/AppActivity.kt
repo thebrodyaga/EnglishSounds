@@ -53,12 +53,7 @@ class AppActivity : BaseActivity() {
     private val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
-    private var navigationBar: Int = 0
-    private var primaryDark: Int = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        navigationBar = ContextCompat.getColor(this, R.color.navigation_bar)
-        primaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark)
         AppActivityComponent.factory(findDependencies()).inject(this)
         isLightSystem(isSystemDarkMode())
         super.onCreate(savedInstanceState)
@@ -94,8 +89,8 @@ class AppActivity : BaseActivity() {
     private fun isLightSystem(isDarkTheme: Boolean?) {
         if (isDarkTheme == null)
             return
-        window.statusBarColor = primaryDark
-        window.navigationBarColor = if (!isDarkTheme) navigationBar else primaryDark
+//        window.statusBarColor = primaryDark
+//        window.navigationBarColor = if (!isDarkTheme) navigationBar else primaryDark
 
         val view = window.decorView
 
