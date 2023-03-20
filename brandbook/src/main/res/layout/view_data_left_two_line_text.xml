@@ -9,7 +9,7 @@
     tools:layout_width="match_parent"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <com.google.android.material.textview.MaterialTextView
+    <com.thebrodyaga.brandbook.component.text.AppTextView
         android:id="@+id/dataLeftTwoLineFirst"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         app:layout_goneMarginStart="0dp"
         tools:text="Title" />
 
-    <com.google.android.material.textview.MaterialTextView
+    <com.thebrodyaga.brandbook.component.text.AppTextView
         android:id="@+id/dataLeftTwoLineSecond"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

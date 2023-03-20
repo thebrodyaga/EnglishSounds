@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textview.MaterialTextView
+    <com.thebrodyaga.brandbook.component.text.AppTextView
         android:id="@+id/dataLeftIconTwoLineFirst"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         app:layout_goneMarginStart="0dp"
         tools:text="Title" />
 
-    <com.google.android.material.textview.MaterialTextView
+    <com.thebrodyaga.brandbook.component.text.AppTextView
         android:id="@+id/dataLeftIconTwoLineSecond"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

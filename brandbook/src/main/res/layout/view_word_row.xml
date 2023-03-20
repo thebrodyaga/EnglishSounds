@@ -8,7 +8,7 @@
     android:padding="12dp"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <com.google.android.material.textview.MaterialTextView
+    <com.thebrodyaga.brandbook.component.text.AppTextView
         android:id="@+id/wordRowText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

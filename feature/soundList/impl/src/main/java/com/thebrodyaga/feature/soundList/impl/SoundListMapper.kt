@@ -69,7 +69,7 @@ class SoundListMapper @Inject constructor() {
             leftSide = DataLeftUiModel.TwoLineText(
                     firstLineText = TextViewUiModel.Raw(
                             text = TextContainer.Res(soundType.humanName()),
-                            textAppearance = R.attr.textAppearanceHeadline4,
+                            textAppearance = R.attr.textAppearanceHeadlineLarge,
                             maxLines = 2,
                     )
             )

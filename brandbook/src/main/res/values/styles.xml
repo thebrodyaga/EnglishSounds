@@ -11,5 +11,21 @@
         <item name="staticColorRControlledVowelsSounds">@color/r_controlled_vowels</item>
         <item name="staticColorVowelSounds">@color/vowel_sounds</item>
         <item name="staticColorWhite">@android:color/white</item>
+
+        <item name="textAppearanceDisplayLarge">@style/AppMaterial.TextAppearance.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/AppMaterial.TextAppearance.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/AppMaterial.TextAppearance.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/AppMaterial.TextAppearance.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/AppMaterial.TextAppearance.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/AppMaterial.TextAppearance.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/AppMaterial.TextAppearance.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/AppMaterial.TextAppearance.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/AppMaterial.TextAppearance.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/AppMaterial.TextAppearance.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/AppMaterial.TextAppearance.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/AppMaterial.TextAppearance.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/AppMaterial.TextAppearance.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/AppMaterial.TextAppearance.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/AppMaterial.TextAppearance.LabelSmall</item>
     </style>
 </resources>

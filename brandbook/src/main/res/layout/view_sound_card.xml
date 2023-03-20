@@ -13,12 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.textview.MaterialTextView
+        <com.thebrodyaga.brandbook.component.text.AppTextView
             android:id="@+id/soundCardSound"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:paddingBottom="6dp"
             android:textAppearance="?attr/textAppearanceTitleLarge"
             app:layout_constraintBottom_toTopOf="@+id/soundCardWord"
             app:layout_constraintDimensionRatio="h,1:1"
@@ -30,7 +29,7 @@
             tools:text="æ"
             tools:textColor="?attr/colorOnPrimaryContainer" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <com.thebrodyaga.brandbook.component.text.AppTextView
             android:id="@+id/soundCardWord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
