@@ -136,13 +136,11 @@ class MainFragment : FlowFragment() {
                 add(R.id.fragment_container, createTabFragment(fragmentTag), fragmentTag)
             currentFragment?.let {
                 hide(it)
-                it.userVisibleHint = false
             }
             newFragment?.let {
                 show(it)
-                it.userVisibleHint = true
             }
-        }.commitNow()
+        }.commit()
     }
 
     private fun createTabFragment(tag: String): Fragment =

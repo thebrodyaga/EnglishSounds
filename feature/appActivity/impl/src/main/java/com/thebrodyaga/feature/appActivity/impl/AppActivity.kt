@@ -1,11 +1,11 @@
 package com.thebrodyaga.feature.appActivity.impl
 
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.Task
+import com.google.android.material.color.DynamicColors
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
@@ -54,6 +54,7 @@ class AppActivity : BaseActivity() {
         get() = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        DynamicColors.applyToActivityIfAvailable(this);
         AppActivityComponent.factory(findDependencies()).inject(this)
         isLightSystem(isSystemDarkMode())
         super.onCreate(savedInstanceState)
