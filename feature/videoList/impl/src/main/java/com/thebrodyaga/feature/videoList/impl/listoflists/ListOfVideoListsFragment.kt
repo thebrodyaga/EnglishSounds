@@ -83,7 +83,6 @@ class ListOfVideoListsFragment : ScreenFragment() {
                 R.dimen.ad_item_in_vertical_horizontal_offset
             )
         )
-        binding.toolbar.setOnMenuItemClickListener(this)
         viewModel.getState()
             .filterIsInstance<ListOfVideoListsState.Content>()
             .onEach { adapter.setData(it.list) }

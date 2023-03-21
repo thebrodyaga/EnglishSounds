@@ -36,7 +36,7 @@ abstract class FlowFragment : ScreenFragment() {
 
     val localRouter: Router get() = getCicerone().router
 
-    private fun getCicerone(): Cicerone<Router> = TODO()
+    private fun getCicerone(): Cicerone<Router> = Cicerone.create()
 
     override fun onResume() {
         super.onResume()

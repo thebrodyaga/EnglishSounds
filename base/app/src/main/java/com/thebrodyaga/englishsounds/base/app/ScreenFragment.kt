@@ -1,22 +1,29 @@
 package com.thebrodyaga.englishsounds.base.app
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import com.thebrodyaga.base.navigation.api.AppRouter
 import com.thebrodyaga.base.navigation.impl.GetRouter
 import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
 import com.thebrodyaga.core.uiUtils.insets.consume
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
 import com.thebrodyaga.core.uiUtils.insets.systemAndIme
+import com.thebrodyaga.englishsounds.base.di.AppDependencies
+import com.thebrodyaga.englishsounds.base.di.findDependencies
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import moxy.MvpAppCompatFragment
 
-abstract class ScreenFragment : MvpAppCompatFragment(), GetRouter, Toolbar.OnMenuItemClickListener {
+abstract class ScreenFragment : MvpAppCompatFragment(), GetRouter {
+
+    val appRouter: AppRouter by lazy {
+        findDependencies<AppDependencies>().appRouter()
+    }
     override val fragment: Fragment
         get() = this
 
@@ -26,6 +33,11 @@ abstract class ScreenFragment : MvpAppCompatFragment(), GetRouter, Toolbar.OnMen
 
     protected fun unSubscribeOnDestroy(disposable: Disposable) {
         compositeDisposable.add(disposable)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback { onBackPressed() }
     }
 
     override fun onCreateView(
@@ -53,21 +65,7 @@ abstract class ScreenFragment : MvpAppCompatFragment(), GetRouter, Toolbar.OnMen
         compositeDisposable.clear()
     }
 
-    /**
-     * закрыть фрагмент
-     */
     open fun onBackPressed() {
-        getAnyRouter().exit()
-    }
-
-    override fun onMenuItemClick(item: MenuItem): Boolean {
-        /*return when (item.itemId) {
-            R.id.settings -> {
-                getGlobalRouter().navigateTo(Screens.SettingsScreen)
-                true
-            }
-            else -> false
-        }*/
-        return true
+        parentFragmentManager.popBackStack()
     }
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.thebrodyaga.base.navigation.api.RouterProvider
 import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
 import com.thebrodyaga.brandbook.component.sound.SoundCardUiModel
 import com.thebrodyaga.brandbook.component.sound.soundCardDelegate
@@ -51,6 +52,9 @@ class SoundsListFragment : ScreenFragment() {
     lateinit var detailsScreenFactory: SoundDetailsScreenFactory
 
     @Inject
+    lateinit var routerProvider: RouterProvider
+
+    @Inject
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
 
     @Inject
@@ -69,7 +73,7 @@ class SoundsListFragment : ScreenFragment() {
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        SoundListComponent.factory(findDependencies()).inject(this)
+        SoundListComponent.factory(this).inject(this)
         super.onCreate(savedInstanceState)
     }
 
@@ -86,7 +90,6 @@ class SoundsListFragment : ScreenFragment() {
                 R.dimen.ad_item_in_vertical_horizontal_offset
             )
         )
-        binding.toolbar.setOnMenuItemClickListener(this)
 
         viewModel.getState()
             .filterIsInstance<SoundsListState.Content>()

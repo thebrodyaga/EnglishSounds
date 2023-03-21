@@ -5,9 +5,12 @@ import com.thebrodyaga.base.navigation.api.AppRouter
 import com.thebrodyaga.base.navigation.api.RouterProvider
 import com.thebrodyaga.base.navigation.api.container.FlowContainer
 import com.thebrodyaga.base.navigation.api.container.TabContainer
-import javax.inject.Inject
 
-class RouterProviderImpl @Inject constructor(
+fun Fragment.routerProvider(appRouter: AppRouter): RouterProvider =
+    RouterProviderImpl(this, appRouter)
+
+
+class RouterProviderImpl constructor(
     fragment: Fragment,
     override val appRouter: AppRouter
 ) : RouterProvider {

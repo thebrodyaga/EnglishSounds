@@ -60,7 +60,6 @@ class SoundsTrainingFragment : ScreenFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setOnMenuItemClickListener(this)
         binding.playIcon.setRecordVoice(audioPlayer)
         showFab(isShow = true, autoHide = false)
 //        include_ad.setAd(item, nativeAdLoader)
