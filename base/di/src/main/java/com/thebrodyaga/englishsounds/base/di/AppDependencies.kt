@@ -2,7 +2,6 @@ package com.thebrodyaga.englishsounds.base.di
 
 import androidx.fragment.app.Fragment
 import android.app.Activity
-import com.thebrodyaga.base.navigation.api.LocalCiceroneHolder
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.api.cicerone.Router
 
@@ -19,6 +18,5 @@ interface ComponentHolder {
 interface AppDependencies {
 
     fun getRouter(): Router
-    fun getLocalCiceroneHolder(): LocalCiceroneHolder
     fun getNavigatorHolder(): NavigatorHolder
 }

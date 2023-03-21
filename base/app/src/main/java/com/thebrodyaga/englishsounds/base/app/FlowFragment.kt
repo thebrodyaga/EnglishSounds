@@ -33,12 +33,10 @@ abstract class FlowFragment : BaseFragment() {
      */
     protected abstract fun getContainerName(): String
 
-    private fun getCiceroneHolder() = BaseApp.component.getLocalCiceroneHolder()
 
     val localRouter: Router get() = getCicerone().router
 
-    private fun getCicerone(): Cicerone<Router> =
-        getCiceroneHolder().getCicerone(getContainerName())
+    private fun getCicerone(): Cicerone<Router> = TODO()
 
     override fun onResume() {
         super.onResume()
