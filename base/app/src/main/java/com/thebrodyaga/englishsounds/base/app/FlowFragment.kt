@@ -9,7 +9,7 @@ import com.thebrodyaga.core.navigation.impl.cicerone.AppNavigator
  * фрагмент контейнер для вложенной навигации, тут храниться локальный роутер,
  * тут скоупы открыать и закрывать
  */
-abstract class FlowFragment : BaseFragment() {
+abstract class FlowFragment : ScreenFragment() {
 
     private val navigator: Navigator by lazy {
         object : AppNavigator(requireActivity(), getContainerId(), childFragmentManager) {
@@ -23,8 +23,8 @@ abstract class FlowFragment : BaseFragment() {
         }
     }
 
-    protected open val currentFragment: BaseFragment?
-        get() = childFragmentManager.findFragmentById(getContainerId()) as? BaseFragment
+    protected open val currentFragment: ScreenFragment?
+        get() = childFragmentManager.findFragmentById(getContainerId()) as? ScreenFragment
 
     protected abstract fun getContainerId(): Int
 

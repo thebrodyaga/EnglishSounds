@@ -16,7 +16,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import moxy.MvpAppCompatFragment
 
-abstract class BaseFragment : MvpAppCompatFragment(), GetRouter, Toolbar.OnMenuItemClickListener {
+abstract class ScreenFragment : MvpAppCompatFragment(), GetRouter, Toolbar.OnMenuItemClickListener {
     override val fragment: Fragment
         get() = this
 

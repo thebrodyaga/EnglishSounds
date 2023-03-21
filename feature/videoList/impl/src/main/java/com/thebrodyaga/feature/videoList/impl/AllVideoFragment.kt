@@ -5,13 +5,13 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.databinding.FragmentAllVideoBinding
 import com.thebrodyaga.feature.videoList.impl.list.VideoListFragment
 import com.thebrodyaga.legacy.titleRes
 
-class AllVideoFragment : BaseFragment() {
+class AllVideoFragment : ScreenFragment() {
 
     private val showPage: VideoListType by lazy {
         VideoListType.valueOf(

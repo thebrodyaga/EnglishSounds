@@ -9,7 +9,7 @@ import android.os.Bundle
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
-import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class VideoListFragment : BaseFragment() {
+class VideoListFragment : ScreenFragment() {
 
     @Inject
     lateinit var soundDetailsScreenFactory: SoundDetailsScreenFactory

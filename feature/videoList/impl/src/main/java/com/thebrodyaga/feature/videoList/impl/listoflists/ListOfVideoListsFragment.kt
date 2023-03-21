@@ -16,10 +16,9 @@ import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
 import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
 import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoListItem
-import com.thebrodyaga.legacy.SoundsListItem
 import com.thebrodyaga.legacy.VideoListItem
 import com.thebrodyaga.legacy.AdItemDecorator
-import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
@@ -28,8 +27,6 @@ import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.R
 import com.thebrodyaga.feature.videoList.impl.databinding.FragmentListOfVideoListsBinding
 import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
-import com.thebrodyaga.feature.videoList.impl.list.VideoListState
-import com.thebrodyaga.feature.videoList.impl.list.VideoListViewModel
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.adapters.SoundsAdapter
 import moxy.presenter.InjectPresenter
@@ -39,7 +36,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class ListOfVideoListsFragment : BaseFragment() {
+class ListOfVideoListsFragment : ScreenFragment() {
 
     private lateinit var adapter: SoundsAdapter
 

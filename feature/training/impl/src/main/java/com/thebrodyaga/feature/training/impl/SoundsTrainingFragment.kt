@@ -10,7 +10,7 @@ import android.os.Bundle
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
-import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
@@ -20,15 +20,13 @@ import com.thebrodyaga.feature.training.impl.databinding.FragmentWordBinding
 import com.thebrodyaga.feature.training.impl.di.TrainingComponent
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import java.io.File
 import javax.inject.Inject
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class SoundsTrainingFragment : BaseFragment() {
+class SoundsTrainingFragment : ScreenFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_sounds_training
 
     @Inject
@@ -118,7 +116,7 @@ class SoundsTrainingFragment : BaseFragment() {
         }
     }
 
-    private class PageAdapter(fragment: BaseFragment) : FragmentStateAdapter(fragment) {
+    private class PageAdapter(fragment: ScreenFragment) : FragmentStateAdapter(fragment) {
         override fun createFragment(position: Int): Fragment =
             WordFragment.newInstance(list[position].name)
 
@@ -132,7 +130,7 @@ class SoundsTrainingFragment : BaseFragment() {
         }
     }
 
-    class WordFragment : BaseFragment() {
+    class WordFragment : ScreenFragment() {
         override fun getLayoutId(): Int = R.layout.fragment_word
         private val binding by viewBinding(FragmentWordBinding::bind)
 

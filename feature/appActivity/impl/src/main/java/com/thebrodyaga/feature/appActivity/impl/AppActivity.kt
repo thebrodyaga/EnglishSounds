@@ -15,7 +15,7 @@ import com.thebrodyaga.core.navigation.api.cicerone.Router
 import com.thebrodyaga.core.navigation.impl.cicerone.AppNavigator
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
-import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.appActivity.impl.di.AppActivityComponent
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
@@ -81,7 +81,7 @@ class AppActivity : BaseActivity() {
     override fun onBackPressed() {
         val currentFragment = this.currentFragment
 
-        if (currentFragment is BaseFragment)
+        if (currentFragment is ScreenFragment)
             currentFragment.onBackPressed()
         else
             super.onBackPressed()

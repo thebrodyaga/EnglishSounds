@@ -5,14 +5,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.core.uiUtils.appbarBottomPadding
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
-import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
@@ -22,14 +21,12 @@ import com.thebrodyaga.feature.soundDetails.impl.databinding.FragmentSoundBindin
 import com.thebrodyaga.feature.soundDetails.impl.di.SoundDetailsComponent
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class SoundFragment : BaseFragment() {
+class SoundFragment : ScreenFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_sound
 
     @Inject

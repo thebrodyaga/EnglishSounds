@@ -7,7 +7,7 @@ import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.jakewharton.rxbinding3.widget.checkedChanges
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
-import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.setting.api.CurrentTheme
@@ -16,7 +16,7 @@ import com.thebrodyaga.feature.setting.impl.databinding.FragmentSettingsBinding
 import com.thebrodyaga.feature.setting.impl.di.SettingComponent
 import javax.inject.Inject
 
-class SettingsFragment : BaseFragment() {
+class SettingsFragment : ScreenFragment() {
 
     @Inject
     lateinit var settingManager: SettingManager

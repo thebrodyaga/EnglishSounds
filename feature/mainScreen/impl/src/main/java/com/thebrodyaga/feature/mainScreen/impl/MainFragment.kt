@@ -12,7 +12,7 @@ import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
 import com.thebrodyaga.core.uiUtils.insets.ime
 import com.thebrodyaga.core.uiUtils.insets.systemBars
-import com.thebrodyaga.englishsounds.base.app.BaseFragment
+import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.FlowFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
@@ -38,8 +38,8 @@ class MainFragment : FlowFragment() {
 
     override fun getLayoutId(): Int = R.layout.fragment_main
 
-    override val currentFragment: BaseFragment?
-        get() = childFragmentManager.fragments.firstOrNull { !it.isHidden } as? BaseFragment
+    override val currentFragment: ScreenFragment?
+        get() = childFragmentManager.fragments.firstOrNull { !it.isHidden } as? ScreenFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         MainScreenComponent.factory(findDependencies()).inject(this)
