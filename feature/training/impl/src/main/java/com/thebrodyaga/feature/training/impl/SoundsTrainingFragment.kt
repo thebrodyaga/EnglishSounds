@@ -26,8 +26,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class SoundsTrainingFragment : ScreenFragment() {
-    override fun getLayoutId(): Int = R.layout.fragment_sounds_training
+class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training) {
 
     @Inject
     lateinit var audioPlayer: AudioPlayer
@@ -129,8 +128,7 @@ class SoundsTrainingFragment : ScreenFragment() {
         }
     }
 
-    class WordFragment : ScreenFragment() {
-        override fun getLayoutId(): Int = R.layout.fragment_word
+    class WordFragment : ScreenFragment(R.layout.fragment_word) {
         private val binding by viewBinding(FragmentWordBinding::bind)
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

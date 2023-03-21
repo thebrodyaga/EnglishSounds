@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class VideoListFragment : ScreenFragment() {
+class VideoListFragment : ScreenFragment(R.layout.fragment_video_list) {
 
     @Inject
     lateinit var soundDetailsScreenFactory: SoundDetailsScreenFactory
@@ -58,8 +58,6 @@ class VideoListFragment : ScreenFragment() {
                 calculateNoOfColumns(requireContext(), R.dimen.card_video_width)
             )
     }
-
-    override fun getLayoutId(): Int = R.layout.fragment_video_list
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

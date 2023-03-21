@@ -1,9 +1,9 @@
 package com.thebrodyaga.feature.setting.impl
 
-import androidx.core.view.isGone
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
+import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.jakewharton.rxbinding3.widget.checkedChanges
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
@@ -16,7 +16,7 @@ import com.thebrodyaga.feature.setting.impl.databinding.FragmentSettingsBinding
 import com.thebrodyaga.feature.setting.impl.di.SettingComponent
 import javax.inject.Inject
 
-class SettingsFragment : ScreenFragment() {
+class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
 
     @Inject
     lateinit var settingManager: SettingManager
@@ -25,8 +25,6 @@ class SettingsFragment : ScreenFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: SettingsViewModel by viewModels { viewModelFactory }
-
-    override fun getLayoutId(): Int = R.layout.fragment_settings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         SettingComponent.factory(findDependencies()).inject(this)

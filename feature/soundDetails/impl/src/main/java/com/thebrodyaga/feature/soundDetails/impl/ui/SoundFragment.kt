@@ -26,8 +26,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class SoundFragment : ScreenFragment() {
-    override fun getLayoutId(): Int = R.layout.fragment_sound
+class SoundFragment : ScreenFragment(R.layout.fragment_sound) {
 
     @Inject
     lateinit var soundsRepository: SoundsRepository

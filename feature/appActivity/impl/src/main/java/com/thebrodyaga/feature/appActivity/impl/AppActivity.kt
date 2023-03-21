@@ -78,15 +78,6 @@ class AppActivity : BaseActivity() {
         audioPlayer.onAppHide()
     }
 
-    override fun onBackPressed() {
-        val currentFragment = this.currentFragment
-
-        if (currentFragment is ScreenFragment)
-            currentFragment.onBackPressed()
-        else
-            super.onBackPressed()
-    }
-
     private fun isLightSystem(isDarkTheme: Boolean?) {
         if (isDarkTheme == null)
             return

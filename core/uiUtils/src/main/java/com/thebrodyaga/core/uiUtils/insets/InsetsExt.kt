@@ -20,11 +20,11 @@ inline fun Insets.consume(block: Insets.() -> Unit = {}): WindowInsetsCompat {
 }
 
 fun View.appleTopInsets(insets: Insets) {
-    appleInsetPadding(top = insets.top)
+    appleInsetPadding(top = insets.top, left = insets.left, right = insets.right)
 }
 
 fun View.appleBottomInsets(insets: Insets) {
-    appleInsetPadding(bottom = insets.bottom)
+    appleInsetPadding(bottom = insets.bottom, left = insets.left, right = insets.right)
 }
 
 fun View.appleInsetPadding(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {

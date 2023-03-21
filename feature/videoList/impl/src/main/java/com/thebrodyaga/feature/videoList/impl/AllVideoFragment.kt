@@ -11,7 +11,7 @@ import com.thebrodyaga.feature.videoList.impl.databinding.FragmentAllVideoBindin
 import com.thebrodyaga.feature.videoList.impl.list.VideoListFragment
 import com.thebrodyaga.legacy.titleRes
 
-class AllVideoFragment : ScreenFragment() {
+class AllVideoFragment : ScreenFragment(R.layout.fragment_all_video) {
 
     private val showPage: VideoListType by lazy {
         VideoListType.valueOf(
@@ -25,8 +25,6 @@ class AllVideoFragment : ScreenFragment() {
         VideoListType.RControlledVowels, VideoListType.ConsonantSounds
     )
     private val binding by viewBinding(FragmentAllVideoBinding::bind)
-
-    override fun getLayoutId(): Int = R.layout.fragment_all_video
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

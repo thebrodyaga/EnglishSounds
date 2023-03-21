@@ -1,42 +1,40 @@
 package com.thebrodyaga.feature.videoList.impl.listoflists
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.os.Bundle
-import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
+import com.thebrodyaga.englishsounds.base.app.ScreenFragment
+import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
+import com.thebrodyaga.englishsounds.base.di.findDependencies
+import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
+import com.thebrodyaga.feature.videoList.api.VideoListType
+import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
+import com.thebrodyaga.feature.videoList.impl.R
+import com.thebrodyaga.feature.videoList.impl.databinding.FragmentListOfVideoListsBinding
+import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
+import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
+import com.thebrodyaga.legacy.AdItemDecorator
 import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
 import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
 import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoListItem
 import com.thebrodyaga.legacy.VideoListItem
-import com.thebrodyaga.legacy.AdItemDecorator
-import com.thebrodyaga.englishsounds.base.app.ScreenFragment
-import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
-import com.thebrodyaga.englishsounds.base.di.findDependencies
-import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
-import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
-import com.thebrodyaga.feature.videoList.api.VideoListType
-import com.thebrodyaga.feature.videoList.impl.R
-import com.thebrodyaga.feature.videoList.impl.databinding.FragmentListOfVideoListsBinding
-import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
-import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.adapters.SoundsAdapter
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
-import javax.inject.Inject
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class ListOfVideoListsFragment : ScreenFragment() {
+class ListOfVideoListsFragment : ScreenFragment(R.layout.fragment_list_of_video_lists) {
 
     private lateinit var adapter: SoundsAdapter
 
@@ -54,8 +52,6 @@ class ListOfVideoListsFragment : ScreenFragment() {
     private val viewModel: ListOfVideoListsViewModel by viewModels { viewModelFactory }
 
     private val binding by viewBinding(FragmentListOfVideoListsBinding::bind)
-
-    override fun getLayoutId(): Int = R.layout.fragment_list_of_video_lists
 
     override fun onCreate(savedInstanceState: Bundle?) {
         VideoListComponent.factory(findDependencies(), null).inject(this)

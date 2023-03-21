@@ -42,17 +42,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class SoundsListFragment : ScreenFragment() {
-
-    override fun getLayoutId(): Int = R.layout.fragment_sounds_list
+class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
 
     private val binding by viewBinding(FragmentSoundsListBinding::bind)
 
     @Inject
     lateinit var detailsScreenFactory: SoundDetailsScreenFactory
-
-    @Inject
-    lateinit var routerProvider: RouterProvider
 
     @Inject
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
