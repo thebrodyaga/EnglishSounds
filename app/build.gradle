@@ -86,7 +86,6 @@ dependencies {
     implementation adapterDelegates
 //    implementation exoPlayer
     implementation googleAds
-    implementation rxJava
     implementation timber
     implementation exoPlayer
     implementation flowPermission

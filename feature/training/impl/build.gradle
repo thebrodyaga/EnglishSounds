@@ -4,7 +4,6 @@ applyFeatureImplModule(this)
 
 dependencies {
     applyDagger(this)
-    implementation rxJava
     implementation timber
     implementation project(":feature:training:api")
     implementation project(":feature:audioPlayer:api")

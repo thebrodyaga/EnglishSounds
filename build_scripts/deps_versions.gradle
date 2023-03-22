@@ -98,14 +98,6 @@ ext {
     lottie = "com.airbnb.android:lottie:5.2.0"
     dynamicanimation = "androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03"
 
-    rxJava = [
-            'io.reactivex.rxjava2:rxjava:2.2.12',
-            'io.reactivex.rxjava2:rxandroid:2.1.1',
-            'com.jakewharton.rxrelay2:rxrelay:2.1.0',
-            'com.jakewharton.rxbinding3:rxbinding:3.0.0',
-            'com.jakewharton.rxbinding3:rxbinding-core:3.0.0',
-    ]
-
     timber = 'com.jakewharton.timber:timber:4.7.1'
 
     //premissions

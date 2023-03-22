@@ -3,7 +3,6 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyBaseAndroidModule(this)
 
 dependencies {
-    implementation rxJava
     implementation project(":base:di")
     implementation project(":analytics")
     implementation project(path: ':core:uiUtils')

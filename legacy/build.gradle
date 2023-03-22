@@ -11,6 +11,5 @@ dependencies {
     implementation project(':brandbook')
     implementation googleAds
     implementation timber
-    implementation rxJava
     implementation adapterDelegates
 }

@@ -7,6 +7,5 @@ dependencies {
     implementation project(":feature:setting:api")
     implementation project(":core:uiUtils")
     implementation timber
-    implementation rxJava
     implementation baseNetworkDependencies
 }

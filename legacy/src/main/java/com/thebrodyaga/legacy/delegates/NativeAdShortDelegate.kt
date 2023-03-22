@@ -14,6 +14,4 @@ fun videoNativeShortAdDelegate(
     bind {
         binding.adRootView.setAd(item, nativeAdLoader, adapterPosition)
     }
-
-    onViewRecycled { binding.adRootView.dispose() }
 }

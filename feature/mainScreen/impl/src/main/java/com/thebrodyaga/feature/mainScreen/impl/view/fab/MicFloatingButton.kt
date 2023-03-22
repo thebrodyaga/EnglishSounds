@@ -1,6 +1,5 @@
 package com.thebrodyaga.feature.mainScreen.impl.view.fab
 
-import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.Context
 import android.util.AttributeSet
@@ -8,13 +7,13 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.thebrodyaga.core.uiUtils.view.viewScope
 import com.thebrodyaga.feature.audioPlayer.api.RecordState
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.impl.R
 import dev.shreyaspatil.permissionFlow.PermissionFlow
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -33,9 +32,7 @@ class MicFloatingButton @JvmOverloads constructor(
             }
             field = value
         }
-    private val compositeDisposable = CompositeDisposable()
     private val permissionFlow = PermissionFlow.getInstance()
-//    private val rxPermissions = RxPermissions(this.let { it.context as FragmentActivity })
 
     private val micIcon =
         ContextCompat.getDrawable(context, R.drawable.ic_mic) ?: throw IllegalArgumentException()
@@ -68,11 +65,10 @@ class MicFloatingButton @JvmOverloads constructor(
     }
 
     private fun subscribeOnRecordFileChange(recordVoice: RecordVoice) {
-        compositeDisposable.add(recordVoice.stateSubject
-            .distinctUntilChanged()
-            .subscribe { state: RecordState ->
+        recordVoice.state
+            .onEach { state: RecordState ->
                 setViewMode(state)
-            })
+            }.launchIn(viewScope)
     }
 
     private fun setViewMode(state: RecordState) {
@@ -114,11 +110,6 @@ class MicFloatingButton @JvmOverloads constructor(
         setColorFilter(accentColor, android.graphics.PorterDuff.Mode.SRC_IN)
         setOnClickListener(onStartRecordClick)
         setOnLongClickListener(null)
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        compositeDisposable.clear()
     }
 
     fun observePermission() {

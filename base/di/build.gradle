@@ -5,4 +5,5 @@ applyBaseAndroidModule(this)
 dependencies {
     implementation project(":core:navigation:api")
     implementation project(":base:navigation:api")
+    implementation project(":core:utils")
 }

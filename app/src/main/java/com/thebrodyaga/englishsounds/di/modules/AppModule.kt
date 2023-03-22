@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.thebrodyaga.core.utils.coroutines.AppScope
 import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
@@ -15,6 +16,10 @@ import javax.inject.Singleton
 
 @Module
 class AppModule {
+
+    @Provides
+    @Singleton
+    fun appScope(): AppScope = AppScope()
 
     @Provides
     @Singleton

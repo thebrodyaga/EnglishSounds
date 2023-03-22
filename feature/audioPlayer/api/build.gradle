@@ -4,5 +4,4 @@ applyFeatureApiModule(this)
 
 dependencies {
     implementation exoPlayer
-    implementation rxJava
 }

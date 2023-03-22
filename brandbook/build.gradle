@@ -3,7 +3,6 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
 
 dependencies {
-    implementation rxJava
     implementation timber
     implementation exoPlayer
     implementation googleAds

@@ -8,21 +8,25 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.doOnAttach
 import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import com.google.android.material.card.MaterialCardView
+import com.thebrodyaga.core.uiUtils.view.viewScope
 import com.thebrodyaga.legacy.databinding.ViewAdVerticalShortBinding
 import com.thebrodyaga.legacy.utils.CompositeAdLoader
-import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class AdVerticalShortView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : MaterialCardView(context, attrs, defStyleAttr) {
 
     private val constraintSet = ConstraintSet()
-    private var disposable: Disposable? = null
+    private var nativeAdLoaderJob: Job? = null
     val binding by viewBinding(ViewAdVerticalShortBinding::bind)
 
     init {
@@ -49,37 +53,31 @@ class AdVerticalShortView @JvmOverloads constructor(
         }
     }
 
-    fun dispose() {
-        disposable?.dispose()
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        dispose()
-    }
-
     fun setAd(
         ad: ShortAdItem,
         nativeAdLoader: CompositeAdLoader,
         adapterPosition: Int? = null
     ) {
-        disposable?.dispose()
-        disposable = nativeAdLoader.getLoader(ad.adTag, adapterPosition, ad.customTag)
-            .adsObservable
-            .subscribe { adBox ->
-                constraintSet.clone(binding.adContainer)
-                adBox.ad?.let {
-                    setEmptyView(false)
-                    /*if (it.mediaContent != null) {
-                        constraintSet.setVisibility(ad_view.mediaView.id, ConstraintSet.VISIBLE)
-                    } else constraintSet.setVisibility(ad_view.mediaView.id, ConstraintSet.GONE)*/
-                    populateNativeAdView(it, binding.adView)
-                } ?: kotlin.run {
-                    setEmptyView(true)
+        nativeAdLoaderJob?.cancel()
+        doOnAttach {
+            nativeAdLoaderJob = nativeAdLoader.getLoader(ad.adTag, adapterPosition, ad.customTag)
+                .adBoxFlow
+                .onEach { adBox ->
+                    constraintSet.clone(binding.adContainer)
+                    adBox.ad?.let {
+                        setEmptyView(false)
+                        /*if (it.mediaContent != null) {
+                            constraintSet.setVisibility(ad_view.mediaView.id, ConstraintSet.VISIBLE)
+                        } else constraintSet.setVisibility(ad_view.mediaView.id, ConstraintSet.GONE)*/
+                        populateNativeAdView(it, binding.adView)
+                    } ?: kotlin.run {
+                        setEmptyView(true)
+                    }
+                    TransitionManager.beginDelayedTransition(binding.adContainer)
+                    constraintSet.applyTo(binding.adContainer)
                 }
-                TransitionManager.beginDelayedTransition(binding.adContainer)
-                constraintSet.applyTo(binding.adContainer)
-            }
+                .launchIn(viewScope)
+        }
     }
 
     private fun setEmptyView(isEmpty: Boolean) {

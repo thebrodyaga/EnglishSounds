@@ -2,12 +2,14 @@ package com.thebrodyaga.feature.audioPlayer.impl
 
 import android.content.Context
 import android.media.MediaRecorder
-import com.google.android.exoplayer2.Player
-import com.jakewharton.rxrelay2.BehaviorRelay
-import com.jakewharton.rxrelay2.Relay
+import com.thebrodyaga.core.utils.coroutines.AppScope
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.RecordState
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -15,18 +17,21 @@ import javax.inject.Inject
 
 class RecordVoiceImpl @Inject constructor(
     private val audioPlayer: AudioPlayer,
-    private val context: Context
+    private val context: Context,
+    private val appScope: AppScope,
 ) : RecordVoice {
 
     private var currentState = RecordState.EMPTY
     private var myAudioRecorder: MediaRecorder? = null
     private var outputFile = File(context.filesDir, "recording.m4a")
-    override val stateSubject: Relay<RecordState> = BehaviorRelay.createDefault(RecordState.EMPTY)
+    override val state: MutableStateFlow<RecordState> = MutableStateFlow(RecordState.EMPTY)
 
     init {
-        val state = stateSubject
-            .doOnNext { Timber.i(it.toString()) }
-            .subscribe { currentState = it }
+        state
+            .onEach { Timber.i(it.toString()) }
+            .onEach { currentState = it }
+            .catch { }
+            .launchIn(appScope)
         outputFile.createNewFile()
     }
 
@@ -35,13 +40,13 @@ class RecordVoiceImpl @Inject constructor(
             prepareRecord()
         try {
             myAudioRecorder?.start()
-            stateSubject.accept(RecordState.RECORDING)
+            state.value = (RecordState.RECORDING)
         } catch (e: RuntimeException) {
             // RuntimeException is thrown when stop() is called immediately after start().
             // In this case the output file is not properly constructed ans should be deleted.
             Timber.d("RuntimeException: start() is throw exception)")
             releaseMediaRecorder()
-            stateSubject.accept(RecordState.EMPTY)
+            state.value = (RecordState.EMPTY)
         }
     }
 
@@ -49,26 +54,26 @@ class RecordVoiceImpl @Inject constructor(
         if (currentState == RecordState.RECORDING) {
             try {
                 myAudioRecorder?.stop()  // stop the recording
-                stateSubject.accept(RecordState.AUDIO)
+                state.value = (RecordState.AUDIO)
             } catch (e: RuntimeException) {
                 // RuntimeException is thrown when stop() is called immediately after start().
                 // In this case the output file is not properly constructed ans should be deleted.
                 Timber.d("RuntimeException: stop() is called immediately after start()")
                 releaseMediaRecorder()
-                stateSubject.accept(RecordState.EMPTY)
+                state.value = (RecordState.EMPTY)
             }
         }
     }
 
     override fun clearRecord() {
         audioPlayer.stopPlay()
-        stateSubject.accept(RecordState.EMPTY)
+        state.value = (RecordState.EMPTY)
     }
 
     override fun playRecord() {
         if (outputFile.exists())
             audioPlayer.playAudio(outputFile) { isPlaying ->
-                stateSubject.accept(if (isPlaying) RecordState.PLAYING_AUDIO else RecordState.AUDIO)
+                state.value = (if (isPlaying) RecordState.PLAYING_AUDIO else RecordState.AUDIO)
             }
     }
 

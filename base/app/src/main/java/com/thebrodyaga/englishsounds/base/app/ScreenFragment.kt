@@ -19,15 +19,8 @@ abstract class ScreenFragment(layoutId: Int) : MvpAppCompatFragment(layoutId) {
 
     protected val routerProvider by lazy { createRouterProvider() }
 
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-
     @Deprecated("")
     fun getAnyRouter() = routerProvider.anyRouter
-
-    @Deprecated("")
-    protected fun unSubscribeOnDestroy(disposable: Disposable) {
-        compositeDisposable.add(disposable)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,11 +40,6 @@ abstract class ScreenFragment(layoutId: Int) : MvpAppCompatFragment(layoutId) {
                 view.appleInsetPadding(left = left, top = top, right = right, bottom = bottom)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        compositeDisposable.clear()
     }
 
     private fun registerBackPressedDispatcher() {

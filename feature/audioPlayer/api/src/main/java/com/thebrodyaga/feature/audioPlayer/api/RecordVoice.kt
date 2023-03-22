@@ -1,6 +1,6 @@
 package com.thebrodyaga.feature.audioPlayer.api
 
-import com.jakewharton.rxrelay2.Relay
+import kotlinx.coroutines.flow.StateFlow
 
 interface RecordVoice {
     fun onAppHide()
@@ -10,7 +10,7 @@ interface RecordVoice {
     fun clearRecord()
     fun stopRecord()
     fun startRecord()
-    val stateSubject: Relay<RecordState>
+    val state: StateFlow<RecordState>
 }
 
 

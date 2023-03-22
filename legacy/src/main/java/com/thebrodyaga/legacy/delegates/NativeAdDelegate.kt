@@ -1,20 +1,24 @@
 package com.thebrodyaga.legacy.delegates
 
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.doOnAttach
+import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
+import com.thebrodyaga.core.uiUtils.view.viewScope
 import com.thebrodyaga.legacy.AdItem
 import com.thebrodyaga.legacy.databinding.ItemAdHorizontalListBinding
 import com.thebrodyaga.legacy.databinding.ItemAdVerticalListBinding
 import com.thebrodyaga.legacy.utils.CompositeAdLoader
-import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 fun videoNativeAdDelegate(
     compositeAdLoader: CompositeAdLoader,
@@ -30,7 +34,7 @@ private fun videoHorizontalNativeAdDelegate(
     { layoutInflater, root -> ItemAdHorizontalListBinding.inflate(layoutInflater, root, false) }
 ) {
 
-    var disposable: Disposable? = null
+    var adLoaderJob: Job? = null
     val constraintSet = ConstraintSet()
     binding.adView.apply {
         // The MediaView will display a video asset if one is present in the ad, and the
@@ -106,27 +110,31 @@ private fun videoHorizontalNativeAdDelegate(
             adView.setNativeAd(nativeAd)
         }
 
-        disposable?.dispose()
-        disposable = compositeAdLoader.getLoader(item.adTag, adapterPosition, item.customTag)
-            .adsObservable
-            .subscribe { adBox ->
-                constraintSet.clone(binding.adContainer)
-                adBox.ad?.let {
-                    setEmptyView(false)
-                    if (it.mediaContent != null) {
-                        constraintSet.setVisibility(binding.adView.mediaView.id, ConstraintSet.VISIBLE)
-                        setDimensionRatio(it.mediaContent.aspectRatio.toString())
-                    } else constraintSet.setVisibility(binding.adView.mediaView.id, ConstraintSet.GONE)
-                    populateNativeAdView(it, binding.adView)
-                } ?: kotlin.run {
-                    setEmptyView(true)
+        adLoaderJob?.cancel()
+        binding.root.doOnAttach {
+
+            adLoaderJob = compositeAdLoader.getLoader(item.adTag, adapterPosition, item.customTag)
+                .adBoxFlow
+                .onEach { adBox ->
+                    constraintSet.clone(binding.adContainer)
+                    adBox.ad?.let {
+                        setEmptyView(false)
+                        if (it.mediaContent != null) {
+                            constraintSet.setVisibility(binding.adView.mediaView.id, ConstraintSet.VISIBLE)
+                            setDimensionRatio(it.mediaContent.aspectRatio.toString())
+                        } else constraintSet.setVisibility(binding.adView.mediaView.id, ConstraintSet.GONE)
+                        populateNativeAdView(it, binding.adView)
+                    } ?: kotlin.run {
+                        setEmptyView(true)
+                    }
+                    TransitionManager.beginDelayedTransition(binding.adContainer)
+                    constraintSet.applyTo(binding.adContainer)
                 }
-                TransitionManager.beginDelayedTransition(binding.adContainer)
-                constraintSet.applyTo(binding.adContainer)
-            }
+                .launchIn(it.viewScope)
+        }
     }
 
-    onViewRecycled { disposable?.dispose() }
+    onViewRecycled { adLoaderJob?.cancel() }
 }
 
 private fun videoVerticalNativeAdDelegate(
@@ -136,7 +144,7 @@ private fun videoVerticalNativeAdDelegate(
     { layoutInflater, root -> ItemAdVerticalListBinding.inflate(layoutInflater, root, false) }
 ) {
 
-    var disposable: Disposable? = null
+    var adLoaderJob: Job? = null
     val constraintSet = ConstraintSet()
     binding.adView.apply {
         // The MediaView will display a video asset if one is present in the ad, and the
@@ -212,25 +220,28 @@ private fun videoVerticalNativeAdDelegate(
             adView.setNativeAd(nativeAd)
         }
 
-        disposable?.dispose()
-        disposable = compositeAdLoader.getLoader(item.adTag, adapterPosition, item.customTag)
-            .adsObservable
-            .subscribe { adBox ->
-                constraintSet.clone(binding.adContainer)
-                adBox.ad?.let {
-                    setEmptyView(false)
-                    if (it.mediaContent != null) {
-                        constraintSet.setVisibility(binding.adView.mediaView.id, ConstraintSet.VISIBLE)
-                        setDimensionRatio(it.mediaContent.aspectRatio.toString())
-                    } else constraintSet.setVisibility(binding.adView.mediaView.id, ConstraintSet.GONE)
-                    populateNativeAdView(it, binding.adView)
-                } ?: kotlin.run {
-                    setEmptyView(true)
+        adLoaderJob?.cancel()
+        binding.root.doOnAttach {
+            adLoaderJob = compositeAdLoader.getLoader(item.adTag, adapterPosition, item.customTag)
+                .adBoxFlow
+                .onEach { adBox ->
+                    constraintSet.clone(binding.adContainer)
+                    adBox.ad?.let {
+                        setEmptyView(false)
+                        if (it.mediaContent != null) {
+                            constraintSet.setVisibility(binding.adView.mediaView.id, ConstraintSet.VISIBLE)
+                            setDimensionRatio(it.mediaContent.aspectRatio.toString())
+                        } else constraintSet.setVisibility(binding.adView.mediaView.id, ConstraintSet.GONE)
+                        populateNativeAdView(it, binding.adView)
+                    } ?: kotlin.run {
+                        setEmptyView(true)
+                    }
+                    TransitionManager.beginDelayedTransition(binding.adContainer)
+                    constraintSet.applyTo(binding.adContainer)
                 }
-                TransitionManager.beginDelayedTransition(binding.adContainer)
-                constraintSet.applyTo(binding.adContainer)
-            }
+                .launchIn(it.viewScope)
+        }
     }
 
-    onViewRecycled { disposable?.dispose() }
+    onViewRecycled { adLoaderJob?.cancel() }
 }

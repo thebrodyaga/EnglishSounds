@@ -3,6 +3,5 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyDataApiModule(this)
 
 dependencies {
-    implementation rxJava
     implementation baseNetworkDependencies
 }

@@ -20,6 +20,8 @@ ext {
         module.dependencies {
             implementation project(":base:app")
             implementation project(":base:di")
+            implementation project(":core:utils")
+            implementation project(":core:uiUtils")
         }
     }
 

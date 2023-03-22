@@ -6,6 +6,6 @@ dependencies {
     applyDagger(this)
     implementation exoPlayer
     implementation timber
-    implementation rxJava
     implementation project(":feature:audioPlayer:api")
+    implementation project(":core:utils")
 }

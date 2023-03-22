@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.jakewharton.rxbinding3.widget.checkedChanges
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
@@ -33,7 +32,7 @@ class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { getAnyRouter().exit() }
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         setThemeSetting()
     }
 
@@ -49,11 +48,13 @@ class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
                 binding.systemTheme.isChecked = true
                 binding.isDarkTheme.isGone = (true)
             }
+
             CurrentTheme.DARK -> {
                 binding.systemTheme.isChecked = false
                 binding.isDarkTheme.isGone = (false)
                 binding.isDarkTheme.isChecked = true
             }
+
             CurrentTheme.LIGHT -> {
                 binding.systemTheme.isChecked = false
                 binding.isDarkTheme.isGone = false
@@ -61,17 +62,13 @@ class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
             }
         }
 
-        unSubscribeOnDestroy(
-            binding.systemTheme.checkedChanges()
-                .skipInitialValue()
-                .subscribe { onSystemThemeListener.invoke(it) }
-        )
+        binding.systemTheme.setOnCheckedChangeListener { _, isChecked ->
+            onSystemThemeListener.invoke(isChecked)
+        }
 
-        unSubscribeOnDestroy(
-            binding.isDarkTheme.checkedChanges()
-                .skipInitialValue()
-                .subscribe { onIsDarkThemeListener.invoke(it) }
-        )
+        binding.isDarkTheme.setOnCheckedChangeListener { _, isChecked ->
+            onIsDarkThemeListener.invoke(isChecked)
+        }
     }
 
     private val onSystemThemeListener = { isChecked: Boolean ->

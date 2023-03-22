@@ -13,7 +13,6 @@ dependencies {
     implementation project(":legacy")
     implementation project(":brandbook")
     implementation googleAds
-    implementation rxJava
     implementation timber
 
     //RecyclerView-animators todo
