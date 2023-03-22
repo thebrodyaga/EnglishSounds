@@ -50,7 +50,7 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
             position > -1
         }
         binding.bottomNavigation.setOnItemReselectedListener {
-            (currentFragment as? TabContainerFragment)?.tabRouter?.backTo(null)
+            (currentFragment as? TabContainerFragment)?.tabRouter?.resetTabStack()
         }
         if (childFragmentManager.findFragmentById(R.id.fragment_container) == null)
             onBottomBarClick(FIRST_MAIN_PAGE.first)

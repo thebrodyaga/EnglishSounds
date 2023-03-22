@@ -18,7 +18,7 @@ interface RouterProvider {
     fun finishFlow() {
         when (val router = anyRouter) {
             is FeatureRouter -> router.finishFeature()
-            is TabRouter -> router.backToRoot()
+            is TabRouter -> router.resetTabStack()
             else -> router.finishChain()
         }
     }
