@@ -2,8 +2,9 @@ package com.thebrodyaga.feature.mainScreen.impl
 
 import android.os.Bundle
 import android.view.View
-import com.thebrodyaga.base.navigation.api.AppRouter
+import com.thebrodyaga.base.navigation.api.router.AppRouter
 import com.thebrodyaga.base.navigation.api.container.TabContainer
+import com.thebrodyaga.base.navigation.api.router.TabRouter
 import com.thebrodyaga.base.navigation.impl.FlowNavigator
 import com.thebrodyaga.core.navigation.api.cicerone.Cicerone
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
@@ -31,9 +32,9 @@ class TabContainerFragment : ScreenFragment(R.layout.layout_fragemnt_container),
     }
     private val containerId = R.id.fragment_container
     private val navigator: Navigator by lazy { FlowNavigator(this, containerId, routerProvider) }
-    private val cicerone = Cicerone.create(AppRouter())
+    private val cicerone = Cicerone.create(TabRouter())
 
-    override val tabRouter: AppRouter = cicerone.router
+    override val tabRouter: TabRouter = cicerone.router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         MainScreenComponent.factory(findDependencies()).inject(this)

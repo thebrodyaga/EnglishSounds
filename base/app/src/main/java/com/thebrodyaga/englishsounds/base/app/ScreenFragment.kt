@@ -3,8 +3,8 @@ package com.thebrodyaga.englishsounds.base.app
 import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
-import com.thebrodyaga.base.navigation.api.AppRouter
-import com.thebrodyaga.base.navigation.impl.routerProvider
+import com.thebrodyaga.base.navigation.api.router.AppRouter
+import com.thebrodyaga.base.navigation.impl.createRouterProvider
 import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
 import com.thebrodyaga.core.uiUtils.insets.consume
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
@@ -17,11 +17,7 @@ import moxy.MvpAppCompatFragment
 
 abstract class ScreenFragment(layoutId: Int) : MvpAppCompatFragment(layoutId) {
 
-    val appRouter: AppRouter by lazy {
-        findDependencies<AppDependencies>().appRouter()
-    }
-
-    protected val routerProvider by lazy { routerProvider(appRouter) }
+    protected val routerProvider by lazy { createRouterProvider() }
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 

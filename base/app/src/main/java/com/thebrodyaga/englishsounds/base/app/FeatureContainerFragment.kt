@@ -1,7 +1,7 @@
 package com.thebrodyaga.englishsounds.base.app
 
-import com.thebrodyaga.base.navigation.api.AppRouter
 import com.thebrodyaga.base.navigation.api.container.FeatureContainer
+import com.thebrodyaga.base.navigation.api.router.FeatureRouter
 import com.thebrodyaga.base.navigation.impl.FlowNavigator
 import com.thebrodyaga.core.navigation.api.cicerone.Cicerone
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
@@ -9,9 +9,9 @@ import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 abstract class FeatureContainerFragment(layoutId: Int) : ScreenFragment(layoutId), FeatureContainer {
 
     private val navigator: Navigator by lazy { FlowNavigator(this, containerId, routerProvider) }
-    private val cicerone = Cicerone.create(AppRouter())
+    private val cicerone = Cicerone.create(FeatureRouter())
 
-    override val featureRouter: AppRouter = cicerone.router
+    override val featureRouter: FeatureRouter = cicerone.router
     abstract val containerId: Int
 
     override fun onResume() {

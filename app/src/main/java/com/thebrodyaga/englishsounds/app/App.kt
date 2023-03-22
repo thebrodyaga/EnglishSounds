@@ -1,6 +1,5 @@
 package com.thebrodyaga.englishsounds.app
 
-import androidx.appcompat.app.AppCompatDelegate
 import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -9,7 +8,6 @@ import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.base.app.BaseApp
 import com.thebrodyaga.englishsounds.di.AppComponent
 import com.thebrodyaga.englishsounds.di.DaggerAppComponent
-import com.thebrodyaga.feature.setting.api.CurrentTheme
 import com.thebrodyaga.feature.setting.api.SettingManager
 import dev.shreyaspatil.permissionFlow.PermissionFlow
 import timber.log.Timber
@@ -21,13 +19,15 @@ class App : BaseApp() {
     @Inject
     lateinit var settingManager: SettingManager
 
-    override val appComponent: AppComponent = DaggerAppComponent.builder()
-        .application(this)
-        .build()
-        .also { component = it }
+    private val appComponent: AppComponent by lazy {
+        DaggerAppComponent.builder()
+            .application(this)
+            .build()
+            .also { component = it }
+    }
 
     override fun onCreate() {
-        app = this
+        Companion.appComponent = this.appComponent
         appComponent.inject(this)
         super.onCreate()
         PermissionFlow.init(this)
@@ -66,8 +66,6 @@ class App : BaseApp() {
 
     companion object {
         @Deprecated("delete")
-        val appComponent: AppComponent
-            get() = app.appComponent
-        lateinit var app: App
+        lateinit var appComponent: AppComponent
     }
 }

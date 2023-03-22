@@ -1,7 +1,7 @@
 package com.thebrodyaga.feature.soundList.impl.di
 
 import com.thebrodyaga.base.navigation.api.RouterProvider
-import com.thebrodyaga.base.navigation.impl.routerProvider
+import com.thebrodyaga.base.navigation.impl.createRouterProvider
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
@@ -37,7 +37,7 @@ interface SoundListComponent {
             return DaggerSoundListComponent.factory()
                 .create(
                     dependencies = fragment.findDependencies(),
-                    routerProvider = fragment.routerProvider(fragment.appRouter)
+                    routerProvider = fragment.createRouterProvider()
                 )
         }
     }

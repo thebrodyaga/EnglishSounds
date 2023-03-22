@@ -1,7 +1,7 @@
 package com.thebrodyaga.base.navigation.api.container
 
-import com.thebrodyaga.base.navigation.api.AppRouter
+import com.thebrodyaga.base.navigation.api.router.TabRouter
 
 interface TabContainer {
-    val tabRouter: AppRouter
+    val tabRouter: TabRouter
 }
