@@ -6,7 +6,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
-import com.thebrodyaga.core.navigation.api.cicerone.Router
+import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.R
 import com.thebrodyaga.legacy.SoundHeader
@@ -25,7 +25,7 @@ fun videoListItemDelegate(
     lifecycle: Lifecycle,
     compositeAdLoader: CompositeAdLoader,
     youtubeScreenFactory: YoutubeScreenFactory,
-    router: Router,
+    router: CiceroneRouter,
 ) = adapterDelegateViewBinding<VideoListItem, Any, ItemVideoListBinding>(
     { layoutInflater, root -> ItemVideoListBinding.inflate(layoutInflater, root, false) }
 ) {

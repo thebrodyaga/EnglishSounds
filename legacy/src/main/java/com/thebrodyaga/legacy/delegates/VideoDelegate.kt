@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
-import com.thebrodyaga.core.navigation.api.cicerone.Router
+import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
@@ -32,7 +32,7 @@ fun videoItemDelegate(
     getColor: (context: Context, colorRes: Int) -> ColorStateList?,
     onSoundClick: (transcription: String) -> Unit,
     youtubeScreenFactory: YoutubeScreenFactory,
-    router: Router,
+    router: CiceroneRouter,
 ) = adapterDelegateViewBinding<VideoItem, Any, ItemYoutubeVideoBinding>(
     { layoutInflater, root -> ItemYoutubeVideoBinding.inflate(layoutInflater, root, false) }
 ) {

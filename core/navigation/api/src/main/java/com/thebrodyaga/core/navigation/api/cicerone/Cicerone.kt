@@ -7,7 +7,7 @@ package com.thebrodyaga.core.navigation.api.cicerone
  *
  * When you need a [NavigatorHolder] or router, get it here.
  *
- * @param router type of router. You can use the default [Router] or pass your own [BaseRouter] implementation.
+ * @param router type of router. You can use the default [CiceroneRouter] or pass your own [BaseRouter] implementation.
  */
 class Cicerone<T : BaseRouter> private constructor(val router: T) {
 
@@ -15,10 +15,10 @@ class Cicerone<T : BaseRouter> private constructor(val router: T) {
 
     companion object {
         /**
-         * Creates the Cicerone instance with the default [Router]
+         * Creates the Cicerone instance with the default [CiceroneRouter]
          */
         @JvmStatic
-        fun create() = create(Router())
+        fun create() = create(CiceroneRouter())
 
         /**
          * Creates the Cicerone instance with the custom router.

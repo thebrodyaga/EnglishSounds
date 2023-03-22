@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
-import com.thebrodyaga.core.navigation.api.cicerone.Router
+import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.AdItem
 import com.thebrodyaga.legacy.ShortAdItem
@@ -23,7 +23,7 @@ class VideoListAdapter constructor(
     compositeAdLoader: CompositeAdLoader,
     @RecyclerView.Orientation orientation: Int = RecyclerView.HORIZONTAL,
     youtubeScreenFactory: YoutubeScreenFactory,
-    router: Router,
+    router: CiceroneRouter,
 ) : AbsDelegationAdapter<List<Any>>() {
 
     private var viewCache: SoundItemViewCache? = null

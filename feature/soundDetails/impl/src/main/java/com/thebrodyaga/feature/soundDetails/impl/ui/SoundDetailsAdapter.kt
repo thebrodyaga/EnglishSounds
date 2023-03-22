@@ -14,7 +14,7 @@ import android.widget.TextView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.formats.NativeAdOptions
-import com.thebrodyaga.core.navigation.api.cicerone.Router
+import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.data.sounds.api.model.SpellingWordDto
@@ -36,7 +36,7 @@ import timber.log.Timber
 import java.io.File
 
 class SoundDetailsAdapter(
-    private val router: Router,
+    private val router: CiceroneRouter,
     private val youtubeScreenFactory: YoutubeScreenFactory,
     private val audioPlayer: AudioPlayer,
     context: Context,

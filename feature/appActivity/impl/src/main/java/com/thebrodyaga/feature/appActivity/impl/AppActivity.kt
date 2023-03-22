@@ -15,8 +15,8 @@ import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
-import com.thebrodyaga.core.navigation.api.cicerone.Router
-import com.thebrodyaga.core.navigation.impl.cicerone.AppNavigator
+import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
+import com.thebrodyaga.core.navigation.impl.cicerone.CiceroneNavigator
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
@@ -35,7 +35,7 @@ import javax.inject.Inject
 class AppActivity : BaseActivity() {
 
     @Inject
-    lateinit var router: Router
+    lateinit var router: CiceroneRouter
 
     @Inject
     lateinit var recordVoice: RecordVoice
@@ -58,7 +58,7 @@ class AppActivity : BaseActivity() {
     private lateinit var reviewManager: ReviewManager
     private var reviewInfo: Task<ReviewInfo>? = null
     private val navigator: Navigator =
-        AppNavigator(this, R.id.fragment_container, supportFragmentManager)
+        CiceroneNavigator(this, R.id.fragment_container, supportFragmentManager)
 
     private val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_container)

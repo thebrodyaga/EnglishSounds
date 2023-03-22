@@ -1,5 +1,5 @@
 package com.thebrodyaga.base.navigation.api.router
 
-import com.thebrodyaga.core.navigation.api.cicerone.Router
+import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
 
-open class AppRouter : Router()
+open class AppRouter : CiceroneRouter()

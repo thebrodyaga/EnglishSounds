@@ -22,7 +22,7 @@ import com.thebrodyaga.core.navigation.api.cicerone.Screen
  *
  * Recommendation: most useful for Single-Activity application.
  */
-open class AppNavigator @JvmOverloads constructor(
+open class CiceroneNavigator @JvmOverloads constructor(
     protected val activity: FragmentActivity,
     protected val containerId: Int,
     protected val fragmentManager: FragmentManager = activity.supportFragmentManager,

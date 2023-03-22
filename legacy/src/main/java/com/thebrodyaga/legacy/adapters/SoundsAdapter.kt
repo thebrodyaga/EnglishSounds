@@ -12,7 +12,7 @@ import android.graphics.Typeface
 import android.view.View
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
-import com.thebrodyaga.core.navigation.api.cicerone.Router
+import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.AdItem
@@ -37,7 +37,7 @@ class SoundsAdapter constructor(
     lifecycle: Lifecycle,
     context: Context,
     youtubeScreenFactory: YoutubeScreenFactory,
-    router: Router,
+    router: CiceroneRouter,
 ) : AsyncListDifferDelegationAdapter<Any>(DiffCallback()) {
 
 
