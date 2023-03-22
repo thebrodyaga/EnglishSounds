@@ -13,10 +13,10 @@ import com.google.android.material.color.DynamicColors
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.thebrodyaga.base.navigation.impl.AppNavigator
+import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
-import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
-import com.thebrodyaga.core.navigation.impl.cicerone.CiceroneNavigator
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
@@ -58,7 +58,7 @@ class AppActivity : BaseActivity() {
     private lateinit var reviewManager: ReviewManager
     private var reviewInfo: Task<ReviewInfo>? = null
     private val navigator: Navigator =
-        CiceroneNavigator(this, R.id.fragment_container, supportFragmentManager)
+        AppNavigator(this, R.id.fragment_container, supportFragmentManager)
 
     private val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_container)
@@ -87,7 +87,7 @@ class AppActivity : BaseActivity() {
     }
 
     private fun newRootScreen() {
-        val mainScreen = mainScreenFactory.mainScreen() as FragmentScreen
+        val mainScreen = mainScreenFactory.mainScreen()
         val fragment = mainScreen.createFragment(supportFragmentManager.fragmentFactory)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment, mainScreen.screenKey)

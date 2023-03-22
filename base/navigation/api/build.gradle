@@ -1,7 +1,8 @@
 apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
-applyBaseModule(this)
+baseAndroidModule(this)
 
 dependencies {
     implementation project(":core:navigation:api")
+    implementation project(":core:navigation:impl")
 }

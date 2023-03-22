@@ -1,14 +1,17 @@
 package com.thebrodyaga.feature.soundDetails.impl.ui
 
-import androidx.core.view.ViewCompat
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.os.Bundle
-import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.thebrodyaga.core.uiUtils.appbarBottomPadding
+import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
+import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
+import com.thebrodyaga.core.uiUtils.insets.consume
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
@@ -20,20 +23,22 @@ import com.thebrodyaga.feature.soundDetails.impl.R
 import com.thebrodyaga.feature.soundDetails.impl.databinding.FragmentSoundBinding
 import com.thebrodyaga.feature.soundDetails.impl.di.SoundDetailsComponent
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
-import javax.inject.Inject
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 class SoundFragment : ScreenFragment(R.layout.fragment_sound) {
 
     @Inject
     lateinit var soundsRepository: SoundsRepository
+
     @Inject
     lateinit var audioPlayer: AudioPlayer
+
     @Inject
     lateinit var settingManager: SettingManager
+
     @Inject
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
     private val binding by viewBinding(FragmentSoundBinding::bind)
@@ -58,10 +63,7 @@ class SoundFragment : ScreenFragment(R.layout.fragment_sound) {
         val context = view.context
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
-        binding.list.itemAnimator = SlideInUpAnimator().apply { addDuration = 300 }
-        ViewCompat.setTransitionName(binding.rootView, viewModel.transcription)
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
-        binding.list.appbarBottomPadding()
         viewModel.getState()
             .filterIsInstance<SoundState.Content>()
             .onEach { setData(it.list, it.soundDto) }
@@ -70,8 +72,18 @@ class SoundFragment : ScreenFragment(R.layout.fragment_sound) {
     }
 
     fun setData(list: List<Any>, soundDto: AmericanSoundDto) {
-        binding.toolbarTitle.text = soundDto.name.plus(" ").plus("[${soundDto.transcription}]")
-        binding.rootView.post { adapter.setData(list) }
+        binding.toolbar.title = soundDto.name.plus(" ").plus("[${soundDto.transcription}]")
+        // todo
+        adapter.setData(list)
+    }
+
+    override fun applyWindowInsets(rootView: View) {
+        rootView.doOnApplyWindowInsets { _, insets, _ ->
+            insets.systemAndIme().consume {
+                binding.appbar.appleTopInsets(this)
+                binding.list.appleBottomInsets(this)
+            }
+        }
     }
 
     override fun onBackPressed() {

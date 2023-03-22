@@ -1,18 +1,17 @@
 package com.thebrodyaga.englishsounds.base.app
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.addCallback
-import com.thebrodyaga.base.navigation.api.router.AppRouter
+import androidx.core.view.ViewCompat
+import com.thebrodyaga.base.navigation.impl.AppNavigator.Companion.ARG_TRANSITION_NAME
 import com.thebrodyaga.base.navigation.impl.createRouterProvider
 import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
 import com.thebrodyaga.core.uiUtils.insets.consume
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
 import com.thebrodyaga.core.uiUtils.insets.systemAndIme
-import com.thebrodyaga.englishsounds.base.di.AppDependencies
-import com.thebrodyaga.englishsounds.base.di.findDependencies
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import moxy.MvpAppCompatFragment
 
 abstract class ScreenFragment(layoutId: Int) : MvpAppCompatFragment(layoutId) {
@@ -21,6 +20,18 @@ abstract class ScreenFragment(layoutId: Int) : MvpAppCompatFragment(layoutId) {
 
     @Deprecated("")
     fun getAnyRouter() = routerProvider.anyRouter
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        setTransitionName(view)
+        return view
+    }
+
+    private fun setTransitionName(rootView: View?) {
+        rootView ?: return
+        val transitionName = arguments?.getString(ARG_TRANSITION_NAME) ?: return
+        ViewCompat.setTransitionName(rootView, transitionName);
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

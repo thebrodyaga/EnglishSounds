@@ -2,6 +2,7 @@ package com.thebrodyaga.feature.soundList.impl
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -9,11 +10,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.thebrodyaga.base.navigation.api.RouterProvider
+import com.thebrodyaga.base.navigation.api.FragmentTransactionBox
+import com.thebrodyaga.base.navigation.api.fragmentTransactionBox
 import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
 import com.thebrodyaga.brandbook.component.sound.SoundCardUiModel
 import com.thebrodyaga.brandbook.component.sound.soundCardDelegate
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
+import com.thebrodyaga.brandbook.utils.text.TextViewUiModel
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
 import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
 import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
@@ -25,7 +28,6 @@ import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
-import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.soundList.impl.databinding.FragmentSoundsListBinding
 import com.thebrodyaga.feature.soundList.impl.di.SoundListComponent
@@ -59,11 +61,16 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
     private val maxColumns: Int by lazy { calculateNoOfColumns(requireContext(), R.dimen.card_sound_width) }
     private var spanSizeLookup = SpanSizeLookup()
     private var adapter = CommonAdapter(
-        soundCardDelegate(inflateListener = {
-            it.setOnClickAction { _, item ->
-                onSoundClick(item)
+        soundCardDelegate(
+            inflateListener = { cardView ->
+                cardView.setOnClickAction { _, item ->
+                    onSoundClick(item, cardView)
+                }
+            },
+            bindListener = { view, item ->
+                ViewCompat.setTransitionName(view, (item.transcription as TextViewUiModel.Raw).text.toString())
             }
-        }),
+        ),
         dataViewCommonDelegate(),
     )
 
@@ -102,10 +109,13 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
         }
     }
 
-    private fun onSoundClick(model: SoundCardUiModel) {
+    private fun onSoundClick(
+        model: SoundCardUiModel,
+        view: View,
+    ) {
         val sound = model.payload as? AmericanSoundDto ?: return
         getAnyRouter().navigateTo(
-            detailsScreenFactory.soundDetailsScreen(sound.transcription),
+            detailsScreenFactory.soundDetailsScreen(sound.transcription, view.fragmentTransactionBox),
         )
 
         val bundle = Bundle()

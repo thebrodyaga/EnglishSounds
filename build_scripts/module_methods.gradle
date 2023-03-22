@@ -4,9 +4,10 @@ ext {
 
     //--------------Feature------------------------------------
     applyFeatureApiModule = { module ->
-        baseNativeModule(module)
+        baseAndroidModule(module)
         module.dependencies {
             implementation project(":core:navigation:api")
+            implementation project(":base:navigation:api")
         }
     }
 

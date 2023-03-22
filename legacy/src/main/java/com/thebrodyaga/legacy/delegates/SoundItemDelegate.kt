@@ -83,7 +83,6 @@ class SoundItemVH constructor(
 
     fun bind(item: AmericanSoundDto) = with(itemView) {
         this@SoundItemVH.item = item
-        ViewCompat.setTransitionName(itemView, item.transcription)
         val maxWordLength = word.width / (singleCharMaxWight()?.toInt() ?: 1)
         sound.text = item.transcription
         word.text = item.spellingWordList.filter { it.name.length <= maxWordLength }.let {

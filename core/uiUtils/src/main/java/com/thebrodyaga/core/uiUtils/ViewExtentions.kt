@@ -19,15 +19,6 @@ fun Context.isSystemDarkMode(): Boolean? {
     }
 }
 
-fun View.appbarBottomPadding() {
-    val tv = TypedValue()
-    if (context.theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-        val actionBarHeight =
-            TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
-        setPadding(paddingLeft, paddingTop, paddingRight, actionBarHeight)
-    }
-}
-
 fun ViewGroup.inflate(@LayoutRes res: Int, attachToRoot: Boolean = false) =
     LayoutInflater.from(context).inflate(res, this, attachToRoot)
 

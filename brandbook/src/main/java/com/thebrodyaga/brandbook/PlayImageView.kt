@@ -1,10 +1,10 @@
 package com.thebrodyaga.brandbook
 
-import androidx.core.content.ContextCompat
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View.OnClickListener
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
