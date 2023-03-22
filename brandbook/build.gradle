@@ -6,6 +6,7 @@ dependencies {
     implementation timber
     implementation exoPlayer
     implementation googleAds
+    implementation splashScreen
     implementation project(":feature:audioPlayer:api")
     implementation project(":core:uiUtils")
 }

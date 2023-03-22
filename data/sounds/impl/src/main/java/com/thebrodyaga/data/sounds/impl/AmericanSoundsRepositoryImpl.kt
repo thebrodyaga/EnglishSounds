@@ -7,20 +7,18 @@ import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.feature.setting.api.SettingManager
-import io.reactivex.Observable
-import io.reactivex.Single
-import timber.log.Timber
-import java.io.File
-import java.io.FileReader
-import java.io.IOException
-import java.util.*
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
+import java.io.File
+import java.io.FileReader
+import java.io.IOException
+import java.util.Collections
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 private const val AMERICAN_SOUNDS_ZIP_VERSION = 1
 

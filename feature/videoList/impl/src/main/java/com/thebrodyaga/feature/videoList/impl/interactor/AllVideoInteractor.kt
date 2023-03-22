@@ -1,12 +1,9 @@
 package com.thebrodyaga.feature.videoList.impl.interactor
 
-import com.thebrodyaga.data.sounds.api.model.SoundType
-import com.thebrodyaga.data.sounds.api.model.AdvancedExercisesVideoRes
-import com.thebrodyaga.data.sounds.api.model.ContrastingSoundVideoRes
-import com.thebrodyaga.data.sounds.api.model.MostCommonWordsVideoRes
-import com.thebrodyaga.data.sounds.api.model.SoundVideoRes
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
+import com.thebrodyaga.data.sounds.api.model.SoundType
+import com.thebrodyaga.data.sounds.api.model.SoundVideoRes
 import com.thebrodyaga.legacy.AdvancedExercisesVideoItem
 import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
 import com.thebrodyaga.legacy.ContrastingSoundVideoItem
@@ -16,17 +13,10 @@ import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoItem
 import com.thebrodyaga.legacy.SoundVideoListItem
 import com.thebrodyaga.legacy.VideoListItem
-import io.reactivex.Observable
-import io.reactivex.functions.Function4
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 
 class AllVideoInteractor constructor(

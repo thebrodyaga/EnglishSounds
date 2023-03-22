@@ -10,9 +10,9 @@
     <application
         android:name=".app.App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppMaterial"
         tools:ignore="GoogleAppIndexingWarning">
@@ -25,16 +25,15 @@
             android:theme="@style/AppTheme.Video"
             tools:targetApi="n" />
         <activity
-            android:name=".app.SplashActivity"
+            android:name="com.thebrodyaga.feature.appActivity.impl.AppActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.Launcher">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.thebrodyaga.feature.appActivity.impl.AppActivity" />
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"

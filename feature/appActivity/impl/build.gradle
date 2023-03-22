@@ -10,6 +10,7 @@ dependencies {
     implementation project(":feature:setting:api")
     implementation project(":feature:mainScreen:api")
     implementation googlePlayCore
+    implementation splashScreen
     implementation timber
     implementation exoPlayer
     applyDagger(this)

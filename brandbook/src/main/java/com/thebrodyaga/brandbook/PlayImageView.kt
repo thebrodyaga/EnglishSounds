@@ -8,7 +8,6 @@ import android.view.View.OnClickListener
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
-import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.io.File
 
@@ -19,7 +18,6 @@ class PlayImageView @JvmOverloads constructor(
     private var audioPlayer: AudioPlayer? = null
     var audioFile: File? = null
 
-    private val compositeDisposable = CompositeDisposable()
     private val playIcon =
         ContextCompat.getDrawable(context, R.drawable.ic_play) ?: throw IllegalArgumentException()
     private val stopPlayIcon =
@@ -64,11 +62,6 @@ class PlayImageView @JvmOverloads constructor(
 
     fun setRecordVoice(audioPlayer: AudioPlayer) {
         this.audioPlayer = audioPlayer
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        compositeDisposable.clear()
     }
 
     private enum class Mode {

@@ -1,5 +1,6 @@
 package com.thebrodyaga.feature.appActivity.impl.di
 
+import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.englishsounds.base.di.ActivityScope
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.feature.appActivity.impl.AppActivity
@@ -10,7 +11,8 @@ import com.thebrodyaga.feature.setting.api.SettingManager
 import dagger.Component
 
 @[ActivityScope Component(
-    dependencies = [AppActivityDependencies::class]
+    dependencies = [AppActivityDependencies::class],
+    modules = [AppActivityModule::class]
 )]
 interface AppActivityComponent {
 
@@ -37,4 +39,5 @@ interface AppActivityDependencies : AppDependencies {
     fun audioPlayer(): AudioPlayer
     fun settingManager(): SettingManager
     fun mainScreenFactory(): MainScreenFactory
+    fun soundsRepository(): SoundsRepository
 }

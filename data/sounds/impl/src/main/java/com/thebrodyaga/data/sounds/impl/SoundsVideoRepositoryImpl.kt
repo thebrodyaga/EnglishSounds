@@ -7,7 +7,6 @@ import com.thebrodyaga.data.sounds.api.model.ContrastingSoundVideoRes
 import com.thebrodyaga.data.sounds.api.model.MostCommonWordsVideoRes
 import com.thebrodyaga.data.sounds.api.model.SoundVideoRes
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
-import io.reactivex.Single
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow

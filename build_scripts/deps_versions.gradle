@@ -37,6 +37,8 @@ ext {
             "com.github.bumptech.glide:glide:4.13.0",
     ]
 
+    splashScreen = "androidx.core:core-splashscreen:1.0.0"
+
     viewBindinDdelegate = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6"
 
     junitVersion = '4.13.2'
