@@ -3,7 +3,7 @@
 
     <string name="main_menu_tab_first">Sounds</string>
     <string name="main_menu_tab_second">@string/videos</string>
-    <string name="main_menu_tab_third">Training</string>
+    <string name="main_menu_tab_third">Words</string>
     <string name="need_record_permission">Need record permission</string>
     <string name="vowel_sounds">Vowel Sounds</string>
     <string name="r_controlled_vowels">R-controlled vowels</string>

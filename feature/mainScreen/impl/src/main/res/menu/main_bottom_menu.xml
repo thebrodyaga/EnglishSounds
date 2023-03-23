@@ -11,8 +11,18 @@
         android:icon="@drawable/ic_menu_second"
         android:title="@string/main_menu_tab_second" />
     <item
+        android:id="@+id/main_menu_shadow"
+        android:enabled="false"
+        android:visible="true"
+        android:title="" />
+    <item
         android:id="@+id/main_menu_third"
         android:enabled="true"
         android:icon="@drawable/ic_menu_third"
         android:title="@string/main_menu_tab_third" />
+    <item
+        android:id="@+id/main_menu_fourth"
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_fourth"
+        android:title="@string/settings" />
 </menu>

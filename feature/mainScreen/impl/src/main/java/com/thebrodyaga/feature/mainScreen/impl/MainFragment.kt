@@ -2,14 +2,21 @@ package com.thebrodyaga.feature.mainScreen.impl
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.base.navigation.api.container.TabsContainer
 import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
 import com.thebrodyaga.core.uiUtils.insets.ime
-import com.thebrodyaga.core.uiUtils.insets.systemBars
+import com.thebrodyaga.core.uiUtils.insets.imeInsetType
+import com.thebrodyaga.core.uiUtils.insets.navigationBars
+import com.thebrodyaga.core.uiUtils.insets.navigationInsetType
+import com.thebrodyaga.core.uiUtils.resources.px
+import com.thebrodyaga.core.uiUtils.shape.shapeOutline
+import com.thebrodyaga.core.uiUtils.shape.shapeTopRounded
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
@@ -38,7 +45,7 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
+        binding.mainBottomNavigation.setOnItemSelectedListener { item ->
             val position = when (item.itemId) {
                 R.id.main_menu_first -> (0)
                 R.id.main_menu_second -> (1)
@@ -49,31 +56,43 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
                 onBottomBarClick(position)
             position > -1
         }
-        binding.bottomNavigation.setOnItemReselectedListener {
+        binding.mainBottomNavigation.setOnItemReselectedListener {
             (currentFragment as? TabContainerFragment)?.tabRouter?.resetTabStack()
         }
-        if (childFragmentManager.findFragmentById(R.id.fragment_container) == null)
+        binding.mainBottomAppBar.shapeOutline(shapeTopRounded(16f.px))
+        if (childFragmentManager.findFragmentById(R.id.mainFragmentContainer) == null)
             onBottomBarClick(FIRST_MAIN_PAGE.first)
-        binding.micButton.setRecordVoice(recordVoice)
+//        binding.micButton.setRecordVoice(recordVoice)
+//        binding.mainMicButton.setOnClickListener { it.showKeyboard() }
     }
 
     override fun applyWindowInsets(rootView: View) {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigation, null)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainBottomNavigation, null)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainBottomAppBar, null)
         rootView.doOnApplyWindowInsets { view, insets, initialPadding ->
-            val systemBars = insets.systemBars()
+            val navigationBars = insets.navigationBars()
             val ime = insets.ime()
-            val bottomNavigationHeight = binding.bottomNavigation.height
-            binding.bottomNavigation.appleInsetPadding(
-                left = systemBars.left,
-                top = 0,
-                right = systemBars.right,
-                bottom = systemBars.bottom
-            )
 
-            // check is keyboard overlay bottomNavigation
-            val bottomConsume = if (ime.bottom > bottomNavigationHeight) bottomNavigationHeight else ime.bottom
-            // remove from the bottom bottomNavigationHeight or low height ime
-            insets.inset(0, 0, 0, systemBars.bottom + bottomConsume)
+            binding.mainBottomNavigation.appleInsetPadding(0, 0, 0, navigationBars.bottom)
+
+            val newInsets = WindowInsetsCompat.Builder(insets)
+
+            val fabExtendHeight = binding.mainBottomAppBar.y - binding.mainMicButton.y
+            val appBarHeight = fabExtendHeight + binding.mainBottomAppBar.height
+
+            val newNavigationInsets = with(navigationBars) { Insets.of(left, top, right, appBarHeight.toInt()) }
+            newInsets.setInsets(navigationInsetType, newNavigationInsets)
+
+            if (insets.isVisible(imeInsetType)) {
+                val isKeyboardOverlay = ime.bottom > appBarHeight
+
+                val newImeBottom = if (isKeyboardOverlay) ime.bottom else 0
+                val newImeInsets = with(ime) { Insets.of(left, top, right, newImeBottom) }
+
+                newInsets.setInsets(imeInsetType, newImeInsets)
+            }
+
+            newInsets.build()
         }
     }
 
@@ -99,7 +118,7 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
             return
         childFragmentManager.beginTransaction().apply {
             if (newFragment == null)
-                add(R.id.fragment_container, createTabFragment(fragmentTag), fragmentTag)
+                add(R.id.mainFragmentContainer, createTabFragment(fragmentTag), fragmentTag)
             currentFragment?.let {
                 hide(it)
 //                detach(it)
@@ -114,7 +133,7 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
     override fun onBackPressed() {
         val currentTag = currentFragment?.tag ?: super.onBackPressed()
         if (currentTag != FIRST_MAIN_PAGE.second)
-            binding.bottomNavigation.selectedItemId = R.id.main_menu_first
+            binding.mainBottomNavigation.selectedItemId = R.id.main_menu_first
         else super.onBackPressed()
     }
 

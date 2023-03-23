@@ -7,12 +7,19 @@ import androidx.core.view.updatePadding
 import android.view.View
 import com.thebrodyaga.core.uiUtils.R
 
-val systemAndImeType: Int
+val systemAndImeInsetType: Int
     get() = WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime()
 
-fun WindowInsetsCompat.systemAndIme(): Insets = getInsets(systemAndImeType)
+val imeInsetType: Int
+    get() = WindowInsetsCompat.Type.ime()
+
+val navigationInsetType: Int
+    get() = WindowInsetsCompat.Type.navigationBars()
+
+fun WindowInsetsCompat.systemAndIme(): Insets = getInsets(systemAndImeInsetType)
 fun WindowInsetsCompat.ime(): Insets = getInsets(WindowInsetsCompat.Type.ime())
 fun WindowInsetsCompat.systemBars(): Insets = getInsets(WindowInsetsCompat.Type.systemBars())
+fun WindowInsetsCompat.navigationBars(): Insets = getInsets(WindowInsetsCompat.Type.navigationBars())
 
 inline fun Insets.consume(block: Insets.() -> Unit = {}): WindowInsetsCompat {
     block(this)

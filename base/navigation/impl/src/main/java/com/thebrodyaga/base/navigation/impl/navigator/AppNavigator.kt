@@ -25,11 +25,6 @@ open class AppNavigator(
     }
     private var transitionSetupDelegate: TransitionSetupDelegate = TransitionSetupDelegate()
 
-    init {
-        activity.findDependencies<AppDependencies>().getNavigatorHolder()
-    }
-
-
     override fun setupFragmentTransaction(
         screen: FragmentScreen,
         fragmentTransaction: FragmentTransaction,
