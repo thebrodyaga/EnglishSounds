@@ -2,10 +2,9 @@ package com.thebrodyaga.feature.mainScreen.impl
 
 import android.os.Bundle
 import android.view.View
-import com.thebrodyaga.base.navigation.api.router.AppRouter
 import com.thebrodyaga.base.navigation.api.container.TabContainer
 import com.thebrodyaga.base.navigation.api.router.TabRouter
-import com.thebrodyaga.base.navigation.impl.FlowNavigator
+import com.thebrodyaga.base.navigation.impl.navigator.FlowNavigator
 import com.thebrodyaga.core.navigation.api.cicerone.Cicerone
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment

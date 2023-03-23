@@ -2,7 +2,7 @@ package com.thebrodyaga.englishsounds.base.app
 
 import com.thebrodyaga.base.navigation.api.container.FeatureContainer
 import com.thebrodyaga.base.navigation.api.router.FeatureRouter
-import com.thebrodyaga.base.navigation.impl.FlowNavigator
+import com.thebrodyaga.base.navigation.impl.navigator.FlowNavigator
 import com.thebrodyaga.core.navigation.api.cicerone.Cicerone
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 

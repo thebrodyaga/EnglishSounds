@@ -1,4 +1,4 @@
-package com.thebrodyaga.base.navigation.impl
+package com.thebrodyaga.base.navigation.impl.navigator
 
 import android.graphics.Color
 import android.os.Bundle
@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialContainerTransform
+import com.thebrodyaga.base.navigation.impl.AppFragmentScreen
+import com.thebrodyaga.base.navigation.impl.R
 import com.thebrodyaga.base.navigation.impl.transition.SharedElementBox
 import com.thebrodyaga.core.navigation.impl.cicerone.CiceroneNavigator
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen

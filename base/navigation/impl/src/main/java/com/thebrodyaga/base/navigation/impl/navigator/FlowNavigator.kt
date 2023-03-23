@@ -1,4 +1,4 @@
-package com.thebrodyaga.base.navigation.impl
+package com.thebrodyaga.base.navigation.impl.navigator
 
 import androidx.fragment.app.Fragment
 import com.thebrodyaga.base.navigation.api.RouterProvider

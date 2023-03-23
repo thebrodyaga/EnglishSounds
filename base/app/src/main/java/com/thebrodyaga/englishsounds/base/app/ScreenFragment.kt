@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.view.ViewCompat
-import com.thebrodyaga.base.navigation.impl.AppNavigator.Companion.ARG_TRANSITION_NAME
+import com.thebrodyaga.base.navigation.impl.navigator.AppNavigator.Companion.ARG_TRANSITION_NAME
 import com.thebrodyaga.base.navigation.impl.createRouterProvider
 import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
 import com.thebrodyaga.core.uiUtils.insets.consume
