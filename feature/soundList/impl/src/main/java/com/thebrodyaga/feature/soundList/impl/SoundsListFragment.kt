@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.thebrodyaga.base.navigation.api.FragmentTransactionBox
 import com.thebrodyaga.base.navigation.api.fragmentTransactionBox
 import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
 import com.thebrodyaga.brandbook.component.sound.SoundCardUiModel

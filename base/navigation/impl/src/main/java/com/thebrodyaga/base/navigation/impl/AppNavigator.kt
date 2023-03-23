@@ -53,17 +53,15 @@ open class AppNavigator(
         val sharedElementName = transactionBox.sharedElementName
 
         val context = currentFragment.requireContext()
-        val transform = MaterialContainerTransform(context,  /* entering= */true)
-
-        transform.startContainerColor = Color.TRANSPARENT
-        transform.endContainerColor = MaterialColors.getColor(sharedElement, R.attr.colorSurface)
-        transform.containerColor = MaterialColors.getColor(sharedElement, R.attr.colorSurface)
-
-        transform.drawingViewId = containerId
-
-        transform.startView = sharedElement
-
-        transform.fadeMode = MaterialContainerTransform.FADE_MODE_THROUGH
+        val transform = MaterialContainerTransform(context,  /* entering= */true).apply {
+            val colorSurface = MaterialColors.getColor(sharedElement, R.attr.colorSurface)
+            val colorBackground = MaterialColors.getColor(sharedElement, android.R.attr.colorBackground)
+            val transparent = Color.TRANSPARENT
+            containerColor = colorSurface
+            drawingViewId = containerId
+            startView = sharedElement
+            fadeMode = MaterialContainerTransform.FADE_MODE_THROUGH
+        }
 
         nextFragment.sharedElementEnterTransition = transform
 
