@@ -1,20 +1,17 @@
 package com.thebrodyaga.base.navigation.impl.navigator
 
-import android.graphics.Color
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.google.android.material.color.MaterialColors
-import com.google.android.material.transition.Hold
-import com.google.android.material.transition.MaterialContainerTransform
 import com.thebrodyaga.base.navigation.impl.AppFragmentScreen
-import com.thebrodyaga.base.navigation.impl.R
 import com.thebrodyaga.base.navigation.impl.transition.SharedElementBox
+import com.thebrodyaga.base.navigation.impl.transition.TransitionSetupDelegate
 import com.thebrodyaga.core.navigation.impl.cicerone.CiceroneNavigator
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
+import com.thebrodyaga.englishsounds.base.di.AppDependencies
+import com.thebrodyaga.englishsounds.base.di.findDependencies
 
 open class AppNavigator(
     activity: FragmentActivity,
@@ -26,6 +23,12 @@ open class AppNavigator(
     companion object {
         const val ARG_TRANSITION_NAME = "ARG_TRANSITION_NAME"
     }
+    private var transitionSetupDelegate: TransitionSetupDelegate = TransitionSetupDelegate()
+
+    init {
+        activity.findDependencies<AppDependencies>().getNavigatorHolder()
+    }
+
 
     override fun setupFragmentTransaction(
         screen: FragmentScreen,
@@ -36,52 +39,8 @@ open class AppNavigator(
         currentFragment ?: return
 
         val sharedElement = ((screen as? AppFragmentScreen)?.transitionInfo as? SharedElementBox)
-        if (sharedElement != null)
-            setupTransformTransaction(currentFragment, nextFragment, fragmentTransaction, sharedElement)
-    }
-
-    private fun setupTransformTransaction(
-        currentFragment: Fragment,
-        nextFragment: Fragment,
-        fragmentTransaction: FragmentTransaction,
-        transactionBox: SharedElementBox
-    ) {
-        val currentFragmentView = currentFragment.view ?: return
-
-        val sharedElement = transactionBox.sharedElement
-        val sharedElementName = transactionBox.sharedElementName
-
-        val context = currentFragment.requireContext()
-        val transform = MaterialContainerTransform(context,  /* entering= */true).apply {
-            val colorSurface = MaterialColors.getColor(sharedElement, R.attr.colorSurface)
-            val colorBackground = MaterialColors.getColor(sharedElement, android.R.attr.colorBackground)
-            val transparent = Color.TRANSPARENT
-            containerColor = colorSurface
-            drawingViewId = containerId
-            startView = sharedElement
-            fadeMode = MaterialContainerTransform.FADE_MODE_THROUGH
-        }
-
-        nextFragment.sharedElementEnterTransition = transform
-
-        fragmentTransaction.addSharedElement(sharedElement, sharedElementName)
-
-        val hold = Hold()
-        // Add root view as target for the Hold so that the entire view hierarchy is held in place as
-        // one instead of each child view individually. Helps keep shadows during the transition.
-        // Add root view as target for the Hold so that the entire view hierarchy is held in place as
-        // one instead of each child view individually. Helps keep shadows during the transition.
-        hold.addTarget(currentFragmentView)
-        hold.duration = transform.duration
-        currentFragment.exitTransition = hold
-
-        val arguments = nextFragment.arguments
-        if (arguments == null) {
-            val args = Bundle()
-            args.putString(ARG_TRANSITION_NAME, sharedElementName)
-            nextFragment.arguments = args
-        } else {
-            arguments.putString(ARG_TRANSITION_NAME, sharedElementName)
-        }
+        transitionSetupDelegate.setupTransition(
+            containerId, currentFragment, nextFragment, fragmentTransaction, sharedElement
+        )
     }
 }
