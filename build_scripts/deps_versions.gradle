@@ -2,7 +2,6 @@ ext {
 
     dagger_version = '2.44.2'
     playServices = '20.2.0'
-    moxy = '2.0.2'
     flowPermissionVersion = '1.0.0'
 
 
@@ -92,11 +91,11 @@ ext {
             "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegatesVersion",
     ]
 
-    exo_player = "2.11.5"
+    exo_player = "2.18.5"
     exoPlayer = [
-            "com.google.android.exoplayer:exoplayer-core:${exo_player}",
-            "com.google.android.exoplayer:exoplayer-ui:${exo_player}",
-            "com.google.android.exoplayer:extension-mediasession:${exo_player}",
+            "com.google.android.exoplayer:exoplayer:${exo_player}",
+//            "com.google.android.exoplayer:exoplayer-ui:${exo_player}",
+//            "com.google.android.exoplayer:extension-mediasession:${exo_player}",
     ]
 
     lottie = "com.airbnb.android:lottie:5.2.0"

@@ -6,15 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
 import com.thebrodyaga.base.navigation.impl.navigator.AppNavigator.Companion.ARG_TRANSITION_NAME
 import com.thebrodyaga.base.navigation.impl.createRouterProvider
 import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
 import com.thebrodyaga.core.uiUtils.insets.consume
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
 import com.thebrodyaga.core.uiUtils.insets.systemAndIme
-import moxy.MvpAppCompatFragment
 
-abstract class ScreenFragment(layoutId: Int) : MvpAppCompatFragment(layoutId) {
+abstract class ScreenFragment(layoutId: Int) : Fragment(layoutId) {
 
     protected val routerProvider by lazy { createRouterProvider() }
 

@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">English Sounds</string>
 
-    <string name="main_menu_tab_first">Звуки</string>
+    <string name="main_menu_tab_first">@string/sounds</string>
     <string name="main_menu_tab_second">@string/videos</string>
-    <string name="main_menu_tab_third">Слова</string>
+    <string name="main_menu_tab_third">@string/words</string>
+    <string name="main_menu_tab_fourth">@string/settings</string>
     <string name="need_record_permission">Нужно разрешение для записи</string>
     <string name="vowel_sounds">Гласные звуки</string>
     <string name="r_controlled_vowels">R-controlled звуки</string>
@@ -17,7 +18,6 @@
     <string name="BEGINNING_SOUND">В начале</string>
     <string name="MIDDLE_SOUND">В середине</string>
     <string name="END_SOUND">В конце</string>
-    <string name="settings">Настройки</string>
     <string name="use_system_theme">Системная тема</string>
     <string name="use_dark_theme">Темная тема</string>
     <string name="later">Позже</string>
@@ -27,6 +27,5 @@
     <string name="contrasting_sound_video_title">Контрастные звуки</string>
     <string name="most_common_words_video_title">Популярные слова</string>
     <string name="advanced_exercises_video_title">Расширенные упражнения</string>
-    <string name="videos">Видео</string>
     <string name="show_all">Все</string>
 </resources>

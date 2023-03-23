@@ -12,7 +12,7 @@ buildscript {
 
     repositories {
         google()
-        //because moxy
+        //because YouTubePlayer
         jcenter()
         mavenCentral()
     }
@@ -27,7 +27,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        //because moxy
+        //because YouTubePlayer
         jcenter()
         mavenCentral()
         maven { url 'https://jitpack.io' }

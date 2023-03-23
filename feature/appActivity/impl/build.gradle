@@ -12,6 +12,5 @@ dependencies {
     implementation googlePlayCore
     implementation splashScreen
     implementation timber
-    implementation exoPlayer
     applyDagger(this)
 }

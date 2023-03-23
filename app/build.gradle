@@ -78,16 +78,13 @@ dependencies {
     firebaseBom(this)
     applyDagger(this)
     applyGlide(this)
-    applyMoxy(this)
     applyPlatformNavigation(this)
 
     implementation baseNetworkDependencies
     implementation googlePlayCore
     implementation adapterDelegates
-//    implementation exoPlayer
     implementation googleAds
     implementation timber
-    implementation exoPlayer
     implementation flowPermission
 
 

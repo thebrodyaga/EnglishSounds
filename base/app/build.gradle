@@ -7,7 +7,6 @@ dependencies {
     implementation project(":analytics")
     implementation project(path: ':core:uiUtils')
     applyPlatformNavigation(this)
-    applyMoxy(this)
     firebaseBom(this)
     applyDagger(this)
 }

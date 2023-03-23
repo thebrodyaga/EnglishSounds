@@ -16,8 +16,6 @@ ext {
         applyPlatformNavigation(module)
         applyAndroidBinding(module)
         applyGlide(module)
-        // todo delete
-        applyMoxy(module)
         module.dependencies {
             implementation project(":base:app")
             implementation project(":base:di")
@@ -175,19 +173,6 @@ ext {
         module.dependencies {
             implementation "com.google.dagger:dagger:$dagger_version"
             kapt "com.google.dagger:dagger-compiler:$dagger_version"
-        }
-    }
-
-    applyMoxy = { module ->
-        module.configure(module) {
-            apply plugin: 'kotlin-kapt'
-        }
-        module.dependencies {
-            //Moxy
-            implementation "com.github.moxy-community:moxy:${moxy}"
-            kapt "com.github.moxy-community:moxy-compiler:${moxy}"
-            implementation "com.github.moxy-community:moxy-androidx:${moxy}"
-            implementation "com.github.moxy-community:moxy-material:${moxy}"
         }
     }
 }
