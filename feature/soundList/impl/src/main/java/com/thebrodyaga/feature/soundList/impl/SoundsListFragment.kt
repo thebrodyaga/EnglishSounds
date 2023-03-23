@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.thebrodyaga.base.navigation.api.fragmentTransactionBox
+import com.thebrodyaga.base.navigation.impl.transition.sharedElementBox
 import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
 import com.thebrodyaga.brandbook.component.sound.SoundCardUiModel
 import com.thebrodyaga.brandbook.component.sound.soundCardDelegate
@@ -114,7 +114,7 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
     ) {
         val sound = model.payload as? AmericanSoundDto ?: return
         getAnyRouter().navigateTo(
-            detailsScreenFactory.soundDetailsScreen(sound.transcription, view.fragmentTransactionBox),
+            detailsScreenFactory.soundDetailsScreen(sound.transcription, view.sharedElementBox),
         )
 
         val bundle = Bundle()

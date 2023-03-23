@@ -10,8 +10,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialContainerTransform
-import com.thebrodyaga.base.navigation.api.AppFragmentScreen
-import com.thebrodyaga.base.navigation.api.FragmentTransactionBox
+import com.thebrodyaga.base.navigation.impl.transition.SharedElementBox
 import com.thebrodyaga.core.navigation.impl.cicerone.CiceroneNavigator
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 
@@ -34,18 +33,16 @@ open class AppNavigator(
     ) {
         currentFragment ?: return
 
-        if (screen is AppFragmentScreen) {
-            screen.sharedElement?.let { sharedElement ->
-                setupTransformTransaction(currentFragment, nextFragment, fragmentTransaction, sharedElement)
-            }
-        }
+        val sharedElement = ((screen as? AppFragmentScreen)?.transitionInfo as? SharedElementBox)
+        if (sharedElement != null)
+            setupTransformTransaction(currentFragment, nextFragment, fragmentTransaction, sharedElement)
     }
 
     private fun setupTransformTransaction(
         currentFragment: Fragment,
         nextFragment: Fragment,
         fragmentTransaction: FragmentTransaction,
-        transactionBox: FragmentTransactionBox
+        transactionBox: SharedElementBox
     ) {
         val currentFragmentView = currentFragment.view ?: return
 

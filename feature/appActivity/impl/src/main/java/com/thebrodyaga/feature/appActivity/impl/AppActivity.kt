@@ -87,7 +87,7 @@ class AppActivity : BaseActivity() {
     }
 
     private fun newRootScreen() {
-        val mainScreen = mainScreenFactory.mainScreen()
+        val mainScreen = mainScreenFactory.mainScreen() as FragmentScreen
         val fragment = mainScreen.createFragment(supportFragmentManager.fragmentFactory)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment, mainScreen.screenKey)

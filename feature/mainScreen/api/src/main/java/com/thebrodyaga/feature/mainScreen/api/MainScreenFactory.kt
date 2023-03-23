@@ -1,8 +1,8 @@
 package com.thebrodyaga.feature.mainScreen.api
 
-import com.thebrodyaga.base.navigation.api.AppFragmentScreen
+import com.thebrodyaga.core.navigation.api.cicerone.Screen
 
 interface MainScreenFactory {
 
-    fun mainScreen(): AppFragmentScreen
+    fun mainScreen(): Screen
 }

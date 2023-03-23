@@ -2,7 +2,7 @@ package com.thebrodyaga.feature.mainScreen.impl.screen
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
-import com.thebrodyaga.base.navigation.api.AppFragmentScreen
+import com.thebrodyaga.base.navigation.impl.AppFragmentScreen
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import com.thebrodyaga.feature.mainScreen.impl.MainFragment
 import javax.inject.Inject
