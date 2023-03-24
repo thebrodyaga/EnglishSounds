@@ -19,6 +19,7 @@ import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
+import com.thebrodyaga.core.uiUtils.view.pool.AsyncViewPool
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
@@ -29,6 +30,7 @@ import com.thebrodyaga.feature.mainScreen.api.MainScreenAction
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import com.thebrodyaga.feature.setting.api.SettingManager
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -71,11 +73,14 @@ class AppActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         reviewManager = ReviewManagerFactory.create(this)
         setContentView(R.layout.layout_fragemnt_container)
+
+        val asyncViewPool = AsyncViewPool(this)
         splashScreen.setOnExitAnimationListener { splashProvider ->
-            lifecycleScope.launchWhenCreated { waitOnLoaded(splashProvider) }
+            lifecycleScope.launch { waitOnLoaded(splashProvider) }
+            lifecycleScope.launch {
+                asyncViewPool.inflate(R.layout.item_sound_card, 44, 20)
+            }
         }
-        if (currentFragment == null)
-            router.newRootScreen(mainScreenFactory.mainScreen())
     }
 
     private suspend fun waitOnLoaded(splashProvider: SplashScreenViewProvider) {

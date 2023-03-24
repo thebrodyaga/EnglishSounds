@@ -82,7 +82,7 @@ ext {
             "androidx.fragment:fragment-ktx:$fragmentKtx",
             "androidx.activity:activity-ktx:$activityKtx",
             "androidx.recyclerview:recyclerview:$recyclerViewVersion",
-//            "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleKtx",
+            "androidx.tracing:tracing:1.1.0",
     ]
 
     adapterDelegatesVersion = '4.3.2'

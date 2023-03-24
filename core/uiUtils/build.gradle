@@ -4,4 +4,5 @@ applyCoreAndroidModule(this)
 
 dependencies {
     implementation project(":core:utils")
+    implementation baseAndroidDeps
 }
