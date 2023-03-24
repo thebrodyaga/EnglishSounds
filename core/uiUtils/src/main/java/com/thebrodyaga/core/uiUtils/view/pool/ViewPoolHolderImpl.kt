@@ -1,8 +1,9 @@
 package com.thebrodyaga.core.uiUtils.view.pool
 
 import android.view.View
+import javax.inject.Inject
 
-class ViewPoolsHolderImpl : ViewPoolsHolder {
+class ViewPoolHolderImpl @Inject constructor() : ViewPoolHolder {
 
     private val layoutMap = mutableMapOf<Int, ViewPool>()
 
@@ -14,7 +15,7 @@ class ViewPoolsHolderImpl : ViewPoolsHolder {
         layoutMap[layoutRes]?.push(view)
     }
 
-    override fun addViewPoolInflater(layoutRes: Int, inflater: ViewPool) {
-        layoutMap[layoutRes] = inflater
+    override fun addViewPool(layoutRes: Int, viewPool: ViewPool) {
+        layoutMap[layoutRes] = viewPool
     }
 }

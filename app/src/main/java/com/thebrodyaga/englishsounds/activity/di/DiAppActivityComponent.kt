@@ -1,6 +1,7 @@
 package com.thebrodyaga.englishsounds.activity.di
 
 import com.thebrodyaga.data.sounds.api.SoundsRepository
+import com.thebrodyaga.englishsounds.activity.di.feature.ViewPoolModule
 import com.thebrodyaga.englishsounds.base.di.ActivityScope
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.di.ActivityComponent
@@ -13,7 +14,10 @@ import dagger.Component
 
 @[ActivityScope Component(
     dependencies = [AppActivityDependencies::class],
-    modules = [AppActivityModule::class]
+    modules = [
+        AppActivityModule::class,
+        ViewPoolModule::class,
+    ]
 )]
 interface DiAppActivityComponent : ActivityComponent {
 
