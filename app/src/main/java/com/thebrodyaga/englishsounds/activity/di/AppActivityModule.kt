@@ -1,4 +1,4 @@
-package com.thebrodyaga.feature.appActivity.impl.di
+package com.thebrodyaga.englishsounds.activity.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

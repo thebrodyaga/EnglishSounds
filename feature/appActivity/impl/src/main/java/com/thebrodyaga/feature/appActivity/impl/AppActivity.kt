@@ -22,8 +22,8 @@ import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.core.uiUtils.view.pool.AsyncViewPool
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
-import com.thebrodyaga.englishsounds.base.di.findDependencies
-import com.thebrodyaga.feature.appActivity.impl.di.AppActivityComponent
+import com.thebrodyaga.englishsounds.base.di.ActivityDependencies
+import com.thebrodyaga.englishsounds.base.di.HasActivityDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenAction
@@ -34,7 +34,12 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class AppActivity : BaseActivity() {
+open class AppActivity : BaseActivity(), HasActivityDependencies {
+
+    protected lateinit var component: ActivityDependencies
+
+    override val dependencies: ActivityDependencies
+        get() = component
 
     @Inject
     lateinit var router: CiceroneRouter
@@ -68,7 +73,6 @@ class AppActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         DynamicColors.applyToActivityIfAvailable(this)
-        AppActivityComponent.factory(findDependencies()).inject(this)
         isLightSystem(isSystemDarkMode())
         super.onCreate(savedInstanceState)
         reviewManager = ReviewManagerFactory.create(this)

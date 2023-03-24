@@ -2,9 +2,9 @@ package com.thebrodyaga.englishsounds.base.app
 
 import android.app.Application
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
-import com.thebrodyaga.englishsounds.base.di.HasComponentDependencies
+import com.thebrodyaga.englishsounds.base.di.HasAppDependencies
 
-abstract class BaseApp : Application(), HasComponentDependencies {
+abstract class BaseApp : Application(), HasAppDependencies {
 
     companion object {
         lateinit var component: AppDependencies

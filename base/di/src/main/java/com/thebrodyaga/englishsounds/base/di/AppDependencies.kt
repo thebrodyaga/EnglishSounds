@@ -15,3 +15,5 @@ interface AppDependencies {
     fun appRouter(): AppRouter
     fun getNavigatorHolder(): NavigatorHolder
 }
+
+interface ActivityDependencies

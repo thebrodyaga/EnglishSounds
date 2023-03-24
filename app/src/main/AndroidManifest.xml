@@ -25,7 +25,7 @@
             android:theme="@style/AppTheme.Video"
             tools:targetApi="n" />
         <activity
-            android:name="com.thebrodyaga.feature.appActivity.impl.AppActivity"
+            android:name=".activity.DiAppActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
