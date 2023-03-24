@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.di.modules
+package com.thebrodyaga.englishsounds.app.di.modules
 
 import android.app.Application
 import android.content.Context

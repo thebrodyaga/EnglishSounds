@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.di.feature
+package com.thebrodyaga.englishsounds.app.di.feature
 
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice

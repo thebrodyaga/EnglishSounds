@@ -5,9 +5,9 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
+import com.thebrodyaga.englishsounds.app.di.DaggerDiAppComponent
+import com.thebrodyaga.englishsounds.app.di.DiAppComponent
 import com.thebrodyaga.englishsounds.base.app.BaseApp
-import com.thebrodyaga.englishsounds.di.AppComponent
-import com.thebrodyaga.englishsounds.di.DaggerAppComponent
 import com.thebrodyaga.feature.setting.api.SettingManager
 import dev.shreyaspatil.permissionFlow.PermissionFlow
 import timber.log.Timber
@@ -19,15 +19,14 @@ class App : BaseApp() {
     @Inject
     lateinit var settingManager: SettingManager
 
-    private val appComponent: AppComponent by lazy {
-        DaggerAppComponent.builder()
+    private val appComponent: DiAppComponent by lazy {
+        DaggerDiAppComponent.builder()
             .application(this)
             .build()
             .also { component = it }
     }
 
     override fun onCreate() {
-        Companion.appComponent = this.appComponent
         appComponent.inject(this)
         super.onCreate()
         PermissionFlow.init(this)
@@ -62,10 +61,5 @@ class App : BaseApp() {
                 FirebaseCrashlytics.getInstance().log("$logTag/$tag: ${throwable.message ?: ""}")
             }
         }
-    }
-
-    companion object {
-        @Deprecated("delete")
-        lateinit var appComponent: AppComponent
     }
 }

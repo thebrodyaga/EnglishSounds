@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.di.modules;
+package com.thebrodyaga.englishsounds.app.di.modules;
 
 import com.thebrodyaga.base.navigation.api.router.AppRouter;
 import com.thebrodyaga.core.navigation.api.cicerone.Cicerone;

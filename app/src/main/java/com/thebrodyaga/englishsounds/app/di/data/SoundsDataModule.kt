@@ -1,4 +1,4 @@
-package com.thebrodyaga.englishsounds.di.data
+package com.thebrodyaga.englishsounds.app.di.data
 
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
