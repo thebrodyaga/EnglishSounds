@@ -18,10 +18,12 @@ class AsyncViewPool constructor(
     private val activity: AppCompatActivity,
 ) : ViewPool {
 
+    private var maxSize = 0
     private val stack = ConcurrentLinkedDeque<View>()
     private val fakeParent: FrameLayout = FrameLayout(activity)
 
     override fun <V : View> push(view: V) {
+        if (stack.size >= maxSize) return
         stack.push(view)
     }
 
@@ -35,6 +37,7 @@ class AsyncViewPool constructor(
         waitingSize: Int
     ): List<View> = withContext(Dispatchers.IO) {
         stack.clear()
+        maxSize = size
         val waitingList = mutableListOf<Deferred<View>>()
         val nonBlockingList = mutableListOf<Deferred<View>>()
 
