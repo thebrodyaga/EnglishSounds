@@ -6,15 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.LayoutInflaterCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class AppAsyncLayoutInflater(
-    private val context: Context,
+class AsyncLayoutInflater(
+    context: Context,
 ) {
 
     companion object {
@@ -28,8 +27,7 @@ class AppAsyncLayoutInflater(
         parent: ViewGroup?,
     ): View = withContext(Dispatchers.IO) {
         try {
-            val nonNullParent = parent ?: FrameLayout(context)
-            inflater.inflate(resId, nonNullParent, false)
+            inflater.inflate(resId, parent, false)
         } catch (ex: RuntimeException) {
             val msg = "Background inflate is failed. Try use main thread. Error message=${ex.message}"
             Log.e(TAG, msg)

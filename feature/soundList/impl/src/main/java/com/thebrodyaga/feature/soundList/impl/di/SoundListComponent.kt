@@ -2,7 +2,6 @@ package com.thebrodyaga.feature.soundList.impl.di
 
 import com.thebrodyaga.base.navigation.api.RouterProvider
 import com.thebrodyaga.base.navigation.impl.createRouterProvider
-import com.thebrodyaga.core.uiUtils.view.pool.ViewPoolHolder
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
@@ -59,5 +58,4 @@ interface SoundListDependencies : AppDependencies {
 }
 
 interface SoundListActivityDependencies : ActivityDependencies {
-    fun viewPoolHolder(): ViewPoolHolder
 }

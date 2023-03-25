@@ -20,7 +20,6 @@ import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.core.uiUtils.view.pool.AsyncViewPool
-import com.thebrodyaga.core.uiUtils.view.pool.ViewPoolHolder
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.ActivityDependencies
@@ -56,9 +55,6 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
 
     @Inject
     lateinit var mainScreenFactory: MainScreenFactory
-
-    @Inject
-    lateinit var viewPoolHolder: ViewPoolHolder
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
