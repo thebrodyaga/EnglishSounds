@@ -2,8 +2,13 @@ package com.thebrodyaga.brandbook.component.sound
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.card.MaterialCardView
+import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.thebrodyaga.brandbook.R
@@ -59,3 +64,50 @@ fun soundCardDelegate(
             bindListener?.invoke(binding.root, item)
         }
     }
+
+class SoundCardDelegate(
+    private val inflateListener: ((view: SoundCardView) -> Unit)? = null,
+    private val bindListener: ((view: SoundCardView, item: SoundCardUiModel) -> Unit)? = null
+) : AbsListItemAdapterDelegate<SoundCardUiModel, UiModel, SoundCardViewHolder>() {
+
+    override fun isForViewType(item: UiModel, items: MutableList<UiModel>, position: Int): Boolean {
+        return item is SoundCardUiModel
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup): SoundCardViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return SoundCardViewHolder(
+            itemView = inflater.inflate(R.layout.item_sound_card, parent, false),
+            inflateListener = inflateListener,
+        )
+    }
+
+    override fun onBindViewHolder(item: SoundCardUiModel, holder: SoundCardViewHolder, payloads: MutableList<Any>) {
+        holder.bind(item, bindListener)
+    }
+}
+
+class SoundCardViewHolder(
+    itemView: View,
+    inflateListener: ((view: SoundCardView) -> Unit)? = null,
+) : RecyclerView.ViewHolder(itemView) {
+
+    companion object {
+        val VIEW_TYPE: Int = R.layout.item_sound_card
+    }
+
+    private val binding = ItemSoundCardBinding.bind(itemView)
+
+    init {
+        inflateListener?.invoke(itemView as SoundCardView)
+    }
+
+    fun bind(
+        item: SoundCardUiModel,
+        bindListener: ((view: SoundCardView, item: SoundCardUiModel) -> Unit)? = null
+    ) {
+        binding.root.bind(item)
+        bindListener?.invoke(binding.root, item)
+    }
+
+}

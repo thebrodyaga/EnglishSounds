@@ -3,6 +3,7 @@ package com.thebrodyaga.feature.soundList.impl
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.ViewCompat
+import androidx.core.view.doOnDetach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,8 +13,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.base.navigation.impl.transition.sharedElementBox
 import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
+import com.thebrodyaga.brandbook.component.sound.SoundCardDelegate
 import com.thebrodyaga.brandbook.component.sound.SoundCardUiModel
-import com.thebrodyaga.brandbook.component.sound.soundCardDelegate
+import com.thebrodyaga.brandbook.component.sound.SoundCardViewHolder
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.brandbook.utils.text.TextViewUiModel
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
@@ -22,6 +24,8 @@ import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
 import com.thebrodyaga.core.uiUtils.insets.consume
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
 import com.thebrodyaga.core.uiUtils.insets.systemAndIme
+import com.thebrodyaga.core.uiUtils.recycler.PrefetchRecycledViewPool
+import com.thebrodyaga.core.uiUtils.recycler.ViewHolderPool
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
@@ -53,6 +57,14 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
     @Inject
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
 
+    private val prefetchRecycledViewPool = PrefetchRecycledViewPool()
+        .apply {
+            setPrefetchedViewType(SoundCardViewHolder.VIEW_TYPE, 44) { asyncViewHolderPool.pop(it) }
+        }
+
+    @Inject
+    lateinit var asyncViewHolderPool: ViewHolderPool
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: SoundsListViewModel by viewModels { viewModelFactory }
@@ -60,17 +72,20 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
     private val maxColumns: Int by lazy { calculateNoOfColumns(requireContext(), R.dimen.card_sound_width) }
     private var spanSizeLookup = SpanSizeLookup()
     private var adapter = CommonAdapter(
-        soundCardDelegate(
-            inflateListener = { cardView ->
-                cardView.setOnClickAction { _, item ->
-                    onSoundClick(item, cardView)
+        delegatesAndViewType = listOf(
+            SoundCardViewHolder.VIEW_TYPE to SoundCardDelegate(
+                inflateListener = { cardView ->
+
+                },
+                bindListener = { view, item ->
+                    view.setOnClickAction { _, _ ->
+                        onSoundClick(item, view)
+                    }
+                    ViewCompat.setTransitionName(view, (item.transcription as TextViewUiModel.Raw).text.toString())
                 }
-            },
-            bindListener = { view, item ->
-                ViewCompat.setTransitionName(view, (item.transcription as TextViewUiModel.Raw).text.toString())
-            }
+            )
         ),
-        dataViewCommonDelegate(),
+        delegates = listOf(dataViewCommonDelegate()),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,9 +96,13 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
+        binding.list.setRecycledViewPool(prefetchRecycledViewPool)
         binding.list.layoutManager = GridLayoutManager(context, maxColumns)
             .also { it.spanSizeLookup = spanSizeLookup }
-        binding.list.adapter = adapter
+        binding.list.swapAdapter(adapter, true)
+        binding.list.doOnDetach {
+            it.toString()
+        }
         binding.list.itemAnimator = null
         binding.list.addItemDecoration(
             AdItemDecorator(
@@ -144,10 +163,9 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
 
     private inner class SpanSizeLookup : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
-            //getItemViewType равен индексу добавления в delegatesManager адаптера
             return when (adapter.getItemViewType(position)) {
-                1 -> maxColumns
-                else -> 1
+                SoundCardViewHolder.VIEW_TYPE -> 1
+                else -> maxColumns
             }
         }
     }

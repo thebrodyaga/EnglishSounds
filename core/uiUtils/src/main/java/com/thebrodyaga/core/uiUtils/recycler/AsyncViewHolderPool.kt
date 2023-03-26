@@ -12,14 +12,15 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.random.Random
 
-open class AsyncViewHolderPool(
+open class AsyncViewHolderPool @Inject constructor(
     private val activity: AppCompatActivity
 ) : ViewHolderPool {
 
     companion object {
-        private const val TAG = "AsyncViewHolderPool"
+        private const val TAG = "AsyncViewHolderPool."
     }
 
     private val allTrace = "${TAG}_all_inflate" to Random.nextInt()
@@ -33,7 +34,7 @@ open class AsyncViewHolderPool(
         get() = activity.lifecycleScope
 
     override fun pop(viewType: Int): RecyclerView.ViewHolder? {
-        return stack[viewType]?.removeLast()
+        return stack[viewType]?.removeFirstOrNull()
     }
 
     override fun create(

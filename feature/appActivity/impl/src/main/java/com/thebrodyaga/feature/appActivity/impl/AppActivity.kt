@@ -14,11 +14,13 @@ import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.thebrodyaga.base.navigation.impl.navigator.AppNavigator
+import com.thebrodyaga.brandbook.component.sound.SoundCardViewHolder
 import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
+import com.thebrodyaga.core.uiUtils.recycler.ViewHolderPool
 import com.thebrodyaga.core.uiUtils.view.pool.AsyncViewPool
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
@@ -54,6 +56,9 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
     lateinit var settingManager: SettingManager
 
     @Inject
+    lateinit var asyncViewHolderPool: ViewHolderPool
+
+    @Inject
     lateinit var mainScreenFactory: MainScreenFactory
 
     @Inject
@@ -83,6 +88,11 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
             lifecycleScope.launch { waitOnLoaded(splashProvider) }
             lifecycleScope.launch {
                 // todo
+                asyncViewHolderPool.create(
+                    SoundCardViewHolder.VIEW_TYPE, R.layout.item_sound_card, 44
+                ) { _: Int, itemView: View ->
+                    SoundCardViewHolder(itemView)
+                }
 //                viewPoolHolder.addViewPool(R.layout.item_sound_card, asyncViewPool)
 //                asyncViewPool.inflate(R.layout.item_sound_card, 44, 20)
             }

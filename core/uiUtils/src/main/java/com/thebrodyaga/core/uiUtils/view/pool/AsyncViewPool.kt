@@ -20,7 +20,7 @@ class AsyncViewPool constructor(
 ) : ViewPool {
 
     companion object {
-        private const val TAG = "AsyncViewPool"
+        private const val TAG = "AsyncViewPool."
     }
 
     private val allTrace = "${TAG}_all_inflate" to Random.nextInt()
