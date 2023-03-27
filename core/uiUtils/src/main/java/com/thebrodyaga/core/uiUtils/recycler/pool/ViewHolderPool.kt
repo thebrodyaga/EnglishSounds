@@ -1,26 +1,26 @@
-package com.thebrodyaga.core.uiUtils.recycler
+package com.thebrodyaga.core.uiUtils.recycler.pool
 
-import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-
-typealias ViewHolderFactory = (viewType: Int, itemView: View) -> RecyclerView.ViewHolder
 
 interface ViewHolderPool {
 
     fun pop(viewType: Int): RecyclerView.ViewHolder?
+    fun push(viewHolder: RecyclerView.ViewHolder?)
+    fun size(viewType: Int): Int?
+    fun maxSize(viewType: Int): Int?
 
     fun create(
         viewType: Int,
         @LayoutRes itemLayout: Int,
-        count: Int,
+        maxSize: Int,
         viewHolderFactory: ViewHolderFactory,
     )
 
     suspend fun create(
         viewType: Int,
         @LayoutRes itemLayout: Int,
-        count: Int,
+        maxSize: Int,
         viewHolderFactory: ViewHolderFactory,
         waitingSize: Int = 0,
     ): List<RecyclerView.ViewHolder>

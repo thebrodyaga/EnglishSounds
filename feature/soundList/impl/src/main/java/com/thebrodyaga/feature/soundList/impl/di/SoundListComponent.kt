@@ -2,7 +2,6 @@ package com.thebrodyaga.feature.soundList.impl.di
 
 import com.thebrodyaga.base.navigation.api.RouterProvider
 import com.thebrodyaga.base.navigation.impl.createRouterProvider
-import com.thebrodyaga.core.uiUtils.recycler.ViewHolderPool
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
@@ -13,6 +12,7 @@ import com.thebrodyaga.englishsounds.base.di.findActivityDependencies
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.soundList.impl.SoundsListFragment
+import com.thebrodyaga.feature.soundList.impl.SoundsListViewPool
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import dagger.BindsInstance
 import dagger.Component
@@ -59,5 +59,5 @@ interface SoundListDependencies : AppDependencies {
 }
 
 interface SoundListActivityDependencies : ActivityDependencies {
-    fun viewHolderPool(): ViewHolderPool
+    fun soundsListViewPool(): SoundsListViewPool
 }

@@ -1,4 +1,4 @@
-package com.thebrodyaga.core.uiUtils.recycler
+package com.thebrodyaga.core.uiUtils.recycler.pool
 
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
@@ -12,6 +12,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
+import java.lang.reflect.Field
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -27,32 +28,47 @@ open class AsyncViewHolderPool @Inject constructor(
     private val asyncTrace = "${TAG}_async_inflate" to Random.nextInt()
     private val waitingTrace = "${TAG}_waiting_inflate" to Random.nextInt()
 
-    private val stack = mutableMapOf<Int, ArrayDeque<RecyclerView.ViewHolder>>()
+    private val mapOfStack = mutableMapOf<Int, StackValueBox>()
 
     private val fakeParent: FrameLayout = FrameLayout(activity)
     private val scope: LifecycleCoroutineScope
         get() = activity.lifecycleScope
 
     override fun pop(viewType: Int): RecyclerView.ViewHolder? {
-        return stack[viewType]?.removeFirstOrNull()
+        return mapOfStack[viewType]?.stack?.removeFirstOrNull()
     }
+
+    override fun push(viewHolder: RecyclerView.ViewHolder?) {
+        viewHolder?.let {
+            val box = mapOfStack[viewHolder.itemViewType] ?: return
+            val stack = box.stack
+            val maxCount = box.maxSize
+            if (stack.size >= maxCount) return
+            stack.add(viewHolder)
+        }
+    }
+
+    override fun size(viewType: Int): Int? = mapOfStack[viewType]?.stack?.size
+
+    override fun maxSize(viewType: Int): Int? = mapOfStack[viewType]?.maxSize
 
     override fun create(
         viewType: Int,
         @LayoutRes itemLayout: Int,
-        count: Int,
+        maxSize: Int,
         viewHolderFactory: ViewHolderFactory,
     ) {
-        scope.launch { create(viewType, itemLayout, count, viewHolderFactory, 0) }
+        scope.launch { create(viewType, itemLayout, maxSize, viewHolderFactory, 0) }
     }
 
     override suspend fun create(
         viewType: Int,
         @LayoutRes itemLayout: Int,
-        count: Int,
+        maxSize: Int,
         viewHolderFactory: ViewHolderFactory,
         waitingSize: Int
     ): List<RecyclerView.ViewHolder> {
+        mapOfStack[viewType]?.stack?.clear()
 
         val waitingList = mutableListOf<Deferred<RecyclerView.ViewHolder>>()
         val nonBlockingList = mutableListOf<Deferred<RecyclerView.ViewHolder>>()
@@ -61,12 +77,19 @@ open class AsyncViewHolderPool @Inject constructor(
         Trace.beginAsyncSection(asyncTrace.first, asyncTrace.second)
         Trace.beginAsyncSection(allTrace.first, allTrace.second)
 
-        repeat(count) { times ->
+        repeat(maxSize) { times ->
             val layoutInflater = AsyncLayoutInflater(activity)
             val job = scope.async {
                 val itemView = layoutInflater.inflate(itemLayout, fakeParent)
                 val viewHolder = viewHolderFactory(viewType, itemView)
-                stack.getOrPut(viewType) { ArrayDeque() }
+                setViewType(viewHolder, viewType)
+                mapOfStack.getOrPut(viewType) {
+                    StackValueBox(
+                        maxSize,
+                        ArrayDeque()
+                    )
+                }
+                    .stack
                     .add(viewHolder)
                 viewHolder
             }
@@ -86,4 +109,16 @@ open class AsyncViewHolderPool @Inject constructor(
         }
         return result
     }
+
+    private fun setViewType(holder: RecyclerView.ViewHolder, viewType: Int) {
+        val viewTypeField: Field = holder::class.java.superclass
+            .getDeclaredField("mItemViewType")
+        viewTypeField.isAccessible = true
+        viewTypeField.setInt(holder, viewType)
+    }
+
+    private data class StackValueBox(
+        val maxSize: Int = 0,
+        val stack: ArrayDeque<RecyclerView.ViewHolder>,
+    )
 }

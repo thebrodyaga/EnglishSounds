@@ -1,10 +1,10 @@
 package com.thebrodyaga.englishsounds.activity.di.feature
 
-import com.thebrodyaga.core.uiUtils.recycler.AsyncViewHolderPool
-import com.thebrodyaga.core.uiUtils.recycler.ViewHolderPool
+import androidx.appcompat.app.AppCompatActivity
 import com.thebrodyaga.englishsounds.base.di.ActivityScope
-import dagger.Binds
+import com.thebrodyaga.feature.soundList.impl.SoundsListViewPool
 import dagger.Module
+import dagger.Provides
 
 @Module
 interface ViewPoolModule {
@@ -13,7 +13,12 @@ interface ViewPoolModule {
 //    @ActivityScope
 //    fun viewPoolHolder(viewPoolHolder: ViewPoolHolderImpl): ViewPoolHolder
 
-    @Binds
-    @ActivityScope
-    fun asyncViewHolderPool(viewPoolHolder: AsyncViewHolderPool): ViewHolderPool
+    companion object {
+
+        @Provides
+        @ActivityScope
+        fun prefetchRecycledViewPool(
+            activity: AppCompatActivity,
+        ) = SoundsListViewPool(activity)
+    }
 }

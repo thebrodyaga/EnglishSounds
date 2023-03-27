@@ -20,8 +20,6 @@ import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
-import com.thebrodyaga.core.uiUtils.recycler.ViewHolderPool
-import com.thebrodyaga.core.uiUtils.view.pool.AsyncViewPool
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.ActivityDependencies
@@ -31,6 +29,7 @@ import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenAction
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import com.thebrodyaga.feature.setting.api.SettingManager
+import com.thebrodyaga.feature.soundList.impl.SoundsListViewPool
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -56,7 +55,7 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
     lateinit var settingManager: SettingManager
 
     @Inject
-    lateinit var asyncViewHolderPool: ViewHolderPool
+    lateinit var soundsListViewPool: SoundsListViewPool
 
     @Inject
     lateinit var mainScreenFactory: MainScreenFactory
@@ -83,18 +82,15 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         reviewManager = ReviewManagerFactory.create(this)
         setContentView(R.layout.layout_fragemnt_container)
 
-        val asyncViewPool = AsyncViewPool(this)
         splashScreen.setOnExitAnimationListener { splashProvider ->
             lifecycleScope.launch { waitOnLoaded(splashProvider) }
             lifecycleScope.launch {
                 // todo
-                asyncViewHolderPool.create(
-                    SoundCardViewHolder.VIEW_TYPE, R.layout.item_sound_card, 44
+                soundsListViewPool.setPrefetchedViewType(
+                    SoundCardViewHolder.VIEW_TYPE, SoundCardViewHolder.VIEW_TYPE, 44
                 ) { _: Int, itemView: View ->
                     SoundCardViewHolder(itemView)
                 }
-//                viewPoolHolder.addViewPool(R.layout.item_sound_card, asyncViewPool)
-//                asyncViewPool.inflate(R.layout.item_sound_card, 44, 20)
             }
         }
     }
