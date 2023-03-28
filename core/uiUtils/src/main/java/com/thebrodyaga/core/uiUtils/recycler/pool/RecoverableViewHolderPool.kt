@@ -1,5 +1,6 @@
 package com.thebrodyaga.core.uiUtils.recycler.pool
 
+import android.util.Log
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -7,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.tracing.Trace
 import com.thebrodyaga.core.uiUtils.view.AsyncLayoutInflater
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -22,9 +24,10 @@ class RecoverableViewHolderPool @Inject constructor(
 ) : ViewHolderPool {
 
     companion object {
-        private const val TAG = "RecoverableViewHolderPool."
+        private const val TAG = "RecoverableVHPool"
     }
 
+    private val recoverableTag = "${TAG}_recoverable_createAndPushViewHolder"
     private val pendingCreation = mutableMapOf<Int, Job>()
     private val viewHolderFactories = mutableMapOf<Int, () -> Job>()
 
@@ -35,9 +38,19 @@ class RecoverableViewHolderPool @Inject constructor(
     override fun pop(viewType: Int): RecyclerView.ViewHolder? {
         resetPendingCreation(viewType)
         val job = scope.launch {
-            delay(recoverableDelayMs)
-            repeat(((maxSize(viewType) ?: 0) - (size(viewType) ?: 0))) {
-                viewHolderFactories[viewType]?.invoke()
+            try {
+                delay(recoverableDelayMs)
+                val recoverableSize = ((maxSize(viewType) ?: 0) - (size(viewType) ?: 0))
+                Log.d(
+                    TAG,
+                    "recoverableSize = $recoverableSize " +
+                            "size = ${size(viewType)}, maxSize = ${maxSize(viewType)}"
+                )
+                repeat(recoverableSize) {
+                    viewHolderFactories[viewType]?.invoke()
+                }
+            } catch (e: CancellationException) {
+                Log.d(TAG, "CancellationException")
             }
         }
         pendingCreation[viewType] = job
@@ -82,13 +95,15 @@ class RecoverableViewHolderPool @Inject constructor(
         itemLayout: Int,
         viewHolderFactory: ViewHolderFactory,
     ) = withContext(Dispatchers.IO) {
-        Trace.beginAsyncSection("${TAG}_recoverable_createAndPushViewHolder", 123454)
+        Trace.beginAsyncSection(recoverableTag, 123454)
         val layoutInflater = AsyncLayoutInflater(activity)
+        Log.d(TAG, "create recoverable ViewHolder size = ${size(viewType)}, maxSize = ${maxSize(viewType)}")
         val itemView = layoutInflater.inflate(itemLayout, fakeParent)
         val viewHolder = viewHolderFactory(viewType, itemView)
         setViewType(viewHolder, viewType)
+        Log.d(TAG, "push recoverable ViewHolder size = ${size(viewType)}, maxSize = ${maxSize(viewType)}")
         push(viewHolder)
-        Trace.endAsyncSection("${TAG}_recoverable_createAndPushViewHolder", 123454)
+        Trace.endAsyncSection(recoverableTag, 123454)
     }
 
     private fun setViewType(holder: RecyclerView.ViewHolder, viewType: Int) {
