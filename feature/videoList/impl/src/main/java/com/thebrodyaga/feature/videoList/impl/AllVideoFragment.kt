@@ -5,6 +5,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.databinding.FragmentAllVideoBinding
@@ -44,6 +47,14 @@ class AllVideoFragment : ScreenFragment(R.layout.fragment_all_video) {
 
         override fun getPageTitle(position: Int): CharSequence? {
             return resources.getText(pageList[position].titleRes())
+        }
+    }
+
+    override fun applyWindowInsets(rootView: View) {
+        rootView.doOnApplyWindowInsets { _, insets, _ ->
+            val systemAndIme = insets.systemAndIme()
+            binding.appbar.appleTopInsets(systemAndIme)
+            insets
         }
     }
 

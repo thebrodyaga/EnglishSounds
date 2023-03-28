@@ -9,6 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
+import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
+import com.thebrodyaga.core.uiUtils.insets.consume
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
@@ -84,6 +89,15 @@ class ListOfVideoListsFragment : ScreenFragment(R.layout.fragment_list_of_video_
             .onEach { adapter.setData(it.list) }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
+    }
+
+    override fun applyWindowInsets(rootView: View) {
+        rootView.doOnApplyWindowInsets { _, insets, _ ->
+            insets.systemAndIme().consume {
+                binding.appbar.appleTopInsets(this)
+                binding.list.appleBottomInsets(this)
+            }
+        }
     }
 
     private fun onShowAllVideoClick(videoListItem: VideoListItem) {

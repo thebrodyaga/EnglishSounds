@@ -9,6 +9,9 @@ import android.os.Bundle
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
+import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
@@ -44,7 +47,8 @@ class VideoListFragment : ScreenFragment(R.layout.fragment_video_list) {
     private val binding by viewBinding(FragmentVideoListBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val listType = VideoListType.valueOf(arguments?.getString(TYPE_EXTRA) ?: throw IllegalAccessError("need put type"))
+        val listType =
+            VideoListType.valueOf(arguments?.getString(TYPE_EXTRA) ?: throw IllegalAccessError("need put type"))
         VideoListComponent.factory(findDependencies(), listType).inject(this)
         super.onCreate(savedInstanceState)
         adapter = VideoListAdapter(
@@ -79,6 +83,14 @@ class VideoListFragment : ScreenFragment(R.layout.fragment_video_list) {
             .onEach { adapter.setData(it.list) }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
+    }
+
+    override fun applyWindowInsets(rootView: View) {
+        rootView.doOnApplyWindowInsets { _, insets, _ ->
+            val systemAndIme = insets.systemAndIme()
+            binding.list.appleBottomInsets(systemAndIme)
+            insets
+        }
     }
 
     private class SpanSizeLookup constructor(
