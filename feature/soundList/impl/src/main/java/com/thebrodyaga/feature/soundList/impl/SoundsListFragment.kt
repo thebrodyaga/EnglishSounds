@@ -55,7 +55,7 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
 
     @Inject
-    lateinit var soundsListViewPool: SoundsListViewPool
+    lateinit var viewPool: SoundsListViewPool
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -88,7 +88,7 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        binding.list.setRecycledViewPool(soundsListViewPool)
+        binding.list.setRecycledViewPool(viewPool)
         binding.list.layoutManager = GridLayoutManager(context, maxColumns)
             .also { it.spanSizeLookup = spanSizeLookup }
         binding.list.swapAdapter(adapter, true)

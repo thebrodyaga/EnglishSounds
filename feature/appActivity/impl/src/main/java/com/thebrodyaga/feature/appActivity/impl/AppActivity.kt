@@ -14,12 +14,12 @@ import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.thebrodyaga.base.navigation.impl.navigator.AppNavigator
-import com.thebrodyaga.brandbook.component.sound.SoundCardViewHolder
 import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
+import com.thebrodyaga.core.uiUtils.recycler.pool.PrefetchRecycledViewPool
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.ActivityDependencies
@@ -58,6 +58,9 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
     lateinit var soundsListViewPool: SoundsListViewPool
 
     @Inject
+    lateinit var viewPools: Set<@JvmSuppressWildcards PrefetchRecycledViewPool>
+
+    @Inject
     lateinit var mainScreenFactory: MainScreenFactory
 
     @Inject
@@ -83,14 +86,9 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         setContentView(R.layout.layout_fragemnt_container)
 
         splashScreen.setOnExitAnimationListener { splashProvider ->
-            lifecycleScope.launch { waitOnLoaded(splashProvider) }
             lifecycleScope.launch {
-                // todo
-                soundsListViewPool.setPrefetchedViewType(
-                    SoundCardViewHolder.VIEW_TYPE, SoundCardViewHolder.VIEW_TYPE, 44
-                ) { _: Int, itemView: View ->
-                    SoundCardViewHolder(itemView)
-                }
+                viewPools.forEach { it.prefetch() }
+                waitOnLoaded(splashProvider)
             }
         }
     }

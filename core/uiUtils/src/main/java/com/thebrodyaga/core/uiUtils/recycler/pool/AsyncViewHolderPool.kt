@@ -13,10 +13,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import java.lang.reflect.Field
-import javax.inject.Inject
 import kotlin.random.Random
 
-open class AsyncViewHolderPool @Inject constructor(
+open class AsyncViewHolderPool constructor(
     private val activity: AppCompatActivity
 ) : ViewHolderPool {
 

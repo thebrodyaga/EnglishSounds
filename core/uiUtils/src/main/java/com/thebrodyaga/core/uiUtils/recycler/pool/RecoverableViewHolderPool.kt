@@ -8,16 +8,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.tracing.Trace
 import com.thebrodyaga.core.uiUtils.view.AsyncLayoutInflater
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.reflect.Field
-import javax.inject.Inject
 
-class RecoverableViewHolderPool @Inject constructor(
+class RecoverableViewHolderPool constructor(
     private val activity: AppCompatActivity,
     private val recoverableDelayMs: Long = 500L,
     private val delegate: ViewHolderPool = AsyncViewHolderPool(activity),
@@ -37,20 +35,14 @@ class RecoverableViewHolderPool @Inject constructor(
 
     override fun pop(viewType: Int): RecyclerView.ViewHolder? {
         resetPendingCreation(viewType)
+        Log.d(TAG, "pop, size = ${size(viewType)}, maxSize = ${maxSize(viewType)}")
         val job = scope.launch {
-            try {
-                delay(recoverableDelayMs)
-                val recoverableSize = ((maxSize(viewType) ?: 0) - (size(viewType) ?: 0))
-                Log.d(
-                    TAG,
-                    "recoverableSize = $recoverableSize " +
-                            "size = ${size(viewType)}, maxSize = ${maxSize(viewType)}"
-                )
-                repeat(recoverableSize) {
-                    viewHolderFactories[viewType]?.invoke()
-                }
-            } catch (e: CancellationException) {
-                Log.d(TAG, "CancellationException")
+            delay(recoverableDelayMs)
+            val recoverableSize = ((maxSize(viewType) ?: 0) - (size(viewType) ?: 0))
+            val msg = "recoverableSize = $recoverableSize size = ${size(viewType)}, maxSize = ${maxSize(viewType)}"
+            Log.d(TAG, msg)
+            repeat(recoverableSize) {
+                viewHolderFactories[viewType]?.invoke()
             }
         }
         pendingCreation[viewType] = job

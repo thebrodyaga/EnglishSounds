@@ -18,5 +18,5 @@ interface AppActivityModule {
     @Binds
     @IntoMap
     @ViewModelKey(AppViewModel::class)
-    fun settingsViewModel(viewModel: AppViewModel): ViewModel
+    fun appViewModel(viewModel: AppViewModel): ViewModel
 }
