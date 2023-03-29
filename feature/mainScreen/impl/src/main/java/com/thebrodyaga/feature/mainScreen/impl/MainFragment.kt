@@ -69,11 +69,14 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
     override fun applyWindowInsets(rootView: View) {
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainBottomNavigation, null)
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainBottomAppBar, null)
-        rootView.doOnApplyWindowInsets { view, insets, initialPadding ->
+        rootView.doOnApplyWindowInsets { _, insets, _ ->
             val navigationBars = insets.navigationBars()
             val ime = insets.ime()
 
-            binding.mainBottomNavigation.appleInsetPadding(0, 0, 0, navigationBars.bottom)
+            binding.mainBottomNavigation.appleInsetPadding(
+                oldInsets = navigationBars,
+                bottom = navigationBars.bottom
+            )
 
             val newInsets = WindowInsetsCompat.Builder(insets)
 

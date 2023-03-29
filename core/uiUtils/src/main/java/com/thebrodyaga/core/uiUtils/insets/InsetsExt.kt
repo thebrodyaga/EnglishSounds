@@ -1,10 +1,10 @@
 package com.thebrodyaga.core.uiUtils.insets
 
+import android.view.View
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import android.view.View
 import com.thebrodyaga.core.uiUtils.R
 
 val systemAndImeInsetType: Int
@@ -26,15 +26,33 @@ inline fun Insets.consume(block: Insets.() -> Unit = {}): WindowInsetsCompat {
     return WindowInsetsCompat.CONSUMED
 }
 
-fun View.appleTopInsets(insets: Insets) {
-    appleInsetPadding(top = insets.top, left = insets.left, right = insets.right)
+fun WindowInsetsCompat.updateInsets(block: WindowInsetsCompat.Builder.() -> Unit = {}): WindowInsetsCompat {
+    val builder = WindowInsetsCompat.Builder(this)
+    block(builder)
+    return builder.build()
 }
 
-fun View.appleBottomInsets(insets: Insets) {
-    appleInsetPadding(bottom = insets.bottom, left = insets.left, right = insets.right)
+fun View.appleTopInsets(insets: Insets): Insets =
+    appleInsetPadding(oldInsets = insets, top = insets.top, left = insets.left, right = insets.right)
+
+fun View.appleBottomInsets(insets: Insets): Insets =
+    appleInsetPadding(oldInsets = insets, bottom = insets.bottom, left = insets.left, right = insets.right)
+
+/**
+ * appleInsetPadding and return not consumed Insets
+ */
+fun View.appleInsetPadding(oldInsets: Insets, left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0): Insets {
+    appleInsetPadding(left, top, right, bottom)
+    return Insets.of(
+        oldInsets.left - left,
+        oldInsets.top - top,
+        oldInsets.right - right,
+        oldInsets.bottom - bottom,
+
+        )
 }
 
-fun View.appleInsetPadding(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {
+private fun View.appleInsetPadding(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {
     val tagKey = R.id.initial_view_padding_tag_id
     val initialPadding = getTag(tagKey) as? InitialViewPadding ?: let {
         val paddings = recordInitialPaddingForView(this)

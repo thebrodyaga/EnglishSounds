@@ -8,6 +8,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
 import com.thebrodyaga.core.uiUtils.insets.systemAndIme
+import com.thebrodyaga.core.uiUtils.insets.systemAndImeInsetType
+import com.thebrodyaga.core.uiUtils.insets.updateInsets
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.databinding.FragmentAllVideoBinding
@@ -53,8 +55,10 @@ class AllVideoFragment : ScreenFragment(R.layout.fragment_all_video) {
     override fun applyWindowInsets(rootView: View) {
         rootView.doOnApplyWindowInsets { _, insets, _ ->
             val systemAndIme = insets.systemAndIme()
-            binding.appbar.appleTopInsets(systemAndIme)
-            insets
+            val notConsumedInsets = binding.appbar.appleTopInsets(systemAndIme)
+            insets.updateInsets {
+                setInsets(systemAndImeInsetType, notConsumedInsets)
+            }
         }
     }
 
