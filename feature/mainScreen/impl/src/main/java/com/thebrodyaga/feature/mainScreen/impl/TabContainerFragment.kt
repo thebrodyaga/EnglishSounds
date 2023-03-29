@@ -48,7 +48,7 @@ class TabContainerFragment : ScreenFragment(R.layout.layout_fragemnt_container),
             if (containerName == MainFragment.FIRST_MAIN_PAGE.second)
                 tabRouter.newRootScreen(soundListScreenFactory.soundListFactory())
             if (containerName == MainFragment.SECOND_MAIN_PAGE.second)
-                tabRouter.newRootScreen(videoListScreenFactory.videoListScreen())
+                tabRouter.newRootScreen(videoListScreenFactory.videoCarouselScreen())
             if (containerName == MainFragment.THIRD_MAIN_PAGE.second)
                 tabRouter.newRootScreen(trainingScreenFactory.trainingScreen())
         }

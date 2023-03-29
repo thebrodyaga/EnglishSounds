@@ -1,4 +1,4 @@
-package com.thebrodyaga.feature.videoList.impl.listoflists
+package com.thebrodyaga.feature.videoList.impl.carousel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

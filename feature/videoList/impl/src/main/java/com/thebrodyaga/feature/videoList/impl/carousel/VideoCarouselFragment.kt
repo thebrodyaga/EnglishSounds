@@ -1,4 +1,4 @@
-package com.thebrodyaga.feature.videoList.impl.listoflists
+package com.thebrodyaga.feature.videoList.impl.carousel
 
 import android.os.Bundle
 import android.util.SparseIntArray
@@ -25,7 +25,7 @@ import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.impl.R
-import com.thebrodyaga.feature.videoList.impl.databinding.FragmentListOfVideoListsBinding
+import com.thebrodyaga.feature.videoList.impl.databinding.FragmentVideoCarouselBinding
 import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.AdItemDecorator
@@ -39,7 +39,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class ListOfVideoListsFragment : ScreenFragment(R.layout.fragment_list_of_video_lists) {
+class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
 
     private val adapter = CommonAdapter(
         delegates = listOf(
@@ -60,7 +60,7 @@ class ListOfVideoListsFragment : ScreenFragment(R.layout.fragment_list_of_video_
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: ListOfVideoListsViewModel by viewModels { viewModelFactory }
 
-    private val binding by viewBinding(FragmentListOfVideoListsBinding::bind)
+    private val binding by viewBinding(FragmentVideoCarouselBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         VideoListComponent.factory(this, null).inject(this)
@@ -79,10 +79,10 @@ class ListOfVideoListsFragment : ScreenFragment(R.layout.fragment_list_of_video_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.adapter = adapter
-        binding.list.itemAnimator = null
-        binding.list.addItemDecoration(
+        binding.videoCarouselList.layoutManager = LinearLayoutManager(context)
+        binding.videoCarouselList.adapter = adapter
+        binding.videoCarouselList.itemAnimator = null
+        binding.videoCarouselList.addItemDecoration(
             AdItemDecorator(
                 context, RecyclerView.VERTICAL,
                 R.dimen.ad_item_in_vertical_horizontal_offset
@@ -98,8 +98,8 @@ class ListOfVideoListsFragment : ScreenFragment(R.layout.fragment_list_of_video_
     override fun applyWindowInsets(rootView: View) {
         rootView.doOnApplyWindowInsets { _, insets, _ ->
             insets.systemAndIme().consume {
-                binding.appbar.appleTopInsets(this)
-                binding.list.appleBottomInsets(this)
+                binding.videoCarouselAppbar.appleTopInsets(this)
+                binding.videoCarouselList.appleBottomInsets(this)
             }
         }
     }

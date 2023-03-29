@@ -1,4 +1,4 @@
-package com.thebrodyaga.feature.videoList.impl.listoflists
+package com.thebrodyaga.feature.videoList.impl.carousel
 
 import android.util.SparseIntArray
 import androidx.recyclerview.widget.RecyclerView

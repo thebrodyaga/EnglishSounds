@@ -11,7 +11,7 @@ import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor
 import com.thebrodyaga.feature.videoList.impl.page.VideoListPageFragment
-import com.thebrodyaga.feature.videoList.impl.listoflists.ListOfVideoListsFragment
+import com.thebrodyaga.feature.videoList.impl.carousel.VideoCarouselFragment
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import dagger.BindsInstance
 import dagger.Component
@@ -29,7 +29,7 @@ interface VideoListComponent {
         ): VideoListComponent
     }
 
-    fun inject(fragment: ListOfVideoListsFragment)
+    fun inject(fragment: VideoCarouselFragment)
     fun inject(fragment: VideoListPageFragment)
 
     companion object {
