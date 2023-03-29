@@ -8,20 +8,15 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/view_pager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:liftOnScroll="false">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/main_menu_tab_third"
-            app:titleTextAppearance="@style/Title2Regular" />
+            android:layout_height="wrap_content"
+            app:title="@string/main_menu_tab_third" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,15 +26,15 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.thebrodyaga.feature.training.impl.SoundsTrainingFragment">
 
-       <!-- <com.thebrodyaga.legacy.AdVerticalShortView
-            android:id="@+id/include_ad"
-            style="@style/Widget.MaterialComponents.CardView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />-->
+        <!-- <com.thebrodyaga.legacy.AdVerticalShortView
+             android:id="@+id/include_ad"
+             style="@style/Widget.MaterialComponents.CardView"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             app:cardUseCompatPadding="true"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent" />-->
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
@@ -60,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_pager"
             app:layout_constraintStart_toStartOf="@+id/view_pager"
             app:layout_constraintTop_toTopOf="@+id/view_pager"
-            app:layout_constraintVertical_bias="0.8"
+            app:layout_constraintVertical_bias="0.85"
             app:srcCompat="@drawable/ic_play" />
 
         <ImageView

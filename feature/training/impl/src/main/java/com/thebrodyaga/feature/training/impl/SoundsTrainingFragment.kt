@@ -9,6 +9,12 @@ import androidx.viewpager2.widget.ViewPager2
 import android.os.Bundle
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
+import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
+import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
+import com.thebrodyaga.core.uiUtils.insets.consume
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
@@ -67,6 +73,15 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
             .onEach { setData(it.sounds) }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
+    }
+
+    override fun applyWindowInsets(rootView: View) {
+        rootView.doOnApplyWindowInsets { _, insets, _ ->
+            insets.systemAndIme().consume {
+                binding.appbar.appleTopInsets(this)
+                binding.rootView.appleBottomInsets(this)
+            }
+        }
     }
 
     override fun onDestroyView() {
