@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.app.ViewModelKey
-import com.thebrodyaga.feature.videoList.impl.list.VideoListViewModel
+import com.thebrodyaga.feature.videoList.impl.page.VideoListViewModel
 import com.thebrodyaga.feature.videoList.impl.listoflists.ListOfVideoListsViewModel
 import dagger.Binds
 import dagger.Module

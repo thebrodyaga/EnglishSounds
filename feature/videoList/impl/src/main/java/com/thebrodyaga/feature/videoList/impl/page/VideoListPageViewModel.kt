@@ -1,8 +1,7 @@
-package com.thebrodyaga.feature.videoList.impl.list
+package com.thebrodyaga.feature.videoList.impl.page
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor

@@ -1,14 +1,16 @@
 package com.thebrodyaga.feature.videoList.impl.di
 
+import androidx.fragment.app.Fragment
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.base.di.FeatureScope
+import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor
-import com.thebrodyaga.feature.videoList.impl.list.VideoListFragment
+import com.thebrodyaga.feature.videoList.impl.page.VideoListPageFragment
 import com.thebrodyaga.feature.videoList.impl.listoflists.ListOfVideoListsFragment
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import dagger.BindsInstance
@@ -28,16 +30,16 @@ interface VideoListComponent {
     }
 
     fun inject(fragment: ListOfVideoListsFragment)
-    fun inject(fragment: VideoListFragment)
+    fun inject(fragment: VideoListPageFragment)
 
     companion object {
 
         fun factory(
-            dependencies: VideoListDependencies,
+            fragment: Fragment,
             listType: VideoListType?,
         ): VideoListComponent {
             return DaggerVideoListComponent.factory()
-                .create(dependencies, listType)
+                .create(fragment.findDependencies(), listType)
         }
     }
 }

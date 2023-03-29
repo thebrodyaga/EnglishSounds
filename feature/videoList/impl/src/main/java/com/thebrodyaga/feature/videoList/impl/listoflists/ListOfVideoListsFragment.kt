@@ -59,7 +59,7 @@ class ListOfVideoListsFragment : ScreenFragment(R.layout.fragment_list_of_video_
     private val binding by viewBinding(FragmentListOfVideoListsBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        VideoListComponent.factory(findDependencies(), null).inject(this)
+        VideoListComponent.factory(this, null).inject(this)
         super.onCreate(savedInstanceState)
         adapter = SoundsAdapter(
             viewModel.positionList,

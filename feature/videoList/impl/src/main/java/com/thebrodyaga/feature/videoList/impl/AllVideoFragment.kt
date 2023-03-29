@@ -3,8 +3,9 @@ package com.thebrodyaga.feature.videoList.impl
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
 import com.thebrodyaga.core.uiUtils.insets.systemAndIme
@@ -13,7 +14,7 @@ import com.thebrodyaga.core.uiUtils.insets.updateInsets
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.impl.databinding.FragmentAllVideoBinding
-import com.thebrodyaga.feature.videoList.impl.list.VideoListFragment
+import com.thebrodyaga.feature.videoList.impl.page.VideoListPageFragment
 import com.thebrodyaga.legacy.titleRes
 
 class AllVideoFragment : ScreenFragment(R.layout.fragment_all_video) {
@@ -33,23 +34,21 @@ class AllVideoFragment : ScreenFragment(R.layout.fragment_all_video) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tabLayout.setupWithViewPager(binding.pager)
-        binding.pager.adapter = VideoPageAdapter()
+        val adapter = VideoPageAdapter()
+        binding.pager.adapter = adapter
         binding.pager.setCurrentItem(pageList.indexOf(showPage), false)
+        TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
+            tab.text = resources.getText(pageList[position].titleRes())
+        }.attach()
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
-    private inner class VideoPageAdapter :
-        FragmentStatePagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    private inner class VideoPageAdapter : FragmentStateAdapter(this) {
 
-        override fun getItem(position: Int): Fragment =
-            VideoListFragment.newInstance(pageList[position])
+        override fun getItemCount(): Int = pageList.size
 
-        override fun getCount(): Int = pageList.size
-
-        override fun getPageTitle(position: Int): CharSequence? {
-            return resources.getText(pageList[position].titleRes())
-        }
+        override fun createFragment(position: Int): Fragment =
+            VideoListPageFragment.newInstance(pageList[position])
     }
 
     override fun applyWindowInsets(rootView: View) {
