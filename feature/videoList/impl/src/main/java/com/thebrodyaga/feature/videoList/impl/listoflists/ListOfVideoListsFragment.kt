@@ -1,6 +1,7 @@
 package com.thebrodyaga.feature.videoList.impl.listoflists
 
 import android.os.Bundle
+import android.util.SparseIntArray
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
 import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
 import com.thebrodyaga.core.uiUtils.insets.consume
@@ -19,7 +21,6 @@ import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
-import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
@@ -33,7 +34,6 @@ import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
 import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoListItem
 import com.thebrodyaga.legacy.VideoListItem
-import com.thebrodyaga.legacy.adapters.SoundsAdapter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -41,7 +41,11 @@ import javax.inject.Inject
 
 class ListOfVideoListsFragment : ScreenFragment(R.layout.fragment_list_of_video_lists) {
 
-    private lateinit var adapter: SoundsAdapter
+    private val adapter = CommonAdapter(
+        delegates = listOf(
+            videoCarouselDelegate(listPosition = SparseIntArray())
+        )
+    )
 
     @Inject
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
@@ -61,7 +65,7 @@ class ListOfVideoListsFragment : ScreenFragment(R.layout.fragment_list_of_video_
     override fun onCreate(savedInstanceState: Bundle?) {
         VideoListComponent.factory(this, null).inject(this)
         super.onCreate(savedInstanceState)
-        adapter = SoundsAdapter(
+        /*adapter = SoundsAdapter(
             viewModel.positionList,
             { soundDto, sharedElements -> onSoundClick(soundDto, sharedElements) },
             { getAnyRouter().navigateTo(soundScreenFactory.soundDetailsScreen(it)) },
@@ -69,7 +73,7 @@ class ListOfVideoListsFragment : ScreenFragment(R.layout.fragment_list_of_video_
             lifecycle,
             requireContext(),
             youtubeScreenFactory, getAnyRouter()
-        )
+        )*/
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,7 +90,7 @@ class ListOfVideoListsFragment : ScreenFragment(R.layout.fragment_list_of_video_
         )
         viewModel.getState()
             .filterIsInstance<ListOfVideoListsState.Content>()
-            .onEach { adapter.setData(it.list) }
+            .onEach { adapter.items = (it.list) }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
     }

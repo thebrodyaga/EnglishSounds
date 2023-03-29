@@ -7,11 +7,11 @@ import com.thebrodyaga.feature.videoList.api.VideoListType
 sealed class VideoListItem constructor(
     @StringRes val title: Int,
     @StringRes val shortTitle: Int,
-    open val list: List<VideoItemInList>
+    open val list: List<VideoItem>
 ) : SoundsListItem
 
 data class ContrastingSoundVideoListItem constructor(
-    override val list: List<VideoItemInList>
+    override val list: List<VideoItem>
 ) : VideoListItem(
     R.string.contrasting_sound_video_title,
     R.string.contrasting_sound_video_title,
@@ -19,7 +19,7 @@ data class ContrastingSoundVideoListItem constructor(
 )
 
 data class MostCommonWordsVideoListItem constructor(
-    override val list: List<VideoItemInList>
+    override val list: List<VideoItem>
 ) : VideoListItem(
     R.string.most_common_words_video_title,
     R.string.most_common_words_video_title,
@@ -27,7 +27,7 @@ data class MostCommonWordsVideoListItem constructor(
 )
 
 data class AdvancedExercisesVideoListItem constructor(
-    override val list: List<VideoItemInList>
+    override val list: List<VideoItem>
 ) : VideoListItem(
     R.string.advanced_exercises_video_title,
     R.string.advanced_exercises_video_title,
@@ -36,7 +36,7 @@ data class AdvancedExercisesVideoListItem constructor(
 
 data class SoundVideoListItem constructor(
     val soundType: SoundType,
-    override val list: List<VideoItemInList>
+    override val list: List<VideoItem>
 ) : VideoListItem(soundType.humanName(), soundType.shortHumanName(), list)
 
 fun VideoListType.titleRes(): Int = when (this) {
