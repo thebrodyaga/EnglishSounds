@@ -5,7 +5,7 @@ import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.base.di.FeatureScope
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.setting.api.SettingManager
-import com.thebrodyaga.feature.soundDetails.impl.ui.SoundFragment
+import com.thebrodyaga.feature.soundDetails.impl.ui.SoundDetailsFragment
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import dagger.BindsInstance
 import dagger.Component
@@ -23,7 +23,7 @@ interface SoundDetailsComponent {
         ): SoundDetailsComponent
     }
 
-    fun inject(fragment: SoundFragment)
+    fun inject(fragment: SoundDetailsFragment)
 
     companion object {
 

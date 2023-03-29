@@ -23,7 +23,7 @@ import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.setting.api.SettingManager
 import com.thebrodyaga.feature.soundDetails.impl.R
-import com.thebrodyaga.feature.soundDetails.impl.databinding.FragmentSoundBinding
+import com.thebrodyaga.feature.soundDetails.impl.databinding.FragmentDetailsSoundBinding
 import com.thebrodyaga.feature.soundDetails.impl.di.SoundDetailsComponent
 import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.soundDetailsDescriptionDelegate
 import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.soundDetailsImageDelegate
@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class SoundFragment : ScreenFragment(R.layout.fragment_sound) {
+class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
 
     @Inject
     lateinit var soundsRepository: SoundsRepository
@@ -47,7 +47,7 @@ class SoundFragment : ScreenFragment(R.layout.fragment_sound) {
 
     @Inject
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
-    private val binding by viewBinding(FragmentSoundBinding::bind)
+    private val binding by viewBinding(FragmentDetailsSoundBinding::bind)
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -73,9 +73,9 @@ class SoundFragment : ScreenFragment(R.layout.fragment_sound) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.adapter = adapter
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.soundDetailsList.layoutManager = LinearLayoutManager(context)
+        binding.soundDetailsList.adapter = adapter
+        binding.soundDetailsToolbar.setNavigationOnClickListener { onBackPressed() }
         viewModel.getState()
             .filterIsInstance<SoundState.Content>()
             .onEach { setData(it.list, it.soundDto) }
@@ -84,16 +84,15 @@ class SoundFragment : ScreenFragment(R.layout.fragment_sound) {
     }
 
     fun setData(list: List<UiModel>, soundDto: AmericanSoundDto) {
-        binding.toolbar.title = soundDto.name.plus(" ").plus("[${soundDto.transcription}]")
-        // todo
+        binding.soundDetailsToolbar.title = soundDto.name.plus(" ").plus("[${soundDto.transcription}]")
         adapter.items = (list)
     }
 
     override fun applyWindowInsets(rootView: View) {
         rootView.doOnApplyWindowInsets { _, insets, _ ->
             insets.systemAndIme().consume {
-                binding.appbar.appleTopInsets(this)
-                binding.list.appleBottomInsets(this)
+                binding.soundDetailsAppbar.appleTopInsets(this)
+                binding.soundDetailsList.appleBottomInsets(this)
             }
         }
     }
@@ -105,8 +104,8 @@ class SoundFragment : ScreenFragment(R.layout.fragment_sound) {
 
     companion object {
         private const val EXTRA = "SoundFragmentExtra"
-        fun newInstance(transcription: String): SoundFragment =
-            SoundFragment().apply {
+        fun newInstance(transcription: String): SoundDetailsFragment =
+            SoundDetailsFragment().apply {
                 arguments = Bundle().also { it.putString(EXTRA, transcription) }
             }
     }
