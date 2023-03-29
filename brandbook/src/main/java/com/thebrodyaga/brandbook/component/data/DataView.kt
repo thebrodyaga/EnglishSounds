@@ -1,10 +1,10 @@
 package com.thebrodyaga.brandbook.component.data
 
+import android.content.Context
+import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
-import android.content.Context
-import android.util.AttributeSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.component.data.left.DataLeftView
@@ -33,6 +33,7 @@ class DataView @JvmOverloads constructor(
         inflate(context, R.layout.view_data, this)
         val paddingHorizontal = 16.px
         val paddingVertical = 12.px
+        minHeight = 72.px
         updatePadding(
             left = paddingHorizontal,
             top = paddingVertical,

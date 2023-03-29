@@ -7,6 +7,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
+import com.thebrodyaga.brandbook.model.UiModel
+import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
 import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
 import com.thebrodyaga.core.uiUtils.insets.consume
@@ -22,6 +25,9 @@ import com.thebrodyaga.feature.setting.api.SettingManager
 import com.thebrodyaga.feature.soundDetails.impl.R
 import com.thebrodyaga.feature.soundDetails.impl.databinding.FragmentSoundBinding
 import com.thebrodyaga.feature.soundDetails.impl.di.SoundDetailsComponent
+import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.soundDetailsDescriptionDelegate
+import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.soundDetailsImageDelegate
+import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.soundDetailsVideoDelegate
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
@@ -47,14 +53,20 @@ class SoundFragment : ScreenFragment(R.layout.fragment_sound) {
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: SoundViewModel by viewModels { viewModelFactory }
 
-    private lateinit var adapter: SoundDetailsAdapter
+    private val adapter = CommonAdapter(
+        delegates = listOf(
+            dataViewCommonDelegate(),
+            soundDetailsImageDelegate(),
+            soundDetailsDescriptionDelegate(),
+            soundDetailsVideoDelegate(),
+        )
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val transcription = arguments?.getString(EXTRA)
             ?: throw IllegalArgumentException("need put sound id")
 
         SoundDetailsComponent.factory(findDependencies(), transcription).inject(this)
-        adapter = SoundDetailsAdapter(getAnyRouter(), youtubeScreenFactory, audioPlayer, requireContext(), lifecycle)
         super.onCreate(savedInstanceState)
     }
 
@@ -71,10 +83,10 @@ class SoundFragment : ScreenFragment(R.layout.fragment_sound) {
             .launchIn(lifecycleScope)
     }
 
-    fun setData(list: List<Any>, soundDto: AmericanSoundDto) {
+    fun setData(list: List<UiModel>, soundDto: AmericanSoundDto) {
         binding.toolbar.title = soundDto.name.plus(" ").plus("[${soundDto.transcription}]")
         // todo
-        adapter.setData(list)
+        adapter.items = (list)
     }
 
     override fun applyWindowInsets(rootView: View) {
