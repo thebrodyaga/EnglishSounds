@@ -2,7 +2,6 @@ package com.thebrodyaga.data.sounds.api
 
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
-import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 
 interface SoundsRepository {

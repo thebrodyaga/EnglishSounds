@@ -3,6 +3,7 @@ package com.thebrodyaga.feature.videoList.impl.carousel
 import android.os.Bundle
 import android.util.SparseIntArray
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
 import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
@@ -43,8 +45,16 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
 
     private val adapter = CommonAdapter(
         delegates = listOf(
-            videoCarouselDelegate(listPosition = SparseIntArray())
+            videoCarouselDelegate(
+                listPosition = SparseIntArray(),
+                shadowRecyclerHeight = { binding.videoCarouselShadowList.height }
+            )
         )
+    )
+
+    private val shadowList = listOf<UiModel>(VideoCarouselItemUiModel("", ""))
+    private val shadowAdapter = CommonAdapter(
+        delegates = listOf(videoCarouselItemDelegate())
     )
 
     @Inject
@@ -79,7 +89,8 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        binding.videoCarouselList.layoutManager = LinearLayoutManager(context)
+        binding.videoCarouselShadowList.adapter = shadowAdapter
+        shadowAdapter.items = shadowList
         binding.videoCarouselList.adapter = adapter
         binding.videoCarouselList.itemAnimator = null
         binding.videoCarouselList.addItemDecoration(

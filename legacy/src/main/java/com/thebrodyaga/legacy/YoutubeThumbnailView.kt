@@ -3,8 +3,10 @@ package com.thebrodyaga.legacy
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.core.view.doOnLayout
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.thebrodyaga.legacy.databinding.ViewYoutubeThumbnailBinding
 
 class YoutubeThumbnailView @JvmOverloads constructor(
@@ -17,12 +19,12 @@ class YoutubeThumbnailView @JvmOverloads constructor(
         inflate(context, R.layout.view_youtube_thumbnail, this)
     }
 
-    fun loadYoutubeThumbnail(videoId: String) {
+    fun loadYoutubeThumbnail(videoId: String) = doOnLayout {
         Glide.with(context)
             .load(getThumbnailUtl(videoId))
+            .apply(RequestOptions().override(it.width, it.height))
             .into(binding.youtubeThumbnail)
     }
-
 
 
     private fun getThumbnailUtl(videoId: String) =
