@@ -23,6 +23,7 @@ class YoutubeThumbnailView @JvmOverloads constructor(
         Glide.with(context)
             .load(getThumbnailUtl(videoId))
             .apply(RequestOptions().override(it.width, it.height))
+            .centerCrop()
             .into(binding.youtubeThumbnail)
     }
 

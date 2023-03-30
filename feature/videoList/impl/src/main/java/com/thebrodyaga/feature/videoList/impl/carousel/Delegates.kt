@@ -1,10 +1,12 @@
 package com.thebrodyaga.feature.videoList.impl.carousel
 
 import android.util.SparseIntArray
+import androidx.core.view.isInvisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
+import com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniUiModel
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.feature.videoList.impl.databinding.ItemVideoCarouselBinding
@@ -41,6 +43,8 @@ data class VideoCarouselUiModel(
 data class VideoCarouselItemUiModel(
     val videoId: String,
     val title: String,
+    val firstSound: SoundCardMiniUiModel? = null,
+    val secondSound: SoundCardMiniUiModel? = null,
 ) : UiModel
 
 fun videoCarouselItemDelegate(
@@ -53,11 +57,22 @@ fun videoCarouselItemDelegate(
     bind {
         binding.root.setOnMaskChangedListener { maskRect ->
             val visiblePercent = ((maskRect.right - maskRect.left) / itemView.width).absoluteValue
-            val alphaPercent = 0.5f + (0.5f * visiblePercent)
+            val alphaPercent = 0.4f + (0.6f * visiblePercent)
             itemView.alpha = alphaPercent
             binding.carouselItemText.translationX = maskRect.left
+            binding.carouselItemFirstSound.translationX = maskRect.left
+            binding.carouselItemSecondSound.translationX = maskRect.left
         }
         binding.carouselItemVideoView.loadYoutubeThumbnail(item.videoId)
+
+        val firstSound = item.firstSound
+        binding.carouselItemFirstSound.isInvisible = firstSound == null
+        firstSound?.let { binding.carouselItemFirstSound.bind(firstSound) }
+
+        val secondSound = item.secondSound
+        binding.carouselItemSecondSound.isInvisible = secondSound == null
+        secondSound?.let { binding.carouselItemSecondSound.bind(secondSound) }
+
         binding.carouselItemText.text = item.title
     }
 }

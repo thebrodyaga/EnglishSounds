@@ -21,7 +21,7 @@ import com.thebrodyaga.core.uiUtils.resources.px
 
 class SoundCardView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
-) : MaterialCardView(context, attrs) {
+) : MaterialCardView(context, attrs, R.attr.materialCardViewElevatedStyle) {
 
     private val binding by viewBinding(ViewSoundCardBinding::bind)
 

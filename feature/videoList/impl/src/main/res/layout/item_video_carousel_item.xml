@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.55" />
+            app:layout_constraintGuide_percent="0.5" />
 
         <com.thebrodyaga.legacy.YoutubeThumbnailView
             android:id="@+id/carouselItemVideoView"
@@ -28,11 +28,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <include
+        <com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniView
             android:id="@+id/carouselItemFirstSound"
-            layout="@layout/item_sound_min"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toTopOf="@+id/carouselItemText"
             app:layout_constraintDimensionRatio="h,1:1"
             app:layout_constraintEnd_toStartOf="@+id/carouselItemSecondSound"
@@ -41,20 +42,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/carouselItemGuideline" />
 
-        <include
+        <com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniView
             android:id="@+id/carouselItemSecondSound"
-            layout="@layout/item_sound_min"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="4dp"
             app:layout_constraintBottom_toTopOf="@+id/carouselItemText"
             app:layout_constraintDimensionRatio="h,1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/carouselItemFirstSound"
             app:layout_constraintTop_toBottomOf="@+id/carouselItemGuideline" />
 
-
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.thebrodyaga.brandbook.component.text.AppTextView
             android:id="@+id/carouselItemText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

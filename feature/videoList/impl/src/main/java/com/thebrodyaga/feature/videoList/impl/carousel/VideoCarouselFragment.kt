@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
@@ -48,7 +49,8 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
             videoCarouselDelegate(
                 listPosition = SparseIntArray(),
                 shadowRecyclerHeight = { binding.videoCarouselShadowList.height }
-            )
+            ),
+            dataViewCommonDelegate()
         )
     )
 
