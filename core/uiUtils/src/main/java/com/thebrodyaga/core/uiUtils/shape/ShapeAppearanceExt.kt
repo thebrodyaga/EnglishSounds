@@ -8,35 +8,6 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.shape.ShapeAppearanceModel.PILL
 import com.thebrodyaga.core.uiUtils.outline.ShapeOutlineProvider
 
-fun View.rippleForeground(
-    shape: ShapeAppearanceModel? = shapeRectangle(),
-    @AttrRes color: Int = android.R.attr.selectableItemBackground,
-) {
-    // todo
-    /*foreground = AppCompatResources.getDrawable(context, resFromTheme(color))
-    if (shape != null) shapeOutline(shape)*/
-}
-
-fun View.shapeOutline(
-    shape: ShapeAppearanceModel?
-) {
-    if (shape == null) {
-        this.outlineProvider = null
-        invalidateOutline()
-        return
-    }
-    val outlineProvider = this.outlineProvider
-    if (outlineProvider is ShapeOutlineProvider) {
-        outlineProvider.update(shape)
-        invalidateOutline()
-    } else {
-        this.outlineProvider = ShapeOutlineProvider().also {
-            it.update(shape)
-            clipToOutline = true
-        }
-    }
-}
-
 fun shapeRectangle(): ShapeAppearanceModel = ShapeAppearanceModel.builder().build()
 
 fun shapeCircle(): ShapeAppearanceModel = ShapeAppearanceModel.builder()

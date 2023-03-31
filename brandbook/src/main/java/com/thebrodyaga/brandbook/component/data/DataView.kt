@@ -11,7 +11,7 @@ import com.thebrodyaga.brandbook.component.data.left.DataLeftView
 import com.thebrodyaga.brandbook.component.data.right.DataRightView
 import com.thebrodyaga.brandbook.databinding.ViewDataBinding
 import com.thebrodyaga.core.uiUtils.resources.px
-import com.thebrodyaga.core.uiUtils.shape.rippleForeground
+import com.thebrodyaga.core.uiUtils.ripple.rippleForeground
 
 class DataView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null

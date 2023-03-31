@@ -8,7 +8,7 @@ import com.thebrodyaga.core.uiUtils.drawable.DrawableUiModel
 import com.thebrodyaga.core.uiUtils.drawable.bindBackground
 import com.thebrodyaga.core.uiUtils.drawable.bindForeground
 import com.thebrodyaga.core.uiUtils.common.getColorStateList
-import com.thebrodyaga.core.uiUtils.shape.shapeOutline
+import com.thebrodyaga.core.uiUtils.outline.shapeOutline
 
 data class ImageViewUiModel(
     val icon: IconContainer,

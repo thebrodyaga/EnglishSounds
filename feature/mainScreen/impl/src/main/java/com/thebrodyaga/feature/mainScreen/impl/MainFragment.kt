@@ -15,7 +15,7 @@ import com.thebrodyaga.core.uiUtils.insets.imeInsetType
 import com.thebrodyaga.core.uiUtils.insets.navigationBars
 import com.thebrodyaga.core.uiUtils.insets.navigationInsetType
 import com.thebrodyaga.core.uiUtils.resources.px
-import com.thebrodyaga.core.uiUtils.shape.shapeOutline
+import com.thebrodyaga.core.uiUtils.outline.shapeOutline
 import com.thebrodyaga.core.uiUtils.shape.shapeTopRounded
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
