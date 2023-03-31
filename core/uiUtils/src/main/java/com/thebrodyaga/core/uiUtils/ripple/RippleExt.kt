@@ -1,16 +1,20 @@
 package com.thebrodyaga.core.uiUtils.ripple
 
+import android.graphics.drawable.RippleDrawable
+import android.os.Build
 import android.view.View
 import androidx.annotation.AttrRes
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.thebrodyaga.core.uiUtils.R
+import com.thebrodyaga.core.uiUtils.common.getColorStateList
+import com.thebrodyaga.core.uiUtils.drawable.shapeDrawable
 import com.thebrodyaga.core.uiUtils.shape.shapeRectangle
 
 fun View.rippleForeground(
     shape: ShapeAppearanceModel? = shapeRectangle(),
-    @AttrRes color: Int = R.attr.colorPrimary,
+    @AttrRes color: Int = R.attr.colorSecondary,
 ) {
-    // todo
-    /*foreground = AppCompatResources.getDrawable(context, resFromTheme(color))
-    if (shape != null) shapeOutline(shape)*/
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
+    val rippleColor = getColorStateList(color) ?: return
+    foreground = RippleDrawable(rippleColor, null, shape?.let { shapeDrawable(shape) })
 }

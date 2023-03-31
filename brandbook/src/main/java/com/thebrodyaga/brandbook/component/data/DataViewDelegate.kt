@@ -20,3 +20,25 @@ fun dataViewCommonDelegate(
             bindListener?.invoke(binding.root, item)
         }
     }
+
+fun dataViewOnlyLeftDelegate(
+    inflateListener: ((view: DataView) -> Unit)? = null,
+    bindListener: ((view: DataView, item: DataUiModel) -> Unit)? = null,
+): AdapterDelegate<List<UiModel>> =
+    adapterDelegateViewBinding<DataUiModel, UiModel, ItemDataViewBinding>(
+        viewBinding = { inflater, parent -> ItemDataViewBinding.inflate(inflater, parent, false) },
+        on = { item, _, _ ->
+            when (item) {
+                is DataUiModel -> item.rightSide == null
+                else -> false
+            }
+        }
+    ) {
+
+        inflateListener?.invoke(binding.root)
+
+        bind {
+            binding.root.bind(item)
+            bindListener?.invoke(binding.root, item)
+        }
+    }

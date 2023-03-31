@@ -1,6 +1,7 @@
 package com.thebrodyaga.feature.soundDetails.impl.ui.mapper
 
 import android.app.Application
+import android.content.Context
 import androidx.core.text.HtmlCompat
 import com.thebrodyaga.brandbook.component.data.DataUiModel
 import com.thebrodyaga.brandbook.component.data.left.DataLeftUiModel
@@ -17,7 +18,6 @@ import com.thebrodyaga.feature.soundDetails.impl.R
 import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.SoundDetailsDescriptionUiModel
 import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.SoundDetailsImageUiModel
 import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.SoundDetailsVideoUiModel
-import com.thebrodyaga.feature.soundDetails.impl.ui.getVideoAndDescription
 import com.thebrodyaga.legacy.WordsHeader
 import javax.inject.Inject
 
@@ -115,4 +115,20 @@ class SoundDetailsMapper @Inject constructor(
             )
         )
     )
+
+    private fun Context.getVideoAndDescription(): Pair<MutableMap<String, String>, MutableMap<String, String>> {
+        val videoArray = resources.getStringArray(R.array.sound_video)
+        val soundArray = resources.getStringArray(R.array.sound_description)
+        val videoMap = mutableMapOf<String, String>()
+        val descriptionMap = mutableMapOf<String, String>()
+        videoArray.forEach {
+            val split = it.split("::")
+            videoMap[split.first()] = split[1]
+        }
+        soundArray.forEach {
+            val split = it.split("::")
+            descriptionMap[split.first()] = split[1]
+        }
+        return Pair(videoMap, descriptionMap)
+    }
 }

@@ -10,6 +10,7 @@ import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.component.data.left.DataLeftView
 import com.thebrodyaga.brandbook.component.data.right.DataRightView
 import com.thebrodyaga.brandbook.databinding.ViewDataBinding
+import com.thebrodyaga.core.uiUtils.drawable.bindBackground
 import com.thebrodyaga.core.uiUtils.resources.px
 import com.thebrodyaga.core.uiUtils.ripple.rippleForeground
 
@@ -54,7 +55,7 @@ class DataView @JvmOverloads constructor(
         _item = model
 //        isEnabled = model.accessibility.isEnabled
 //        isClickable = model.accessibility.isClickable
-//        model.background?.applyBackground(this.root)
+        root.bindBackground(model.background)
         leftSideView.isVisible = model.leftSide != null
         model.leftSide?.let(leftSideView::bind)
         rightSideView.isVisible = model.rightSide != null
