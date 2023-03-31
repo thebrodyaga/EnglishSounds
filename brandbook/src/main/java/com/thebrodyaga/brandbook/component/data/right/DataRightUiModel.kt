@@ -1,8 +1,8 @@
 package com.thebrodyaga.brandbook.component.data.right
 
 import com.thebrodyaga.brandbook.model.UiModel
-import com.thebrodyaga.brandbook.utils.image.ImageViewUiModel
-import com.thebrodyaga.brandbook.utils.text.TextViewUiModel
+import com.thebrodyaga.core.uiUtils.image.ImageViewUiModel
+import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 
 sealed interface DataRightUiModel : UiModel {
 

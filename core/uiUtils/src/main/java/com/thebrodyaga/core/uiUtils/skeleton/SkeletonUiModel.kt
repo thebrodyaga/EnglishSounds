@@ -1,4 +1,4 @@
-package com.thebrodyaga.brandbook.utils.skeleton
+package com.thebrodyaga.core.uiUtils.skeleton
 
 import androidx.annotation.Px
 import android.view.Gravity

@@ -13,7 +13,7 @@ import com.thebrodyaga.brandbook.databinding.ItemWordRowBinding
 import com.thebrodyaga.brandbook.databinding.ViewWordRowBinding
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.core.uiUtils.resources.px
-import com.thebrodyaga.brandbook.utils.text.bind
+import com.thebrodyaga.core.uiUtils.text.bind
 
 class WordRowView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null

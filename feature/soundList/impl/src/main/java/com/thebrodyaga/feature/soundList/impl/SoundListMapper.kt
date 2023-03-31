@@ -5,10 +5,10 @@ import com.thebrodyaga.brandbook.component.data.DataUiModel
 import com.thebrodyaga.brandbook.component.data.left.DataLeftUiModel
 import com.thebrodyaga.brandbook.component.sound.SoundCardUiModel
 import com.thebrodyaga.brandbook.model.UiModel
-import com.thebrodyaga.brandbook.utils.drawable.DrawableUiModel
-import com.thebrodyaga.brandbook.utils.drawable.shapeDrawable
-import com.thebrodyaga.brandbook.utils.text.TextContainer
-import com.thebrodyaga.brandbook.utils.text.TextViewUiModel
+import com.thebrodyaga.core.uiUtils.drawable.DrawableUiModel
+import com.thebrodyaga.core.uiUtils.drawable.shapeDrawable
+import com.thebrodyaga.core.uiUtils.text.TextContainer
+import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 import com.thebrodyaga.core.uiUtils.shape.shapeCircle
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType

@@ -7,7 +7,7 @@ import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.databinding.ViewDataLeftIconTwoLineTextBinding
 import com.thebrodyaga.brandbook.databinding.ViewDataLeftTwoLineTextBinding
 import com.thebrodyaga.brandbook.utils.viewPool.ComponentViewPool
-import com.thebrodyaga.brandbook.utils.text.bindOrGone
+import com.thebrodyaga.core.uiUtils.text.bindOrGone
 import com.thebrodyaga.core.uiUtils.common.inflater
 
 class DataLeftView @JvmOverloads constructor(

@@ -1,13 +1,12 @@
-package com.thebrodyaga.brandbook.utils.image
+package com.thebrodyaga.core.uiUtils.image
 
 import androidx.annotation.AttrRes
-import androidx.annotation.ColorRes
 import androidx.core.view.isVisible
 import android.widget.ImageView
 import com.google.android.material.shape.ShapeAppearanceModel
-import com.thebrodyaga.brandbook.utils.drawable.DrawableUiModel
-import com.thebrodyaga.brandbook.utils.drawable.bindBackground
-import com.thebrodyaga.brandbook.utils.drawable.bindForeground
+import com.thebrodyaga.core.uiUtils.drawable.DrawableUiModel
+import com.thebrodyaga.core.uiUtils.drawable.bindBackground
+import com.thebrodyaga.core.uiUtils.drawable.bindForeground
 import com.thebrodyaga.core.uiUtils.common.getColorStateList
 import com.thebrodyaga.core.uiUtils.shape.shapeOutline
 

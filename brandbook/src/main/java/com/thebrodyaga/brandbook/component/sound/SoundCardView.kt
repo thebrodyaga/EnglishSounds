@@ -15,8 +15,8 @@ import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.databinding.ItemSoundCardBinding
 import com.thebrodyaga.brandbook.databinding.ViewSoundCardBinding
 import com.thebrodyaga.brandbook.model.UiModel
-import com.thebrodyaga.brandbook.utils.drawable.bindBackground
-import com.thebrodyaga.brandbook.utils.text.bind
+import com.thebrodyaga.core.uiUtils.drawable.bindBackground
+import com.thebrodyaga.core.uiUtils.text.bind
 import com.thebrodyaga.core.uiUtils.resources.px
 
 class SoundCardView @JvmOverloads constructor(

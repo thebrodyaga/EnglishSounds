@@ -6,10 +6,10 @@ import com.thebrodyaga.brandbook.component.data.DataUiModel
 import com.thebrodyaga.brandbook.component.data.left.DataLeftUiModel
 import com.thebrodyaga.brandbook.component.data.right.DataRightUiModel
 import com.thebrodyaga.brandbook.model.UiModel
-import com.thebrodyaga.brandbook.utils.image.IconContainer
-import com.thebrodyaga.brandbook.utils.image.ImageViewUiModel
-import com.thebrodyaga.brandbook.utils.text.TextContainer
-import com.thebrodyaga.brandbook.utils.text.TextViewUiModel
+import com.thebrodyaga.core.uiUtils.image.IconContainer
+import com.thebrodyaga.core.uiUtils.image.ImageViewUiModel
+import com.thebrodyaga.core.uiUtils.text.TextContainer
+import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.data.sounds.api.model.SpellingWordDto

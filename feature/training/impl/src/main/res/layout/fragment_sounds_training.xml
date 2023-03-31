@@ -45,18 +45,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.thebrodyaga.brandbook.PlayImageView
+        <com.thebrodyaga.brandbook.component.play.PlayButtonView
             android:id="@+id/play_icon"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@drawable/background_circle_ripple_stoke"
-            android:tint="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="@+id/view_pager"
             app:layout_constraintEnd_toEndOf="@+id/view_pager"
             app:layout_constraintStart_toStartOf="@+id/view_pager"
             app:layout_constraintTop_toTopOf="@+id/view_pager"
-            app:layout_constraintVertical_bias="0.85"
-            app:srcCompat="@drawable/ic_play" />
+            app:layout_constraintVertical_bias="0.85" />
 
         <ImageView
             android:id="@+id/info_icon"

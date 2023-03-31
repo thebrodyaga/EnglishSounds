@@ -16,7 +16,7 @@ import com.thebrodyaga.brandbook.component.sound.SoundCardDelegate
 import com.thebrodyaga.brandbook.component.sound.SoundCardUiModel
 import com.thebrodyaga.brandbook.component.sound.SoundCardViewHolder
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
-import com.thebrodyaga.brandbook.utils.text.TextViewUiModel
+import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
 import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
 import com.thebrodyaga.core.uiUtils.insets.appleTopInsets

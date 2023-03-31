@@ -6,8 +6,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.card.MaterialCardView
 import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.databinding.ViewSoundCardMiniBinding
-import com.thebrodyaga.brandbook.utils.drawable.bindBackground
-import com.thebrodyaga.brandbook.utils.text.bind
+import com.thebrodyaga.core.uiUtils.drawable.bindBackground
+import com.thebrodyaga.core.uiUtils.text.bind
 import com.thebrodyaga.core.uiUtils.resources.px
 
 class SoundCardMiniView @JvmOverloads constructor(

@@ -7,8 +7,8 @@ import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.databinding.ViewDataRightTextButtonBinding
 import com.thebrodyaga.brandbook.databinding.ViewDataRightTextWithIconBinding
 import com.thebrodyaga.brandbook.databinding.ViewDataRightTwoLineTextBinding
-import com.thebrodyaga.brandbook.utils.image.bindOrGone
-import com.thebrodyaga.brandbook.utils.text.bindOrGone
+import com.thebrodyaga.core.uiUtils.image.bindOrGone
+import com.thebrodyaga.core.uiUtils.text.bindOrGone
 import com.thebrodyaga.brandbook.utils.viewPool.ComponentViewPool
 import com.thebrodyaga.core.uiUtils.common.inflater
 

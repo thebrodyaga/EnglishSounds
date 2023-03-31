@@ -6,7 +6,7 @@
  * directory of this source tree. An additional grant of patent rights can be found in the PATENTS
  * file in the same directory.
  */
-package com.thebrodyaga.brandbook.utils.skeleton
+package com.thebrodyaga.core.uiUtils.skeleton
 
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange

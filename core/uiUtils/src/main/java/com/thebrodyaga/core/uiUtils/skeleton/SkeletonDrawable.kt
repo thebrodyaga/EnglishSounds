@@ -1,4 +1,4 @@
-package com.thebrodyaga.brandbook.utils.skeleton
+package com.thebrodyaga.core.uiUtils.skeleton
 
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener

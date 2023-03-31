@@ -1,29 +1,29 @@
-package com.thebrodyaga.brandbook.utils.text
+package com.thebrodyaga.core.uiUtils.text
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
+import android.os.Build
+import android.util.TypedValue
+import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.Px
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.TextViewCompat
-import android.content.res.ColorStateList
-import android.graphics.Typeface
-import android.graphics.drawable.Drawable
-import android.os.Build
-import android.util.TypedValue
-import android.widget.TextView
-import com.thebrodyaga.brandbook.R
-import com.thebrodyaga.brandbook.utils.drawable.DrawableUiModel
-import com.thebrodyaga.brandbook.utils.drawable.bindBackground
-import com.thebrodyaga.brandbook.utils.drawable.shapeDrawable
-import com.thebrodyaga.brandbook.utils.skeleton.SkeletonDrawable
-import com.thebrodyaga.brandbook.utils.skeleton.SkeletonUiModel
-import com.thebrodyaga.brandbook.utils.skeleton.bindSkeleton
+import com.thebrodyaga.core.uiUtils.R
 import com.thebrodyaga.core.uiUtils.common.getAttrStyle
-import com.thebrodyaga.core.uiUtils.common.getColorStateList
+import com.thebrodyaga.core.uiUtils.drawable.DrawableUiModel
+import com.thebrodyaga.core.uiUtils.drawable.bindBackground
+import com.thebrodyaga.core.uiUtils.drawable.shapeDrawable
 import com.thebrodyaga.core.uiUtils.insets.InitialViewPadding
 import com.thebrodyaga.core.uiUtils.resources.px
 import com.thebrodyaga.core.uiUtils.shape.shapeRoundedAll
+import com.thebrodyaga.core.uiUtils.skeleton.SkeletonDrawable
+import com.thebrodyaga.core.uiUtils.skeleton.SkeletonUiModel
+import com.thebrodyaga.core.uiUtils.skeleton.bindSkeleton
 
 sealed interface TextViewUiModel {
 
@@ -77,7 +77,7 @@ fun badgePadding(
 
 fun badgeRounded(
     @Px cornerSize: Float = 32f.px,
-    @AttrRes tint: Int = R.attr.staticColorTransparent,
+    @AttrRes tint: Int? = null,
 ): DrawableUiModel = DrawableUiModel(
     drawable = shapeDrawable(shapeRoundedAll(cornerSize)),
     tint = tint,
@@ -146,7 +146,7 @@ fun TextView.bind(model: TextViewUiModel.Raw) {
 
 fun TextView.bindSkeleton(model: TextViewUiModel.Skeleton) {
     saveAndGetInitialTextStyle()
-    val transparent = getColorStateList(R.attr.staticColorTransparent)
+    val transparent = ColorStateList.valueOf(Color.TRANSPARENT)
     setTextColor(transparent)
     setHintTextColor(transparent)
     text = ""

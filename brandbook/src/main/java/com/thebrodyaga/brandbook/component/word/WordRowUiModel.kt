@@ -2,7 +2,7 @@ package com.thebrodyaga.brandbook.component.word
 
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.model.UiModelPayload
-import com.thebrodyaga.brandbook.utils.text.TextViewUiModel
+import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 
 data class WordRowUiModel(
     val text: TextViewUiModel,

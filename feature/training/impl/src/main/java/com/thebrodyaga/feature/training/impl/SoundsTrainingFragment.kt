@@ -65,7 +65,8 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.playIcon.setRecordVoice(audioPlayer)
+        binding.playIcon.setOnClickListener { binding.playIcon.togglePlaying() }
+//        binding.playIcon.setRecordVoice(audioPlayer)
         showFab(isShow = true, autoHide = false)
 //        include_ad.setAd(item, nativeAdLoader)
         viewModel.getState()
@@ -115,8 +116,9 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
             binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    binding.playIcon.audioFile =
-                        File(binding.viewPager.context.filesDir, it.list[position].audioPath)
+                    binding.playIcon
+//                    binding.playIcon.audioFile =
+//                        File(binding.viewPager.context.filesDir, it.list[position].audioPath)
                 }
             })
         }
