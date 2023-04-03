@@ -1,17 +1,15 @@
-package com.thebrodyaga.brandbook.component.play
+package com.thebrodyaga.brandbook.component.mic
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.core.uiUtils.common.getColorStateList
-import com.thebrodyaga.core.uiUtils.ripple.rippleForeground
-import com.thebrodyaga.core.uiUtils.shape.shapeCircle
 
-class PlayButtonView @JvmOverloads constructor(
+class MicFloatingButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
-) : AppCompatImageView(context, attrs) {
+) : FloatingActionButton(context, attrs) {
 
     private val pauseToPlay = AnimatedVectorDrawableCompat.create(context, R.drawable.ic_pause_to_play)
     private val playToPause = AnimatedVectorDrawableCompat.create(context, R.drawable.ic_play_to_pause)
@@ -22,7 +20,6 @@ class PlayButtonView @JvmOverloads constructor(
         pauseToPlay?.setTintList(getColorStateList(R.attr.colorPrimary))
         setImageDrawable(pauseToPlay)
         setImageDrawable(playToPause)
-        rippleForeground(shapeCircle())
     }
 
     fun togglePlaying() {

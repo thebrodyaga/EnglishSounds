@@ -5,14 +5,13 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.AttrRes
 import com.google.android.material.shape.ShapeAppearanceModel
-import com.thebrodyaga.core.uiUtils.R
 import com.thebrodyaga.core.uiUtils.common.getColorStateList
 import com.thebrodyaga.core.uiUtils.drawable.shapeDrawable
 import com.thebrodyaga.core.uiUtils.shape.shapeRectangle
 
 fun View.rippleForeground(
     shape: ShapeAppearanceModel? = shapeRectangle(),
-    @AttrRes color: Int = R.attr.colorSecondary,
+    @AttrRes color: Int = android.R.attr.selectableItemBackground,
 ) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
     val rippleColor = getColorStateList(color) ?: return

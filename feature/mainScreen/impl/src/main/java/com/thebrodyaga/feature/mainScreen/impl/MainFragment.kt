@@ -14,8 +14,8 @@ import com.thebrodyaga.core.uiUtils.insets.ime
 import com.thebrodyaga.core.uiUtils.insets.imeInsetType
 import com.thebrodyaga.core.uiUtils.insets.navigationBars
 import com.thebrodyaga.core.uiUtils.insets.navigationInsetType
-import com.thebrodyaga.core.uiUtils.resources.px
 import com.thebrodyaga.core.uiUtils.outline.shapeOutline
+import com.thebrodyaga.core.uiUtils.resources.px
 import com.thebrodyaga.core.uiUtils.shape.shapeTopRounded
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
@@ -62,8 +62,7 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
         binding.mainBottomAppBar.shapeOutline(shapeTopRounded(16f.px))
         if (childFragmentManager.findFragmentById(R.id.mainFragmentContainer) == null)
             onBottomBarClick(FIRST_MAIN_PAGE.first)
-//        binding.micButton.setRecordVoice(recordVoice)
-//        binding.mainMicButton.setOnClickListener { it.showKeyboard() }
+        binding.mainMicButton.setOnClickListener { binding.mainMicButton.togglePlaying() }
     }
 
     override fun applyWindowInsets(rootView: View) {

@@ -30,11 +30,10 @@
             app:menu="@menu/main_bottom_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.thebrodyaga.brandbook.component.mic.MicFloatingButton
         android:id="@+id/mainMicButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_mic"
         app:layout_anchor="@id/mainBottomAppBar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
