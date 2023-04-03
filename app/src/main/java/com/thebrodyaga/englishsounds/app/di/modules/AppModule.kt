@@ -25,15 +25,11 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideContext(application: Application): Context = application.applicationContext
-
-    @Provides
-    @Singleton
     fun provideGson(): Gson =
         GsonBuilder().create()
 
     @Provides
     @Singleton
-    fun provideAppSharedPreferences(context: Context): SharedPreferences =
-        context.getSharedPreferences("AppSharedPreferences", Context.MODE_PRIVATE)
+    fun provideAppSharedPreferences(application: Application): SharedPreferences =
+        application.getSharedPreferences("AppSharedPreferences", Context.MODE_PRIVATE)
 }

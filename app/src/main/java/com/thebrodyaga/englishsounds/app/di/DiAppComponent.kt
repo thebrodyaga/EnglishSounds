@@ -3,9 +3,7 @@ package com.thebrodyaga.englishsounds.app.di
 import android.app.Application
 import com.google.gson.Gson
 import com.thebrodyaga.englishsounds.app.App
-import com.thebrodyaga.englishsounds.di.AppComponent
 import com.thebrodyaga.englishsounds.app.di.data.SoundsDataModule
-import com.thebrodyaga.englishsounds.app.di.feature.AudioPlayerFeatureModule
 import com.thebrodyaga.englishsounds.app.di.feature.MainScreenFeatureModule
 import com.thebrodyaga.englishsounds.app.di.feature.SettingFeatureModule
 import com.thebrodyaga.englishsounds.app.di.feature.SoundDetailsFeatureModule
@@ -15,6 +13,7 @@ import com.thebrodyaga.englishsounds.app.di.feature.VideoListFeatureModule
 import com.thebrodyaga.englishsounds.app.di.feature.YoutubeFeatureModule
 import com.thebrodyaga.englishsounds.app.di.modules.AppModule
 import com.thebrodyaga.englishsounds.app.di.modules.NavigationModule
+import com.thebrodyaga.englishsounds.di.AppComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -27,7 +26,6 @@ import javax.inject.Singleton
         //data
         SoundsDataModule::class,
         //feature
-        AudioPlayerFeatureModule::class,
         YoutubeFeatureModule::class,
         SoundDetailsFeatureModule::class,
         VideoListFeatureModule::class,

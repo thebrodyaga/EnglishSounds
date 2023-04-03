@@ -19,16 +19,12 @@ import com.thebrodyaga.core.uiUtils.resources.px
 import com.thebrodyaga.core.uiUtils.shape.shapeTopRounded
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.di.findDependencies
-import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import com.thebrodyaga.feature.mainScreen.impl.databinding.FragmentMainBinding
 import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenComponent
 import javax.inject.Inject
 
 class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
-
-    @Inject
-    lateinit var recordVoice: RecordVoice
 
     @Inject
     lateinit var mainScreenFactory: MainScreenFactory

@@ -1,20 +1,21 @@
 package com.thebrodyaga.data.sounds.impl
 
-import android.content.Context
-import com.thebrodyaga.data.sounds.api.model.SoundType
+import android.app.Application
+import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.data.sounds.api.model.AdvancedExercisesVideoRes
 import com.thebrodyaga.data.sounds.api.model.ContrastingSoundVideoRes
 import com.thebrodyaga.data.sounds.api.model.MostCommonWordsVideoRes
+import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.data.sounds.api.model.SoundVideoRes
-import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
-import java.lang.IllegalArgumentException
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 class SoundsVideoRepositoryImpl @Inject constructor(
-    val context: Context
+    application: Application
 ) : SoundsVideoRepository {
+
+    private val context = application
 
     override fun getSoundsVideo(): Flow<List<SoundVideoRes>> =
         getSoundsVideoFromRes()

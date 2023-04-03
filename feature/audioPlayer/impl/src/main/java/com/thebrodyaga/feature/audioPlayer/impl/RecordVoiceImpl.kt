@@ -1,5 +1,6 @@
 package com.thebrodyaga.feature.audioPlayer.impl
 
+import android.app.Application
 import android.content.Context
 import android.media.MediaRecorder
 import com.thebrodyaga.core.utils.coroutines.AppScope
@@ -17,10 +18,11 @@ import javax.inject.Inject
 
 class RecordVoiceImpl @Inject constructor(
     private val audioPlayer: AudioPlayer,
-    private val context: Context,
+    private val application: Application,
     private val appScope: AppScope,
 ) : RecordVoice {
 
+    private val context: Context = application
     private var currentState = RecordState.EMPTY
     private var myAudioRecorder: MediaRecorder? = null
     private var outputFile = File(context.filesDir, "recording.m4a")

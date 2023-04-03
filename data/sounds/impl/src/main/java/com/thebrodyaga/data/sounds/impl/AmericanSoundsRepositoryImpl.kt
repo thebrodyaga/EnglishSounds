@@ -1,5 +1,6 @@
 package com.thebrodyaga.data.sounds.impl
 
+import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import com.thebrodyaga.core.utils.zip.ZipUtils
@@ -23,10 +24,13 @@ import javax.inject.Inject
 private const val AMERICAN_SOUNDS_ZIP_VERSION = 1
 
 class AmericanSoundsRepositoryImpl @Inject constructor(
-    private val context: Context,
+    application: Application,
     private val gson: Gson,
     private val settingManager: SettingManager
 ) : SoundsRepository {
+
+    private val context: Context = application
+
     override fun getSounds(transcription: String): Flow<AmericanSoundDto> {
         return getAllSounds()
             .map { it.first { soundDao -> soundDao.transcription == transcription } }

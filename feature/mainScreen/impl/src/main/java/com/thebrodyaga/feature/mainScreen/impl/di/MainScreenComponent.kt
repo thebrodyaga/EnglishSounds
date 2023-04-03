@@ -2,7 +2,6 @@ package com.thebrodyaga.feature.mainScreen.impl.di
 
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.base.di.FeatureScope
-import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import com.thebrodyaga.feature.mainScreen.impl.MainFragment
 import com.thebrodyaga.feature.mainScreen.impl.TabContainerFragment
@@ -36,7 +35,6 @@ interface MainScreenComponent {
 }
 
 interface MainScreenDependencies : AppDependencies {
-    fun recordVoice(): RecordVoice
     fun mainScreenFactory(): MainScreenFactory
     fun soundListScreenFactory(): SoundListScreenFactory
     fun videoScreenFactory(): VideoScreenFactory

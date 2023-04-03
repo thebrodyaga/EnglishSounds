@@ -26,7 +26,6 @@ import com.thebrodyaga.englishsounds.base.di.ActivityDependencies
 import com.thebrodyaga.englishsounds.base.di.HasActivityDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
-import com.thebrodyaga.feature.mainScreen.api.MainScreenAction
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import com.thebrodyaga.feature.setting.api.SettingManager
 import com.thebrodyaga.feature.soundList.impl.SoundsListViewPool
@@ -177,11 +176,5 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
                 Timber.e("launchReviewFlow error = ${it.exception?.message ?: "null"}")
             this.reviewInfo = null
         }
-    }
-
-    fun toggleFabMic(isShow: Boolean?, autoHide: Boolean?) {
-        val mainScreen = mainScreenFactory.mainScreen()
-        (supportFragmentManager.fragments.find { it.tag == mainScreen.screenKey } as? MainScreenAction)
-            ?.toggleFabMic(isShow, autoHide)
     }
 }

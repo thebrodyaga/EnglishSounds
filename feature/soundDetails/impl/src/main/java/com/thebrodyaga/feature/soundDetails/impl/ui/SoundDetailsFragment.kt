@@ -20,7 +20,6 @@ import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
-import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.setting.api.SettingManager
 import com.thebrodyaga.feature.soundDetails.impl.R
@@ -69,7 +68,7 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
         val transcription = arguments?.getString(EXTRA)
             ?: throw IllegalArgumentException("need put sound id")
 
-        SoundDetailsComponent.factory(findDependencies(), transcription).inject(this)
+        SoundDetailsComponent.factory(this, transcription).inject(this)
         super.onCreate(savedInstanceState)
     }
 
