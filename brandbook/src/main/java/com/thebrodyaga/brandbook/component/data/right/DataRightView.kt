@@ -1,16 +1,19 @@
 package com.thebrodyaga.brandbook.component.data.right
 
-import androidx.constraintlayout.widget.ConstraintLayout
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.thebrodyaga.brandbook.R
+import com.thebrodyaga.brandbook.databinding.ViewDataRightPlayIconBinding
 import com.thebrodyaga.brandbook.databinding.ViewDataRightTextButtonBinding
 import com.thebrodyaga.brandbook.databinding.ViewDataRightTextWithIconBinding
 import com.thebrodyaga.brandbook.databinding.ViewDataRightTwoLineTextBinding
-import com.thebrodyaga.core.uiUtils.image.bindOrGone
-import com.thebrodyaga.core.uiUtils.text.bindOrGone
 import com.thebrodyaga.brandbook.utils.viewPool.ComponentViewPool
 import com.thebrodyaga.core.uiUtils.common.inflater
+import com.thebrodyaga.core.uiUtils.image.bindOrGone
+import com.thebrodyaga.core.uiUtils.text.bindOrGone
+import kotlin.reflect.KClass
 
 class DataRightView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -23,6 +26,7 @@ class DataRightView @JvmOverloads constructor(
             DataRightUiModel.TwoLineText::class -> ViewDataRightTwoLineTextBinding.inflate(inflater, this)
             DataRightUiModel.TextWithIcon::class -> ViewDataRightTextWithIconBinding.inflate(inflater, this)
             DataRightUiModel.Button.Text::class -> ViewDataRightTextButtonBinding.inflate(inflater, this)
+            DataRightUiModel.PlayIcon::class -> ViewDataRightPlayIconBinding.inflate(inflater, this)
             else -> error("No type for viewPool: $this")
         }
     }
@@ -33,12 +37,25 @@ class DataRightView @JvmOverloads constructor(
         }
     }
 
+    fun inflateType(type: KClass<out DataRightUiModel>) {
+        viewPool.inflateType(type)
+    }
+
+    fun setOnPlayIconClickAction(onItemClickAction: (view: View, item: DataRightUiModel.PlayIcon) -> Unit) {
+        val binding = viewPool.findPoolOfViews(DataRightUiModel.PlayIcon::class).first
+                as ViewDataRightPlayIconBinding
+        binding.dataRightPlayButton.setOnClickListener {
+            onItemClickAction(binding.root, currentModel as DataRightUiModel.PlayIcon)
+        }
+    }
+
     fun bind(model: DataRightUiModel) {
         val pair = viewPool.updatePoolOfViews(this.currentModel, model)
         when (model) {
             is DataRightUiModel.TwoLineText -> (pair.first as ViewDataRightTwoLineTextBinding).bind(model)
             is DataRightUiModel.TextWithIcon -> (pair.first as ViewDataRightTextWithIconBinding).bind(model)
             is DataRightUiModel.Button.Text -> (pair.first as ViewDataRightTextButtonBinding).bind(model)
+            is DataRightUiModel.PlayIcon -> (pair.first as ViewDataRightPlayIconBinding).bind(model)
         }
         this.currentModel = model
     }
@@ -55,5 +72,9 @@ class DataRightView @JvmOverloads constructor(
 
     private fun ViewDataRightTextButtonBinding.bind(model: DataRightUiModel.Button.Text) {
         this.dataRightTextButton.bindOrGone(model.text)
+    }
+
+    private fun ViewDataRightPlayIconBinding.bind(model: DataRightUiModel.PlayIcon) {
+        this.dataRightPlayButton.bind(model.playIcon)
     }
 }

@@ -2,6 +2,7 @@ package com.thebrodyaga.brandbook.component.data
 
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
+import com.thebrodyaga.brandbook.component.data.right.DataRightUiModel
 import com.thebrodyaga.brandbook.databinding.ItemDataViewBinding
 import com.thebrodyaga.brandbook.model.UiModel
 
@@ -35,6 +36,24 @@ fun dataViewOnlyLeftDelegate(
         }
     ) {
 
+        inflateListener?.invoke(binding.root)
+
+        bind {
+            binding.root.bind(item)
+            bindListener?.invoke(binding.root, item)
+        }
+    }
+
+fun dataViewRightPlayIconDelegate(
+    inflateListener: ((view: DataView) -> Unit)? = null,
+    bindListener: ((view: DataView, item: DataUiModel) -> Unit)? = null,
+): AdapterDelegate<List<UiModel>> =
+    adapterDelegateViewBinding<DataUiModel, UiModel, ItemDataViewBinding>(
+        viewBinding = { inflater, parent -> ItemDataViewBinding.inflate(inflater, parent, false) },
+        on = { item, _, _ -> item is DataUiModel && item.rightSide is DataRightUiModel.PlayIcon }
+    ) {
+
+        binding.root.rightSideView.inflateType(DataRightUiModel.PlayIcon::class)
         inflateListener?.invoke(binding.root)
 
         bind {

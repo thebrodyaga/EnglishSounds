@@ -7,8 +7,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
 import com.thebrodyaga.brandbook.component.data.dataViewOnlyLeftDelegate
+import com.thebrodyaga.brandbook.component.data.dataViewRightPlayIconDelegate
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
@@ -57,8 +57,11 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
         delegates = listOf(
             // header
             dataViewOnlyLeftDelegate(),
-            dataViewCommonDelegate(inflateListener = { view ->
-                view.setOnClickAction { _, item ->
+            dataViewRightPlayIconDelegate(inflateListener = { dataView ->
+                dataView.rightSideView.setOnPlayIconClickAction { _, _ ->
+                    dataView.callOnClick()
+                }
+                dataView.setOnClickAction { _, item ->
                     viewModel.onAudioItemClick(item)
                 }
             }),

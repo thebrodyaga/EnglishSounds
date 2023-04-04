@@ -6,9 +6,9 @@ import androidx.core.text.HtmlCompat
 import com.thebrodyaga.brandbook.component.data.DataUiModel
 import com.thebrodyaga.brandbook.component.data.left.DataLeftUiModel
 import com.thebrodyaga.brandbook.component.data.right.DataRightUiModel
+import com.thebrodyaga.brandbook.component.play.PlayButtonBindingState
+import com.thebrodyaga.brandbook.component.play.PlayButtonUiModel
 import com.thebrodyaga.brandbook.model.UiModel
-import com.thebrodyaga.core.uiUtils.image.IconContainer
-import com.thebrodyaga.core.uiUtils.image.ImageViewUiModel
 import com.thebrodyaga.core.uiUtils.text.TextContainer
 import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
@@ -111,10 +111,9 @@ class SoundDetailsMapper @Inject constructor(
         )
     )
 
-    private fun playIcon(isPlay: Boolean = true) = DataRightUiModel.TextWithIcon(
-        icon = ImageViewUiModel(
-            icon = IconContainer.Res(if (isPlay) R.drawable.ic_pause else R.drawable.ic_play),
-            iconTint = R.attr.colorSecondary
+    private fun playIcon(isPlaying: Boolean) = DataRightUiModel.PlayIcon(
+        playIcon = PlayButtonUiModel(
+            state = if (isPlaying) PlayButtonBindingState.PlayToPause() else PlayButtonBindingState.PauseToPlay(),
         )
     )
 
