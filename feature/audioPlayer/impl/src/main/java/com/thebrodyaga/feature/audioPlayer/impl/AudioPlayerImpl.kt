@@ -2,44 +2,55 @@ package com.thebrodyaga.feature.audioPlayer.impl
 
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.api.AudioPlayerState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.io.File
 import javax.inject.Inject
 
 class AudioPlayerImpl @Inject constructor(
     activity: AppCompatActivity
-) : AudioPlayer {
+) : AudioPlayer, DefaultLifecycleObserver {
 
     private var player = ExoPlayer.Builder(activity).build()
-    private var currentListener: Player.Listener? = null
+    private var currentAudio: File? = null
+    private val state = MutableStateFlow<AudioPlayerState>(AudioPlayerState.Idle)
 
-    override fun playAudio(audio: File, onIsPlayingChanged: (isPlaying: Boolean) -> Unit) {
+    init {
+        activity.lifecycle.addObserver(this)
+    }
+
+    override fun playAudio(audio: File) {
         player.stop()
-        currentListener?.also { player.removeListener(it) }
+        state.value = AudioPlayerState.Idle
+        currentAudio = audio
         val listener = object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
-                onIsPlayingChanged(isPlaying)
+                if (isPlaying) state.value = AudioPlayerState.Playing(audio)
+                else state.value = AudioPlayerState.Idle
             }
         }
-        currentListener = listener
         player.addListener(listener)
         val mediaItem: MediaItem = MediaItem.fromUri(Uri.fromFile(audio))
         player.setMediaItem(mediaItem);
         player.prepare()
-        player.playWhenReady = true
+        player.play()
     }
+
+    override fun state(): StateFlow<AudioPlayerState> = state.asStateFlow()
 
     override fun stopPlay() {
         player.stop()
     }
 
-    override fun onAppHide() {
+    override fun onPause(owner: LifecycleOwner) {
         stopPlay()
-    }
-
-    override fun onAppShow() {
     }
 }

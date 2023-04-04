@@ -112,14 +112,12 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         super.onResumeFragments()
         navigatorHolder.setNavigator(navigator)
         recordVoice.onAppShow()
-        audioPlayer.onAppShow()
     }
 
     override fun onPause() {
         navigatorHolder.removeNavigator()
         super.onPause()
         recordVoice.onAppHide()
-        audioPlayer.onAppHide()
     }
 
     private fun isLightSystem(isDarkTheme: Boolean?) {

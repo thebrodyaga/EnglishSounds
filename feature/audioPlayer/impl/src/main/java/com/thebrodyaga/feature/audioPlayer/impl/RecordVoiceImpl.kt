@@ -74,9 +74,9 @@ class RecordVoiceImpl @Inject constructor(
 
     override fun playRecord() {
         if (outputFile.exists())
-            audioPlayer.playAudio(outputFile) { isPlaying ->
+            audioPlayer.playAudio(outputFile) /*{ isPlaying ->
                 state.value = (if (isPlaying) RecordState.PLAYING_AUDIO else RecordState.AUDIO)
-            }
+            }*/
     }
 
     override fun stopPlayRecord() {

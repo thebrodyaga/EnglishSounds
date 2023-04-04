@@ -1,10 +1,10 @@
 package com.thebrodyaga.feature.audioPlayer.api
 
+import kotlinx.coroutines.flow.StateFlow
 import java.io.File
 
 interface AudioPlayer {
-    fun onAppHide()
-    fun onAppShow()
+    fun state(): StateFlow<AudioPlayerState>
     fun stopPlay()
-    fun playAudio(audio: File, onIsPlayingChanged: (isPlaying: Boolean) -> Unit)
+    fun playAudio(audio: File)
 }

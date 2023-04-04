@@ -57,7 +57,11 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
         delegates = listOf(
             // header
             dataViewOnlyLeftDelegate(),
-            dataViewCommonDelegate(inflateListener = { view -> view.setOnClickAction { view, item -> } }),
+            dataViewCommonDelegate(inflateListener = { view ->
+                view.setOnClickAction { _, item ->
+                    viewModel.onAudioItemClick(item)
+                }
+            }),
             soundDetailsImageDelegate(),
             soundDetailsDescriptionDelegate(),
             soundDetailsVideoDelegate(),

@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
-import timber.log.Timber
 import java.io.File
 
 class PlayImageView @JvmOverloads constructor(
@@ -24,10 +23,10 @@ class PlayImageView @JvmOverloads constructor(
         ContextCompat.getDrawable(context, R.drawable.ic_stop) ?: throw IllegalArgumentException()
     private val onPlayClick =
         OnClickListener {
-            audioPlayer?.playAudio(audioFile ?: return@OnClickListener) { isPlaying ->
+            audioPlayer?.playAudio(audioFile ?: return@OnClickListener) /*{ isPlaying ->
                 Timber.i("${audioFile?.path} isPlaying =  $isPlaying")
                 mode = if (isPlaying) Mode.PLAYING else Mode.PLAY
-            }
+            }*/
         }
     private val onStopPlayClick = OnClickListener { audioPlayer?.stopPlay() }
 
