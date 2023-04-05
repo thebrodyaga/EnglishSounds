@@ -9,11 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
-import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
-import com.thebrodyaga.core.uiUtils.insets.consume
-import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
-import com.thebrodyaga.core.uiUtils.insets.systemAndIme
+import com.thebrodyaga.core.uiUtils.insets.*
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
@@ -68,7 +64,7 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
         rootView.doOnApplyWindowInsets { _, insets, _ ->
             insets.systemAndIme().consume {
                 binding.appbar.appleTopInsets(this)
-                binding.rootView.appleBottomInsets(this)
+                binding.trainingContentLayout.appleInsetPadding(this, bottom = this.bottom)
             }
         }
     }
@@ -120,6 +116,8 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
 
     class WordFragment : ScreenFragment(R.layout.fragment_word) {
         private val binding by viewBinding(FragmentWordBinding::bind)
+
+        override fun applyWindowInsets(rootView: View) = Unit
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)

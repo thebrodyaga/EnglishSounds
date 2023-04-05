@@ -48,8 +48,7 @@ fun View.appleInsetPadding(oldInsets: Insets, left: Int = 0, top: Int = 0, right
         oldInsets.top - top,
         oldInsets.right - right,
         oldInsets.bottom - bottom,
-
-        )
+    )
 }
 
 private fun View.appleInsetPadding(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {

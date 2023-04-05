@@ -2,29 +2,26 @@ package com.thebrodyaga.brandbook.component.play
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.google.android.material.button.MaterialButton
 import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.core.uiUtils.common.getColorStateList
-import com.thebrodyaga.core.uiUtils.ripple.rippleForeground
-import com.thebrodyaga.core.uiUtils.shape.shapeCircle
 
 class PlayButtonView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
-) : AppCompatImageView(context, attrs) {
+) : MaterialButton(context, attrs, R.attr.materialIconButtonStyle) {
 
     private val pauseToPlay = AnimatedVectorDrawableCompat.create(context, R.drawable.ic_pause_to_play)
     private val playToPause = AnimatedVectorDrawableCompat.create(context, R.drawable.ic_play_to_pause)
     private var state: State = State.PLAY
 
     init {
-        setImageDrawable(pauseToPlay)
-        setImageDrawable(playToPause)
-        rippleForeground(shapeCircle())
+        icon = (pauseToPlay)
+        icon = (playToPause)
     }
 
     fun bind(model: PlayButtonUiModel) {
-        this.imageTintList = getColorStateList(model.iconTint)
+        iconTint = getColorStateList(model.iconTint)
         when (val state = model.state) {
             is PlayButtonBindingState.PauseToPlay -> if (state.force) forcePlay() else pauseToPlay()
             is PlayButtonBindingState.PlayToPause -> if (state.force) forcePause() else playToPause()
@@ -39,12 +36,12 @@ class PlayButtonView @JvmOverloads constructor(
     }
 
     fun forcePause() {
-        setImageDrawable(pauseToPlay)
+        icon = (pauseToPlay)
         state = State.PAUSE
     }
 
     fun forcePlay() {
-        setImageDrawable(playToPause)
+        icon = (playToPause)
         state = State.PLAY
     }
 
@@ -54,7 +51,7 @@ class PlayButtonView @JvmOverloads constructor(
             forcePause()
             return
         }
-        setImageDrawable(playToPause?.apply { start() })
+        icon = (playToPause?.apply { start() })
         state = State.PAUSE
     }
 
@@ -64,7 +61,7 @@ class PlayButtonView @JvmOverloads constructor(
             forcePlay()
             return
         }
-        setImageDrawable(pauseToPlay?.apply { start() })
+        icon = (pauseToPlay?.apply { start() })
         state = State.PLAY
     }
 

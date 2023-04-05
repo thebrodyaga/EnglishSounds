@@ -53,9 +53,10 @@
             app:iconSize="64dp"
             app:layout_constraintBottom_toBottomOf="@+id/view_pager"
             app:layout_constraintEnd_toEndOf="@+id/view_pager"
+            app:layout_constraintHorizontal_bias="0.75"
             app:layout_constraintStart_toStartOf="@+id/view_pager"
             app:layout_constraintTop_toTopOf="@+id/view_pager"
-            app:layout_constraintVertical_bias="0.85"
+            app:layout_constraintVertical_bias="0.55"
             app:tint="?attr/colorPrimary" />
 
         <com.google.android.material.button.MaterialButton
