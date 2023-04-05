@@ -14,15 +14,18 @@ import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.api.AudioPlayerState
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.training.impl.databinding.FragmentSoundsTrainingBinding
 import com.thebrodyaga.feature.training.impl.databinding.FragmentWordBinding
 import com.thebrodyaga.feature.training.impl.di.TrainingComponent
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.io.File
 import javax.inject.Inject
 
 class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training) {
@@ -50,9 +53,6 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.playIcon.setOnClickListener { binding.playIcon.togglePlaying() }
-//        binding.playIcon.setRecordVoice(audioPlayer)
-//        include_ad.setAd(item, nativeAdLoader)
         viewModel.getState()
             .filterIsInstance<SoundsTrainingState.Content>()
             .onEach { setData(it.sounds) }
@@ -69,6 +69,8 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
         }
     }
 
+    var playingJob: Job? = null
+    // refactoring maybe later
     private fun setData(list: List<PracticeWordDto>) {
         binding.videoLibIcon.setOnClickListener {
             getAnyRouter().navigateTo(videoScreenFactory.allVideoScreen(VideoListType.MostCommonWords))
@@ -79,24 +81,33 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
                 practiceWordDto?.apply { getAnyRouter().navigateTo(soundDetailsScreenFactory.soundDetailsScreen(this.sound)) }
             }
         }
+        var currentWordAudio: File? = null
+        binding.playIcon.setOnClickListener {
+            currentWordAudio?.let { file ->
+                playingJob?.cancel()
+                playingJob = audioPlayer.playAudio(file)
+                    .onEach {
+                        when (it) {
+                            AudioPlayerState.Idle -> binding.playIcon.pauseToPlay()
+                            is AudioPlayerState.Playing ->
+                                if (it.audioFile.path != file.path) binding.playIcon.pauseToPlay()
+                                else binding.playIcon.playToPause()
+                        }
+                    }
+                    .flowWithLifecycle(lifecycle)
+                    .launchIn(lifecycleScope)
+            }
+        }
+
         adapter = PageAdapter(this).also {
             it.setData(list)
             binding.viewPager.adapter = it
             binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    binding.playIcon
-//                    binding.playIcon.audioFile =
-//                        File(binding.viewPager.context.filesDir, it.list[position].audioPath)
+                    currentWordAudio = File(binding.viewPager.context.filesDir, list[position].audioPath)
                 }
             })
-        }
-    }
-
-    private val onInfoClick = View.OnClickListener {
-        adapter?.also {
-            val practiceWordDto = it.list.getOrNull(binding.viewPager.currentItem)
-            practiceWordDto?.apply { getAnyRouter().navigateTo(soundDetailsScreenFactory.soundDetailsScreen(this.sound)) }
         }
     }
 

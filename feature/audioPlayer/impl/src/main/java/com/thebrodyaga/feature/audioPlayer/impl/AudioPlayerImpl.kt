@@ -27,7 +27,7 @@ class AudioPlayerImpl @Inject constructor(
         activity.lifecycle.addObserver(this)
     }
 
-    override fun playAudio(audio: File) {
+    override fun playAudio(audio: File): StateFlow<AudioPlayerState> {
         player.stop()
         state.value = AudioPlayerState.Idle
         currentAudio = audio
@@ -42,6 +42,7 @@ class AudioPlayerImpl @Inject constructor(
         player.setMediaItem(mediaItem);
         player.prepare()
         player.play()
+        return state()
     }
 
     override fun state(): StateFlow<AudioPlayerState> = state.asStateFlow()

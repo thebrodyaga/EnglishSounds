@@ -6,5 +6,5 @@ import java.io.File
 interface AudioPlayer {
     fun state(): StateFlow<AudioPlayerState>
     fun stopPlay()
-    fun playAudio(audio: File)
+    fun playAudio(audio: File): StateFlow<AudioPlayerState>
 }
