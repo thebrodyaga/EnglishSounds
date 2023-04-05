@@ -11,11 +11,7 @@ import com.thebrodyaga.brandbook.component.data.dataViewOnlyLeftDelegate
 import com.thebrodyaga.brandbook.component.data.dataViewRightPlayIconDelegate
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
-import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
-import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
-import com.thebrodyaga.core.uiUtils.insets.consume
-import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
-import com.thebrodyaga.core.uiUtils.insets.systemAndIme
+import com.thebrodyaga.core.uiUtils.insets.*
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment

@@ -28,7 +28,7 @@ class ComponentViewPool<Model : UiModel>(
 
     fun updatePoolOfViews(oldModel: Model?, newModel: Model): BindingWithViews {
         return when {
-            oldModel != newModel -> updatePoolOfChildViews(newModel::class)
+            oldModel == null || oldModel::class != newModel::class -> updatePoolOfChildViews(newModel::class)
             else -> viewPool[newModel::class]!!
         }
     }
