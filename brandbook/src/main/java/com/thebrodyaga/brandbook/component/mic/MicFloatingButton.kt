@@ -2,6 +2,7 @@ package com.thebrodyaga.brandbook.component.mic
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.thebrodyaga.brandbook.R
@@ -13,30 +14,51 @@ class MicFloatingButton @JvmOverloads constructor(
 
     private val pauseToPlay = AnimatedVectorDrawableCompat.create(context, R.drawable.ic_pause_to_play)
     private val playToPause = AnimatedVectorDrawableCompat.create(context, R.drawable.ic_play_to_pause)
+    private val mic = ContextCompat.getDrawable(context, R.drawable.ic_mic)
+    private val record = ContextCompat.getDrawable(context, R.drawable.ic_record)
+    private val play = ContextCompat.getDrawable(context, R.drawable.ic_play)
+    private val pause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
+    private val primaryTint = getColorStateList(R.attr.colorPrimary)
+    private val tertiaryTint = getColorStateList(R.attr.colorTertiary)
+
+    private val primaryContainerTint = getColorStateList(R.attr.colorPrimaryContainer)
+    private val secondaryContainerTint = getColorStateList(R.attr.colorSecondaryContainer)
+    private val tertiaryContainerTint = getColorStateList(R.attr.colorTertiaryContainer)
+
+    private val redTint = ContextCompat.getColorStateList(context, R.color.error_object)
     private var state: State = State.PLAY
 
     init {
-        playToPause?.setTintList(getColorStateList(R.attr.colorPrimary))
-        pauseToPlay?.setTintList(getColorStateList(R.attr.colorPrimary))
+        supportImageTintList = getColorStateList(R.attr.colorPrimary)
         setImageDrawable(pauseToPlay)
         setImageDrawable(playToPause)
-    }
-
-    fun togglePlaying() {
-        when (state) {
-            State.PLAY -> playToPause()
-            State.PAUSE -> pauseToPlay()
-        }
+        setImageDrawable(mic)
     }
 
     fun forcePause() {
-        setImageDrawable(pauseToPlay)
-        state = State.PAUSE
+        if (state == State.FORCE_PAUSE) return
+        supportImageTintList = primaryTint
+        setImageDrawable(pause)
+        state = State.FORCE_PAUSE
     }
 
     fun forcePlay() {
-        setImageDrawable(playToPause)
-        state = State.PLAY
+        if (state == State.FORCE_PLAY) return
+        supportImageTintList = primaryTint
+        setImageDrawable(play)
+        state = State.FORCE_PLAY
+    }
+
+    fun mic() {
+        setImageDrawable(mic)
+        supportImageTintList = primaryTint
+        state = State.MIC
+    }
+
+    fun record() {
+        setImageDrawable(record)
+        supportImageTintList = redTint
+        state = State.RECORD
     }
 
     fun playToPause() {
@@ -46,6 +68,7 @@ class MicFloatingButton @JvmOverloads constructor(
             return
         }
         setImageDrawable(playToPause?.apply { start() })
+        supportImageTintList = primaryTint
         state = State.PAUSE
     }
 
@@ -56,10 +79,11 @@ class MicFloatingButton @JvmOverloads constructor(
             return
         }
         setImageDrawable(pauseToPlay?.apply { start() })
+        supportImageTintList = primaryTint
         state = State.PLAY
     }
 
     private enum class State {
-        PLAY, PAUSE
+        PLAY, PAUSE, MIC, RECORD, FORCE_PLAY, FORCE_PAUSE
     }
 }

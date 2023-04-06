@@ -1,16 +1,18 @@
 package com.thebrodyaga.feature.audioPlayer.impl
 
-import android.app.Application
 import android.content.Context
 import android.media.MediaRecorder
-import com.thebrodyaga.core.utils.coroutines.AppScope
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
+import com.thebrodyaga.feature.audioPlayer.api.AudioPlayerState
 import com.thebrodyaga.feature.audioPlayer.api.RecordState
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -18,23 +20,50 @@ import javax.inject.Inject
 
 class RecordVoiceImpl @Inject constructor(
     private val audioPlayer: AudioPlayer,
-    private val application: Application,
-    private val appScope: AppScope,
-) : RecordVoice {
+    private val activity: AppCompatActivity,
+) : RecordVoice, DefaultLifecycleObserver {
 
-    private val context: Context = application
-    private var currentState = RecordState.EMPTY
+    private val context: Context = activity
+    private val currentState
+        get() = state.value
     private var myAudioRecorder: MediaRecorder? = null
     private var outputFile = File(context.filesDir, "recording.m4a")
-    override val state: MutableStateFlow<RecordState> = MutableStateFlow(RecordState.EMPTY)
+    override val state: MutableStateFlow<RecordState> = MutableStateFlow(RecordState.ReadyToRecord)
 
     init {
+        activity.lifecycle.addObserver(this)
         state
             .onEach { Timber.i(it.toString()) }
-            .onEach { currentState = it }
             .catch { }
-            .launchIn(appScope)
+            .flowWithLifecycle(activity.lifecycle)
+            .launchIn(activity.lifecycleScope)
         outputFile.createNewFile()
+        audioPlayer.state()
+            .filter {
+                state.value is RecordState.Audio || state.value is RecordState.PlayingAudio
+            }
+            .onEach {
+                when (it) {
+                    is AudioPlayerState.Idle -> {
+                        val isRecordingFile = it.audioFile.path.contains("recording")
+                        when {
+                            !isRecordingFile && state.value is RecordState.PlayingAudio ->
+                                state.value = RecordState.Audio()
+                            isRecordingFile -> state.value = RecordState.Audio()
+                        }
+                    }
+                    is AudioPlayerState.Playing -> {
+                        val isRecordingFile = it.audioFile.path.contains("recording")
+                        when {
+                            !isRecordingFile && state.value is RecordState.PlayingAudio ->
+                                state.value = RecordState.Audio()
+                            isRecordingFile -> state.value = RecordState.PlayingAudio
+                        }
+                    }
+                }
+            }
+            .flowWithLifecycle(activity.lifecycle)
+            .launchIn(activity.lifecycleScope)
     }
 
     override fun startRecord() {
@@ -42,69 +71,68 @@ class RecordVoiceImpl @Inject constructor(
             prepareRecord()
         try {
             myAudioRecorder?.start()
-            state.value = (RecordState.RECORDING)
+            state.value = (RecordState.Recording)
         } catch (e: RuntimeException) {
             // RuntimeException is thrown when stop() is called immediately after start().
             // In this case the output file is not properly constructed ans should be deleted.
             Timber.d("RuntimeException: start() is throw exception)")
             releaseMediaRecorder()
-            state.value = (RecordState.EMPTY)
+            state.value = (RecordState.ReadyToRecord)
         }
     }
 
     override fun stopRecord() {
-        if (currentState == RecordState.RECORDING) {
+        if (currentState == RecordState.Recording) {
             try {
                 myAudioRecorder?.stop()  // stop the recording
-                state.value = (RecordState.AUDIO)
+                state.value = (RecordState.Audio(afterRecording = true))
             } catch (e: RuntimeException) {
                 // RuntimeException is thrown when stop() is called immediately after start().
                 // In this case the output file is not properly constructed ans should be deleted.
                 Timber.d("RuntimeException: stop() is called immediately after start()")
                 releaseMediaRecorder()
-                state.value = (RecordState.EMPTY)
+                state.value = (RecordState.ReadyToRecord)
             }
         }
     }
 
     override fun clearRecord() {
         audioPlayer.stopPlay()
-        state.value = (RecordState.EMPTY)
+        releaseMediaRecorder()
+        state.value = (RecordState.ReadyToRecord)
     }
 
     override fun playRecord() {
-        if (outputFile.exists())
-            audioPlayer.playAudio(outputFile) /*{ isPlaying ->
-                state.value = (if (isPlaying) RecordState.PLAYING_AUDIO else RecordState.AUDIO)
-            }*/
+        if (outputFile.exists()) {
+            audioPlayer.playAudio(outputFile)
+        }
     }
 
     override fun stopPlayRecord() {
-        if (currentState == RecordState.PLAYING_AUDIO)
+        if (currentState == RecordState.PlayingAudio)
             audioPlayer.stopPlay()
     }
 
-    override fun onAppShow() {
-//        prepareRecord()
-    }
-
-    override fun onAppHide() {
-        if (currentState == RecordState.RECORDING)
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
+        if (currentState == RecordState.Recording)
             stopRecord()
     }
 
     private fun prepareRecord() {
-        MediaRecorder().also { myAudioRecorder ->
-            myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-            myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB)
-            myAudioRecorder.setAudioEncodingBitRate(16 * 44100)
-            myAudioRecorder.setAudioSamplingRate(44100)
+        val mediaRecorder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                MediaRecorder(activity) else MediaRecorder()
+        mediaRecorder.apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
+            setAudioSamplingRate(44100)
 
-            myAudioRecorder.setOutputFile(outputFile.absolutePath)
+            setOutputFile(outputFile.absolutePath)
             try {
-                myAudioRecorder.prepare()
-                this.myAudioRecorder = myAudioRecorder
+                prepare()
+                myAudioRecorder = this
             } catch (e: IllegalStateException) {
                 Timber.d("IllegalStateException preparing MediaRecorder: %s", e.message)
                 releaseMediaRecorder()

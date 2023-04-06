@@ -36,7 +36,7 @@ class TabContainerFragment : ScreenFragment(R.layout.layout_fragemnt_container),
     override val tabRouter: TabRouter = cicerone.router
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        MainScreenComponent.factory(findDependencies()).inject(this)
+        MainScreenComponent.factory(this).inject(this)
         super.onCreate(savedInstanceState)
     }
 

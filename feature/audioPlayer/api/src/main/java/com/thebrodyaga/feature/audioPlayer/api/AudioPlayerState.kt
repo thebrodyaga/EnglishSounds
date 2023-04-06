@@ -4,7 +4,9 @@ import java.io.File
 
 sealed interface AudioPlayerState {
 
-    object Idle : AudioPlayerState
+    data class Idle(
+        val audioFile: File,
+    ) : AudioPlayerState
 
     data class Playing(
         val audioFile: File

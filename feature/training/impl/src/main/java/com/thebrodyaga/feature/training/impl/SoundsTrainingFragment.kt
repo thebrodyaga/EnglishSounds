@@ -88,7 +88,7 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
                 playingJob = audioPlayer.playAudio(file)
                     .onEach {
                         when (it) {
-                            AudioPlayerState.Idle -> binding.playIcon.pauseToPlay()
+                            is AudioPlayerState.Idle -> binding.playIcon.pauseToPlay()
                             is AudioPlayerState.Playing ->
                                 if (it.audioFile.path != file.path) binding.playIcon.pauseToPlay()
                                 else binding.playIcon.playToPause()

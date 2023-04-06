@@ -21,7 +21,8 @@ class AudioPlayerImpl @Inject constructor(
 
     private var player = ExoPlayer.Builder(activity).build()
     private var currentAudio: File? = null
-    private val state = MutableStateFlow<AudioPlayerState>(AudioPlayerState.Idle)
+    private val state = MutableStateFlow<AudioPlayerState>(AudioPlayerState.Idle(File("")))
+    private var listener: Player.Listener? = null
 
     init {
         activity.lifecycle.addObserver(this)
@@ -29,14 +30,16 @@ class AudioPlayerImpl @Inject constructor(
 
     override fun playAudio(audio: File): StateFlow<AudioPlayerState> {
         player.stop()
-        state.value = AudioPlayerState.Idle
+        state.value = AudioPlayerState.Idle(audio)
         currentAudio = audio
+        this.listener?.let { player.removeListener(it) }
         val listener = object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 if (isPlaying) state.value = AudioPlayerState.Playing(audio)
-                else state.value = AudioPlayerState.Idle
+                else state.value = AudioPlayerState.Idle(audio)
             }
         }
+        this.listener = listener
         player.addListener(listener)
         val mediaItem: MediaItem = MediaItem.fromUri(Uri.fromFile(audio))
         player.setMediaItem(mediaItem);

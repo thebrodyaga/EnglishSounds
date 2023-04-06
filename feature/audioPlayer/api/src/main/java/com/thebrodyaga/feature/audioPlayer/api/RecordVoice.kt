@@ -3,8 +3,6 @@ package com.thebrodyaga.feature.audioPlayer.api
 import kotlinx.coroutines.flow.StateFlow
 
 interface RecordVoice {
-    fun onAppHide()
-    fun onAppShow()
     fun stopPlayRecord()
     fun playRecord()
     fun clearRecord()
@@ -14,6 +12,12 @@ interface RecordVoice {
 }
 
 
-enum class RecordState {
-    EMPTY, RECORDING, AUDIO, PLAYING_AUDIO
+sealed interface RecordState {
+    object ReadyToRecord : RecordState
+    object Recording : RecordState
+    data class Audio(
+        val afterRecording: Boolean = false
+    ) : RecordState
+
+    object PlayingAudio : RecordState
 }

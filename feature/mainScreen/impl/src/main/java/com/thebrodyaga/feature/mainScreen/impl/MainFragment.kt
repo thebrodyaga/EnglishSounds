@@ -2,39 +2,42 @@ package com.thebrodyaga.feature.mainScreen.impl
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.base.navigation.api.container.TabsContainer
-import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
-import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
-import com.thebrodyaga.core.uiUtils.insets.ime
-import com.thebrodyaga.core.uiUtils.insets.imeInsetType
-import com.thebrodyaga.core.uiUtils.insets.navigationBars
-import com.thebrodyaga.core.uiUtils.insets.navigationInsetType
+import com.thebrodyaga.core.uiUtils.insets.*
 import com.thebrodyaga.core.uiUtils.outline.shapeOutline
 import com.thebrodyaga.core.uiUtils.resources.px
 import com.thebrodyaga.core.uiUtils.shape.shapeTopRounded
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
-import com.thebrodyaga.englishsounds.base.di.findDependencies
+import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import com.thebrodyaga.feature.mainScreen.impl.databinding.FragmentMainBinding
 import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenComponent
+import dev.shreyaspatil.permissionFlow.utils.registerForPermissionFlowRequestsResult
 import javax.inject.Inject
+
 
 class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
 
     @Inject
     lateinit var mainScreenFactory: MainScreenFactory
 
+    @Inject
+    lateinit var recordVoice: RecordVoice
+    private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
+
     private val binding by viewBinding(FragmentMainBinding::bind)
     private val currentFragment: Fragment?
         get() = childFragmentManager.fragments.find { it.isVisible }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        MainScreenComponent.factory(findDependencies()).inject(this)
+        permissionLauncher = registerForPermissionFlowRequestsResult()
+        MainScreenComponent.factory(this).inject(this)
         super.onCreate(savedInstanceState)
     }
 
@@ -58,7 +61,7 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
         binding.mainBottomAppBar.shapeOutline(shapeTopRounded(16f.px))
         if (childFragmentManager.findFragmentById(R.id.mainFragmentContainer) == null)
             onBottomBarClick(FIRST_MAIN_PAGE.first)
-        binding.mainMicButton.setOnClickListener { binding.mainMicButton.togglePlaying() }
+        MicButtonDelegate().bind(this, binding.mainMicButton, recordVoice, permissionLauncher)
     }
 
     override fun applyWindowInsets(rootView: View) {
