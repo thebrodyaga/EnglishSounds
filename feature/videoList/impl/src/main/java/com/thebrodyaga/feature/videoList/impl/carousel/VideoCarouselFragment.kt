@@ -46,17 +46,9 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
 
     private val adapter = CommonAdapter(
         delegates = listOf(
-            videoCarouselDelegate(
-                listPosition = SparseIntArray(),
-                shadowRecyclerHeight = { binding.videoCarouselShadowList.height }
-            ),
+            videoCarouselDelegate(),
             dataViewCommonDelegate()
         )
-    )
-
-    private val shadowList = listOf<UiModel>(VideoCarouselItemUiModel("", ""))
-    private val shadowAdapter = CommonAdapter(
-        delegates = listOf(videoCarouselItemDelegate())
     )
 
     @Inject
@@ -91,8 +83,6 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        binding.videoCarouselShadowList.adapter = shadowAdapter
-        shadowAdapter.items = shadowList
         binding.videoCarouselList.adapter = adapter
         binding.videoCarouselList.itemAnimator = null
         binding.videoCarouselList.addItemDecoration(

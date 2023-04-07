@@ -1,8 +1,6 @@
 package com.thebrodyaga.feature.videoList.impl.carousel
 
-import android.util.SparseIntArray
 import androidx.core.view.isInvisible
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
@@ -16,8 +14,6 @@ import kotlin.math.absoluteValue
 fun videoCarouselDelegate(
     inflateListener: ((view: RecyclerView) -> Unit)? = null,
     bindListener: ((view: RecyclerView, item: VideoCarouselUiModel) -> Unit)? = null,
-    listPosition: SparseIntArray,
-    shadowRecyclerHeight: () -> Int,
 ) = adapterDelegateViewBinding<VideoCarouselUiModel, UiModel, ItemVideoCarouselBinding>(
     { layoutInflater, root -> ItemVideoCarouselBinding.inflate(layoutInflater, root, false) }
 ) {
@@ -26,7 +22,6 @@ fun videoCarouselDelegate(
     val adapter = CommonAdapter(
         delegates = listOf(videoCarouselItemDelegate())
     )
-    binding.itemVideoCarouselRecycler.updateLayoutParams { height = shadowRecyclerHeight() }
     binding.itemVideoCarouselRecycler.layoutManager = layoutManager
     binding.itemVideoCarouselRecycler.adapter = adapter
 
