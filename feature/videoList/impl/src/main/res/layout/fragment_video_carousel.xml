@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <com.thebrodyaga.brandbook.component.appbar.TopAppBar
         android:id="@+id/videoCarouselAppbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             app:title="@string/main_menu_tab_second" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+    </com.thebrodyaga.brandbook.component.appbar.TopAppBar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/videoCarouselList"

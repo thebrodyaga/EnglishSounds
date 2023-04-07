@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <com.thebrodyaga.brandbook.component.appbar.TopAppBar
         android:id="@+id/appbar"
         style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             app:title="@string/settings"
             app:titleTextAppearance="@style/Title2Regular" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+    </com.thebrodyaga.brandbook.component.appbar.TopAppBar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

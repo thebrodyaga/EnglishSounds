@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <com.thebrodyaga.brandbook.component.appbar.TopAppBar
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             app:title="@string/main_menu_tab_third" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+    </com.thebrodyaga.brandbook.component.appbar.TopAppBar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/trainingContentLayout"

@@ -6,6 +6,7 @@ dependencies {
     applyDagger(this)
     implementation project(":feature:setting:api")
     implementation project(":core:uiUtils")
+    implementation project(":brandbook")
     implementation timber
     implementation baseNetworkDependencies
 }

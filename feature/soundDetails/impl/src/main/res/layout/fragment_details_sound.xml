@@ -7,20 +7,18 @@
     android:layout_height="match_parent"
     tools:context="com.thebrodyaga.feature.soundDetails.impl.ui.SoundDetailsFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <com.thebrodyaga.brandbook.component.appbar.TopAppBar
         android:id="@+id/soundDetailsAppbar"
-        style="?attr/appBarLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/soundDetailsToolbar"
-            style="?attr/toolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_arrow_back" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+    </com.thebrodyaga.brandbook.component.appbar.TopAppBar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/soundDetailsList"
