@@ -16,8 +16,10 @@ sealed interface RecordState {
     object ReadyToRecord : RecordState
     object Recording : RecordState
     data class Audio(
-        val afterRecording: Boolean = false
+        val isWhenPlayingChanged: Boolean = true
     ) : RecordState
 
-    object PlayingAudio : RecordState
+    data class PlayingAudio(
+        val isPlayingChanged: Boolean = true
+    ) : RecordState
 }

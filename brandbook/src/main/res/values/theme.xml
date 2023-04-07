@@ -19,7 +19,11 @@
         <item name="staticColorRControlledVowelsSounds">@color/r_controlled_vowels</item>
         <item name="staticColorVowelSounds">@color/vowel_sounds</item>
         <item name="staticColorWhite">@android:color/white</item>
+
+        <!--ripple todo use selector drawable-->
         <item name="android:selectableItemBackground">@color/app_ripple_color</item>
+        <item name="android:colorControlHighlight">@color/app_ripple_color</item>
+        <item name="colorControlHighlight">@color/app_ripple_color</item>
 
         <item name="textAppearanceDisplayLarge">@style/AppMaterial.TextAppearance.DisplayLarge</item>
         <item name="textAppearanceDisplayMedium">@style/AppMaterial.TextAppearance.DisplayMedium</item>

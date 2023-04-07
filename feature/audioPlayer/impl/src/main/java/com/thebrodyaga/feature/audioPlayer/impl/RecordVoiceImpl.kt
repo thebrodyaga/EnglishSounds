@@ -45,19 +45,16 @@ class RecordVoiceImpl @Inject constructor(
             .onEach {
                 when (it) {
                     is AudioPlayerState.Idle -> {
-                        val isRecordingFile = it.audioFile.path.contains("recording")
+                        val isPlayingRecordNow = state.value is RecordState.PlayingAudio
                         when {
-                            !isRecordingFile && state.value is RecordState.PlayingAudio ->
-                                state.value = RecordState.Audio()
-                            isRecordingFile -> state.value = RecordState.Audio()
+                            isPlayingRecordNow -> state.value = RecordState.Audio()
                         }
                     }
                     is AudioPlayerState.Playing -> {
                         val isRecordingFile = it.audioFile.path.contains("recording")
+                        val isRecordIdleNow = state.value is RecordState.Audio
                         when {
-                            !isRecordingFile && state.value is RecordState.PlayingAudio ->
-                                state.value = RecordState.Audio()
-                            isRecordingFile -> state.value = RecordState.PlayingAudio
+                            isRecordingFile && isRecordIdleNow -> state.value = RecordState.PlayingAudio()
                         }
                     }
                 }
@@ -85,7 +82,7 @@ class RecordVoiceImpl @Inject constructor(
         if (currentState == RecordState.Recording) {
             try {
                 myAudioRecorder?.stop()  // stop the recording
-                state.value = (RecordState.Audio(afterRecording = true))
+                state.value = (RecordState.Audio(isWhenPlayingChanged = false))
             } catch (e: RuntimeException) {
                 // RuntimeException is thrown when stop() is called immediately after start().
                 // In this case the output file is not properly constructed ans should be deleted.
@@ -109,7 +106,7 @@ class RecordVoiceImpl @Inject constructor(
     }
 
     override fun stopPlayRecord() {
-        if (currentState == RecordState.PlayingAudio)
+        if (currentState is RecordState.PlayingAudio)
             audioPlayer.stopPlay()
     }
 

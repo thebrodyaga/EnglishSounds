@@ -58,11 +58,9 @@ class MicButtonDelegate {
                         recordVoice.stopRecord()
                     }
                     is RecordState.Audio -> {
-                        fab.playToPause()
                         recordVoice.playRecord()
                     }
-                    RecordState.PlayingAudio -> {
-                        fab.pauseToPlay()
+                    is RecordState.PlayingAudio -> {
                         recordVoice.stopPlayRecord()
                     }
                 }
@@ -83,11 +81,13 @@ class MicButtonDelegate {
                     }
                     is RecordState.Audio -> {
                         fab.setOnLongClickListener(longClick)
-                        if (state.afterRecording) fab.forcePlay() else fab.pauseToPlay()
+                        if (state.isWhenPlayingChanged) fab.pauseToPlay() else fab.forcePlay()
                     }
-                    RecordState.PlayingAudio -> {
+                    is RecordState.PlayingAudio -> {
                         fab.setOnLongClickListener(longClick)
-                        fab.forcePause()
+                        if (state.isPlayingChanged) fab.playToPause() else fab.forcePause()
+
+                        fab.playToPause()
                     }
                 }
             }

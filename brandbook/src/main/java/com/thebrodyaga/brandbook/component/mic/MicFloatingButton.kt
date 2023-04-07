@@ -18,8 +18,8 @@ class MicFloatingButton @JvmOverloads constructor(
     private val record = ContextCompat.getDrawable(context, R.drawable.ic_record)
     private val play = ContextCompat.getDrawable(context, R.drawable.ic_play)
     private val pause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
-    private val primaryTint = getColorStateList(R.attr.colorPrimary)
-    private val tertiaryTint = getColorStateList(R.attr.colorTertiary)
+    private val primaryTint = getColorStateList(R.attr.colorOnPrimaryContainer)
+    private val tertiaryTint = getColorStateList(R.attr.colorOnTertiaryContainer)
 
     private val primaryContainerTint = getColorStateList(R.attr.colorPrimaryContainer)
     private val secondaryContainerTint = getColorStateList(R.attr.colorSecondaryContainer)
@@ -29,7 +29,7 @@ class MicFloatingButton @JvmOverloads constructor(
     private var state: State = State.PLAY
 
     init {
-        supportImageTintList = getColorStateList(R.attr.colorPrimary)
+        imageTintList = primaryTint
         setImageDrawable(pauseToPlay)
         setImageDrawable(playToPause)
         setImageDrawable(mic)
@@ -37,27 +37,31 @@ class MicFloatingButton @JvmOverloads constructor(
 
     fun forcePause() {
         if (state == State.FORCE_PAUSE) return
-        supportImageTintList = primaryTint
+        imageTintList = tertiaryTint
+        backgroundTintList = tertiaryContainerTint
         setImageDrawable(pause)
         state = State.FORCE_PAUSE
     }
 
     fun forcePlay() {
         if (state == State.FORCE_PLAY) return
-        supportImageTintList = primaryTint
+        imageTintList = tertiaryTint
+        backgroundTintList = tertiaryContainerTint
         setImageDrawable(play)
         state = State.FORCE_PLAY
     }
 
     fun mic() {
         setImageDrawable(mic)
-        supportImageTintList = primaryTint
+        imageTintList = primaryTint
+        backgroundTintList = primaryContainerTint
         state = State.MIC
     }
 
     fun record() {
         setImageDrawable(record)
-        supportImageTintList = redTint
+        imageTintList = redTint
+        backgroundTintList = secondaryContainerTint
         state = State.RECORD
     }
 
@@ -68,7 +72,8 @@ class MicFloatingButton @JvmOverloads constructor(
             return
         }
         setImageDrawable(playToPause?.apply { start() })
-        supportImageTintList = primaryTint
+        imageTintList = tertiaryTint
+        backgroundTintList = tertiaryContainerTint
         state = State.PAUSE
     }
 
@@ -79,7 +84,8 @@ class MicFloatingButton @JvmOverloads constructor(
             return
         }
         setImageDrawable(pauseToPlay?.apply { start() })
-        supportImageTintList = primaryTint
+        imageTintList = tertiaryTint
+        backgroundTintList = tertiaryContainerTint
         state = State.PLAY
     }
 
