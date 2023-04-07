@@ -2,6 +2,7 @@ package com.thebrodyaga.brandbook.component.play
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.button.MaterialButton
 import com.thebrodyaga.brandbook.R
@@ -13,6 +14,8 @@ class PlayButtonView @JvmOverloads constructor(
 
     private val pauseToPlay = AnimatedVectorDrawableCompat.create(context, R.drawable.ic_pause_to_play)
     private val playToPause = AnimatedVectorDrawableCompat.create(context, R.drawable.ic_play_to_pause)
+    private val play = ContextCompat.getDrawable(context, R.drawable.ic_play)
+    private val pause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
     private var state: State = State.PLAY
 
     init {
@@ -28,21 +31,14 @@ class PlayButtonView @JvmOverloads constructor(
         }
     }
 
-    fun togglePlaying() {
-        when (state) {
-            State.PLAY -> playToPause()
-            State.PAUSE -> pauseToPlay()
-        }
-    }
-
     fun forcePause() {
-        icon = (pauseToPlay)
-        state = State.PAUSE
+        icon = (pause)
+        state = State.FORCE_PAUSE
     }
 
     fun forcePlay() {
-        icon = (playToPause)
-        state = State.PLAY
+        icon = (play)
+        state = State.FORCE_PLAY
     }
 
     fun playToPause() {
@@ -66,6 +62,6 @@ class PlayButtonView @JvmOverloads constructor(
     }
 
     private enum class State {
-        PLAY, PAUSE
+        PLAY, PAUSE, FORCE_PLAY, FORCE_PAUSE
     }
 }
