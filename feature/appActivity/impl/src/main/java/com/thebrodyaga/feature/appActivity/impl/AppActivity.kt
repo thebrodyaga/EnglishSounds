@@ -79,7 +79,6 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         DynamicColors.applyToActivityIfAvailable(this)
-        isLightSystem(isSystemDarkMode())
         super.onCreate(savedInstanceState)
         reviewManager = ReviewManagerFactory.create(this)
         setContentView(R.layout.layout_fragemnt_container)
@@ -116,32 +115,6 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
     override fun onPause() {
         navigatorHolder.removeNavigator()
         super.onPause()
-    }
-
-    private fun isLightSystem(isDarkTheme: Boolean?) {
-        if (isDarkTheme == null)
-            return
-//        window.statusBarColor = primaryDark
-//        window.navigationBarColor = if (!isDarkTheme) navigationBar else primaryDark
-
-        val view = window.decorView
-
-        var result = 0
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            result =
-                if (!isDarkTheme)
-                    view.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                else
-                    view.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            result =
-                if (!isDarkTheme)
-                    result or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-                else
-                    result and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
-        }
-        view.systemUiVisibility = result
     }
 
     fun showRateDialog() {

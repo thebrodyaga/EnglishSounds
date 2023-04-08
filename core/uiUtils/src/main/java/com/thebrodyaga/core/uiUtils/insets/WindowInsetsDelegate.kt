@@ -1,12 +1,13 @@
 package com.thebrodyaga.core.uiUtils.insets
 
+import android.annotation.SuppressLint
 import android.graphics.Color
-import android.os.Build
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.google.android.material.internal.EdgeToEdgeUtils
 
 class WindowInsetsDelegate constructor(
     private val window: Window,
@@ -24,14 +25,23 @@ class WindowInsetsDelegate constructor(
         setupWindowInsets()
     }
 
+    @SuppressLint("RestrictedApi")
     private fun setupWindowInsets() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        // LIBRARY_GROUP be careful
+        EdgeToEdgeUtils.applyEdgeToEdge(
+            window,
+            true,
+            Color.TRANSPARENT,
+            Color.TRANSPARENT
+        )
+
+        /*WindowCompat.setDecorFitsSystemWindows(window, false)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.isStatusBarContrastEnforced = false
             window.isNavigationBarContrastEnforced = false
         }
         window.statusBarColor = Color.TRANSPARENT
-        window.navigationBarColor = Color.TRANSPARENT
+        window.navigationBarColor = Color.TRANSPARENT*/
     }
 }

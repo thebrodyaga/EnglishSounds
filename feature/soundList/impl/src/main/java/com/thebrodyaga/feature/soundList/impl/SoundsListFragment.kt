@@ -16,13 +16,9 @@ import com.thebrodyaga.brandbook.component.sound.SoundCardDelegate
 import com.thebrodyaga.brandbook.component.sound.SoundCardUiModel
 import com.thebrodyaga.brandbook.component.sound.SoundCardViewHolder
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
-import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
-import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
-import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
-import com.thebrodyaga.core.uiUtils.insets.consume
-import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
-import com.thebrodyaga.core.uiUtils.insets.systemAndIme
+import com.thebrodyaga.core.uiUtils.insets.*
+import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
@@ -33,12 +29,7 @@ import com.thebrodyaga.feature.soundList.impl.databinding.FragmentSoundsListBind
 import com.thebrodyaga.feature.soundList.impl.di.SoundListComponent
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
-import com.thebrodyaga.legacy.AdItemDecorator
-import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
-import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
-import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
-import com.thebrodyaga.legacy.SoundVideoListItem
-import com.thebrodyaga.legacy.VideoListItem
+import com.thebrodyaga.legacy.*
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -70,10 +61,14 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
 
                 },
                 bindListener = { view, item ->
+                    val shaderView = view.contentLayout
                     view.setOnClickAction { _, _ ->
-                        onSoundClick(item, view)
+                        onSoundClick(item, shaderView)
                     }
-                    ViewCompat.setTransitionName(view, (item.transcription as TextViewUiModel.Raw).text.toString())
+                    ViewCompat.setTransitionName(
+                        shaderView,
+                        (item.transcription as TextViewUiModel.Raw).text.toString()
+                    )
                 }
             )
         ),

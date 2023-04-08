@@ -16,8 +16,8 @@ import com.thebrodyaga.brandbook.databinding.ItemSoundCardBinding
 import com.thebrodyaga.brandbook.databinding.ViewSoundCardBinding
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.core.uiUtils.drawable.bindBackground
-import com.thebrodyaga.core.uiUtils.text.bind
 import com.thebrodyaga.core.uiUtils.resources.px
+import com.thebrodyaga.core.uiUtils.text.bind
 
 class SoundCardView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -26,6 +26,8 @@ class SoundCardView @JvmOverloads constructor(
     private val binding by viewBinding(ViewSoundCardBinding::bind)
 
     private var _item: SoundCardUiModel? = null
+    val contentLayout: ViewGroup
+        get() = binding.contentLayout
     val item: SoundCardUiModel
         get() = _item ?: error("Not bind yet")
 
