@@ -20,12 +20,11 @@
 
     </com.thebrodyaga.brandbook.component.appbar.TopAppBar>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.thebrodyaga.brandbook.component.recycler.AppRecyclerView
         android:id="@+id/soundDetailsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

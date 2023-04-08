@@ -11,7 +11,6 @@
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/mainBottomAppBar"
-        style="@style/Widget.Material3.BottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -22,10 +21,9 @@
 
         <com.thebrodyaga.feature.mainScreen.impl.AppBottomNavigationView
             android:id="@+id/mainBottomNavigation"
-            style="@style/Widget.Material3.BottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:backgroundTint="@android:color/transparent"
+            android:background="@drawable/bg_bottom_navigation"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/main_bottom_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>

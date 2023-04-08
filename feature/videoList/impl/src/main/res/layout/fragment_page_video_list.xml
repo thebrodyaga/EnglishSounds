@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.thebrodyaga.brandbook.component.recycler.AppRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pageVideoList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:overScrollMode="never">
+    android:clipToPadding="false">
 
-</androidx.recyclerview.widget.RecyclerView>
+</com.thebrodyaga.brandbook.component.recycler.AppRecyclerView>

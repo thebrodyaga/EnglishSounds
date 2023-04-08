@@ -41,7 +41,7 @@
             android:visibility="visible" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.thebrodyaga.brandbook.component.recycler.AppRecyclerView
         android:id="@+id/video_list_recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
