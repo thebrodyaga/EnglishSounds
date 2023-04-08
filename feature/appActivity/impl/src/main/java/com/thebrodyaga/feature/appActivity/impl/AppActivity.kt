@@ -1,8 +1,6 @@
 package com.thebrodyaga.feature.appActivity.impl
 
-import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.splashscreen.SplashScreenViewProvider
@@ -18,7 +16,6 @@ import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
-import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.core.uiUtils.recycler.pool.PrefetchRecycledViewPool
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory

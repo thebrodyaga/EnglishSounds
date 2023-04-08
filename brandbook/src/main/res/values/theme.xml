@@ -1,11 +1,24 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="SplashTheme" parent="Theme.SplashScreen">
-        <item name="postSplashScreenTheme">@style/AppMaterial</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/app_splash_icon</item>
     </style>
 
-    <style name="AppMaterial" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="AppSplashTheme" parent="SplashTheme">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+    </style>
+
+    <style name="AppTheme" parent="Material3Theme">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+    </style>
+
+    <style name="Material3Theme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
@@ -50,5 +63,6 @@
 
     <style name="AppBottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppBottomSheet</item>
+        <item name="enableEdgeToEdge">true</item>
     </style>
 </resources>

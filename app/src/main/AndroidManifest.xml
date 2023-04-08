@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
-        android:theme="@style/AppMaterial"
+        android:theme="@style/AppSplashTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name="com.thebrodyaga.feature.youtube.impl.YoutubePlayerActivity"
@@ -26,7 +26,7 @@
         <activity
             android:name=".activity.DiAppActivity"
             android:exported="true"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/AppSplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

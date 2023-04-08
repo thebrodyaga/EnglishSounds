@@ -1,13 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorSecondary">@color/colorAccent</item>
-    </style>
-
     <style name="TitleRegular">
         <item name="android:textSize">36sp</item>
         <item name="android:textColor">?attr/colorOnSurface</item>

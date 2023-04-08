@@ -20,7 +20,7 @@ abstract class BaseBottomSheetDialog(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         val window = dialog.window!!
-        WindowInsetsDelegate(window).onCreate()
+//        WindowInsetsDelegate(window).onCreate()
         return dialog
     }
 
