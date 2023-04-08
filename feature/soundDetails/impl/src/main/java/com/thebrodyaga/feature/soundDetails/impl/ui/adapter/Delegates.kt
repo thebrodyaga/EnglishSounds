@@ -7,10 +7,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.thebrodyaga.brandbook.model.UiModel
+import com.thebrodyaga.feature.soundDetails.impl.R
 import com.thebrodyaga.feature.soundDetails.impl.databinding.ItemSoundDetailsDescriptionBinding
 import com.thebrodyaga.feature.soundDetails.impl.databinding.ItemSoundDetailsImageBinding
 import com.thebrodyaga.feature.soundDetails.impl.databinding.ItemSoundDetailsVideoBinding
 import java.io.File
+
+internal val SOUND_DETAILS_IMAGE_VIEW_TYPE = R.layout.item_sound_details_image
 
 fun soundDetailsImageDelegate(
     inflateListener: ((view: View) -> Unit)? = null,
@@ -37,6 +40,8 @@ data class SoundDetailsImageUiModel(
     val photoPath: String
 ) : UiModel
 
+internal val SOUND_DETAILS_VIEW_TYPE = R.layout.item_sound_details_video
+
 fun soundDetailsVideoDelegate(
     inflateListener: ((view: View) -> Unit)? = null,
     bindListener: ((view: View, item: SoundDetailsVideoUiModel) -> Unit)? = null,
@@ -56,6 +61,8 @@ fun soundDetailsVideoDelegate(
 data class SoundDetailsVideoUiModel(
     val videoUrl: String
 ) : UiModel
+
+internal val SOUND_DETAILS_DESCRIPTION_VIEW_TYPE = R.layout.item_sound_details_description
 
 fun soundDetailsDescriptionDelegate(
     inflateListener: ((view: View) -> Unit)? = null,
