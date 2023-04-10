@@ -54,7 +54,7 @@ abstract class ScreenFragment(layoutId: Int) : Fragment(layoutId) {
     }
 
     private fun registerBackPressedDispatcher() {
-        requireActivity().onBackPressedDispatcher.addCallback { onBackPressed() }
+        requireActivity().onBackPressedDispatcher.addCallback(this) { onBackPressed() }
     }
 
     open fun onBackPressed() {

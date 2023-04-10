@@ -13,6 +13,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import java.lang.reflect.Field
+import java.util.concurrent.ConcurrentLinkedDeque
 import kotlin.random.Random
 
 open class AsyncViewHolderPool constructor(
@@ -34,7 +35,11 @@ open class AsyncViewHolderPool constructor(
         get() = activity.lifecycleScope
 
     override fun pop(viewType: Int): RecyclerView.ViewHolder? {
-        return mapOfStack[viewType]?.stack?.removeFirstOrNull()
+        return try {
+            mapOfStack[viewType]?.stack?.pop()
+        } catch (e: NoSuchElementException) {
+            null
+        }
     }
 
     override fun push(viewHolder: RecyclerView.ViewHolder?) {
@@ -43,7 +48,7 @@ open class AsyncViewHolderPool constructor(
             val stack = box.stack
             val maxCount = box.maxSize
             if (stack.size >= maxCount) return
-            stack.add(viewHolder)
+            stack.push(viewHolder)
         }
     }
 
@@ -85,11 +90,11 @@ open class AsyncViewHolderPool constructor(
                 mapOfStack.getOrPut(viewType) {
                     StackValueBox(
                         maxSize,
-                        ArrayDeque()
+                        ConcurrentLinkedDeque()
                     )
                 }
                     .stack
-                    .add(viewHolder)
+                    .push(viewHolder)
                 viewHolder
             }
             if (times < waitingSize) {
@@ -118,6 +123,6 @@ open class AsyncViewHolderPool constructor(
 
     private data class StackValueBox(
         val maxSize: Int = 0,
-        val stack: ArrayDeque<RecyclerView.ViewHolder>,
+        val stack: ConcurrentLinkedDeque<RecyclerView.ViewHolder>,
     )
 }

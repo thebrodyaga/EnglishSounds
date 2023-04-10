@@ -1,24 +1,16 @@
 package com.thebrodyaga.feature.videoList.impl.carousel
 
 import android.os.Bundle
-import android.util.SparseIntArray
 import android.view.View
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
-import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
-import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
-import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
-import com.thebrodyaga.core.uiUtils.insets.consume
-import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
-import com.thebrodyaga.core.uiUtils.insets.systemAndIme
+import com.thebrodyaga.core.uiUtils.insets.*
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
@@ -31,12 +23,7 @@ import com.thebrodyaga.feature.videoList.impl.R
 import com.thebrodyaga.feature.videoList.impl.databinding.FragmentVideoCarouselBinding
 import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
-import com.thebrodyaga.legacy.AdItemDecorator
-import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
-import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
-import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
-import com.thebrodyaga.legacy.SoundVideoListItem
-import com.thebrodyaga.legacy.VideoListItem
+import com.thebrodyaga.legacy.*
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -44,12 +31,14 @@ import javax.inject.Inject
 
 class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
 
-    private val adapter = CommonAdapter(
-        delegates = listOf(
-            videoCarouselDelegate(),
-            dataViewCommonDelegate()
+    private val adapter by lazy {
+        CommonAdapter(
+            delegates = listOf(
+                videoCarouselDelegate(pool = videoCarouselViewPool),
+                dataViewCommonDelegate()
+            )
         )
-    )
+    }
 
     @Inject
     lateinit var youtubeScreenFactory: YoutubeScreenFactory
@@ -59,6 +48,9 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
 
     @Inject
     lateinit var videoScreenFactory: VideoScreenFactory
+
+    @Inject
+    lateinit var videoCarouselViewPool: VideoCarouselViewPool
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

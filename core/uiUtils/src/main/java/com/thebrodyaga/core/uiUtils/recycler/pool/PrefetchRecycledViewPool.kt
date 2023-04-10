@@ -10,7 +10,7 @@ typealias ViewHolderFactory = (viewType: Int, itemView: View) -> RecyclerView.Vi
 
 abstract class PrefetchRecycledViewPool(
     private val activity: AppCompatActivity,
-    private val viewHolderPool: ViewHolderPool = AsyncViewHolderPool(activity)
+    private val viewHolderPool: ViewHolderPool,
 ) : RecyclerView.RecycledViewPool(), PrefetchViewHolderPool {
 
     companion object {
