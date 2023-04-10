@@ -42,7 +42,6 @@ internal val SOUND_DETAILS_LAYOUT_ID = R.layout.item_sound_details_video
 internal val SOUND_DETAILS_VIEW_TYPE = SOUND_DETAILS_LAYOUT_ID
 
 fun soundDetailsVideoDelegate(
-    inflateListener: ((view: View) -> Unit)? = null,
     bindListener: ((view: View, item: SoundDetailsVideoUiModel) -> Unit)? = null,
 ): DslRowAdapterDelegate<SoundDetailsVideoUiModel, View> =
     rowDelegate(SOUND_DETAILS_LAYOUT_ID, SOUND_DETAILS_VIEW_TYPE) {

@@ -1,12 +1,10 @@
 package com.thebrodyaga.feature.videoList.impl.carousel
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.base.navigation.api.RouterProvider
-import com.thebrodyaga.base.navigation.impl.transition.sharedElementBox
 import com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniUiModel
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
@@ -16,6 +14,8 @@ import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoListType
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor
+import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
+import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -27,6 +27,7 @@ class VideoCarouselViewModel @Inject constructor(
     private val routerProvider: RouterProvider,
     private val soundScreenFactory: SoundDetailsScreenFactory,
     private val videoScreenFactory: VideoScreenFactory,
+    private val youtubeScreenFactory: YoutubeScreenFactory,
     private val mapper: VideoCarouselMapper,
 ) : ViewModel() {
 
@@ -72,6 +73,12 @@ class VideoCarouselViewModel @Inject constructor(
             }
         }
         routerProvider.anyRouter.navigateTo(videoScreenFactory.allVideoScreen(showPage))
+    }
+
+    fun onVideoClick(videoId: String) {
+        routerProvider.anyRouter.navigateTo(
+            youtubeScreenFactory.youtubeScreen(PlayVideoExtra(videoId, ""))
+        )
     }
 }
 

@@ -12,11 +12,9 @@ import com.thebrodyaga.brandbook.component.data.dataViewRightPlayIconDelegate
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.insets.*
-import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
-import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.setting.api.SettingManager
 import com.thebrodyaga.feature.soundDetails.impl.R
 import com.thebrodyaga.feature.soundDetails.impl.databinding.FragmentDetailsSoundBinding
@@ -24,7 +22,6 @@ import com.thebrodyaga.feature.soundDetails.impl.di.SoundDetailsComponent
 import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.soundDetailsDescriptionDelegate
 import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.soundDetailsImageDelegate
 import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.soundDetailsVideoDelegate
-import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -58,7 +55,11 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
         )
     ) {
         row(soundDetailsImageDelegate())
-        row(soundDetailsVideoDelegate())
+        row(soundDetailsVideoDelegate{view, item ->
+            view.setOnClickListener {
+                viewModel.onVideoItemClick(item.videoUrl)
+            }
+        })
         row(soundDetailsDescriptionDelegate())
     }
 

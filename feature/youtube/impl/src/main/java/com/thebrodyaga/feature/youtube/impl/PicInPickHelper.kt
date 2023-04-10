@@ -2,6 +2,7 @@ package com.thebrodyaga.feature.youtube.impl
 
 import android.app.Activity
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PictureInPictureParams
 import android.app.RemoteAction
 import android.content.BroadcastReceiver
@@ -102,7 +103,7 @@ class PicInPickHelper constructor(private val activity: Activity) {
             requestCode,
             Intent(ACTION_MEDIA_CONTROL)
                 .putExtra(EXTRA_CONTROL_TYPE, controlType),
-            0
+            FLAG_IMMUTABLE
         )
         val icon: Icon = Icon.createWithResource(activity, iconId)
         val titleStr = activity.getString(title)

@@ -86,7 +86,7 @@ class YoutubePlayerActivity : BaseActivity() {
         orientationEventListener = YoutubeOrientationEventListener(this)
             .also { it.enable() }
 
-        playVideoExtra = intent.getParcelableExtra(VIDEO_ID_EXTRA)
+        playVideoExtra = intent.getSerializableExtra(VIDEO_ID_EXTRA) as? PlayVideoExtra
             ?: throw IllegalArgumentException("need put videoID")
 
         val legacyYouTubePlayerView = panel.parent.parent as ViewGroup

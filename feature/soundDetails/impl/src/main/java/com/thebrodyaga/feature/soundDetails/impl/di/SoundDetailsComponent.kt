@@ -1,5 +1,7 @@
 package com.thebrodyaga.feature.soundDetails.impl.di
 
+import com.thebrodyaga.base.navigation.api.RouterProvider
+import com.thebrodyaga.base.navigation.impl.createRouterProvider
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.englishsounds.base.di.ActivityDependencies
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
@@ -27,7 +29,8 @@ interface SoundDetailsComponent {
         fun create(
             dependencies: SoundDetailsDependencies,
             activityDependencies: SoundDetailsActivityDependencies,
-            @BindsInstance transcription: String
+            @BindsInstance routerProvider: RouterProvider,
+            @BindsInstance transcription: String,
         ): SoundDetailsComponent
     }
 
@@ -40,7 +43,12 @@ interface SoundDetailsComponent {
             transcription: String,
         ): SoundDetailsComponent {
             return DaggerSoundDetailsComponent.factory()
-                .create(fragment.findDependencies(), fragment.findActivityDependencies(), transcription)
+                .create(
+                    fragment.findDependencies(),
+                    fragment.findActivityDependencies(),
+                    fragment.createRouterProvider(),
+                    transcription,
+                )
         }
     }
 }

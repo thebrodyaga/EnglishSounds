@@ -38,12 +38,15 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
                 )
             )
         ) {
-            row(videoCarouselDelegate(pool = videoCarouselViewPool) { binding, _ ->
+            row(videoCarouselDelegate(pool = videoCarouselViewPool) { binding, videoItem ->
                 binding.carouselItemFirstSound.setOnClickAction { _, sound ->
                     viewModel.onSoundClick(sound)
                 }
                 binding.carouselItemSecondSound.setOnClickAction { _, sound ->
                     viewModel.onSoundClick(sound)
+                }
+                binding.carouselItemVideoView.setOnClickListener { _ ->
+                    viewModel.onVideoClick(videoItem.videoId)
                 }
             })
         }

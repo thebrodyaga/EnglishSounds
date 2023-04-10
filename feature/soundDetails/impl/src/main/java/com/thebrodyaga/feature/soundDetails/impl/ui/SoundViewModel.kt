@@ -2,6 +2,7 @@ package com.thebrodyaga.feature.soundDetails.impl.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.thebrodyaga.base.navigation.api.RouterProvider
 import com.thebrodyaga.brandbook.component.data.DataUiModel
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.data.sounds.api.SoundsRepository
@@ -9,6 +10,8 @@ import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayerState
 import com.thebrodyaga.feature.soundDetails.impl.ui.mapper.SoundDetailsMapper
+import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
+import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,6 +29,8 @@ class SoundViewModel @Inject constructor(
     private val mapper: SoundDetailsMapper,
     private val transcription: String,
     private val audioPlayer: AudioPlayer,
+    private val youtubeScreenFactory: YoutubeScreenFactory,
+    private val routerProvider: RouterProvider,
 ) : ViewModel() {
 
     private val state = MutableStateFlow<SoundState>(SoundState.Empty)
@@ -47,6 +52,12 @@ class SoundViewModel @Inject constructor(
     fun onAudioItemClick(item: DataUiModel) {
         val audio = item.payload as? File ?: return
         audioPlayer.playAudio(audio)
+    }
+
+    fun onVideoItemClick(videoUrl: String) {
+        routerProvider.anyRouter.navigateTo(
+            youtubeScreenFactory.youtubeScreen(PlayVideoExtra(videoUrl, ""))
+        )
     }
 }
 
