@@ -2,6 +2,7 @@ package com.thebrodyaga.feature.mainScreen.impl
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import com.thebrodyaga.base.navigation.api.CiceroneHolder
 import com.thebrodyaga.base.navigation.api.container.TabContainer
 import com.thebrodyaga.base.navigation.api.router.TabRouter
@@ -29,6 +30,8 @@ class TabContainerFragment : ScreenFragment(R.layout.fragemnt_tab_container), Ta
     @Inject
     lateinit var ciceroneHolder: CiceroneHolder
 
+    private val viewModel: TabContainerViewModel by viewModels()
+
     private val containerName: String by lazy {
         arguments?.getString(EXTRA_NAME) ?: throw RuntimeException("need put key")
     }
@@ -37,14 +40,16 @@ class TabContainerFragment : ScreenFragment(R.layout.fragemnt_tab_container), Ta
         FlowNavigator(this, containerId, routerProvider)
     }
     private val cicerone: Cicerone<TabRouter>
-        get() = ciceroneHolder.getOrCreate(containerName) { Cicerone.create(TabRouter()) }
+        get() = viewModel.cicerone
 
     override val tabRouter: TabRouter
-        get() = cicerone.router
+        get() = viewModel.router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         MainScreenComponent.factory(this).inject(this)
         super.onCreate(savedInstanceState)
+        viewModel.containerName = containerName
+        viewModel.ciceroneHolder = ciceroneHolder
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,13 +74,6 @@ class TabContainerFragment : ScreenFragment(R.layout.fragemnt_tab_container), Ta
     override fun onPause() {
         cicerone.getNavigatorHolder().removeNavigator()
         super.onPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        val activity = requireActivity()
-        val shouldDeleteCicerone = activity.isFinishing || !activity.isChangingConfigurations
-        if (shouldDeleteCicerone) ciceroneHolder.clear(containerName)
     }
 
     override fun applyWindowInsets(rootView: View) = Unit
