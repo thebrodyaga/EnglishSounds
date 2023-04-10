@@ -56,6 +56,4 @@ class SoundCardView @JvmOverloads constructor(
 fun soundCardDelegate(
     block: RowDelegateBlock<SoundCardUiModel, SoundCardView>.() -> Unit
 ): DslRowAdapterDelegate<SoundCardUiModel, SoundCardView> =
-    rowDelegate(SoundCardView.LAYOUT_ID, SoundCardView.VIEW_TYPE) {
-        block.invoke(this)
-    }
+    rowDelegate(SoundCardView.LAYOUT_ID, SoundCardView.VIEW_TYPE, block = block)

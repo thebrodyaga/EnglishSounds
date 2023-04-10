@@ -33,16 +33,7 @@ import javax.inject.Inject
 class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
 
     @Inject
-    lateinit var soundsRepository: SoundsRepository
-
-    @Inject
-    lateinit var audioPlayer: AudioPlayer
-
-    @Inject
     lateinit var settingManager: SettingManager
-
-    @Inject
-    lateinit var youtubeScreenFactory: YoutubeScreenFactory
 
     @Inject
     lateinit var soundsDetailsViewPool: SoundsDetailsViewPool

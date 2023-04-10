@@ -49,6 +49,14 @@ class DataRightView @JvmOverloads constructor(
         }
     }
 
+    fun setOnTextButtonClickAction(onItemClickAction: (view: View, item: DataRightUiModel.Button.Text) -> Unit) {
+        val binding = viewPool.findPoolOfViews(DataRightUiModel.Button.Text::class).first
+                as ViewDataRightTextButtonBinding
+        binding.dataRightTextButton.setOnClickListener {
+            onItemClickAction(binding.root, currentModel as DataRightUiModel.Button.Text)
+        }
+    }
+
     fun bind(model: DataRightUiModel) {
         val pair = viewPool.updatePoolOfViews(this.currentModel, model)
         when (model) {

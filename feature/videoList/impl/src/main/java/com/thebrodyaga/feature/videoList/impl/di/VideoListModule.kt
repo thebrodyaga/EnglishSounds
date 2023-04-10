@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.app.ViewModelKey
+import com.thebrodyaga.feature.videoList.impl.carousel.VideoCarouselViewModel
 import com.thebrodyaga.feature.videoList.impl.page.VideoListViewModel
-import com.thebrodyaga.feature.videoList.impl.carousel.ListOfVideoListsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -23,6 +23,6 @@ internal interface VideoListModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(ListOfVideoListsViewModel::class)
-    fun listOfVideoListsViewModel(viewModel: ListOfVideoListsViewModel): ViewModel
+    @ViewModelKey(VideoCarouselViewModel::class)
+    fun listOfVideoListsViewModel(viewModel: VideoCarouselViewModel): ViewModel
 }

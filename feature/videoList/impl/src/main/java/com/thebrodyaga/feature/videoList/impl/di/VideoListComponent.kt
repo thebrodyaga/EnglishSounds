@@ -1,6 +1,8 @@
 package com.thebrodyaga.feature.videoList.impl.di
 
 import androidx.fragment.app.Fragment
+import com.thebrodyaga.base.navigation.api.RouterProvider
+import com.thebrodyaga.base.navigation.impl.createRouterProvider
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.SoundsVideoRepository
 import com.thebrodyaga.englishsounds.base.di.*
@@ -28,7 +30,8 @@ interface VideoListComponent {
         fun create(
             dependencies: VideoListDependencies,
             activityDependencies: VideoListActivityDependencies,
-            @BindsInstance listType: VideoListType?
+            @BindsInstance routerProvider: RouterProvider,
+            @BindsInstance listType: VideoListType?,
         ): VideoListComponent
     }
 
@@ -42,7 +45,12 @@ interface VideoListComponent {
             listType: VideoListType?,
         ): VideoListComponent {
             return DaggerVideoListComponent.factory()
-                .create(fragment.findDependencies(), fragment.findActivityDependencies(), listType)
+                .create(
+                    fragment.findDependencies(),
+                    fragment.findActivityDependencies(),
+                    fragment.createRouterProvider(),
+                    listType
+                )
         }
     }
 }

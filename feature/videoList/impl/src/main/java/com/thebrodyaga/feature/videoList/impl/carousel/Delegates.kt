@@ -2,7 +2,6 @@ package com.thebrodyaga.feature.videoList.impl.carousel
 
 import android.view.View
 import androidx.core.view.isInvisible
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniUiModel
 import com.thebrodyaga.brandbook.model.UiModel
@@ -18,9 +17,8 @@ internal val VIDEO_CAROUSEL_LAYOUT_ID = R.layout.item_video_carousel
 internal val VIDEO_CAROUSEL_VIEW_TYPE = VIDEO_CAROUSEL_LAYOUT_ID
 
 fun videoCarouselDelegate(
-    inflateListener: ((view: RecyclerView) -> Unit)? = null,
-    bindListener: ((view: RecyclerView, item: VideoCarouselUiModel) -> Unit)? = null,
-    pool: VideoCarouselViewPool
+    pool: VideoCarouselViewPool,
+    carouselItemBindListener: ((binding: ItemVideoCarouselItemBinding, item: VideoCarouselItemUiModel) -> Unit)? = null,
 ): DslRowAdapterDelegate<VideoCarouselUiModel, View> =
     rowDelegate(VIDEO_CAROUSEL_LAYOUT_ID, VIDEO_CAROUSEL_VIEW_TYPE) {
 
@@ -28,7 +26,7 @@ fun videoCarouselDelegate(
             val binding = ItemVideoCarouselBinding.bind(it)
             val layoutManager = CarouselLayoutManager()
             val adapter = CommonAdapter {
-                row(videoCarouselItemDelegate())
+                row(videoCarouselItemDelegate(carouselItemBindListener))
             }
             binding.itemVideoCarouselRecycler.layoutManager = layoutManager
             binding.itemVideoCarouselRecycler.setRecycledViewPool(pool)
@@ -58,8 +56,7 @@ internal val VIDEO_CAROUSEL_ITEM_LAYOUT_ID = R.layout.item_video_carousel_item
 internal val VIDEO_CAROUSEL_ITEM_VIEW_TYPE = VIDEO_CAROUSEL_ITEM_LAYOUT_ID
 
 fun videoCarouselItemDelegate(
-    inflateListener: ((view: RecyclerView) -> Unit)? = null,
-    bindListener: ((view: RecyclerView, item: VideoCarouselItemUiModel) -> Unit)? = null,
+    bindListener: ((binding: ItemVideoCarouselItemBinding, item: VideoCarouselItemUiModel) -> Unit)? = null,
 ): DslRowAdapterDelegate<VideoCarouselItemUiModel, View> =
     rowDelegate(VIDEO_CAROUSEL_ITEM_LAYOUT_ID, VIDEO_CAROUSEL_ITEM_VIEW_TYPE) {
 
@@ -86,5 +83,7 @@ fun videoCarouselItemDelegate(
             secondSound?.let { binding.carouselItemSecondSound.bind(secondSound) }
 
             binding.carouselItemText.text = item.title
+
+            bindListener?.invoke(binding, item)
         }
     }

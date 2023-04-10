@@ -29,7 +29,6 @@ class SoundsListViewModel @Inject constructor(
 
     private val state = MutableStateFlow<SoundsListState>(SoundsListState.Empty)
     fun getState() = state.asStateFlow()
-    val positionList = mutableMapOf<Int, Pair<Int, Int>>()
 
     init {
         combine(

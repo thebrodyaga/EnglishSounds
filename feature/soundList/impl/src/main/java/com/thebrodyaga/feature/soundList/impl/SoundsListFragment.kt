@@ -43,9 +43,6 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
     lateinit var detailsScreenFactory: SoundDetailsScreenFactory
 
     @Inject
-    lateinit var youtubeScreenFactory: YoutubeScreenFactory
-
-    @Inject
     lateinit var viewPool: SoundsListViewPool
 
     @Inject
@@ -114,7 +111,7 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
         view: View,
     ) {
         val sound = model.payload as? AmericanSoundDto ?: return
-        getAnyRouter().navigateTo(
+        routerProvider.anyRouter.navigateTo(
             detailsScreenFactory.soundDetailsScreen(sound.transcription, view.sharedElementBox),
         )
 
@@ -126,21 +123,6 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
             FirebaseAnalytics.Event.SELECT_CONTENT,
             bundle
         )
-    }
-
-    private fun onShowAllVideoClick(videoListItem: VideoListItem) {
-        val showPage: VideoListType = when (videoListItem) {
-            is ContrastingSoundVideoListItem -> VideoListType.ContrastingSounds
-            is MostCommonWordsVideoListItem -> VideoListType.MostCommonWords
-            is AdvancedExercisesVideoListItem -> VideoListType.AdvancedExercises
-            is SoundVideoListItem -> when (videoListItem.soundType) {
-                SoundType.CONSONANT_SOUND -> VideoListType.ConsonantSounds
-                SoundType.R_CONTROLLED_VOWELS -> VideoListType.RControlledVowels
-                SoundType.VOWEL_SOUNDS -> VideoListType.VowelSounds
-            }
-        }
-        // todo
-//        getAnyRouter().navigateTo(Screens.AllVideoScreen(showPage))
     }
 
     private inner class SpanSizeLookup : GridLayoutManager.SpanSizeLookup() {
