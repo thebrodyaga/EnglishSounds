@@ -8,14 +8,13 @@ import com.thebrodyaga.base.navigation.impl.navigator.FlowNavigator
 import com.thebrodyaga.core.navigation.api.cicerone.Cicerone
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
-import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenComponent
 import com.thebrodyaga.feature.soundList.api.SoundListScreenFactory
 import com.thebrodyaga.feature.training.api.TrainingScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import javax.inject.Inject
 
-class TabContainerFragment : ScreenFragment(R.layout.layout_fragemnt_container), TabContainer {
+class TabContainerFragment : ScreenFragment(R.layout.fragemnt_tab_container), TabContainer {
 
     @Inject
     lateinit var soundListScreenFactory: SoundListScreenFactory
@@ -29,7 +28,7 @@ class TabContainerFragment : ScreenFragment(R.layout.layout_fragemnt_container),
     private val containerName: String by lazy {
         arguments?.getString(EXTRA_NAME) ?: throw RuntimeException("need put key")
     }
-    private val containerId = R.id.fragment_container
+    private val containerId = R.id.tabContainer
     private val navigator: Navigator by lazy { FlowNavigator(this, containerId, routerProvider) }
     private val cicerone = Cicerone.create(TabRouter())
 

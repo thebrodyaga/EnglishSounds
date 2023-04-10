@@ -3,6 +3,7 @@ package com.thebrodyaga.feature.videoList.impl.carousel
 import android.view.View
 import androidx.core.view.isInvisible
 import com.google.android.material.carousel.CarouselLayoutManager
+import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniUiModel
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
@@ -11,6 +12,7 @@ import com.thebrodyaga.brandbook.recycler.dsl.rowDelegate
 import com.thebrodyaga.feature.videoList.impl.R
 import com.thebrodyaga.feature.videoList.impl.databinding.ItemVideoCarouselBinding
 import com.thebrodyaga.feature.videoList.impl.databinding.ItemVideoCarouselItemBinding
+import com.thebrodyaga.feature.videoList.impl.databinding.ItemYoutubeVideoBinding
 import kotlin.math.absoluteValue
 
 internal val VIDEO_CAROUSEL_LAYOUT_ID = R.layout.item_video_carousel
@@ -87,3 +89,25 @@ fun videoCarouselItemDelegate(
             bindListener?.invoke(binding, item)
         }
     }
+
+fun videoItemDelegate(
+    onBind: ((binding: ItemYoutubeVideoBinding, item: VideoCarouselItemUiModel) -> Unit)? = null,
+) = adapterDelegateViewBinding<VideoCarouselItemUiModel, UiModel, ItemYoutubeVideoBinding>(
+    viewBinding = { inflater, parent -> ItemYoutubeVideoBinding.inflate(inflater, parent, false) }) {
+
+    bind {
+
+        binding.youtubeVideoItemVideoView.loadYoutubeThumbnail(item.videoId)
+
+        val leftSound = item.secondSound
+        binding.youtubeVideoItemFirstSound.isInvisible = leftSound == null
+        leftSound?.let { binding.youtubeVideoItemFirstSound.bind(leftSound) }
+
+        val rightSound = item.firstSound
+        binding.youtubeVideoItemSecondSound.isInvisible = rightSound == null
+        rightSound?.let { binding.youtubeVideoItemSecondSound.bind(rightSound) }
+
+        binding.youtubeVideoItemTitle.text = item.title
+        onBind?.invoke(binding, item)
+    }
+}

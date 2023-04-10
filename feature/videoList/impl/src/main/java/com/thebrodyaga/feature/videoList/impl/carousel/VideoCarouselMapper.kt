@@ -21,16 +21,21 @@ class VideoCarouselMapper @Inject constructor() {
     fun mapUi(list: List<VideoListItem>) = buildList {
         list.forEachIndexed { index, videoItems ->
             add(getHeader(videoItems))
-            add(VideoCarouselUiModel(videoItems.list.map {
-                val (firstSound, secondSound) = it.getSoundModel()
-                VideoCarouselItemUiModel(
-                    videoId = it.videoId,
-                    title = it.title,
-                    firstSound = firstSound,
-                    secondSound = secondSound,
-                )
-            }))
+            add(
+                VideoCarouselUiModel(videoItems.list
+                    .map { mapVideoItemUiModel(it) })
+            )
         }
+    }
+
+    fun mapVideoItemUiModel(video: VideoItem): VideoCarouselItemUiModel {
+        val (firstSound, secondSound) = video.getSoundModel()
+        return VideoCarouselItemUiModel(
+            videoId = video.videoId,
+            title = video.title,
+            firstSound = firstSound,
+            secondSound = secondSound,
+        )
     }
 
     private fun getHeader(videoList: VideoListItem): DataUiModel = DataUiModel(

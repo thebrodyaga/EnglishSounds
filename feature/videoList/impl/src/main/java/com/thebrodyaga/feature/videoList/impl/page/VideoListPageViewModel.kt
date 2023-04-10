@@ -1,31 +1,38 @@
 package com.thebrodyaga.feature.videoList.impl.page
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.thebrodyaga.base.navigation.api.RouterProvider
+import com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniUiModel
+import com.thebrodyaga.brandbook.model.UiModel
+import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
+import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
+import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoListType
+import com.thebrodyaga.feature.videoList.impl.carousel.VideoCarouselMapper
 import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor
+import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
+import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
 import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
 import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoListItem
-import com.thebrodyaga.legacy.VideoItemInList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
 
 class VideoListViewModel @Inject constructor(
     private val videoInteractor: AllVideoInteractor,
     private var listType: VideoListType?,
+    private var mapper: VideoCarouselMapper,
+    private val routerProvider: RouterProvider,
+    private val soundScreenFactory: SoundDetailsScreenFactory,
+    private val youtubeScreenFactory: YoutubeScreenFactory,
 ) : ViewModel() {
 
     private val state = MutableStateFlow<VideoListState>(VideoListState.Empty)
@@ -47,29 +54,39 @@ class VideoListViewModel @Inject constructor(
                     }
                 }
                 .flatMapLatest { it.list.asFlow() }
-                /*.map {
-                val result = mutableListOf<VideoItemInList>()
-                it.forEachIndexed { index, item ->
-                    when {
-                        index == 2 && index != it.lastIndex ->
-                            result.add(AdItem(AdTag.SOUND_VIDEO_LIST, listType.name))
-                        *//*index != 0 && index % 6 == 0 && index != it.lastIndex ->
-                                result.add(AdItem(AdTag.SOUND_VIDEO_LIST, listType.name))*//*
-                        }
-                        result.add(item)
-                    }
-                    result
-                }*/
                 .flowOn(Dispatchers.IO)
                 .onCompletion { it?.let { Timber.e(it) } }
 
             try {
-                state.value = VideoListState.Content(flow.toList())
+                state.value = VideoListState.Content(flow.toList()
+                    .map { mapper.mapVideoItemUiModel(it) })
             } catch (e: Throwable) {
                 Timber.e(e)
             }
 
         }
+    }
+
+    fun onSoundClick(model: SoundCardMiniUiModel) {
+        val sound = model.payload as? AmericanSoundDto ?: return
+        routerProvider.anyRouter.navigateTo(
+            soundScreenFactory.soundDetailsScreen(sound.transcription),
+        )
+
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, sound.transcription)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, sound.name)
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "sound")
+        AnalyticsEngine.logEvent(
+            FirebaseAnalytics.Event.SELECT_CONTENT,
+            bundle
+        )
+    }
+
+    fun onVideoClick(videoId: String) {
+        routerProvider.anyRouter.navigateTo(
+            youtubeScreenFactory.youtubeScreen(PlayVideoExtra(videoId, ""))
+        )
     }
 }
 
@@ -78,6 +95,6 @@ sealed interface VideoListState {
     object Empty : VideoListState
 
     data class Content(
-        val list: List<VideoItemInList>
+        val list: List<UiModel>
     ) : VideoListState
 }

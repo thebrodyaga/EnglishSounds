@@ -68,10 +68,10 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
     private lateinit var reviewManager: ReviewManager
     private var reviewInfo: Task<ReviewInfo>? = null
     private val navigator: Navigator =
-        AppNavigator(this, R.id.fragment_container, supportFragmentManager)
+        AppNavigator(this, R.id.appFragmentContainer, supportFragmentManager)
 
     private val currentFragment: Fragment?
-        get() = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        get() = supportFragmentManager.findFragmentById(R.id.appFragmentContainer)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -100,7 +100,7 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         val mainScreen = mainScreenFactory.mainScreen() as FragmentScreen
         val fragment = mainScreen.createFragment(supportFragmentManager.fragmentFactory)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment, mainScreen.screenKey)
+            .replace(R.id.appFragmentContainer, fragment, mainScreen.screenKey)
             .commitNow()
     }
 

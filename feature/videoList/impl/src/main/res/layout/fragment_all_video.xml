@@ -19,7 +19,7 @@
             app:navigationIcon="@drawable/ic_arrow_back"
             app:title="@string/videos" />
 
-        <com.google.android.material.tabs.TabLayout
+        <com.thebrodyaga.brandbook.component.tab.AppTabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
