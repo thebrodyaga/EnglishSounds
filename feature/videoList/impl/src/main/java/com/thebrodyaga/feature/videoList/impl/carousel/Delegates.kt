@@ -23,7 +23,7 @@ fun videoCarouselDelegate(
         delegates = listOf(videoCarouselItemDelegate())
     )
     binding.itemVideoCarouselRecycler.layoutManager = layoutManager
-    binding.itemVideoCarouselRecycler.adapter = adapter
+    binding.itemVideoCarouselRecycler.swapAdapter(adapter, true)
 
     bind {
         adapter.items = item.list

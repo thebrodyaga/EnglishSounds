@@ -16,7 +16,6 @@ inline fun <reified I, reified V> rowDelegate(
     noinline on: (item: UiModel, items: List<UiModel>, position: Int) -> Boolean = { item, _, _ -> item is I },
     noinline block: RowDelegateBlock<I, V>.() -> Unit,
 ): DslRowAdapterDelegate<I, V> where I : UiModel,
-                                     V : PopulateView<I>,
                                      V : View {
     return DslRowAdapterDelegate(layout, viewType, on, block)
 }
@@ -29,7 +28,6 @@ class DslRowAdapterDelegate<I, V>(
     private val initializeBlock: RowDelegateBlock<I, V>.() -> Unit,
 ) : AbsListItemAdapterDelegate<I, UiModel, CommonViewHolder<I, V>>()
         where I : UiModel,
-              V : PopulateView<I>,
               V : View {
 
     private val delegateBlock = RowDelegateBlock<I, V>()
@@ -52,7 +50,8 @@ class DslRowAdapterDelegate<I, V>(
 
     override fun onBindViewHolder(item: I, holder: CommonViewHolder<I, V>, payloads: MutableList<Any>) {
         holder.bind(item)
-        holder.view.bind(item)
+        @Suppress("UNCHECKED_CAST")
+        (holder.view as? PopulateView<I>)?.bind(item)
         delegateBlock._onBind?.invoke(holder, payloads)
     }
 

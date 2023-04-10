@@ -30,10 +30,12 @@ abstract class PrefetchRecycledViewPool(
     fun setPrefetchedViewType(
         viewType: Int,
         @LayoutRes itemLayout: Int,
-        maxCount: Int,
+        prefetchSize: Int,
+        maxRecycledViews: Int = prefetchSize,
         viewHolderFactory: ViewHolderFactory,
     ) {
-        setMaxRecycledViews(viewType, maxCount)
-        viewHolderPool.create(viewType, itemLayout, maxCount, viewHolderFactory)
+        val maxRecycled = if (maxRecycledViews > 5) maxRecycledViews else 5
+        setMaxRecycledViews(viewType, maxRecycled)
+        viewHolderPool.create(viewType, itemLayout, prefetchSize, viewHolderFactory)
     }
 }

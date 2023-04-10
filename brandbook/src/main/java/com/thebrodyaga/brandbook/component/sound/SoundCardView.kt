@@ -8,6 +8,7 @@ import com.google.android.material.card.MaterialCardView
 import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.databinding.ViewSoundCardBinding
 import com.thebrodyaga.brandbook.model.PopulateView
+import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.dsl.DslRowAdapterDelegate
 import com.thebrodyaga.brandbook.recycler.dsl.RowDelegateBlock
 import com.thebrodyaga.brandbook.recycler.dsl.rowDelegate

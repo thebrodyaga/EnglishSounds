@@ -9,6 +9,7 @@ import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.setting.api.SettingManager
 import com.thebrodyaga.feature.soundDetails.impl.ui.SoundDetailsFragment
+import com.thebrodyaga.feature.soundDetails.impl.ui.SoundsDetailsViewPool
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import dagger.BindsInstance
 import dagger.Component
@@ -52,4 +53,5 @@ interface SoundDetailsDependencies : AppDependencies {
 
 interface SoundDetailsActivityDependencies : ActivityDependencies {
     fun audioPlayer(): AudioPlayer
+    fun soundsDetailsViewPool(): SoundsDetailsViewPool
 }

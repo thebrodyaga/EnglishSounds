@@ -1,12 +1,10 @@
 package com.thebrodyaga.brandbook.recycler.dsl
 
 import android.view.View
-import com.thebrodyaga.brandbook.model.PopulateView
 import com.thebrodyaga.brandbook.model.UiModel
 
 class RowDelegateBlock<I, V>
         where I : UiModel,
-              V : PopulateView<I>,
               V : View {
 
     internal var _onInflate: ((view: V) -> Unit)? = null

@@ -1,5 +1,5 @@
 package com.thebrodyaga.brandbook.model
 
-interface PopulateView<I : UiModel> {
-    fun bind(model: I)
+interface PopulateView<in UiModel> {
+    fun bind(model: UiModel)
 }
