@@ -2,7 +2,9 @@ package com.thebrodyaga.feature.soundList.impl
 
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.thebrodyaga.brandbook.component.sound.SoundCardViewHolder
+import com.thebrodyaga.brandbook.component.sound.SoundCardView
+import com.thebrodyaga.brandbook.model.UiModel
+import com.thebrodyaga.brandbook.recycler.dsl.CommonViewHolder
 import com.thebrodyaga.core.uiUtils.recycler.pool.PrefetchRecycledViewPool
 import com.thebrodyaga.core.uiUtils.recycler.pool.PrefetchViewHolderPool
 import com.thebrodyaga.core.uiUtils.recycler.pool.RecoverableViewHolderPool
@@ -16,9 +18,9 @@ class SoundsListViewPool constructor(
 
     override fun prefetch() {
         setPrefetchedViewType(
-            SoundCardViewHolder.VIEW_TYPE, SoundCardViewHolder.VIEW_TYPE, 28
+            SoundCardView.VIEW_TYPE, SoundCardView.LAYOUT_ID, 28
         ) { _: Int, itemView: View ->
-            SoundCardViewHolder(itemView)
+            CommonViewHolder<UiModel, SoundCardView>(itemView)
         }
     }
 }
