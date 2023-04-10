@@ -16,7 +16,7 @@ class SoundsListViewPool constructor(
     viewHolderPool = RecoverableViewHolderPool(activity)
 ), PrefetchViewHolderPool {
 
-    override suspend fun prefetch() {
+    override fun prefetch() {
         setPrefetchedViewType(
             SoundCardView.VIEW_TYPE, SoundCardView.LAYOUT_ID, 28
         ) { _: Int, itemView: View ->

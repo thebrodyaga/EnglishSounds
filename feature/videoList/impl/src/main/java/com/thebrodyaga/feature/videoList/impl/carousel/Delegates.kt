@@ -4,7 +4,6 @@ import android.view.View
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.carousel.CarouselLayoutManager
-import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniUiModel
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
@@ -15,26 +14,33 @@ import com.thebrodyaga.feature.videoList.impl.databinding.ItemVideoCarouselBindi
 import com.thebrodyaga.feature.videoList.impl.databinding.ItemVideoCarouselItemBinding
 import kotlin.math.absoluteValue
 
+internal val VIDEO_CAROUSEL_LAYOUT_ID = R.layout.item_video_carousel
+internal val VIDEO_CAROUSEL_VIEW_TYPE = VIDEO_CAROUSEL_LAYOUT_ID
+
 fun videoCarouselDelegate(
     inflateListener: ((view: RecyclerView) -> Unit)? = null,
     bindListener: ((view: RecyclerView, item: VideoCarouselUiModel) -> Unit)? = null,
     pool: VideoCarouselViewPool
-) = adapterDelegateViewBinding<VideoCarouselUiModel, UiModel, ItemVideoCarouselBinding>(
-    { layoutInflater, root -> ItemVideoCarouselBinding.inflate(layoutInflater, root, false) }
-) {
+): DslRowAdapterDelegate<VideoCarouselUiModel, View> =
+    rowDelegate(VIDEO_CAROUSEL_LAYOUT_ID, VIDEO_CAROUSEL_VIEW_TYPE) {
 
-    val layoutManager = CarouselLayoutManager()
-    val adapter = CommonAdapter {
-        row(videoCarouselItemDelegate())
-    }
-    binding.itemVideoCarouselRecycler.layoutManager = layoutManager
-    binding.itemVideoCarouselRecycler.setRecycledViewPool(pool)
-    binding.itemVideoCarouselRecycler.swapAdapter(adapter, true)
+        onInflate {
+            val binding = ItemVideoCarouselBinding.bind(it)
+            val layoutManager = CarouselLayoutManager()
+            val adapter = CommonAdapter {
+                row(videoCarouselItemDelegate())
+            }
+            binding.itemVideoCarouselRecycler.layoutManager = layoutManager
+            binding.itemVideoCarouselRecycler.setRecycledViewPool(pool)
+            binding.itemVideoCarouselRecycler.swapAdapter(adapter, true)
+        }
 
-    bind {
-        adapter.items = item.list
+        onBind { holder, _ ->
+            val item = holder.item
+            val binding = ItemVideoCarouselBinding.bind(holder.view)
+            (binding.itemVideoCarouselRecycler.adapter as CommonAdapter).items = item.list
+        }
     }
-}
 
 
 data class VideoCarouselUiModel(
@@ -80,9 +86,5 @@ fun videoCarouselItemDelegate(
             secondSound?.let { binding.carouselItemSecondSound.bind(secondSound) }
 
             binding.carouselItemText.text = item.title
-        }
-
-        onViewRecycled {
-
         }
     }

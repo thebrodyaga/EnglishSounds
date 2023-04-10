@@ -34,10 +34,11 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
     private val adapter by lazy {
         CommonAdapter(
             delegates = listOf(
-                videoCarouselDelegate(pool = videoCarouselViewPool),
                 dataViewCommonDelegate()
             )
-        )
+        ) {
+            row(videoCarouselDelegate(pool = videoCarouselViewPool))
+        }
     }
 
     @Inject
@@ -75,7 +76,9 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        binding.videoCarouselList.adapter = adapter
+        binding.videoCarouselList.swapAdapter(adapter, true)
+        val recycledViewPool = binding.videoCarouselList.recycledViewPool
+        recycledViewPool.setMaxRecycledViews(VIDEO_CAROUSEL_VIEW_TYPE, 6)
         binding.videoCarouselList.itemAnimator = null
         binding.videoCarouselList.addItemDecoration(
             AdItemDecorator(
