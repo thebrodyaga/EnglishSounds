@@ -61,7 +61,7 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
             onBind { holder, payloads ->
                 val view = holder.view
                 val item = holder.item
-                val shaderView = view.contentLayout
+                val shaderView = view
                 view.setOnClickAction { _, _ ->
                     onSoundClick(item, shaderView)
                 }

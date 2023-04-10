@@ -52,7 +52,8 @@ class TransitionSetupDelegate @Inject constructor(
 
         val nextEnterTransition = MaterialContainerTransform(context, true).apply {
             val colorSurface = MaterialColors.getColor(sharedElement, R.attr.colorSurface)
-            containerColor = colorSurface
+            startContainerColor = sharedElement.backgroundTintList?.defaultColor ?: colorSurface
+            endContainerColor = colorSurface
             drawingViewId = containerId
             startView = sharedElement
 
