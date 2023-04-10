@@ -11,8 +11,8 @@ import com.google.android.material.color.DynamicColors
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.thebrodyaga.base.navigation.api.router.AppRouter
 import com.thebrodyaga.base.navigation.impl.navigator.AppNavigator
-import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
@@ -39,7 +39,7 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         get() = component
 
     @Inject
-    lateinit var router: CiceroneRouter
+    lateinit var router: AppRouter
 
     @Inject
     lateinit var recordVoice: RecordVoice

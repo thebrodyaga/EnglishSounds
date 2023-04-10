@@ -1,9 +1,9 @@
 package com.thebrodyaga.englishsounds.app.di.modules;
 
+import com.thebrodyaga.base.navigation.api.CiceroneHolder;
 import com.thebrodyaga.base.navigation.api.router.AppRouter;
 import com.thebrodyaga.core.navigation.api.cicerone.Cicerone;
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder;
-import com.thebrodyaga.core.navigation.api.cicerone.CiceroneRouter;
 
 import javax.inject.Singleton;
 
@@ -20,12 +20,6 @@ public class NavigationModule {
 
     @Provides
     @Singleton
-    CiceroneRouter provideRouter() {
-        return appRouter();
-    }
-
-    @Provides
-    @Singleton
     AppRouter appRouter() {
         return cicerone.getRouter();
     }
@@ -34,5 +28,11 @@ public class NavigationModule {
     @Singleton
     NavigatorHolder provideNavigatorHolder() {
         return cicerone.getNavigatorHolder();
+    }
+
+    @Provides
+    @Singleton
+    CiceroneHolder ciceroneHolder() {
+        return new CiceroneHolder();
     }
 }
