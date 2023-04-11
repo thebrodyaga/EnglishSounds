@@ -7,28 +7,20 @@
     android:layout_height="match_parent">
 
     <com.thebrodyaga.brandbook.component.appbar.TopAppBar
-        android:id="@+id/appbar"
-        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
+        android:id="@+id/settingsAppbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/space"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintVertical_chainStyle="packed">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/settingsToolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="@string/settings"
-            app:titleTextAppearance="@style/Title2Regular" />
+            android:layout_height="wrap_content"
+            app:title="@string/settings" />
 
     </com.thebrodyaga.brandbook.component.appbar.TopAppBar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/settingsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"

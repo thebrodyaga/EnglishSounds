@@ -30,6 +30,12 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
     @Inject
     lateinit var recordVoice: RecordVoice
     private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
+    private val tabs = listOf(
+        BottomTab.Sounds,
+        BottomTab.Videos,
+        BottomTab.Words,
+        BottomTab.Settings,
+    )
 
     private val binding by viewBinding(FragmentMainBinding::bind)
     private val currentFragment: Fragment?
@@ -49,18 +55,19 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
                 R.id.main_menu_first -> (0)
                 R.id.main_menu_second -> (1)
                 R.id.main_menu_third -> (2)
+                R.id.main_menu_fourth -> (3)
                 else -> -1
             }
-            if (position > -1)
-                onBottomBarClick(position)
+            if (position > -1) onBottomBarClick(position)
             position > -1
         }
         binding.mainBottomNavigation.setOnItemReselectedListener {
             (currentFragment as? TabContainerFragment)?.tabRouter?.resetTabStack()
         }
         binding.mainBottomAppBar.shapeOutline(shapeTopRounded(16f.px))
-        if (childFragmentManager.findFragmentById(R.id.mainFragmentContainer) == null)
-            onBottomBarClick(FIRST_MAIN_PAGE.first)
+        if (childFragmentManager.findFragmentById(R.id.mainFragmentContainer) == null) {
+            onBottomBarClick(BottomTab.Sounds.position.index)
+        }
         binding.mainMicButton.setOnClickListener {
             TestBottomSheetDialog().show(childFragmentManager, "TestBottomSheetDialog")
         }
@@ -75,8 +82,7 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
             val ime = insets.ime()
 
             binding.mainBottomNavigation.appleInsetPadding(
-                oldInsets = navigationBars,
-                bottom = navigationBars.bottom
+                oldInsets = navigationBars, bottom = navigationBars.bottom
             )
 
             val newInsets = WindowInsetsCompat.Builder(insets)
@@ -101,14 +107,8 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
     }
 
     private fun onBottomBarClick(position: Int): Boolean {
-        showPage(
-            when (position) {
-                FIRST_MAIN_PAGE.first -> FIRST_MAIN_PAGE.second
-                SECOND_MAIN_PAGE.first -> SECOND_MAIN_PAGE.second
-                THIRD_MAIN_PAGE.first -> THIRD_MAIN_PAGE.second
-                else -> throw IllegalArgumentException("че за тег?")
-            }
-        )
+        val screenTag = tabs.first { it.position.ordinal == position }.position.screenTag
+        showPage(screenTag)
         return true
     }
 
@@ -116,13 +116,9 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
         val currentFragment = currentFragment
         val newFragment = childFragmentManager.findFragmentByTag(fragmentTag)
 
-        if (currentFragment != null && newFragment != null
-            && currentFragment.tag == newFragment.tag
-        )
-            return
+        if (currentFragment != null && newFragment != null && currentFragment.tag == newFragment.tag) return
         childFragmentManager.beginTransaction().apply {
-            if (newFragment == null)
-                add(R.id.mainFragmentContainer, createTabFragment(fragmentTag), fragmentTag)
+            if (newFragment == null) add(R.id.mainFragmentContainer, createTabFragment(fragmentTag), fragmentTag)
             currentFragment?.let {
                 hide(it)
 //                detach(it)
@@ -136,13 +132,32 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
 
     override fun onBackPressed() {
         val currentTag = currentFragment?.tag ?: super.onBackPressed()
-        if (currentTag != FIRST_MAIN_PAGE.second)
+        if (currentTag != BottomTabPosition.FIRST.screenTag) {
             binding.mainBottomNavigation.selectedItemId = R.id.main_menu_first
-        else super.onBackPressed()
+        } else super.onBackPressed()
     }
 
-    private fun createTabFragment(tag: String): Fragment =
-        TabContainerFragment.getNewInstance(tag)
+    private fun createTabFragment(tag: String): Fragment = TabContainerFragment.getNewInstance(tag)
+
+    private sealed class BottomTab constructor(
+        val position: BottomTabPosition
+    ) {
+
+        object Sounds : BottomTab(BottomTabPosition.FIRST)
+        object Videos : BottomTab(BottomTabPosition.SECOND)
+        object Words : BottomTab(BottomTabPosition.THIRD)
+        object Settings : BottomTab(BottomTabPosition.FOURTH)
+    }
+
+    enum class BottomTabPosition {
+        FIRST, SECOND, THIRD, FOURTH;
+
+        val screenTag: String
+            get() = name
+
+        val index: Int
+            get() = ordinal
+    }
 
     companion object {
         val FIRST_MAIN_PAGE = Pair(0, "FIRST_TAB_MAIN_PAGE")

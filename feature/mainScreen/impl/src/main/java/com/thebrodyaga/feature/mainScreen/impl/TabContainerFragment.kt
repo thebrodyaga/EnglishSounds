@@ -11,6 +11,7 @@ import com.thebrodyaga.core.navigation.api.cicerone.Cicerone
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenComponent
+import com.thebrodyaga.feature.setting.api.SettingsScreenFactory
 import com.thebrodyaga.feature.soundList.api.SoundListScreenFactory
 import com.thebrodyaga.feature.training.api.TrainingScreenFactory
 import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
@@ -26,6 +27,9 @@ class TabContainerFragment : ScreenFragment(R.layout.fragemnt_tab_container), Ta
 
     @Inject
     lateinit var trainingScreenFactory: TrainingScreenFactory
+
+    @Inject
+    lateinit var settingsScreenFactory: SettingsScreenFactory
 
     @Inject
     lateinit var ciceroneHolder: CiceroneHolder
@@ -57,12 +61,12 @@ class TabContainerFragment : ScreenFragment(R.layout.fragemnt_tab_container), Ta
 
         val currentFragment = childFragmentManager.findFragmentById(containerId)
         if (currentFragment == null) {
-            if (containerName == MainFragment.FIRST_MAIN_PAGE.second)
-                tabRouter.newRootScreen(soundListScreenFactory.soundListFactory())
-            if (containerName == MainFragment.SECOND_MAIN_PAGE.second)
-                tabRouter.newRootScreen(videoListScreenFactory.videoCarouselScreen())
-            if (containerName == MainFragment.THIRD_MAIN_PAGE.second)
-                tabRouter.newRootScreen(trainingScreenFactory.trainingScreen())
+            when (containerName) {
+                MainFragment.BottomTabPosition.FIRST.screenTag -> tabRouter.newRootScreen(soundListScreenFactory.soundListFactory())
+                MainFragment.BottomTabPosition.SECOND.screenTag -> tabRouter.newRootScreen(videoListScreenFactory.videoCarouselScreen())
+                MainFragment.BottomTabPosition.THIRD.screenTag -> tabRouter.newRootScreen(trainingScreenFactory.trainingScreen())
+                MainFragment.BottomTabPosition.FOURTH.screenTag -> tabRouter.newRootScreen(settingsScreenFactory.settingScreen())
+            }
         }
     }
 

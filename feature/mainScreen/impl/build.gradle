@@ -12,5 +12,6 @@ dependencies {
     implementation project(":feature:audioPlayer:api")
     implementation project(":feature:soundList:api")
     implementation project(":feature:training:api")
+    implementation project(":feature:setting:api")
     implementation project(":feature:videoList:api")
 }

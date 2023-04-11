@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.thebrodyaga.core.uiUtils.insets.*
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
@@ -32,8 +33,16 @@ class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         setThemeSetting()
+    }
+
+    override fun applyWindowInsets(rootView: View) {
+        rootView.doOnApplyWindowInsets { _, insets, _ ->
+            insets.systemAndIme().consume {
+                binding.settingsAppbar.appleTopInsets(this)
+                binding.settingsList.appleBottomInsets(this)
+            }
+        }
     }
 
     override fun onDestroyView() {
