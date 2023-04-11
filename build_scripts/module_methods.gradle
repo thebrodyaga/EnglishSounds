@@ -37,6 +37,19 @@ ext {
         baseNativeModule(module)
     }
 
+    //--------------Infrastructure------------------------------------
+    applyInfrastructureApiModule = { module ->
+        baseNativeModule(module)
+    }
+
+    applyInfrastructureImplAndroidModule = { module ->
+        baseAndroidModule(module)
+    }
+
+    applyInfrastructureImplModule = { module ->
+        baseNativeModule(module)
+    }
+
     //--------------Domain------------------------------------
     applyDomainImplAndroidModule = { module ->
         baseAndroidModule(module)
