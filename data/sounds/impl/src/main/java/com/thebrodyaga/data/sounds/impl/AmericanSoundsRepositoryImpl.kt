@@ -7,7 +7,7 @@ import com.thebrodyaga.core.utils.zip.ZipUtils
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
-import com.thebrodyaga.feature.setting.api.SettingManager
+import com.thebrodyaga.data.setting.api.SettingManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map

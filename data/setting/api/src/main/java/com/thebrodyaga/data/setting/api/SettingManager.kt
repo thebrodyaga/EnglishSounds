@@ -1,4 +1,4 @@
-package com.thebrodyaga.feature.setting.api
+package com.thebrodyaga.data.setting.api
 
 interface SettingManager {
     fun setCurrentTheme(theme: CurrentTheme)

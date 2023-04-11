@@ -3,8 +3,8 @@ package com.thebrodyaga.feature.setting.impl.manager
 import androidx.appcompat.app.AppCompatDelegate
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.thebrodyaga.feature.setting.api.CurrentTheme
-import com.thebrodyaga.feature.setting.api.SettingManager
+import com.thebrodyaga.data.setting.api.CurrentTheme
+import com.thebrodyaga.data.setting.api.SettingManager
 import timber.log.Timber
 import javax.inject.Inject
 

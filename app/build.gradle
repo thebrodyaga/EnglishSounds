@@ -96,6 +96,8 @@ dependencies {
     implementation project(":core:uiUtils")
     implementation project(":data:sounds:api")
     implementation project(":data:sounds:impl")
+    implementation project(":data:setting:api")
+    implementation project(":data:setting:impl")
     implementation project(":feature:appActivity:api")
     implementation project(":feature:appActivity:impl")
     implementation project(":feature:soundDetails:api")

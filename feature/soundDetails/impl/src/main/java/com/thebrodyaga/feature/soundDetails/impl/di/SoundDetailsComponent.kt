@@ -9,7 +9,7 @@ import com.thebrodyaga.englishsounds.base.di.FeatureScope
 import com.thebrodyaga.englishsounds.base.di.findActivityDependencies
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
-import com.thebrodyaga.feature.setting.api.SettingManager
+import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.feature.soundDetails.impl.ui.SoundDetailsFragment
 import com.thebrodyaga.feature.soundDetails.impl.ui.SoundsDetailsViewPool
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory

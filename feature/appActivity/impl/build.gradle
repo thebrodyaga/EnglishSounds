@@ -6,6 +6,7 @@ dependencies {
     implementation project(":brandbook")
     implementation project(":core:uiUtils")
     implementation project(":data:sounds:api")
+    implementation project(":data:setting:api")
     implementation project(":feature:audioPlayer:api")
     implementation project(":feature:soundList:impl")
     implementation project(":feature:setting:api")

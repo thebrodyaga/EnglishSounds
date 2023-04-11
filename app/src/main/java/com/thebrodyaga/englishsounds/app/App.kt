@@ -8,7 +8,7 @@ import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.app.di.DaggerDiAppComponent
 import com.thebrodyaga.englishsounds.app.di.DiAppComponent
 import com.thebrodyaga.englishsounds.base.app.BaseApp
-import com.thebrodyaga.feature.setting.api.SettingManager
+import com.thebrodyaga.data.setting.api.SettingManager
 import dev.shreyaspatil.permissionFlow.PermissionFlow
 import timber.log.Timber
 import timber.log.Timber.DebugTree

@@ -11,7 +11,7 @@ import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.englishsounds.di.ActivityComponent
 import com.thebrodyaga.feature.appActivity.impl.AppActivity
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
-import com.thebrodyaga.feature.setting.api.SettingManager
+import com.thebrodyaga.data.setting.api.SettingManager
 import dagger.BindsInstance
 import dagger.Component
 

@@ -12,10 +12,10 @@ import com.thebrodyaga.brandbook.component.data.dataViewRightPlayIconDelegate
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.insets.*
+import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
-import com.thebrodyaga.feature.setting.api.SettingManager
 import com.thebrodyaga.feature.soundDetails.impl.R
 import com.thebrodyaga.feature.soundDetails.impl.databinding.FragmentDetailsSoundBinding
 import com.thebrodyaga.feature.soundDetails.impl.di.SoundDetailsComponent

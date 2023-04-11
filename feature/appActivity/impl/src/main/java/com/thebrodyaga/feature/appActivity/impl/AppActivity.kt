@@ -24,7 +24,7 @@ import com.thebrodyaga.englishsounds.base.di.HasActivityDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
-import com.thebrodyaga.feature.setting.api.SettingManager
+import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.feature.soundList.impl.SoundsListViewPool
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -48,10 +48,10 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
     lateinit var audioPlayer: AudioPlayer
 
     @Inject
-    lateinit var settingManager: SettingManager
+    lateinit var soundsListViewPool: SoundsListViewPool
 
     @Inject
-    lateinit var soundsListViewPool: SoundsListViewPool
+    lateinit var settingManager: SettingManager
 
     @Inject
     lateinit var viewPools: Set<@JvmSuppressWildcards PrefetchRecycledViewPool>

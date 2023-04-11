@@ -1,6 +1,6 @@
 package com.thebrodyaga.englishsounds.app.di.feature
 
-import com.thebrodyaga.feature.setting.api.SettingManager
+import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.feature.setting.api.SettingsScreenFactory
 import com.thebrodyaga.feature.setting.impl.SettingScreenFactoryImpl
 import com.thebrodyaga.feature.setting.impl.manager.SettingManagerImpl

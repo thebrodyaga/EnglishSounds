@@ -3,11 +3,5 @@ apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyDataImplAndroidModule(this)
 
 dependencies {
-    applyDagger(this)
-    implementation project(":data:sounds:api")
-    implementation project(":legacy")
     implementation project(":data:setting:api")
-    implementation project(":core:utils")
-    implementation timber
-    implementation baseNetworkDependencies
 }

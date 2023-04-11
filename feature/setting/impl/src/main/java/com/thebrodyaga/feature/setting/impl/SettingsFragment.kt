@@ -10,8 +10,8 @@ import com.thebrodyaga.core.uiUtils.isSystemDarkMode
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
-import com.thebrodyaga.feature.setting.api.CurrentTheme
-import com.thebrodyaga.feature.setting.api.SettingManager
+import com.thebrodyaga.data.setting.api.CurrentTheme
+import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.feature.setting.impl.databinding.FragmentSettingsBinding
 import com.thebrodyaga.feature.setting.impl.di.SettingComponent
 import javax.inject.Inject

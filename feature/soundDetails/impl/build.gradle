@@ -6,6 +6,7 @@ dependencies {
     applyDagger(this)
     implementation project(":core:uiUtils")
     implementation project(":data:sounds:api")
+    implementation project(":data:setting:api")
     implementation project(":feature:audioPlayer:api")
     implementation project(":feature:soundDetails:api")
     implementation project(":feature:setting:api")

@@ -2,7 +2,7 @@ package com.thebrodyaga.feature.setting.impl.di
 
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.base.di.FeatureScope
-import com.thebrodyaga.feature.setting.api.SettingManager
+import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.feature.setting.impl.SettingsFragment
 import dagger.Component
 
