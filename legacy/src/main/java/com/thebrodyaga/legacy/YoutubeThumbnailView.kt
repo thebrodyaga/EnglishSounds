@@ -24,7 +24,7 @@ class YoutubeThumbnailView @JvmOverloads constructor(
     fun loadYoutubeThumbnail(videoId: String) = doOnLayout {
         Glide.with(context)
             .load(getThumbnailUtl(videoId))
-            .apply(RequestOptions().override(it.width, it.height))
+            .override(it.width, it.height)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .centerCrop()
             .into(binding.youtubeThumbnail)

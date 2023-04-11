@@ -27,7 +27,8 @@ class WindowInsetsDelegate constructor(
 
     @SuppressLint("RestrictedApi")
     private fun setupWindowInsets() {
-        // LIBRARY_GROUP be careful
+        // easy way for EdgeToEdge and support old api
+        // but LIBRARY_GROUP be careful
         EdgeToEdgeUtils.applyEdgeToEdge(
             window,
             true,

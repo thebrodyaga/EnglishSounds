@@ -90,7 +90,13 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
             val fabExtendHeight = binding.mainBottomAppBar.y - binding.mainMicButton.y
             val appBarHeight = fabExtendHeight + binding.mainBottomAppBar.height
 
-            val newNavigationInsets = with(navigationBars) { Insets.of(left, top, right, appBarHeight.toInt()) }
+            if (appBarHeight == 0f) {
+                rootView.requestApplyInsets()
+                return@doOnApplyWindowInsets insets
+            }
+
+            val newNavigationInsets =
+                with(navigationBars) { Insets.of(left, top, right, appBarHeight.toInt()) }
             newInsets.setInsets(navigationInsetType, newNavigationInsets)
 
             if (insets.isVisible(imeInsetType)) {
@@ -118,7 +124,11 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
 
         if (currentFragment != null && newFragment != null && currentFragment.tag == newFragment.tag) return
         childFragmentManager.beginTransaction().apply {
-            if (newFragment == null) add(R.id.mainFragmentContainer, createTabFragment(fragmentTag), fragmentTag)
+            if (newFragment == null) add(
+                R.id.mainFragmentContainer,
+                createTabFragment(fragmentTag),
+                fragmentTag
+            )
             currentFragment?.let {
                 hide(it)
 //                detach(it)
@@ -140,7 +150,7 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
     private fun createTabFragment(tag: String): Fragment = TabContainerFragment.getNewInstance(tag)
 
     private sealed class BottomTab constructor(
-        val position: BottomTabPosition
+        val position: BottomTabPosition,
     ) {
 
         object Sounds : BottomTab(BottomTabPosition.FIRST)
@@ -157,11 +167,5 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
 
         val index: Int
             get() = ordinal
-    }
-
-    companion object {
-        val FIRST_MAIN_PAGE = Pair(0, "FIRST_TAB_MAIN_PAGE")
-        val SECOND_MAIN_PAGE = Pair(1, "SECOND_TAB_MAIN_PAGE")
-        val THIRD_MAIN_PAGE = Pair(2, "THIRD_MAIN_PAGE")
     }
 }

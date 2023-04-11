@@ -28,7 +28,7 @@ fun soundDetailsImageDelegate(
             binding.itemSoundDetailsImage.doOnLayout {
                 Glide.with(context)
                     .load(File(context.filesDir, item.photoPath))
-                    .apply(RequestOptions().override(it.width, it.height))
+                    .override(it.width, it.height)
                     .into(binding.itemSoundDetailsImage)
             }
         }
