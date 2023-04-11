@@ -6,12 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.tracing.Trace
 import com.thebrodyaga.core.uiUtils.view.AsyncLayoutInflater
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.util.concurrent.ConcurrentLinkedDeque
 import kotlin.random.Random
 
@@ -44,7 +39,7 @@ class AsyncViewPool constructor(
         @LayoutRes resId: Int,
         size: Int,
         waitingSize: Int
-    ): List<View> = withContext(Dispatchers.IO) {
+    ): List<View> = coroutineScope {
         stack.clear()
         maxSize = size
         val waitingList = mutableListOf<Deferred<View>>()
@@ -74,6 +69,6 @@ class AsyncViewPool constructor(
             Trace.endAsyncSection(asyncTrace.first, asyncTrace.second)
             Trace.endAsyncSection(allTrace.first, allTrace.second)
         }
-        return@withContext result
+        result
     }
 }

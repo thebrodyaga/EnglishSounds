@@ -9,8 +9,14 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.LayoutInflaterCompat
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.withContext
+import java.util.concurrent.Executors
+import java.util.concurrent.ThreadFactory
+import java.util.concurrent.atomic.AtomicInteger
+import kotlin.coroutines.CoroutineContext
 
 class AsyncLayoutInflater(
     context: Context,
@@ -21,11 +27,13 @@ class AsyncLayoutInflater(
     }
 
     private val inflater = BasicInflater(context)
+    private val dispatcher = AsyncInflaterDispatcher()
 
     suspend fun inflate(
         @LayoutRes resId: Int,
         parent: ViewGroup?,
-    ): View = withContext(Dispatchers.IO) {
+    ): View = withContext(dispatcher) {
+        Executors.newCachedThreadPool()
         try {
             inflater.inflate(resId, parent, false)
         } catch (ex: RuntimeException) {
@@ -65,6 +73,41 @@ class AsyncLayoutInflater(
             private val sClassPrefixList = arrayOf(
                 "android.widget.", "android.webkit.", "android.app."
             )
+        }
+    }
+
+    private class AsyncInflaterDispatcher : CoroutineDispatcher() {
+        private val executor = Executors.newCachedThreadPool(MinPriorityThreadFactory())
+
+        override fun dispatch(context: CoroutineContext, block: Runnable) {
+            executor.execute(block)
+        }
+    }
+
+    private class MinPriorityThreadFactory : ThreadFactory {
+        private val group: ThreadGroup
+        private val threadNumber = AtomicInteger(1)
+        private val namePrefix: String
+
+        init {
+            val s = System.getSecurityManager()
+            group = if (s != null) s.threadGroup else Thread.currentThread().threadGroup
+            namePrefix = "InflaterPool-" + poolNumber.getAndIncrement() + "-thread-"
+        }
+
+        override fun newThread(r: java.lang.Runnable): Thread {
+            val t = Thread(
+                group, r,
+                namePrefix + threadNumber.getAndIncrement(),
+                0
+            )
+            if (t.isDaemon) t.isDaemon = false
+            if (t.priority != Thread.MIN_PRIORITY) t.priority = Thread.MIN_PRIORITY
+            return t
+        }
+
+        companion object {
+            private val poolNumber = AtomicInteger(1)
         }
     }
 }

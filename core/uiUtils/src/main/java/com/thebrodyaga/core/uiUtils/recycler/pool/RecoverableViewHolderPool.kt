@@ -86,7 +86,7 @@ class RecoverableViewHolderPool constructor(
         viewType: Int,
         itemLayout: Int,
         viewHolderFactory: ViewHolderFactory,
-    ) = withContext(Dispatchers.IO) {
+    ) {
         Trace.beginAsyncSection(recoverableTag, 123454)
         val layoutInflater = AsyncLayoutInflater(activity)
         Log.d(TAG, "create recoverable ViewHolder size = ${size(viewType)}, maxSize = ${maxSize(viewType)}")

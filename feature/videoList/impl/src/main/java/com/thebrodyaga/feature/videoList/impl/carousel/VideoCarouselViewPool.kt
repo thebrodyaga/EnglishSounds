@@ -24,8 +24,7 @@ class VideoCarouselViewPool(
                 CommonViewHolder<UiModel, View>(itemView)
             }
             setPrefetchedViewType(
-                VIDEO_CAROUSEL_ITEM_VIEW_TYPE, VIDEO_CAROUSEL_ITEM_LAYOUT_ID, 45,
-                maxRecycledViews = 65,
+                VIDEO_CAROUSEL_ITEM_VIEW_TYPE, VIDEO_CAROUSEL_ITEM_LAYOUT_ID, 12,
                 viewHolderFactory = viewHolderFactory
             )
         }
