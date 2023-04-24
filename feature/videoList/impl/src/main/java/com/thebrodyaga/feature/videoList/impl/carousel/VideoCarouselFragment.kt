@@ -15,7 +15,6 @@ import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.feature.videoList.impl.R
 import com.thebrodyaga.feature.videoList.impl.databinding.FragmentVideoCarouselBinding
 import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
-import com.thebrodyaga.legacy.AdItemDecorator
 import com.thebrodyaga.legacy.VideoListItem
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
@@ -73,12 +72,6 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
         val recycledViewPool = binding.videoCarouselList.recycledViewPool
         recycledViewPool.setMaxRecycledViews(VIDEO_CAROUSEL_VIEW_TYPE, 6)
         binding.videoCarouselList.itemAnimator = null
-        binding.videoCarouselList.addItemDecoration(
-            AdItemDecorator(
-                context, RecyclerView.VERTICAL,
-                R.dimen.ad_item_in_vertical_horizontal_offset
-            )
-        )
         viewModel.getState()
             .filterIsInstance<ListOfVideoListsState.Content>()
             .onEach { adapter.items = (it.list) }

@@ -2,17 +2,11 @@ package com.thebrodyaga.legacy
 
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
-import com.thebrodyaga.legacy.data.AdTag
-import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
-
-data class SoundHeader constructor(
-    var soundType: SoundType
-) : SoundsListItem
 
 data class WordsHeader(
     var type: Type
-) : SoundsDetailsListItem {
+) {
     enum class Type {
         BEGINNING_SOUND,
         MIDDLE_SOUND,
@@ -28,25 +22,6 @@ data class WordsHeader(
         }
     }
 }
-
-data class ShowMore(
-    var key: String = "ShowMore"
-) : SoundsDetailsListItem
-
-data class AdItem constructor(
-    val adTag: AdTag,
-    val customTag: String? = null
-) : SoundsListItem, VideoItemInList
-
-data class ShortAdItem constructor(
-    val adTag: AdTag,
-    val customTag: String? = null
-) : SoundsListItem, VideoItemInList, SoundsDetailsListItem
-
-data class SoundsDetailsWithAd constructor(
-    val sound: AmericanSoundDto,
-    val shortAdItem: ShortAdItem
-) : SoundsDetailsListItem
 
 interface SoundsListItem
 interface SoundsDetailsListItem

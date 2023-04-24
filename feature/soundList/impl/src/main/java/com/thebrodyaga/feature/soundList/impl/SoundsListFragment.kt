@@ -83,12 +83,6 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
             .also { it.spanSizeLookup = spanSizeLookup }
         binding.list.swapAdapter(adapter, true)
         binding.list.itemAnimator = null
-        binding.list.addItemDecoration(
-            AdItemDecorator(
-                context, RecyclerView.VERTICAL,
-                R.dimen.ad_item_in_vertical_horizontal_offset
-            )
-        )
 
         viewModel.getState()
             .filterIsInstance<SoundsListState.Content>()

@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.graphics.Rect
 import android.view.View
 import com.hannesdorfmann.adapterdelegates4.dsl.AdapterDelegateViewBindingViewHolder
-import com.thebrodyaga.legacy.AdItem
 
 class VideoListItemDecoration constructor(offset: Int, offsetLast: Boolean = true) :
     GridOffsetItemDecoration(offset, offsetLast) {
@@ -18,8 +17,6 @@ class VideoListItemDecoration constructor(offset: Int, offsetLast: Boolean = tru
         val position = parent.getChildAdapterPosition(view)
         val viewHolder = parent.getChildViewHolder(view)
         if (position == RecyclerView.NO_POSITION)
-            return
-        if (viewHolder is AdapterDelegateViewBindingViewHolder<*, *> && viewHolder.item is AdItem)
             return
         else super.getItemOffsets(outRect, view, parent, state)
     }

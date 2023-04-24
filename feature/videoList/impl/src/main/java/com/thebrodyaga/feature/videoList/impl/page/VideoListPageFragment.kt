@@ -22,7 +22,6 @@ import com.thebrodyaga.feature.videoList.impl.carousel.videoItemDelegate
 import com.thebrodyaga.feature.videoList.impl.databinding.FragmentPageVideoListBinding
 import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
-import com.thebrodyaga.legacy.AdItemDecorator
 import com.thebrodyaga.legacy.adapters.decorator.VideoListItemDecoration
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
@@ -74,12 +73,6 @@ class VideoListPageFragment : ScreenFragment(R.layout.fragment_page_video_list) 
             .also { it.spanSizeLookup = spanSizeLookup }
         binding.pageVideoList.addItemDecoration(
             VideoListItemDecoration(view.context.resources.getDimensionPixelOffset(R.dimen.base_offset_small))
-        )
-        binding.pageVideoList.addItemDecoration(
-            AdItemDecorator(
-                view.context, RecyclerView.VERTICAL,
-                R.dimen.ad_item_in_vertical_horizontal_offset
-            )
         )
         binding.pageVideoList.layoutManager = layoutManager
         binding.pageVideoList.adapter = adapter
