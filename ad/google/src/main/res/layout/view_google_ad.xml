@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewElevatedStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="com.google.android.material.card.MaterialCardView"
+    app:cardUseCompatPadding="true">
+
+    <com.google.android.gms.ads.nativead.NativeAdView
+        android:id="@+id/adBigAdView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/adBigMedia"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.thebrodyaga.brandbook.component.icon.IconWrapperView
+                android:id="@+id/adBigImg"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/adBigAction"
+                app:layout_constraintEnd_toStartOf="@+id/adBigTitle"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/adBigMedia"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_goneMarginStart="4dp" />
+
+            <com.thebrodyaga.brandbook.component.text.AppTextView
+                android:id="@+id/adBigTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="?attr/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constrainedHeight="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toTopOf="@+id/adBigBadge"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/adBigImg"
+                app:layout_constraintTop_toBottomOf="@+id/adBigMedia"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_goneMarginStart="16dp"
+                tools:text="@tools:sample/lorem[1]" />
+
+            <ImageView
+                android:id="@+id/adBigBadge"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_ad_badge"
+                app:layout_constraintBottom_toTopOf="@+id/adBigText"
+                app:layout_constraintStart_toStartOf="@+id/adBigTitle"
+                app:layout_constraintTop_toBottomOf="@+id/adBigTitle"
+                app:tint="?attr/colorSecondary" />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/adBigRating"
+                style="?ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:progressTint="?attr/colorSecondary"
+                app:layout_constraintBottom_toBottomOf="@+id/adBigBadge"
+                app:layout_constraintStart_toEndOf="@+id/adBigBadge"
+                app:layout_constraintTop_toTopOf="@+id/adBigBadge"
+                tools:progress="50" />
+
+            <com.thebrodyaga.brandbook.component.text.AppTextView
+                android:id="@+id/adBigPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:duplicateParentState="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toBottomOf="@+id/adBigRating"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/adBigRating"
+                app:layout_constraintTop_toTopOf="@+id/adBigRating"
+                tools:text="FREE" />
+
+            <com.thebrodyaga.brandbook.component.text.AppTextView
+                android:id="@+id/adBigText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constrainedHeight="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toTopOf="@+id/adBigAction"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/adBigTitle"
+                app:layout_constraintTop_toBottomOf="@+id/adBigBadge"
+                tools:text="@tools:sample/lorem[62]" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/adBigAction"
+                style="?attr/materialButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="8dp"
+                android:maxLines="1"
+                app:layout_constrainedHeight="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Install" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.gms.ads.nativead.NativeAdView>
+
+</merge>

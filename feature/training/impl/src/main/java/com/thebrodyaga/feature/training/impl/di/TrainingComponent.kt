@@ -1,6 +1,7 @@
 package com.thebrodyaga.feature.training.impl.di
 
 import androidx.fragment.app.Fragment
+import com.thebrodyaga.ad.api.AppAdLoader
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.englishsounds.base.di.ActivityDependencies
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
@@ -46,6 +47,7 @@ interface TrainingDependencies : AppDependencies {
     fun videoScreenFactory(): VideoScreenFactory
     fun soundsRepository(): SoundsRepository
     fun soundDetailsScreenFactory(): SoundDetailsScreenFactory
+    fun adLoader(): AppAdLoader
 }
 
 interface TrainingActivityDependencies : ActivityDependencies {

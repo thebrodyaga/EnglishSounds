@@ -2,6 +2,7 @@ package com.thebrodyaga.feature.training.impl
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -9,7 +10,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.thebrodyaga.core.uiUtils.insets.*
+import com.thebrodyaga.ad.api.AppAd
+import com.thebrodyaga.ad.api.AppAdLoader
+import com.thebrodyaga.ad.api.GoogleAdUiModel
+import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
+import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
+import com.thebrodyaga.core.uiUtils.insets.consume
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
@@ -32,6 +40,9 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
 
     @Inject
     lateinit var audioPlayer: AudioPlayer
+
+    @Inject
+    lateinit var adLoader: AppAdLoader
 
     @Inject
     lateinit var soundDetailsScreenFactory: SoundDetailsScreenFactory
@@ -58,6 +69,28 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
             .onEach { setData(it.sounds) }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
+        adLoader.trainingAd
+            .onEach {
+                when (it) {
+                    AppAd.Empty -> {
+                        binding.trainingAdGoogle.isVisible = false
+                        binding.trainingAdLoading.isVisible = false
+                    }
+
+                    is AppAd.Google -> {
+                        binding.trainingAdGoogle.isVisible = true
+                        binding.trainingAdLoading.isVisible = false
+                        binding.trainingAdGoogle.populate(GoogleAdUiModel(it.ad, false))
+                    }
+
+                    AppAd.Loading -> {
+                        binding.trainingAdGoogle.isVisible = false
+                        binding.trainingAdLoading.isVisible = false
+                    }
+                }
+            }
+            .flowWithLifecycle(lifecycle)
+            .launchIn(lifecycleScope)
     }
 
     override fun applyWindowInsets(rootView: View) {
@@ -70,7 +103,8 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
     }
 
     var playingJob: Job? = null
-    // refactoring maybe later
+
+    // ref maybe later
     private fun setData(list: List<PracticeWordDto>) {
         binding.videoLibIcon.setOnClickListener {
             getAnyRouter().navigateTo(videoScreenFactory.allVideoScreen(VideoListType.MostCommonWords))
@@ -78,7 +112,13 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
         binding.infoIcon.setOnClickListener {
             adapter?.also {
                 val practiceWordDto = it.list.getOrNull(binding.viewPager.currentItem)
-                practiceWordDto?.apply { getAnyRouter().navigateTo(soundDetailsScreenFactory.soundDetailsScreen(this.sound)) }
+                practiceWordDto?.apply {
+                    getAnyRouter().navigateTo(
+                        soundDetailsScreenFactory.soundDetailsScreen(
+                            this.sound
+                        )
+                    )
+                }
             }
         }
         var currentWordAudio: File? = null

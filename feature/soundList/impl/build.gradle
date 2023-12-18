@@ -8,6 +8,8 @@ dependencies {
     implementation project(":analytics")
     implementation project(":legacy")
     implementation project(":brandbook")
+    implementation project(":ad:api")
+    implementation project(":ad:google")
     implementation project(":feature:soundList:api")
     implementation project(":feature:soundDetails:api")
     implementation project(":feature:videoList:api")

@@ -4,6 +4,7 @@ import android.app.Application
 import com.google.gson.Gson
 import com.thebrodyaga.englishsounds.app.App
 import com.thebrodyaga.englishsounds.app.di.data.SoundsDataModule
+import com.thebrodyaga.englishsounds.app.di.feature.AdFeatureModule
 import com.thebrodyaga.englishsounds.app.di.feature.MainScreenFeatureModule
 import com.thebrodyaga.englishsounds.app.di.feature.SettingFeatureModule
 import com.thebrodyaga.englishsounds.app.di.feature.SoundDetailsFeatureModule
@@ -33,6 +34,7 @@ import javax.inject.Singleton
         TrainingFeatureModule::class,
         MainScreenFeatureModule::class,
         SettingFeatureModule::class,
+        AdFeatureModule::class,
     ]
 )
 interface DiAppComponent : AppComponent {

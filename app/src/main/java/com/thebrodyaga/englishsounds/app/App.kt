@@ -1,14 +1,16 @@
 package com.thebrodyaga.englishsounds.app
 
 import android.util.Log
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.englishsounds.BuildConfig
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.app.di.DaggerDiAppComponent
 import com.thebrodyaga.englishsounds.app.di.DiAppComponent
 import com.thebrodyaga.englishsounds.base.app.BaseApp
-import com.thebrodyaga.data.setting.api.SettingManager
 import dev.shreyaspatil.permissionFlow.PermissionFlow
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -31,7 +33,12 @@ class App : BaseApp() {
         super.onCreate()
         PermissionFlow.init(this)
         AnalyticsEngine.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-//        MobileAds.initialize(this)
+        if (!BuildConfig.DEBUG) {
+            val testDeviceIds = listOf("FD2914615078A2DCB1DBA4A0AC1AFAF7")
+            val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+            MobileAds.setRequestConfiguration(configuration)
+        }
+        MobileAds.initialize(this) {}
         if (!BuildConfig.DEBUG) {
             FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
             Timber.plant(CrashReportingTree())

@@ -11,12 +11,14 @@ import com.google.android.material.color.DynamicColors
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.thebrodyaga.ad.api.AppAdLoader
 import com.thebrodyaga.base.navigation.api.router.AppRouter
 import com.thebrodyaga.base.navigation.impl.navigator.AppNavigator
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
 import com.thebrodyaga.core.uiUtils.recycler.pool.PrefetchRecycledViewPool
+import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.ActivityDependencies
@@ -24,7 +26,6 @@ import com.thebrodyaga.englishsounds.base.di.HasActivityDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
-import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.feature.soundList.impl.SoundsListViewPool
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -60,6 +61,9 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
     lateinit var mainScreenFactory: MainScreenFactory
 
     @Inject
+    lateinit var adLoader: AppAdLoader
+
+    @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: AppViewModel by viewModels { viewModelFactory }
 
@@ -78,6 +82,7 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         DynamicColors.applyToActivityIfAvailable(this)
         super.onCreate(savedInstanceState)
         reviewManager = ReviewManagerFactory.create(this)
+        adLoader.onCreate(this)
         setContentView(R.layout.layout_fragemnt_container)
 
         splashScreen.setOnExitAnimationListener { splashProvider ->
@@ -86,6 +91,11 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
                 waitOnLoaded(splashProvider)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        adLoader.onDestroy(this)
     }
 
     private suspend fun waitOnLoaded(splashProvider: SplashScreenViewProvider) {

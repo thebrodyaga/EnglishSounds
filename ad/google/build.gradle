@@ -1,7 +1,10 @@
 apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyBaseAndroidModule(this)
+applyAndroidBinding(this)
 
 dependencies {
-    implementation googleAds
+    implementation project(":ad:api")
+    implementation project(":brandbook")
+    implementation project(":core:uiUtils")
 }

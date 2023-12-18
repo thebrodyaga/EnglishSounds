@@ -27,15 +27,30 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.thebrodyaga.feature.training.impl.SoundsTrainingFragment">
 
-        <!-- <com.thebrodyaga.legacy.AdVerticalShortView
-             android:id="@+id/include_ad"
-             style="@style/Widget.MaterialComponents.CardView"
-             android:layout_width="0dp"
-             android:layout_height="wrap_content"
-             app:cardUseCompatPadding="true"
-             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintTop_toTopOf="parent" />-->
+        <com.thebrodyaga.ad.api.AdLoadingView
+            android:id="@+id/trainingAdLoading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.thebrodyaga.ad.google.GoogleAdView
+            android:id="@+id/trainingAdGoogle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/trainingAdBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="trainingAdLoading,trainingAdGoogle" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
@@ -44,7 +59,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/trainingAdBarrier" />
 
         <com.thebrodyaga.brandbook.component.play.PlayButtonView
             android:id="@+id/play_icon"

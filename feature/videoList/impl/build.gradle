@@ -12,5 +12,7 @@ dependencies {
     implementation project(":legacy")
     implementation project(":brandbook")
     implementation project(":analytics")
+    implementation project(":ad:api")
+    implementation project(":ad:google")
     implementation project(":core:uiUtils")
 }

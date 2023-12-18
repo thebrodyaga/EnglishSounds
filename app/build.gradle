@@ -89,6 +89,8 @@ dependencies {
 
 
     implementation project(":analytics")
+    implementation project(":ad:api")
+    implementation project(":ad:google")
     implementation project(":brandbook")
     implementation project(":base:di")
     implementation project(":base:app")

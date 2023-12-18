@@ -5,6 +5,7 @@ applyFeatureImplModule(this)
 dependencies {
     implementation project(":brandbook")
     implementation project(":core:uiUtils")
+    implementation project(":ad:api")
     implementation project(":data:sounds:api")
     implementation project(":data:setting:api")
     implementation project(":feature:audioPlayer:api")

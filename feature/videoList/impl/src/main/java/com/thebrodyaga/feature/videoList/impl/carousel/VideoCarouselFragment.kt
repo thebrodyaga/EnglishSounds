@@ -7,6 +7,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.thebrodyaga.ad.api.adSmallLoadingDelegate
+import com.thebrodyaga.ad.google.googleAdDelegate
 import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.insets.*
@@ -37,6 +39,8 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
                 )
             )
         ) {
+            row(googleAdDelegate())
+            row(adSmallLoadingDelegate())
             row(videoCarouselDelegate(pool = videoCarouselViewPool) { binding, videoItem ->
                 binding.carouselItemFirstSound.setOnClickAction { _, sound ->
                     viewModel.onSoundClick(sound)
@@ -71,7 +75,6 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
         binding.videoCarouselList.swapAdapter(adapter, true)
         val recycledViewPool = binding.videoCarouselList.recycledViewPool
         recycledViewPool.setMaxRecycledViews(VIDEO_CAROUSEL_VIEW_TYPE, 6)
-        binding.videoCarouselList.itemAnimator = null
         viewModel.getState()
             .filterIsInstance<ListOfVideoListsState.Content>()
             .onEach { adapter.items = (it.list) }

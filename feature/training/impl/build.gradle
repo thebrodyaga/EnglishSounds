@@ -12,4 +12,6 @@ dependencies {
     implementation project(":data:sounds:api")
     implementation project(":brandbook")
     implementation project(":legacy")
+    implementation project(":ad:api")
+    implementation project(":ad:google")
 }

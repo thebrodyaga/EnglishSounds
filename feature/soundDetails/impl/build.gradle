@@ -13,6 +13,8 @@ dependencies {
     implementation project(":feature:youtube:api")
     implementation project(":legacy")
     implementation project(":brandbook")
+    implementation project(":ad:api")
+    implementation project(":ad:google")
     implementation timber
 
     //RecyclerView-animators todo

@@ -3,6 +3,9 @@ package com.thebrodyaga.feature.soundDetails.impl.ui.mapper
 import android.app.Application
 import android.content.Context
 import androidx.core.text.HtmlCompat
+import com.thebrodyaga.ad.api.AdLoadingSmallUiModel
+import com.thebrodyaga.ad.api.AppAd
+import com.thebrodyaga.ad.api.GoogleAdUiModel
 import com.thebrodyaga.brandbook.component.data.DataUiModel
 import com.thebrodyaga.brandbook.component.data.left.DataLeftUiModel
 import com.thebrodyaga.brandbook.component.data.right.DataRightUiModel
@@ -27,9 +30,9 @@ class SoundDetailsMapper @Inject constructor(
     private val application: Application,
 ) {
 
-    fun mapFullList(sound: AmericanSoundDto, playerState: AudioPlayerState): List<UiModel> {
+    fun mapFullList(sound: AmericanSoundDto, playerState: AudioPlayerState, ad: AppAd): List<UiModel> {
         val playingFile = (playerState as? AudioPlayerState.Playing)?.audioFile
-        return mapDetails(sound, playingFile)
+        return mapDetails(sound, playingFile, ad)
             .plus(mapWordList(sound, playingFile))
     }
 
@@ -56,7 +59,7 @@ class SoundDetailsMapper @Inject constructor(
         }
     }
 
-    private fun mapDetails(sound: AmericanSoundDto, playingFile: File?) = buildList {
+    private fun mapDetails(sound: AmericanSoundDto, playingFile: File?, ad: AppAd) = buildList {
         val videoAndDescription = application.getVideoAndDescription()
         val (videoMap, descriptionMap) = videoAndDescription
 
@@ -69,6 +72,11 @@ class SoundDetailsMapper @Inject constructor(
                 payload = audioPayload(sound.audioPath),
             )
         )
+        when (ad) {
+            AppAd.Empty -> Unit
+            is AppAd.Google -> add(GoogleAdUiModel(ad.ad, false))
+            AppAd.Loading -> add(AdLoadingSmallUiModel)
+        }
         val description = descriptionMap[sound.transcription] ?: ""
         add(SoundDetailsDescriptionUiModel(description))
         val videoUrl = videoMap[sound.transcription]

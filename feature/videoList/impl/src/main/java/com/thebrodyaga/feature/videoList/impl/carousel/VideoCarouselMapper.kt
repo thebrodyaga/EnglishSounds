@@ -1,10 +1,14 @@
 package com.thebrodyaga.feature.videoList.impl.carousel
 
 import androidx.annotation.AttrRes
+import com.thebrodyaga.ad.api.AdLoadingSmallUiModel
+import com.thebrodyaga.ad.api.AppAd
+import com.thebrodyaga.ad.api.GoogleAdUiModel
 import com.thebrodyaga.brandbook.component.data.DataUiModel
 import com.thebrodyaga.brandbook.component.data.left.DataLeftUiModel
 import com.thebrodyaga.brandbook.component.data.right.DataRightUiModel
 import com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniUiModel
+import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.core.uiUtils.drawable.DrawableUiModel
 import com.thebrodyaga.core.uiUtils.drawable.shapeDrawable
 import com.thebrodyaga.core.uiUtils.shape.shapeCircle
@@ -18,13 +22,20 @@ import javax.inject.Inject
 
 class VideoCarouselMapper @Inject constructor() {
 
-    fun mapUi(list: List<VideoListItem>) = buildList {
+    fun mapUi(list: List<VideoListItem>, ad: AppAd): List<UiModel> = buildList {
         list.forEachIndexed { index, videoItems ->
             add(getHeader(videoItems))
             add(
                 VideoCarouselUiModel(videoItems.list
                     .map { mapVideoItemUiModel(it) })
             )
+            if (index == 0){
+                when (ad) {
+                    AppAd.Empty -> Unit
+                    is AppAd.Google -> add(GoogleAdUiModel(ad.ad, false))
+                    AppAd.Loading -> add(AdLoadingSmallUiModel)
+                }
+            }
         }
     }
 

@@ -21,3 +21,4 @@
 /app/release
 /app/src/main/res/values/ad_id.xml
 /legacy/src/release/res/values/ad_id.xml
+/ad/google/src/release/res/values/google_ad_id.xml

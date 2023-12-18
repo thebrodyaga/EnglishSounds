@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewElevatedStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    tools:parentTag="com.google.android.material.card.MaterialCardView">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/adLoadingMedia"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/adLoadingImg"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/adLoadingAction"
+            app:layout_constraintEnd_toStartOf="@+id/adLoadingTitle"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/adLoadingMedia"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_goneMarginStart="4dp" />
+
+        <View
+            android:id="@+id/adLoadingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@+id/adLoadingBadge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/adLoadingImg"
+            app:layout_constraintTop_toBottomOf="@+id/adLoadingMedia"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintWidth_percent="0.25"
+            app:layout_goneMarginStart="16dp"
+            tools:text="@tools:sample/lorem[1]" />
+
+        <ImageView
+            android:id="@+id/adLoadingBadge"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_ad_badge"
+            app:layout_constraintBottom_toTopOf="@+id/adLoadingText"
+            app:layout_constraintStart_toStartOf="@+id/adLoadingTitle"
+            app:layout_constraintTop_toBottomOf="@+id/adLoadingTitle"
+            app:tint="?attr/colorSecondary" />
+
+        <View
+            android:id="@+id/adLoadingRating"
+            style="?ratingBarStyleSmall"
+            android:layout_width="72dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="8dp"
+            android:progressTint="?attr/colorSecondary"
+            app:layout_constraintBottom_toBottomOf="@+id/adLoadingBadge"
+            app:layout_constraintStart_toEndOf="@+id/adLoadingBadge"
+            app:layout_constraintTop_toTopOf="@+id/adLoadingBadge"
+            tools:progress="50" />
+
+        <View
+            android:id="@+id/adLoadingText"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@+id/adLoadingAction"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/adLoadingTitle"
+            app:layout_constraintTop_toBottomOf="@+id/adLoadingBadge"
+            app:layout_constraintWidth_percent="0.35"
+            tools:text="@tools:sample/lorem[62]" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/adLoadingAction"
+            style="?attr/materialButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"
+            android:maxLines="1"
+            app:backgroundTint="@android:color/transparent"
+            app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.thebrodyaga.ad.api.AppAdLoader
 import com.thebrodyaga.base.navigation.api.RouterProvider
 import com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniUiModel
 import com.thebrodyaga.brandbook.model.UiModel
@@ -16,9 +17,20 @@ import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import com.thebrodyaga.feature.videoList.impl.interactor.AllVideoInteractor
 import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
-import com.thebrodyaga.legacy.*
+import com.thebrodyaga.legacy.AdvancedExercisesVideoListItem
+import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
+import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
+import com.thebrodyaga.legacy.SoundVideoListItem
+import com.thebrodyaga.legacy.VideoListItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,15 +41,17 @@ class VideoCarouselViewModel @Inject constructor(
     private val videoScreenFactory: VideoScreenFactory,
     private val youtubeScreenFactory: YoutubeScreenFactory,
     private val mapper: VideoCarouselMapper,
+    private val adLoader: AppAdLoader,
 ) : ViewModel() {
 
     private val state = MutableStateFlow<ListOfVideoListsState>(ListOfVideoListsState.Empty)
     fun getState() = state.asStateFlow()
 
     init {
-        videoInteractor.getAllList()
-            .map { list: List<VideoListItem> ->
-                mapper.mapUi(list)
+        videoInteractor.getAllList().combine(adLoader.videoListAd) { list, ad -> list to ad }
+            .map {
+                val (list, ad) = it
+                mapper.mapUi(list, ad)
             }
             .flowOn(Dispatchers.IO)
             .onEach { state.value = ListOfVideoListsState.Content(it) }
@@ -87,6 +101,6 @@ sealed interface ListOfVideoListsState {
     object Empty : ListOfVideoListsState
 
     data class Content(
-        val list: List<UiModel>
+        val list: List<UiModel>,
     ) : ListOfVideoListsState
 }

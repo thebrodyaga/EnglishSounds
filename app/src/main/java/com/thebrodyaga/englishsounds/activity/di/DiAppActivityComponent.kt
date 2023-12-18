@@ -1,7 +1,9 @@
 package com.thebrodyaga.englishsounds.activity.di
 
 import androidx.appcompat.app.AppCompatActivity
+import com.thebrodyaga.ad.api.AppAdLoader
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
+import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.englishsounds.activity.di.feature.AudioPlayerFeatureModule
 import com.thebrodyaga.englishsounds.activity.di.feature.ViewPoolModule
@@ -11,7 +13,6 @@ import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.englishsounds.di.ActivityComponent
 import com.thebrodyaga.feature.appActivity.impl.AppActivity
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
-import com.thebrodyaga.data.setting.api.SettingManager
 import dagger.BindsInstance
 import dagger.Component
 
@@ -51,4 +52,5 @@ interface AppActivityDependencies : AppDependencies {
     fun mainScreenFactory(): MainScreenFactory
     fun soundsRepository(): SoundsRepository
     fun getNavigatorHolder(): NavigatorHolder
+    fun appAdLoader(): AppAdLoader
 }

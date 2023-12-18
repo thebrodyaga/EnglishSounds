@@ -2,6 +2,8 @@ package com.thebrodyaga.feature.soundDetails.impl.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.thebrodyaga.ad.api.AppAd
+import com.thebrodyaga.ad.api.AppAdLoader
 import com.thebrodyaga.base.navigation.api.RouterProvider
 import com.thebrodyaga.brandbook.component.data.DataUiModel
 import com.thebrodyaga.brandbook.model.UiModel
@@ -31,22 +33,28 @@ class SoundViewModel @Inject constructor(
     private val audioPlayer: AudioPlayer,
     private val youtubeScreenFactory: YoutubeScreenFactory,
     private val routerProvider: RouterProvider,
+    private val adLoader: AppAdLoader,
 ) : ViewModel() {
 
     private val state = MutableStateFlow<SoundState>(SoundState.Empty)
     fun getState() = state.asStateFlow()
 
     init {
-        repository.getSounds(transcription).combine(audioPlayer.state())
-        { sounds, player -> sounds to player }
+        combine(
+            repository.getSounds(transcription),
+            audioPlayer.state(),
+            adLoader.soundDetailsAd
+        ) { sounds, player, ad ->
+            Triple(sounds, player, ad)
+        }
             .flowOn(Dispatchers.IO)
             .onEach { mapForUi(it) }
             .onCompletion { it?.let { Timber.e(it) } }
             .launchIn(viewModelScope)
     }
 
-    private fun mapForUi(pair: Pair<AmericanSoundDto, AudioPlayerState>) {
-        state.value = SoundState.Content(mapper.mapFullList(pair.first, pair.second), pair.first)
+    private fun mapForUi(pair: Triple<AmericanSoundDto, AudioPlayerState, AppAd>) {
+        state.value = SoundState.Content(mapper.mapFullList(pair.first, pair.second, pair.third), pair.first)
     }
 
     fun onAudioItemClick(item: DataUiModel) {

@@ -68,10 +68,10 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
         if (childFragmentManager.findFragmentById(R.id.mainFragmentContainer) == null) {
             onBottomBarClick(BottomTab.Sounds.position.index)
         }
-        binding.mainMicButton.setOnClickListener {
-            TestBottomSheetDialog().show(childFragmentManager, "TestBottomSheetDialog")
-        }
-//        MicButtonDelegate().bind(this, binding.mainMicButton, recordVoice, permissionLauncher)
+//        binding.mainMicButton.setOnClickListener {
+//            TestBottomSheetDialog().show(childFragmentManager, "TestBottomSheetDialog")
+//        }
+        MicButtonDelegate().bind(this, binding.mainMicButton, recordVoice, permissionLauncher)
     }
 
     override fun applyWindowInsets(rootView: View) {

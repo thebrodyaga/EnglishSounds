@@ -7,9 +7,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.thebrodyaga.ad.api.adSmallLoadingDelegate
+import com.thebrodyaga.ad.google.googleAdDelegate
 import com.thebrodyaga.base.navigation.impl.transition.sharedElementBox
 import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
 import com.thebrodyaga.brandbook.component.sound.SoundCardUiModel
@@ -17,19 +18,19 @@ import com.thebrodyaga.brandbook.component.sound.SoundCardView
 import com.thebrodyaga.brandbook.component.sound.soundCardDelegate
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
 import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
-import com.thebrodyaga.core.uiUtils.insets.*
+import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
+import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
+import com.thebrodyaga.core.uiUtils.insets.consume
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
-import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.soundList.impl.databinding.FragmentSoundsListBinding
 import com.thebrodyaga.feature.soundList.impl.di.SoundListComponent
-import com.thebrodyaga.feature.videoList.api.VideoListType
-import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
-import com.thebrodyaga.legacy.*
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -54,6 +55,8 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
     private var adapter = CommonAdapter(
         delegates = listOf(dataViewCommonDelegate()),
     ) {
+        row(googleAdDelegate())
+        row(adSmallLoadingDelegate())
         row(soundCardDelegate {
             onBind { holder, payloads ->
                 val view = holder.view
@@ -82,7 +85,6 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
         binding.list.layoutManager = GridLayoutManager(context, maxColumns)
             .also { it.spanSizeLookup = spanSizeLookup }
         binding.list.swapAdapter(adapter, true)
-        binding.list.itemAnimator = null
 
         viewModel.getState()
             .filterIsInstance<SoundsListState.Content>()

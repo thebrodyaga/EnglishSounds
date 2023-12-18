@@ -1,5 +1,6 @@
 package com.thebrodyaga.feature.soundList.impl.di
 
+import com.thebrodyaga.ad.api.AppAdLoader
 import com.thebrodyaga.base.navigation.api.RouterProvider
 import com.thebrodyaga.base.navigation.impl.createRouterProvider
 import com.thebrodyaga.data.sounds.api.SoundsRepository
@@ -56,6 +57,7 @@ interface SoundListDependencies : AppDependencies {
     fun soundsVideoRepository(): SoundsVideoRepository
     fun youtubeScreenFactory(): YoutubeScreenFactory
     fun soundDetailsScreenFactory(): SoundDetailsScreenFactory
+    fun appAdLoader(): AppAdLoader
 }
 
 interface SoundListActivityDependencies : ActivityDependencies {
