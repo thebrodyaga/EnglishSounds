@@ -5,3 +5,7 @@ applyDataImplAndroidModule(this)
 dependencies {
     implementation project(":data:setting:api")
 }
+
+android {
+    namespace 'com.thebrodyaga.data.setting.impl'
+}

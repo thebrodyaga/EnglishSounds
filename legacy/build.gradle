@@ -13,3 +13,7 @@ dependencies {
     implementation timber
     implementation adapterDelegates
 }
+
+android {
+    namespace 'com.thebrodyaga.legacy'
+}

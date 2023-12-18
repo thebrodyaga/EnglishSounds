@@ -14,3 +14,7 @@ dependencies {
         exclude group: 'androidx.appcompat'
     }
 }
+
+android {
+    namespace 'com.thebrodyaga.feature.youtube.impl'
+}

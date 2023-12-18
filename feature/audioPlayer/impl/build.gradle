@@ -9,3 +9,7 @@ dependencies {
     implementation project(":feature:audioPlayer:api")
     implementation project(":core:utils")
 }
+
+android {
+    namespace 'com.thebrodyaga.feature.audioPlayer.impl'
+}

@@ -15,3 +15,7 @@ dependencies {
     implementation project(":feature:setting:api")
     implementation project(":feature:videoList:api")
 }
+
+android {
+    namespace 'com.thebrodyaga.feature.mainScreen.impl'
+}

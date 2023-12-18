@@ -8,3 +8,7 @@ dependencies {
     implementation project(":feature:audioPlayer:api")
     implementation project(":core:uiUtils")
 }
+
+android {
+    namespace 'com.thebrodyaga.brandbook'
+}

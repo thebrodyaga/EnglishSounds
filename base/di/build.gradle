@@ -7,3 +7,7 @@ dependencies {
     implementation project(":base:navigation:api")
     implementation project(":core:utils")
 }
+
+android {
+    namespace 'com.thebrodyaga.englishsounds.base.di'
+}

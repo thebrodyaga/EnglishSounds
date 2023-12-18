@@ -17,3 +17,7 @@ dependencies {
     implementation project(":data:sounds:api")
     implementation project(":core:uiUtils")
 }
+
+android {
+    namespace 'com.thebrodyaga.feature.soundList.impl'
+}

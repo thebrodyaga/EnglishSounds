@@ -5,3 +5,7 @@ applyCoreAndroidModule(this)
 dependencies {
     implementation project(':core:navigation:api')
 }
+
+android {
+    namespace 'com.thebrodyaga.core.navigation.impl'
+}

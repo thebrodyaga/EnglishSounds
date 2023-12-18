@@ -10,3 +10,7 @@ dependencies {
     firebaseBom(this)
     applyDagger(this)
 }
+
+android {
+    namespace 'com.thebrodyaga.englishsounds.base.app'
+}

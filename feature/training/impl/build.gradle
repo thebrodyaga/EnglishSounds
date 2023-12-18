@@ -15,3 +15,7 @@ dependencies {
     implementation project(":ad:api")
     implementation project(":ad:google")
 }
+
+android {
+    namespace 'com.thebrodyaga.feature.training.impl'
+}

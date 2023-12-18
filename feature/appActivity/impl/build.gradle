@@ -17,3 +17,7 @@ dependencies {
     implementation timber
     applyDagger(this)
 }
+
+android {
+    namespace 'com.thebrodyaga.feature.appActivity.impl'
+}

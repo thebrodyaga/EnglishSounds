@@ -6,3 +6,7 @@ dependencies {
     firebaseBom(this)
     api 'com.google.firebase:firebase-analytics-ktx'
 }
+
+android {
+    namespace 'com.thebrodyaga.englishsounds.analytics'
+}

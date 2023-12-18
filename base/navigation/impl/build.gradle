@@ -8,3 +8,7 @@ dependencies {
     implementation project(":base:navigation:api")
     implementation project(":base:di")
 }
+
+android {
+    namespace 'com.thebrodyaga.base.navigation.impl'
+}

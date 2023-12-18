@@ -6,3 +6,7 @@ dependencies {
     implementation project(":core:utils")
     implementation baseAndroidDeps
 }
+
+android {
+    namespace 'com.thebrodyaga.core.uiUtils'
+}

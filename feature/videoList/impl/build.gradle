@@ -16,3 +16,7 @@ dependencies {
     implementation project(":ad:google")
     implementation project(":core:uiUtils")
 }
+
+android {
+    namespace 'com.thebrodyaga.feature.videoList.impl'
+}
