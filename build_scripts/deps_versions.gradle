@@ -1,6 +1,6 @@
 ext {
 
-    dagger_version = '2.44.2'
+    dagger_version = '2.50'
     playServices = '20.2.0'
     flowPermissionVersion = '1.0.0'
 
@@ -36,7 +36,7 @@ ext {
             "com.github.bumptech.glide:glide:4.13.0",
     ]
 
-    splashScreen = "androidx.core:core-splashscreen:1.0.0"
+    splashScreen = "androidx.core:core-splashscreen:1.0.1"
 
     viewBindinDdelegate = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6"
 

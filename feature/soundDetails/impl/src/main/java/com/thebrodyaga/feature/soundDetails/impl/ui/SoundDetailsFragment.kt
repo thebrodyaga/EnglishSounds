@@ -7,6 +7,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.thebrodyaga.ad.api.adSmallLoadingDelegate
+import com.thebrodyaga.ad.google.googleAdDelegate
 import com.thebrodyaga.brandbook.component.data.dataViewOnlyLeftDelegate
 import com.thebrodyaga.brandbook.component.data.dataViewRightPlayIconDelegate
 import com.thebrodyaga.brandbook.model.UiModel
@@ -54,6 +56,8 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
             }),
         )
     ) {
+        row(googleAdDelegate())
+        row(adSmallLoadingDelegate())
         row(soundDetailsImageDelegate())
         row(soundDetailsVideoDelegate{view, item ->
             view.setOnClickListener {

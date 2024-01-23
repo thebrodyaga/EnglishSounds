@@ -17,9 +17,6 @@ dependencies {
     implementation project(":ad:google")
     implementation timber
 
-    //RecyclerView-animators todo
-    implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
-
 }
 
 android {
