@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="soundListFirstAdKey" translatable="false">ca-app-pub-4695014671858220/4124718898</string>
+    <string name="soundListSecondAdKey" translatable="false">ca-app-pub-4695014671858220/6117253574</string>
+    <string name="soundDetailsAdKey" translatable="false">ca-app-pub-4695014671858220/6716019374</string>
+    <string name="trainingAdKey" translatable="false">ca-app-pub-4695014671858220/4189928385</string>
+    <string name="videoListAdKey" translatable="false">ca-app-pub-4695014671858220/6225064785</string>
+</resources>
