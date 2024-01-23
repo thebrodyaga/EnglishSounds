@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.google.gson.Gson
 import com.thebrodyaga.data.setting.api.CurrentTheme
 import com.thebrodyaga.data.setting.api.SettingManager
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -27,7 +26,7 @@ class SettingManagerImpl @Inject constructor(
     }
 
     private var appRateDto: AppRateDto = AppRateDto(0)
-    private val needShowRate = MutableStateFlow(false)
+    private val needShowRate = MutableSharedFlow<Boolean>()
 
     override fun setCurrentTheme(theme: CurrentTheme) {
         sharedPreferences.edit().putString(THEME_KEY, theme.name).apply()
@@ -51,7 +50,7 @@ class SettingManagerImpl @Inject constructor(
 
     private var showedRateDialog = false
 
-    override fun needShowRateRequest(): StateFlow<Boolean> = needShowRate
+    override fun needShowRateRequest(): Flow<Boolean> = needShowRate
 
     private fun innerNeedShowRateRequest(): Boolean {
         val rateDto = appRateDto
@@ -74,7 +73,7 @@ class SettingManagerImpl @Inject constructor(
             appRateDto = AppRateDto(rateDto.soundShowingCount.inc())
         }
         logRateLogic("onSoundShowed", rateDto)
-        needShowRate.update { innerNeedShowRateRequest() }
+        needShowRate.tryEmit(innerNeedShowRateRequest())
     }
 
     override fun updateTheme() {

@@ -73,9 +73,8 @@ class SoundDetailsMapper @Inject constructor(
             )
         )
         when (ad) {
-            AppAd.Empty -> Unit
+            AppAd.Empty, AppAd.Loading -> Unit
             is AppAd.Google -> add(GoogleAdUiModel(ad.ad, false))
-            AppAd.Loading -> add(AdLoadingSmallUiModel)
         }
         val description = descriptionMap[sound.transcription] ?: ""
         add(SoundDetailsDescriptionUiModel(description))

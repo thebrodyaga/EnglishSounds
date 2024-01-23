@@ -45,7 +45,7 @@
             android:paddingEnd="16dp"
             android:saveEnabled="false"
             android:text="@string/use_system_theme"
-            android:textAppearance="@style/BodyRegular"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/is_dark_theme"
             app:layout_constraintEnd_toEndOf="parent"
@@ -63,13 +63,25 @@
             android:paddingEnd="16dp"
             android:saveEnabled="false"
             android:text="@string/use_dark_theme"
-            android:textAppearance="@style/BodyRegular"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/video_provide_text"
+            app:layout_constraintBottom_toTopOf="@+id/settingsPrivacy"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/system_theme"
-            app:useMaterialThemeColors="true" />
+            app:useMaterialThemeColors="true"
+            tools:visibility="visible" />
+
+        <com.thebrodyaga.brandbook.component.data.DataView
+            android:id="@+id/settingsPrivacy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/video_provide_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/is_dark_theme"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/video_provide_text"

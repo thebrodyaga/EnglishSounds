@@ -43,18 +43,6 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         get() = component
 
     @Inject
-    lateinit var router: AppRouter
-
-    @Inject
-    lateinit var recordVoice: RecordVoice
-
-    @Inject
-    lateinit var audioPlayer: AudioPlayer
-
-    @Inject
-    lateinit var soundsListViewPool: SoundsListViewPool
-
-    @Inject
     lateinit var settingManager: SettingManager
 
     @Inject

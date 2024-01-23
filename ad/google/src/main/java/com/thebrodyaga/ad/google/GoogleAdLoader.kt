@@ -1,12 +1,16 @@
 package com.thebrodyaga.ad.google
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.gms.ads.nativead.NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE
 import com.thebrodyaga.ad.api.AppAd
@@ -18,14 +22,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import java.lang.ref.WeakReference
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 
 class GoogleAdLoader @Inject constructor(
     private val app: Application,
+    private val googleMobileAdsConsentManager: GoogleMobileAdsConsentManager,
 ) : AppAdLoader {
 
     private var appActivity = WeakReference<AppCompatActivity>(null)
+    private val isMobileAdsInitializeCalled = AtomicBoolean(false)
 
     private val soundListFirstAdKey = app.resources.getString(R.string.soundListFirstAdKey)
     private val soundListSecondAdKey = app.resources.getString(R.string.soundListSecondAdKey)
@@ -35,7 +42,7 @@ class GoogleAdLoader @Inject constructor(
 
     private val ads = mutableMapOf<String, MutableStateFlow<AppAd>>(
         soundListFirstAdKey to MutableStateFlow(AppAd.Empty),
-        soundListSecondAdKey to MutableStateFlow(AppAd.Empty),
+//        soundListSecondAdKey to MutableStateFlow(AppAd.Empty),
         soundDetailsAdKey to MutableStateFlow(AppAd.Empty),
         trainingAdKey to MutableStateFlow(AppAd.Empty),
         videoListAdKey to MutableStateFlow(AppAd.Empty),
@@ -57,9 +64,36 @@ class GoogleAdLoader @Inject constructor(
     override val videoListAd: StateFlow<AppAd>
         get() = returnOrLoadAd(videoListAdKey)
 
+    override fun refreshAds(activity: Activity) {
+        if (googleMobileAdsConsentManager.canRequestAds) {
+            initializeMobileAdsSdk(activity)
+        }
+    }
+
     override fun onCreate(activity: AppCompatActivity) {
         this.appActivity = WeakReference<AppCompatActivity>(activity)
-        ads.forEach { returnOrLoadAd(it.key) }
+        googleMobileAdsConsentManager.gatherConsent(activity) { consentError ->
+            if (googleMobileAdsConsentManager.canRequestAds) {
+                initializeMobileAdsSdk(activity)
+            }
+        }
+
+        // This sample attempts to load ads using consent obtained in the previous session.
+        if (googleMobileAdsConsentManager.canRequestAds) {
+            initializeMobileAdsSdk(activity)
+        }
+    }
+
+    private fun initializeMobileAdsSdk(context: Context) {
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            return
+        }
+
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(context) { initializationStatus ->
+            // Load an ad.
+            ads.forEach { returnOrLoadAd(it.key) }
+        }
     }
 
     private fun returnOrLoadAd(adId: String): StateFlow<AppAd> {
@@ -67,7 +101,6 @@ class GoogleAdLoader @Inject constructor(
         val context = appActivity.get() ?: return adState
         return when (val ad = adState.value) {
             AppAd.Empty -> {
-                adState.update { AppAd.Loading }
                 loadAd(adId, context)
                 adState
             }
@@ -91,7 +124,7 @@ class GoogleAdLoader @Inject constructor(
         val adState = ads.mustGet(adId)
         val oldAdd = adState.value.google()
         // no needed
-        adState.update { AppAd.Empty }
+        adState.update { AppAd.Loading }
         oldAdd?.ad?.destroy()
         val adLoader = AdLoader.Builder(context, adId).forNativeAd { newAd ->
             val activity = this.appActivity.get()

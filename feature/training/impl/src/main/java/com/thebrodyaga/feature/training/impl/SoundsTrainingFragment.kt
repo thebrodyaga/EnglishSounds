@@ -72,7 +72,7 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
         adLoader.trainingAd
             .onEach {
                 when (it) {
-                    AppAd.Empty -> {
+                    AppAd.Empty, AppAd.Loading -> {
                         binding.trainingAdGoogle.isVisible = false
                         binding.trainingAdLoading.isVisible = false
                     }
@@ -83,10 +83,6 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
                         binding.trainingAdGoogle.populate(GoogleAdUiModel(it.ad, false))
                     }
 
-                    AppAd.Loading -> {
-                        binding.trainingAdGoogle.isVisible = false
-                        binding.trainingAdLoading.isVisible = false
-                    }
                 }
             }
             .flowWithLifecycle(lifecycle)

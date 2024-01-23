@@ -72,9 +72,8 @@ class SoundListMapper @Inject constructor() {
 
     private fun MutableList<UiModel>.addAd(ad: AppAd) {
         when (ad) {
-            AppAd.Empty -> Unit
+            AppAd.Empty, AppAd.Loading -> Unit
             is AppAd.Google -> add(GoogleAdUiModel(ad.ad, false))
-            AppAd.Loading -> add(AdLoadingSmallUiModel)
         }
     }
 

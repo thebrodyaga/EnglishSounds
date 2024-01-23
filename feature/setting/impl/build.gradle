@@ -8,6 +8,9 @@ dependencies {
     implementation project(":core:uiUtils")
     implementation project(":data:setting:api")
     implementation project(":brandbook")
+    implementation project(":ad:api")
+    implementation project(":ad:google")
+    implementation project(":legacy")
     implementation timber
     implementation baseNetworkDependencies
 }

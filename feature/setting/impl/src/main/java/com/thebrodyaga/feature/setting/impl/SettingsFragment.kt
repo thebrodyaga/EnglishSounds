@@ -3,15 +3,26 @@ package com.thebrodyaga.feature.setting.impl
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.thebrodyaga.core.uiUtils.insets.*
+import com.thebrodyaga.ad.api.AppAdLoader
+import com.thebrodyaga.ad.google.GoogleMobileAdsConsentManager
+import com.thebrodyaga.brandbook.component.data.DataUiModel
+import com.thebrodyaga.brandbook.component.data.left.DataLeftUiModel
+import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
+import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
+import com.thebrodyaga.core.uiUtils.insets.consume
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import com.thebrodyaga.core.uiUtils.isSystemDarkMode
+import com.thebrodyaga.core.uiUtils.text.TextContainer
+import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
+import com.thebrodyaga.data.setting.api.CurrentTheme
+import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
-import com.thebrodyaga.data.setting.api.CurrentTheme
-import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.feature.setting.impl.databinding.FragmentSettingsBinding
 import com.thebrodyaga.feature.setting.impl.di.SettingComponent
 import javax.inject.Inject
@@ -24,6 +35,13 @@ class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
+
+    @Inject
+    lateinit var appAdLoader: AppAdLoader
+
     private val viewModel: SettingsViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +52,26 @@ class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setThemeSetting()
+        val isPrivacyOptionsRequired = googleMobileAdsConsentManager.isPrivacyOptionsRequired
+        binding.settingsPrivacy.isVisible = isPrivacyOptionsRequired
+        binding.settingsPrivacy.setOnClickAction { _, _ ->
+            val activity = activity
+            if (activity != null) {
+                googleMobileAdsConsentManager.showPrivacyOptionsForm(activity) {
+                    appAdLoader.refreshAds(activity)
+                }
+            }
+        }
+        binding.settingsPrivacy.bind(
+            DataUiModel(
+                leftSide = DataLeftUiModel.TwoLineText(
+                    firstLineText = TextViewUiModel.Raw(
+                        text = TextContainer.Raw(view.resources.getText(R.string.privacy_settings)),
+                        textAppearance = R.attr.textAppearanceBodyLarge
+                    ),
+                )
+            )
+        )
     }
 
     override fun applyWindowInsets(rootView: View) {
@@ -88,8 +126,7 @@ class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
             val isSystemDark = context?.isSystemDarkMode() ?: false
             binding.isDarkTheme.isChecked = !isSystemDark
             settingManager.setCurrentTheme(
-                if (isSystemDark)
-                    CurrentTheme.LIGHT
+                if (isSystemDark) CurrentTheme.LIGHT
                 else CurrentTheme.DARK
             )
             binding.isDarkTheme.isGone = (false)

@@ -34,12 +34,6 @@ class App : BaseApp() {
         PermissionFlow.init(this)
         AnalyticsEngine.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         if (!BuildConfig.DEBUG) {
-            val testDeviceIds = listOf("FD2914615078A2DCB1DBA4A0AC1AFAF7")
-            val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
-            MobileAds.setRequestConfiguration(configuration)
-        }
-        MobileAds.initialize(this) {}
-        if (!BuildConfig.DEBUG) {
             FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
             Timber.plant(CrashReportingTree())
         } else {

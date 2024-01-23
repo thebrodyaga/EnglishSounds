@@ -58,4 +58,7 @@
 
 ### --- ###
 -keepclassmembers enum * { *; }
--keep class com.thebrodyaga.englishsounds.domine.entities.** {*; }
+-keep class com.thebrodyaga.data.sounds.api.model.** {*; }
+-keepclassmembernames class androidx.recyclerview.widget.RecyclerView$ViewHolder {
+    int mItemViewType;
+}

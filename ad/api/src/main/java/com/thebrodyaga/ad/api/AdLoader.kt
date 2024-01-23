@@ -1,5 +1,6 @@
 package com.thebrodyaga.ad.api
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.flow.StateFlow
 
@@ -11,4 +12,5 @@ interface AppAdLoader {
     val videoListAd: StateFlow<AppAd>
     fun onDestroy(activity: AppCompatActivity)
     fun onCreate(activity: AppCompatActivity)
+    fun refreshAds(activity: Activity)
 }
