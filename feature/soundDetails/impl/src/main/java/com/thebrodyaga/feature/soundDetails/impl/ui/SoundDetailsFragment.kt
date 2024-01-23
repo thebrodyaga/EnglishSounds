@@ -13,7 +13,11 @@ import com.thebrodyaga.brandbook.component.data.dataViewOnlyLeftDelegate
 import com.thebrodyaga.brandbook.component.data.dataViewRightPlayIconDelegate
 import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
-import com.thebrodyaga.core.uiUtils.insets.*
+import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
+import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
+import com.thebrodyaga.core.uiUtils.insets.consume
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
@@ -59,7 +63,7 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
         row(googleAdDelegate())
         row(adSmallLoadingDelegate())
         row(soundDetailsImageDelegate())
-        row(soundDetailsVideoDelegate{view, item ->
+        row(soundDetailsVideoDelegate { view, item ->
             view.setOnClickListener {
                 viewModel.onVideoItemClick(item.videoUrl)
             }
@@ -89,7 +93,7 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
             .launchIn(lifecycleScope)
     }
 
-    fun setData(list: List<UiModel>, soundDto: AmericanSoundDto) {
+    private fun setData(list: List<UiModel>, soundDto: AmericanSoundDto) {
         binding.soundDetailsToolbar.title = soundDto.name.plus(" ").plus("[${soundDto.transcription}]")
         adapter.items = (list)
     }

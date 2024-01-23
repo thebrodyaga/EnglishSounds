@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.splashscreen.SplashScreenViewProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.tasks.Task
 import com.google.android.material.color.DynamicColors
@@ -28,6 +29,8 @@ import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import com.thebrodyaga.feature.soundList.impl.SoundsListViewPool
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -91,6 +94,10 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
                 waitOnLoaded(splashProvider)
             }
         }
+        settingManager.needShowRateRequest()
+            .onEach { showRateDialog(it) }
+            .flowWithLifecycle(lifecycle)
+            .launchIn(lifecycleScope)
     }
 
     override fun onDestroy() {
@@ -124,8 +131,8 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         super.onPause()
     }
 
-    fun showRateDialog() {
-        if (settingManager.needShowRateRequest() && reviewInfo == null) {
+    private fun showRateDialog(needShowRate: Boolean) {
+        if (needShowRate && reviewInfo == null) {
             reviewInfo = reviewManager.requestReviewFlow().apply {
                 addOnCompleteListener { request ->
                     Timber.i("requestReviewFlow isSuccessful = ${request.isSuccessful}")

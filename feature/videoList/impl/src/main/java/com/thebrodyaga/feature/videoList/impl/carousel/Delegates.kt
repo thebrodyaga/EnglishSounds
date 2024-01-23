@@ -2,7 +2,7 @@ package com.thebrodyaga.feature.videoList.impl.carousel
 
 import android.view.View
 import androidx.core.view.isInvisible
-import com.google.android.material.carousel.CarouselLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniUiModel
 import com.thebrodyaga.brandbook.model.UiModel
@@ -26,7 +26,7 @@ fun videoCarouselDelegate(
 
         onInflate {
             val binding = ItemVideoCarouselBinding.bind(it)
-            val layoutManager = CarouselLayoutManager()
+            val layoutManager = LinearLayoutManager(it.context, LinearLayoutManager.HORIZONTAL, false)
             val adapter = CommonAdapter {
                 row(videoCarouselItemDelegate(carouselItemBindListener))
             }
@@ -44,7 +44,7 @@ fun videoCarouselDelegate(
 
 
 data class VideoCarouselUiModel(
-    val list: List<VideoCarouselItemUiModel>
+    val list: List<VideoCarouselItemUiModel>,
 ) : UiModel
 
 data class VideoCarouselItemUiModel(

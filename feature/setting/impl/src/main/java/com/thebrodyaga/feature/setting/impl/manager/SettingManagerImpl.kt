@@ -1,16 +1,19 @@
 package com.thebrodyaga.feature.setting.impl.manager
 
-import androidx.appcompat.app.AppCompatDelegate
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.gson.Gson
 import com.thebrodyaga.data.setting.api.CurrentTheme
 import com.thebrodyaga.data.setting.api.SettingManager
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import timber.log.Timber
 import javax.inject.Inject
 
 class SettingManagerImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences,
-    private val gson: Gson
+    private val gson: Gson,
 ) : SettingManager {
 
     private val isFirstAppStart: Boolean by lazy {
@@ -24,6 +27,7 @@ class SettingManagerImpl @Inject constructor(
     }
 
     private var appRateDto: AppRateDto = AppRateDto(0)
+    private val needShowRate = MutableStateFlow(false)
 
     override fun setCurrentTheme(theme: CurrentTheme) {
         sharedPreferences.edit().putString(THEME_KEY, theme.name).apply()
@@ -47,7 +51,9 @@ class SettingManagerImpl @Inject constructor(
 
     private var showedRateDialog = false
 
-    override fun needShowRateRequest(): Boolean {
+    override fun needShowRateRequest(): StateFlow<Boolean> = needShowRate
+
+    private fun innerNeedShowRateRequest(): Boolean {
         val rateDto = appRateDto
         val result = !showedRateDialog && rateDto.needShowRateRequest(isFirstAppStart)
         logRateLogic("needShowRateRequest", rateDto)
@@ -68,6 +74,7 @@ class SettingManagerImpl @Inject constructor(
             appRateDto = AppRateDto(rateDto.soundShowingCount.inc())
         }
         logRateLogic("onSoundShowed", rateDto)
+        needShowRate.update { innerNeedShowRateRequest() }
     }
 
     override fun updateTheme() {
@@ -76,9 +83,11 @@ class SettingManagerImpl @Inject constructor(
                 CurrentTheme.SYSTEM -> {
                     AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                 }
+
                 CurrentTheme.DARK -> {
                     AppCompatDelegate.MODE_NIGHT_YES
                 }
+
                 CurrentTheme.LIGHT -> {
                     AppCompatDelegate.MODE_NIGHT_NO
                 }

@@ -153,10 +153,10 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
         val position: BottomTabPosition,
     ) {
 
-        object Sounds : BottomTab(BottomTabPosition.FIRST)
-        object Videos : BottomTab(BottomTabPosition.SECOND)
-        object Words : BottomTab(BottomTabPosition.THIRD)
-        object Settings : BottomTab(BottomTabPosition.FOURTH)
+        data object Sounds : BottomTab(BottomTabPosition.FIRST)
+        data object Videos : BottomTab(BottomTabPosition.SECOND)
+        data object Words : BottomTab(BottomTabPosition.THIRD)
+        data object Settings : BottomTab(BottomTabPosition.FOURTH)
     }
 
     enum class BottomTabPosition {
