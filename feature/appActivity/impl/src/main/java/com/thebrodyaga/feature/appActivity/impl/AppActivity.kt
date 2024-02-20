@@ -101,7 +101,7 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         splashProvider.remove()
     }
 
-    private fun newRootScreen() {
+    private fun newRootScreen() = lifecycleScope.launchWhenStarted {
         val mainScreen = mainScreenFactory.mainScreen() as FragmentScreen
         val fragment = mainScreen.createFragment(supportFragmentManager.fragmentFactory)
         supportFragmentManager.beginTransaction()
