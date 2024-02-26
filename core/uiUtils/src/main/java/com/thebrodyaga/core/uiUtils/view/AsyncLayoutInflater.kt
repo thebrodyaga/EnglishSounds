@@ -33,7 +33,6 @@ class AsyncLayoutInflater(
         @LayoutRes resId: Int,
         parent: ViewGroup?,
     ): View = withContext(dispatcher) {
-        Executors.newCachedThreadPool()
         try {
             inflater.inflate(resId, parent, false)
         } catch (ex: RuntimeException) {
