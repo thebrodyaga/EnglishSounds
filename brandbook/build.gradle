@@ -1,11 +1,10 @@
 apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
-applyFeatureImplModule(this)
+baseAndroidModule(this)
+applyAndroidBinding(this)
+
 
 dependencies {
-    implementation timber
-    implementation splashScreen
-    implementation project(":feature:audioPlayer:api")
     implementation project(":core:uiUtils")
 }
 
