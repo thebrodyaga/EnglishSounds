@@ -5,6 +5,7 @@ applyAndroidBinding(this)
 applyJetpackCompose(this)
 
 dependencies {
+    implementation splashScreen
     implementation project(":core:uiUtils")
 }
 

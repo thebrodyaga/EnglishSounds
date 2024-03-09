@@ -115,18 +115,6 @@ ext {
                     consumerProguardFiles "proguard-rules.pro"
                 }
 
-                buildTypes {
-                    debug {
-                        minifyEnabled false
-                        debuggable true
-                    }
-                    release {
-                        // todo(R8)
-                        minifyEnabled false
-                        debuggable false
-                    }
-                }
-
                 compileOptions {
                     sourceCompatibility JavaVersion.VERSION_17
                     targetCompatibility JavaVersion.VERSION_17
