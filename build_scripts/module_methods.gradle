@@ -100,7 +100,7 @@ ext {
     baseAndroidModule = { module ->
         module.configure(module) {
             apply plugin: 'com.android.library'
-            apply plugin: 'kotlin-android'
+            apply plugin: 'org.jetbrains.kotlin.android'
 
             android {
                 compileSdk compile_sdk_version
@@ -121,6 +121,7 @@ ext {
                         debuggable true
                     }
                     release {
+                        // todo(R8)
                         minifyEnabled false
                         debuggable false
                     }
@@ -188,8 +189,8 @@ ext {
                     compose = true
                 }
 
-                compileOptions {
-                    kotlinCompilerExtensionVersion = "1.5.10"
+                composeOptions {
+                    kotlinCompilerExtensionVersion = compose_compiler_version
                 }
             }
         }

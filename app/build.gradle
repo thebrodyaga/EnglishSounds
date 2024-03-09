@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.crashlytics'
 apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
