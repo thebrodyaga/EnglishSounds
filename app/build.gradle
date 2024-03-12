@@ -4,6 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.crashlytics'
 apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
+applyJetpackCompose(this)
 
 android {
     compileSdk compile_sdk_version

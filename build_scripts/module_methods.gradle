@@ -101,6 +101,7 @@ ext {
         module.configure(module) {
             apply plugin: 'com.android.library'
             apply plugin: 'org.jetbrains.kotlin.android'
+            applyJetpackCompose(this)
 
             android {
                 compileSdk compile_sdk_version
