@@ -12,6 +12,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.thebrodyaga.brandbook.R
+import com.thebrodyaga.brandbook.component.play.PlayButtonBindingState
+import com.thebrodyaga.brandbook.component.play.PlayButtonUiModel
 import com.thebrodyaga.brandbook.compose.component.image.ImageWrapperUiModel
 import com.thebrodyaga.core.uiUtils.image.IconContainer
 import com.thebrodyaga.core.uiUtils.image.ImageUiModel
@@ -98,6 +100,22 @@ private fun testList(): List<DataRowUiModel> {
         DataRowUiModel(
             left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, longTextEllipsis, longTextEllipsis),
             right = null,
+        ),
+        DataRowUiModel(
+            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, longTextEllipsis, longTextEllipsis),
+            right = DataRowRightUiModel.PlayIcon(PlayButtonUiModel(PlayButtonBindingState.PauseToPlay())),
+        ),
+        DataRowUiModel(
+            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, longTextEllipsis, longTextEllipsis),
+            right = DataRowRightUiModel.PlayIcon(PlayButtonUiModel(PlayButtonBindingState.PlayToPause())),
+        ),
+        DataRowUiModel(
+            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, longTextEllipsis, longTextEllipsis),
+            right = DataRowRightUiModel.Button.Text(shortText.text),
+        ),
+        DataRowUiModel(
+            left = null,
+            right = DataRowRightUiModel.Button.Text(shortText.text),
         ),
     )
 }

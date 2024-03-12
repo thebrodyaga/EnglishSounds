@@ -10,16 +10,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.thebrodyaga.brandbook.compose.component.image.Compose
+import com.thebrodyaga.brandbook.compose.component.play.Compose
 import com.thebrodyaga.core.uiUtils.text.TextUiModel
 
 @Composable
 fun DataRowUiModel.Compose(
+    onCLick: () -> Unit = {},
+    playIconClick: () -> Unit = { onCLick() },
+    rightBtnClick: () -> Unit = { onCLick() },
     modifier: Modifier = Modifier,
 ) {
     val uiModel = this
@@ -27,21 +33,24 @@ fun DataRowUiModel.Compose(
         modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 72.dp)
-            .clickable { }
+            .clickable { onCLick() }
             .padding(16.dp, 12.dp)
             .then(uiModel.modifier),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        when (val leftSide = uiModel.left) {
-            is DataRowLeftUiModel.IconWithTwoLineText -> DataRowIconWithTwoLine(leftSide)
-            is DataRowLeftUiModel.TwoLineText -> DataRowTwoLine(
-                firstLine = leftSide.firstLineText,
-                secondLine = leftSide.secondLineText,
-            )
+        Row(
+            Modifier.weight(1f)
+        ) {
+            when (val leftSide = uiModel.left) {
+                is DataRowLeftUiModel.IconWithTwoLineText -> DataRowIconWithTwoLine(leftSide)
+                is DataRowLeftUiModel.TwoLineText -> DataRowTwoLine(
+                    firstLine = leftSide.firstLineText,
+                    secondLine = leftSide.secondLineText,
+                )
 
-            null -> {}
+                null -> {}
+            }
         }
-        Spacer(modifier = Modifier.weight(1f))
         if (left != null && right != null) {
             Spacer(modifier = Modifier.size(8.dp))
         }
@@ -51,6 +60,12 @@ fun DataRowUiModel.Compose(
                 firstLine = right.firstLineText,
                 secondLine = right.secondLineText,
             )
+
+            is DataRowRightUiModel.PlayIcon -> right.playIcon.Compose(playIconClick)
+
+            is DataRowRightUiModel.Button.Text -> TextButton(rightBtnClick) {
+                Text(text = right.text?.annotated ?: AnnotatedString(""))
+            }
 
             null -> {}
         }
