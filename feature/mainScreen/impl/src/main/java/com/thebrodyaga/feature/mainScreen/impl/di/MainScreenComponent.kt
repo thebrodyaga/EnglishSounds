@@ -1,16 +1,15 @@
 package com.thebrodyaga.feature.mainScreen.impl.di
 
 import androidx.fragment.app.Fragment
-import com.thebrodyaga.englishsounds.base.di.*
+import com.thebrodyaga.englishsounds.base.di.ActivityDependencies
+import com.thebrodyaga.englishsounds.base.di.AppDependencies
+import com.thebrodyaga.englishsounds.base.di.FeatureScope
+import com.thebrodyaga.englishsounds.base.di.findActivityDependencies
+import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
 import com.thebrodyaga.feature.mainScreen.impl.MainFragment
-import com.thebrodyaga.feature.mainScreen.impl.TabContainerFragment
-import com.thebrodyaga.feature.setting.api.SettingsScreenFactory
-import com.thebrodyaga.feature.soundList.api.SoundListScreenFactory
-import com.thebrodyaga.feature.training.api.TrainingScreenFactory
-import com.thebrodyaga.feature.videoList.api.VideoScreenFactory
 import dagger.Component
 
 @[FeatureScope Component(
@@ -30,7 +29,6 @@ interface MainScreenComponent {
     }
 
     fun inject(fragment: MainFragment)
-    fun inject(fragment: TabContainerFragment)
 
     companion object {
 
@@ -45,10 +43,6 @@ interface MainScreenComponent {
 
 interface MainScreenDependencies : AppDependencies {
     fun mainScreenFactory(): MainScreenFactory
-    fun soundListScreenFactory(): SoundListScreenFactory
-    fun videoScreenFactory(): VideoScreenFactory
-    fun trainingScreenFactory(): TrainingScreenFactory
-    fun settingsScreenFactory(): SettingsScreenFactory
 }
 
 interface MainScreenActivityDependencies : ActivityDependencies {

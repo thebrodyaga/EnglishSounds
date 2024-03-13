@@ -4,8 +4,8 @@ ext {
     min_sdk_version = 21
     target_sdk_version = 34
     compile_sdk_version = 34
-    version_code = 33
-    version_name = "1.5.1"
+    version_code = 34
+    version_name = "1.5.2"
 
     dagger_version = '2.50'
     playServices = '20.2.0'

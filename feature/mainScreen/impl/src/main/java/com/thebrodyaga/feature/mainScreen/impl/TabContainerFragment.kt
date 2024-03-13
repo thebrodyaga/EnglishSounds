@@ -3,14 +3,13 @@ package com.thebrodyaga.feature.mainScreen.impl
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.thebrodyaga.base.navigation.api.CiceroneHolder
 import com.thebrodyaga.base.navigation.api.container.TabContainer
 import com.thebrodyaga.base.navigation.api.router.TabRouter
 import com.thebrodyaga.base.navigation.impl.navigator.FlowNavigator
-import com.thebrodyaga.core.navigation.api.cicerone.Cicerone
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
-import com.thebrodyaga.feature.mainScreen.impl.di.MainScreenComponent
+import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
+import com.thebrodyaga.feature.mainScreen.impl.di.TabContainerComponent
 import com.thebrodyaga.feature.setting.api.SettingsScreenFactory
 import com.thebrodyaga.feature.soundList.api.SoundListScreenFactory
 import com.thebrodyaga.feature.training.api.TrainingScreenFactory
@@ -32,9 +31,9 @@ class TabContainerFragment : ScreenFragment(R.layout.fragemnt_tab_container), Ta
     lateinit var settingsScreenFactory: SettingsScreenFactory
 
     @Inject
-    lateinit var ciceroneHolder: CiceroneHolder
+    lateinit var viewModelFactory: ViewModelFactory
 
-    private val viewModel: TabContainerViewModel by viewModels()
+    private val viewModel: TabContainerViewModel by viewModels { viewModelFactory }
 
     private val containerName: String by lazy {
         arguments?.getString(EXTRA_NAME) ?: throw RuntimeException("need put key")
@@ -43,17 +42,12 @@ class TabContainerFragment : ScreenFragment(R.layout.fragemnt_tab_container), Ta
     private val navigator: Navigator by lazy {
         FlowNavigator(this, containerId, routerProvider)
     }
-    private val cicerone: Cicerone<TabRouter>
-        get() = viewModel.cicerone
-
     override val tabRouter: TabRouter
         get() = viewModel.router
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        MainScreenComponent.factory(this).inject(this)
+        TabContainerComponent.factory(this, containerName).inject(this)
         super.onCreate(savedInstanceState)
-        viewModel.containerName = containerName
-        viewModel.ciceroneHolder = ciceroneHolder
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,21 +56,32 @@ class TabContainerFragment : ScreenFragment(R.layout.fragemnt_tab_container), Ta
         val currentFragment = childFragmentManager.findFragmentById(containerId)
         if (currentFragment == null) {
             when (containerName) {
-                MainFragment.BottomTabPosition.FIRST.screenTag -> tabRouter.newRootScreen(soundListScreenFactory.soundListFactory())
-                MainFragment.BottomTabPosition.SECOND.screenTag -> tabRouter.newRootScreen(videoListScreenFactory.videoCarouselScreen())
-                MainFragment.BottomTabPosition.THIRD.screenTag -> tabRouter.newRootScreen(trainingScreenFactory.trainingScreen())
-                MainFragment.BottomTabPosition.FOURTH.screenTag -> tabRouter.newRootScreen(settingsScreenFactory.settingScreen())
+                MainFragment.BottomTabPosition.FIRST.screenTag -> tabRouter.newRootScreen(
+                    soundListScreenFactory.soundListFactory()
+                )
+
+                MainFragment.BottomTabPosition.SECOND.screenTag -> tabRouter.newRootScreen(
+                    videoListScreenFactory.videoCarouselScreen()
+                )
+
+                MainFragment.BottomTabPosition.THIRD.screenTag -> tabRouter.newRootScreen(
+                    trainingScreenFactory.trainingScreen()
+                )
+
+                MainFragment.BottomTabPosition.FOURTH.screenTag -> tabRouter.newRootScreen(
+                    settingsScreenFactory.settingScreen()
+                )
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        cicerone.getNavigatorHolder().setNavigator(navigator)
+        viewModel.cicerone.getNavigatorHolder().setNavigator(navigator)
     }
 
     override fun onPause() {
-        cicerone.getNavigatorHolder().removeNavigator()
+        viewModel.cicerone.getNavigatorHolder().removeNavigator()
         super.onPause()
     }
 
