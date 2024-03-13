@@ -59,6 +59,7 @@ fun DataRowUiModel.Compose(
             is DataRowRightUiModel.TwoLineText -> DataRowTwoLine(
                 firstLine = right.firstLineText,
                 secondLine = right.secondLineText,
+                horizontalAlignment = Alignment.End
             )
 
             is DataRowRightUiModel.PlayIcon -> right.playIcon.Compose(playIconClick)
@@ -82,7 +83,7 @@ private fun DataRowIconWithTwoLine(leftSide: DataRowLeftUiModel.IconWithTwoLineT
             modifier = Modifier.size(48.dp)
         )
     }
-    if (firstLine != null || secondLine != null) {
+    if (icon != null && (firstLine != null || secondLine != null)) {
         Spacer(modifier = Modifier.size(12.dp))
     }
     DataRowTwoLine(
@@ -95,10 +96,12 @@ private fun DataRowIconWithTwoLine(leftSide: DataRowLeftUiModel.IconWithTwoLineT
 private fun DataRowTwoLine(
     firstLine: TextUiModel? = null,
     secondLine: TextUiModel? = null,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
+        horizontalAlignment = horizontalAlignment,
     ) {
         if (firstLine is TextUiModel.Raw) {
             Text(

@@ -15,9 +15,11 @@ import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.component.play.PlayButtonBindingState
 import com.thebrodyaga.brandbook.component.play.PlayButtonUiModel
 import com.thebrodyaga.brandbook.compose.component.image.ImageWrapperUiModel
+import com.thebrodyaga.brandbook.compose.component.text.TextTesting.longText
+import com.thebrodyaga.brandbook.compose.component.text.TextTesting.shortText
+import com.thebrodyaga.brandbook.compose.component.text.TextTesting.singleLine
 import com.thebrodyaga.core.uiUtils.image.IconContainer
 import com.thebrodyaga.core.uiUtils.image.ImageUiModel
-import com.thebrodyaga.core.uiUtils.text.TextUiModel
 import com.thebrodyaga.core.uiUtils.text.TextWrap
 
 
@@ -39,26 +41,6 @@ private fun DataUiModelPreview() {
 
 @Composable
 private fun testList(): List<DataRowUiModel> {
-    val shortText = TextUiModel.Raw(TextWrap.Raw("firstLineText"))
-    val longText = TextUiModel.Raw(
-        text = TextWrap.Raw(
-            "firstLineText firstLineText firstLineText firstLineText " +
-                    "firstLineText firstLineText firstLineText firstLineText " +
-                    "firstLineText firstLineText firstLineText firstLineText " +
-                    "firstLineText firstLineText firstLineText  firstLineText " +
-                    "firstLineText"
-        ),
-        maxLines = Int.MAX_VALUE,
-    )
-    val longTextEllipsis = TextUiModel.Raw(
-        text = TextWrap.Raw(
-            "firstLineText firstLineText firstLineText firstLineText " +
-                    "firstLineText firstLineText firstLineText firstLineText " +
-                    "firstLineText firstLineText firstLineText firstLineText " +
-                    "firstLineText firstLineText firstLineText  firstLineText " +
-                    "firstLineText"
-        ),
-    )
     val testIcon = ImageUiModel(
         IconContainer.Res(R.drawable.ic_google_play),
         modifier = Modifier
@@ -70,52 +52,56 @@ private fun testList(): List<DataRowUiModel> {
 
     return listOf(
         DataRowUiModel(
-            left = DataRowLeftUiModel.TwoLineText(shortText, shortText),
-            right = DataRowRightUiModel.TwoLineText(shortText, shortText),
+            left = DataRowLeftUiModel.TwoLineText(shortText(1), shortText()),
+            right = DataRowRightUiModel.TwoLineText(shortText(), shortText()),
         ),
         DataRowUiModel(
-            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, shortText, shortText),
-            right = DataRowRightUiModel.TwoLineText(shortText, shortText),
+            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, shortText(2), shortText()),
+            right = DataRowRightUiModel.TwoLineText(shortText(), shortText()),
         ),
         DataRowUiModel(
-            left = DataRowLeftUiModel.TwoLineText(longTextEllipsis, longTextEllipsis),
-            right = DataRowRightUiModel.TwoLineText(longTextEllipsis, longTextEllipsis),
+            left = DataRowLeftUiModel.TwoLineText(shortText(3), longText()),
+            right = DataRowRightUiModel.TwoLineText(shortText(), shortText()),
         ),
         DataRowUiModel(
-            left = DataRowLeftUiModel.IconWithTwoLineText(null, shortText, shortText),
-            right = DataRowRightUiModel.TwoLineText(shortText, shortText),
+            left = DataRowLeftUiModel.IconWithTwoLineText(null, shortText(4), shortText()),
+            right = DataRowRightUiModel.TwoLineText(shortText(), shortText()),
         ),
         DataRowUiModel(
             left = null,
-            right = DataRowRightUiModel.TwoLineText(shortText, shortText),
+            right = DataRowRightUiModel.TwoLineText(shortText(5), shortText()),
         ),
         DataRowUiModel(
-            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, shortText, shortText),
+            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, shortText(6), shortText()),
             right = null,
         ),
         DataRowUiModel(
             left = null,
-            right = DataRowRightUiModel.TwoLineText(longTextEllipsis, longTextEllipsis),
+            right = DataRowRightUiModel.TwoLineText(shortText(7), singleLine()),
         ),
         DataRowUiModel(
-            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, longTextEllipsis, longTextEllipsis),
+            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, shortText(8), singleLine()),
             right = null,
         ),
         DataRowUiModel(
-            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, longTextEllipsis, longTextEllipsis),
+            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, shortText(9), singleLine()),
             right = DataRowRightUiModel.PlayIcon(PlayButtonUiModel(PlayButtonBindingState.PauseToPlay())),
         ),
         DataRowUiModel(
-            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, longTextEllipsis, longTextEllipsis),
+            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, shortText(10), singleLine()),
             right = DataRowRightUiModel.PlayIcon(PlayButtonUiModel(PlayButtonBindingState.PlayToPause())),
         ),
         DataRowUiModel(
-            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, longTextEllipsis, longTextEllipsis),
-            right = DataRowRightUiModel.Button.Text(shortText.text),
+            left = null,
+            right = DataRowRightUiModel.PlayIcon(PlayButtonUiModel(PlayButtonBindingState.PlayToPause())),
+        ),
+        DataRowUiModel(
+            left = DataRowLeftUiModel.IconWithTwoLineText(singleImage, shortText(11), singleLine()),
+            right = DataRowRightUiModel.Button.Text(TextWrap.Raw("test")),
         ),
         DataRowUiModel(
             left = null,
-            right = DataRowRightUiModel.Button.Text(shortText.text),
+            right = DataRowRightUiModel.Button.Text(TextWrap.Raw("test")),
         ),
     )
 }
