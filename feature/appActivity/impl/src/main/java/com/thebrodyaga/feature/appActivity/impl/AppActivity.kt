@@ -1,7 +1,12 @@
 package com.thebrodyaga.feature.appActivity.impl
 
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.viewModels
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.splashscreen.SplashScreenViewProvider
 import androidx.fragment.app.Fragment
@@ -9,11 +14,11 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.tasks.Task
 import com.google.android.material.color.DynamicColors
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.thebrodyaga.ad.api.AppAdLoader
-import com.thebrodyaga.base.navigation.api.router.AppRouter
 import com.thebrodyaga.base.navigation.impl.navigator.AppNavigator
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
@@ -24,10 +29,7 @@ import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.ActivityDependencies
 import com.thebrodyaga.englishsounds.base.di.HasActivityDependencies
-import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
-import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import com.thebrodyaga.feature.mainScreen.api.MainScreenFactory
-import com.thebrodyaga.feature.soundList.impl.SoundsListViewPool
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -75,9 +77,11 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         reviewManager = ReviewManagerFactory.create(this)
         adLoader.onCreate(this)
         setContentView(R.layout.layout_fragemnt_container)
+        val progress = createProgressView()
 
         splashScreen.setOnExitAnimationListener { splashProvider ->
             lifecycleScope.launch {
+                (splashProvider.view as ViewGroup).addView(progress)
                 viewPools.forEach { it.prefetch() }
                 waitOnLoaded(splashProvider)
             }
@@ -147,5 +151,32 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
                 Timber.e("launchReviewFlow error = ${it.exception?.message ?: "null"}")
             this.reviewInfo = null
         }
+    }
+
+    private fun createProgressView(): View {
+        val progress = ConstraintLayout(this)
+        progress.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        val indicator = CircularProgressIndicator(this).apply {
+            isIndeterminate = true
+            id = View.generateViewId()
+            val color = ContextCompat.getColor(this@AppActivity, R.color.app_icon_background)
+            setIndicatorColor(color)
+            progress.addView(this)
+        }
+        ConstraintSet().apply {
+            val id = indicator.id
+            val parentId = ConstraintSet.PARENT_ID
+            constrainHeight(id, ConstraintSet.WRAP_CONTENT)
+            constrainWidth(id, ConstraintSet.WRAP_CONTENT)
+            connect(id, ConstraintSet.START, parentId, ConstraintSet.START)
+            connect(id, ConstraintSet.TOP, parentId, ConstraintSet.TOP)
+            connect(id, ConstraintSet.END, parentId, ConstraintSet.END)
+            connect(id, ConstraintSet.BOTTOM, parentId, ConstraintSet.BOTTOM)
+            setVerticalBias(id, 0.8f)
+            applyTo(progress)
+        }
+        return progress
     }
 }
