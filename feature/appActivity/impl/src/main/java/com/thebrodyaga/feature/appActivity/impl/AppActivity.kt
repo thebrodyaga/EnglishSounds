@@ -1,5 +1,6 @@
 package com.thebrodyaga.feature.appActivity.impl
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+
 
 open class AppActivity : BaseActivity(), HasActivityDependencies {
 
@@ -77,15 +79,19 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         reviewManager = ReviewManagerFactory.create(this)
         adLoader.onCreate(this)
         setContentView(R.layout.layout_fragemnt_container)
-        val progress = createProgressView()
+        val progress =
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S)
+                createProgressView()
+            else null
 
         splashScreen.setOnExitAnimationListener { splashProvider ->
-            lifecycleScope.launch {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S)
                 (splashProvider.view as ViewGroup).addView(progress)
-                viewPools.forEach { it.prefetch() }
+            lifecycleScope.launch {
                 waitOnLoaded(splashProvider)
             }
         }
+        viewPools.forEach { it.prefetch() }
         settingManager.needShowRateRequest()
             .onEach { showRateDialog(it) }
             .flowWithLifecycle(lifecycle)

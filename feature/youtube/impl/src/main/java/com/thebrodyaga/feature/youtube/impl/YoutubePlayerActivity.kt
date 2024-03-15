@@ -1,11 +1,5 @@
 package com.thebrodyaga.feature.youtube.impl
 
-import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
-import androidx.core.view.GestureDetectorCompat
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
-import androidx.lifecycle.Lifecycle
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -14,8 +8,19 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.view.OrientationEventListener
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
@@ -159,7 +164,14 @@ class YoutubePlayerActivity : BaseActivity() {
         if (isInPictureInPictureMode)
             picInPicReceiver = PicInPicReceiver {
                 onPipControlReceive(it)
-            }.also { registerReceiver(it, IntentFilter(ACTION_MEDIA_CONTROL)) }
+            }.also {
+                ContextCompat.registerReceiver(
+                    this,
+                    it,
+                    IntentFilter(ACTION_MEDIA_CONTROL),
+                    ContextCompat.RECEIVER_EXPORTED
+                )
+            }
         else picInPicReceiver?.let {
             unregisterReceiver(it)
             picInPicReceiver = null
@@ -203,6 +215,7 @@ class YoutubePlayerActivity : BaseActivity() {
         when (resources.configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> requestedOrientation =
                 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
             Configuration.ORIENTATION_LANDSCAPE -> requestedOrientation =
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
@@ -231,10 +244,12 @@ class YoutubePlayerActivity : BaseActivity() {
                     playVideoExtra.videoId,
                     currentSecond
                 )
+
                 PlayerConstants.PlayerState.PAUSED -> youTubePlayer.cueVideo(
                     playVideoExtra.videoId,
                     currentSecond
                 )
+
                 else ->
                     youTubePlayer.loadVideo(playVideoExtra.videoId, currentSecond)
             }
@@ -246,7 +261,7 @@ class YoutubePlayerActivity : BaseActivity() {
 
         override fun onStateChange(
             youTubePlayer: YouTubePlayer,
-            state: PlayerConstants.PlayerState
+            state: PlayerConstants.PlayerState,
         ) {
             logVideoEvent(state, currentSecond)
             playerState = state
@@ -261,11 +276,13 @@ class YoutubePlayerActivity : BaseActivity() {
     private fun setPicInPicBuilderByPlayerState(state: PlayerConstants.PlayerState) {
         val picInPicBuilder = when (state) {
             PlayerConstants.PlayerState.BUFFERING,
-            PlayerConstants.PlayerState.PLAYING ->
+            PlayerConstants.PlayerState.PLAYING,
+            ->
                 picInPickHelper.actionsForRunning(isPlaying = true, setSeekTo = true)
 
             PlayerConstants.PlayerState.VIDEO_CUED,
-            PlayerConstants.PlayerState.PAUSED ->
+            PlayerConstants.PlayerState.PAUSED,
+            ->
                 picInPickHelper.actionsForRunning(isPlaying = false, setSeekTo = true)
 
             PlayerConstants.PlayerState.UNSTARTED ->
@@ -285,8 +302,10 @@ class YoutubePlayerActivity : BaseActivity() {
             when (panel.left + e.x.toInt()) {
                 in panel.left..(panel.left + oneThird) ->
                     seekTo(false)
+
                 in (panel.right - oneThird)..panel.right ->
                     seekTo(true)
+
                 else -> return false
             }
             return true
@@ -295,18 +314,20 @@ class YoutubePlayerActivity : BaseActivity() {
 
     private fun logVideoEvent(
         state: PlayerConstants.PlayerState,
-        videoSecond: Float
+        videoSecond: Float,
     ) {
         when (state) {
             PlayerConstants.PlayerState.ENDED,
             PlayerConstants.PlayerState.PLAYING,
-            PlayerConstants.PlayerState.PAUSED -> {
+            PlayerConstants.PlayerState.PAUSED,
+            -> {
                 val bundle = Bundle()
                 bundle.putString(AppAnalytics.PARAM_VIDEO_NAME, playVideoExtra.videoName)
                 bundle.putString(AppAnalytics.PARAM_VIDEO_STATE, state.toString())
                 bundle.putInt(AppAnalytics.PARAM_VIDEO_DURATION, videoSecond.toInt())
                 AnalyticsEngine.logEvent(AppAnalytics.EVENT_PLAY_VIDEO, bundle)
             }
+
             else -> return
         }
     }
