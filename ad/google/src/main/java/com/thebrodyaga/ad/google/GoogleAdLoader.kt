@@ -63,7 +63,7 @@ class GoogleAdLoader @Inject constructor(
     override val soundDetailsAd: StateFlow<AppAd>
         get() = returnOrLoadAd(soundDetailsAdKey)
     override val trainingAd: StateFlow<AppAd>
-        get() = returnOrLoadAd(trainingAdKey)
+        get() = MutableStateFlow(AppAd.Empty)
     override val videoListAd: StateFlow<AppAd>
         get() = returnOrLoadAd(videoListAdKey)
 
