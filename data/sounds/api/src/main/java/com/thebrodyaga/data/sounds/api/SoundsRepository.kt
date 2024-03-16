@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface SoundsRepository {
 
-    fun getAllSounds(fromDb: Boolean = false): Flow<List<AmericanSoundDto>>
+    val isWasExistSoundsInInternalStorage: Boolean
+    fun getAllSounds(): Flow<List<AmericanSoundDto>>
     fun getSounds(transcription: String): Flow<AmericanSoundDto>
-    fun tryCopySounds(): Flow<List<AmericanSoundDto>>
-    fun getAllPracticeWords(fromDb: Boolean = false): Flow<List<PracticeWordDto>>
+    fun getAllPracticeWords(): Flow<List<PracticeWordDto>>
 }

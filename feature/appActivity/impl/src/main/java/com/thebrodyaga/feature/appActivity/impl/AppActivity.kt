@@ -79,18 +79,23 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         reviewManager = ReviewManagerFactory.create(this)
         adLoader.onCreate(this)
         setContentView(R.layout.layout_fragemnt_container)
-        val progress =
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S)
+        if (viewModel.keepSystemSplashVisible) {
+            splashScreen.setKeepOnScreenCondition {
+                !viewModel.isReady
+            }
+        } else {
+            val progress = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S)
                 createProgressView()
             else null
-
-        splashScreen.setOnExitAnimationListener { splashProvider ->
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S)
-                (splashProvider.view as ViewGroup).addView(progress)
-            lifecycleScope.launch {
-                waitOnLoaded(splashProvider)
+            splashScreen.setOnExitAnimationListener { splashProvider ->
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S)
+                    (splashProvider.view as ViewGroup).addView(progress)
+                lifecycleScope.launch {
+                    waitOnLoaded(splashProvider)
+                }
             }
         }
+        if (currentFragment == null) newRootScreen()
         viewPools.forEach { it.prefetch() }
         settingManager.needShowRateRequest()
             .onEach { showRateDialog(it) }
@@ -107,11 +112,10 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         while (!viewModel.isReady) {
             delay(50)
         }
-        if (currentFragment == null) newRootScreen()
         splashProvider.remove()
     }
 
-    private fun newRootScreen() = lifecycleScope.launchWhenStarted {
+    private fun newRootScreen() {
         val mainScreen = mainScreenFactory.mainScreen() as FragmentScreen
         val fragment = mainScreen.createFragment(supportFragmentManager.fragmentFactory)
         supportFragmentManager.beginTransaction()
