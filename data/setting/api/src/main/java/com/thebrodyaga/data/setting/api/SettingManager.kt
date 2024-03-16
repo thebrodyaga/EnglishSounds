@@ -11,6 +11,7 @@ interface SettingManager {
     fun onRateRequestShow()
     fun onSoundShowed()
     fun updateTheme()
+    fun isFirstAppStart(): Boolean
 }
 
 enum class CurrentTheme {

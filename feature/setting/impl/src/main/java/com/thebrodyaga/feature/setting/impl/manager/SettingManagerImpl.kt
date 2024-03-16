@@ -15,14 +15,14 @@ class SettingManagerImpl @Inject constructor(
     private val gson: Gson,
 ) : SettingManager {
 
-    private val isFirstAppStart: Boolean by lazy {
+    private val internalIsFirstAppStart: Boolean by lazy {
         val result = sharedPreferences.getBoolean(FIRST_APP_START_KEY, true)
         sharedPreferences.edit().putBoolean(FIRST_APP_START_KEY, false).apply()
         result
     }
 
     init {
-        isFirstAppStart
+        internalIsFirstAppStart
     }
 
     private var appRateDto: AppRateDto = AppRateDto(0)
@@ -33,10 +33,8 @@ class SettingManagerImpl @Inject constructor(
     }
 
     override fun getCurrentTheme(): CurrentTheme {
-        val fromSp = sharedPreferences.getString(THEME_KEY, null)
-            ?: return CurrentTheme.SYSTEM
-        return if (CurrentTheme.values().map { it.name }.contains(fromSp))
-            CurrentTheme.valueOf(fromSp)
+        val fromSp = sharedPreferences.getString(THEME_KEY, null) ?: return CurrentTheme.SYSTEM
+        return if (CurrentTheme.values().map { it.name }.contains(fromSp)) CurrentTheme.valueOf(fromSp)
         else CurrentTheme.SYSTEM
     }
 
@@ -54,7 +52,7 @@ class SettingManagerImpl @Inject constructor(
 
     private fun innerNeedShowRateRequest(): Boolean {
         val rateDto = appRateDto
-        val result = !showedRateDialog && rateDto.needShowRateRequest(isFirstAppStart)
+        val result = !showedRateDialog && rateDto.needShowRateRequest(internalIsFirstAppStart)
         logRateLogic("needShowRateRequest", rateDto)
         Timber.i("needShowRateRequest result=$result")
         return result
@@ -92,6 +90,10 @@ class SettingManagerImpl @Inject constructor(
                 }
             }
         )
+    }
+
+    override fun isFirstAppStart(): Boolean {
+        return internalIsFirstAppStart
     }
 
     private fun logRateLogic(method: String, appRateDto: AppRateDto) {

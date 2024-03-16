@@ -77,9 +77,9 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
         DynamicColors.applyToActivityIfAvailable(this)
         super.onCreate(savedInstanceState)
         reviewManager = ReviewManagerFactory.create(this)
-        adLoader.onCreate(this)
         setContentView(R.layout.layout_fragemnt_container)
         if (viewModel.keepSystemSplashVisible) {
+            adLoader.onCreate(this)
             splashScreen.setKeepOnScreenCondition {
                 !viewModel.isReady
             }
@@ -92,6 +92,7 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
                     (splashProvider.view as ViewGroup).addView(progress)
                 lifecycleScope.launch {
                     waitOnLoaded(splashProvider)
+                    adLoader.onCreate(this@AppActivity)
                 }
             }
         }

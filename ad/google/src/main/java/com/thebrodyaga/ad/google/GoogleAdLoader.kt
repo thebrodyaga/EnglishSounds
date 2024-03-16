@@ -3,9 +3,8 @@ package com.thebrodyaga.ad.google
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -16,7 +15,9 @@ import com.google.android.gms.ads.nativead.NativeAdOptions.NATIVE_MEDIA_ASPECT_R
 import com.thebrodyaga.ad.api.AppAd
 import com.thebrodyaga.ad.api.AppAdLoader
 import com.thebrodyaga.ad.api.google
+import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.englishsounds.ad.google.R
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -29,6 +30,7 @@ import javax.inject.Inject
 class GoogleAdLoader @Inject constructor(
     private val app: Application,
     private val googleMobileAdsConsentManager: GoogleMobileAdsConsentManager,
+    private val settingManager: SettingManager,
 ) : AppAdLoader {
 
     private var appActivity = WeakReference<AppCompatActivity>(null)
@@ -54,6 +56,7 @@ class GoogleAdLoader @Inject constructor(
 
     override val soundListFirstAd: StateFlow<AppAd>
         get() = returnOrLoadAd(soundListFirstAdKey)
+
     // not used
     override val soundListSecondAd: StateFlow<AppAd>
         get() = MutableStateFlow(AppAd.Empty)
@@ -72,15 +75,24 @@ class GoogleAdLoader @Inject constructor(
 
     override fun onCreate(activity: AppCompatActivity) {
         this.appActivity = WeakReference<AppCompatActivity>(activity)
-        googleMobileAdsConsentManager.gatherConsent(activity) { consentError ->
-            if (googleMobileAdsConsentManager.canRequestAds) {
-                initializeMobileAdsSdk(activity)
-            }
-        }
 
-        // This sample attempts to load ads using consent obtained in the previous session.
         if (googleMobileAdsConsentManager.canRequestAds) {
             initializeMobileAdsSdk(activity)
+        } else {
+            fun gatherConsent() {
+                googleMobileAdsConsentManager.gatherConsent(activity) { consentError ->
+                    if (googleMobileAdsConsentManager.canRequestAds) {
+                        initializeMobileAdsSdk(activity)
+                    }
+                }
+            }
+            if (settingManager.isFirstAppStart()) {
+                activity.lifecycleScope.launchWhenCreated {
+                    delay(3000)
+                    gatherConsent()
+                }
+            } else gatherConsent()
+
         }
     }
 
