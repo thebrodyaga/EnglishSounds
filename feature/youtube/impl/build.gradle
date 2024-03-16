@@ -10,9 +10,8 @@ dependencies {
     implementation project(":brandbook")
     implementation project(":feature:youtube:api")
     //youtube
-    implementation('com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5') {
-        exclude group: 'androidx.appcompat'
-    }
+    implementation('com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0')
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:custom-ui:12.1.0'
 }
 
 android {

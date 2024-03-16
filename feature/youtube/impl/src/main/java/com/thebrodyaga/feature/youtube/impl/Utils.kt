@@ -7,7 +7,7 @@ import android.os.Handler
 import android.view.OrientationEventListener
 import android.view.View
 import android.view.ViewGroup
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.FullscreenListener
 import kotlin.math.abs
 
 class YoutubeOrientationEventListener constructor(
@@ -69,15 +69,16 @@ class OrientationListener constructor(private val activity: Activity) {
     }
 }
 
-class FullScreenListener constructor(
+class YouTubePlayerFullScreenListener constructor(
     private val youTubePlayerView: ViewGroup,
     private val legacyYouTubePlayerView: ViewGroup
-) : YouTubePlayerFullScreenListener {
+) : FullscreenListener {
 
-    override fun onYouTubePlayerEnterFullScreen() {}
 
-    override fun onYouTubePlayerExitFullScreen() {
+    override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
+    }
 
+    override fun onExitFullscreen() {
         youTubePlayerView.layoutParams = youTubePlayerView.layoutParams.apply {
             height = ViewGroup.LayoutParams.MATCH_PARENT
             width = ViewGroup.LayoutParams.MATCH_PARENT
