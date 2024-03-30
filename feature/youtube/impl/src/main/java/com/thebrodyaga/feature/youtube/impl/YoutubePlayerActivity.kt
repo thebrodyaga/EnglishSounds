@@ -250,8 +250,8 @@ class YoutubePlayerActivity : BaseActivity() {
             binding.youtubePlayer.setCustomPlayerUi(defaultPlayerUiController.rootView)
             youtube_player_seekbar = uiControllerView.findViewById(R.id.youtube_player_seekbar)
             panel = uiControllerView.findViewById(R.id.panel)
-            val youtubeBtn = uiControllerView.findViewById<AppCompatImageView>(R.id.youtube_button)
-            uiControllerView.findViewById<AppCompatImageView>(R.id.play_pause_button).apply {
+            val youtubeBtn = uiControllerView.findViewById<ImageView>(R.id.youtube_button)
+            uiControllerView.findViewById<ImageView>(R.id.play_pause_button).apply {
                 imageTintList = ContextCompat.getColorStateList(context, R.color.youtube_color)
             }
             val linearLayout = youtube_player_seekbar.parent as ViewGroup

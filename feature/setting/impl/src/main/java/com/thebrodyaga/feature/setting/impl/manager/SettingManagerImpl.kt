@@ -102,7 +102,7 @@ class SettingManagerImpl @Inject constructor(
 
     companion object {
         private const val THEME_KEY = "THEME_KEY"
-        private const val VERSION_CODE_KEY = "VERSION_CODE_KEY"
+        private const val VERSION_CODE_KEY = "VERSION_CODE_KEY_V2"
         private const val APP_RATE_KEY = "APP_RATE_KEY"
         private const val FIRST_APP_START_KEY = "FIRST_APP_START_KEY"
     }

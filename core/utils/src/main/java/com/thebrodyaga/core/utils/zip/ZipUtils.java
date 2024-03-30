@@ -14,12 +14,16 @@
 
 package com.thebrodyaga.core.utils.zip;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -50,7 +54,7 @@ public class ZipUtils {
      * @param destDir the directory to unzip the contents to
      * @throws UnzipException if something goes haywire
      */
-    public static void unzip(File zipFile, File destDir)
+    public static void unzip(@NotNull InputStream zipFile, @Nullable File destDir)
             throws UnzipException, IOException {
         unzip(zipFile, destDir, DEFAULT_MAX_ENTRIES, DEFAULT_MAX_SIZE);
     }
@@ -78,7 +82,7 @@ public class ZipUtils {
      *                bigger than this size in bytes
      * @throws UnzipException if something goes haywire
      */
-    public static void unzip(File zipFile, File destDir,
+    public static void unzip(InputStream zipFile, File destDir,
                              int maxEntries, int maxSize)
             throws UnzipException, IOException {
 
@@ -92,8 +96,7 @@ public class ZipUtils {
         }
 
         try {
-            final FileInputStream fis=new FileInputStream(zipFile);
-            final ZipInputStream zis=new ZipInputStream(new BufferedInputStream(fis));
+            final ZipInputStream zis=new ZipInputStream(new BufferedInputStream(zipFile));
             ZipEntry entry;
             int entries=0;
             long total=0;

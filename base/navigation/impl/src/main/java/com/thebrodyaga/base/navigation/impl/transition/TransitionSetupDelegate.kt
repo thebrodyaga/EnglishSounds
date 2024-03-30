@@ -1,6 +1,7 @@
 package com.thebrodyaga.base.navigation.impl.transition
 
 import android.os.Bundle
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.transition.Transition
@@ -21,7 +22,10 @@ class TransitionSetupDelegate @Inject constructor(
         sharedElementBox: SharedElementBox?,
     ) {
 
-        if (sharedElementBox != null)
+
+        val transitionName = sharedElementBox?.sharedElement
+            ?.let {  ViewCompat.getTransitionName(sharedElementBox.sharedElement)}
+        if (transitionName != null)
             setupForwardSharedTransition(
                 containerId,
                 currentFragment,

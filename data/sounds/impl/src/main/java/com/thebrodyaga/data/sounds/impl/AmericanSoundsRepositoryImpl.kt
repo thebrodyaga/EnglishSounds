@@ -32,7 +32,8 @@ class AmericanSoundsRepositoryImpl @Inject constructor(
 ) : SoundsRepository {
 
     private val sourceDir = File(application.filesDir, americanSounds)
-    private val sourceDirExists: Boolean = sourceDir.listFiles()?.isNotEmpty() == true
+    private val isSourceDirExists: Boolean
+        get() = sourceDir.exists() && sourceDir.listFiles()?.isNotEmpty() == true
 
     private val context: Context = application
     private var loadingSounds: AtomicBoolean = AtomicBoolean(false)
@@ -45,7 +46,7 @@ class AmericanSoundsRepositoryImpl @Inject constructor(
         .onSubscription { checkIsNeedToLoadSounds() }
         .map { updatePracticeWords(it) }
 
-    override val isWasExistSoundsInInternalStorage: Boolean = sourceDirExists
+    override val isWasExistSoundsInInternalStorage: Boolean = isSourceDirExists
 
     override fun getAllSounds(): Flow<List<AmericanSoundDto>> = soundsFlow
         .onSubscription { checkIsNeedToLoadSounds() }
@@ -68,6 +69,7 @@ class AmericanSoundsRepositoryImpl @Inject constructor(
     private fun isSoundsLoading() = loadingSounds.get()
 
     private fun loadSounds() {
+        if (isSoundsLoading()) return
         loadingSounds.set(true)
         try {
             val list = soundsFromAssets()
@@ -85,20 +87,14 @@ class AmericanSoundsRepositoryImpl @Inject constructor(
             Collections.synchronizedList(mutableListOf<AmericanSoundDto>())
         val service = Executors.newCachedThreadPool()
         val lastVersionCode = settingManager.getLastVersionCode()
-        if (lastVersionCode < AMERICAN_SOUNDS_ZIP_VERSION && sourceDirExists) {
+        if (lastVersionCode < AMERICAN_SOUNDS_ZIP_VERSION && isSourceDirExists) {
             Timber.i("delete americanSoundsZip in internal because app new version")
             ZipUtils.delete(sourceDir)
         }
 
-        if (!sourceDirExists) {
-            Timber.i("copy americanSoundsZip")
-            val outputStream = File(context.filesDir, americanSoundsZip).outputStream()
-            context.assets.open(americanSoundsZip).use { assets -> assets.copyTo(outputStream) }
-            val zipInInternal = File(context.filesDir, americanSoundsZip)
+        if (!isSourceDirExists) {
             Timber.i("unzip americanSoundsZip")
-            ZipUtils.unzip(zipInInternal, context.filesDir)
-            Timber.i("delete americanSoundsZip in internal ")
-            ZipUtils.delete(zipInInternal)
+            ZipUtils.unzip(context.assets.open(americanSoundsZip), context.filesDir)
             settingManager.setLastVersionCode(AMERICAN_SOUNDS_ZIP_VERSION)
         } else {
             Timber.i("americanSoundsZip exists in internal storage")
