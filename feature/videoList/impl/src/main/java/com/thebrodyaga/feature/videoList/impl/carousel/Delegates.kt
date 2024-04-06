@@ -66,14 +66,14 @@ fun videoCarouselItemDelegate(
             val item = holder.item
             val itemView = holder.view
             val binding = ItemVideoCarouselItemBinding.bind(holder.view)
-            binding.root.setOnMaskChangedListener { maskRect ->
+            /*binding.root.setOnMaskChangedListener { maskRect ->
                 val visiblePercent = ((maskRect.right - maskRect.left) / itemView.width).absoluteValue
                 val alphaPercent = 0.4f + (0.6f * visiblePercent)
                 itemView.alpha = alphaPercent
                 binding.carouselItemText.translationX = maskRect.left
                 binding.carouselItemFirstSound.translationX = maskRect.left
                 binding.carouselItemSecondSound.translationX = maskRect.left
-            }
+            }*/
             binding.carouselItemVideoView.loadYoutubeThumbnail(item.videoId)
 
             val firstSound = item.firstSound
