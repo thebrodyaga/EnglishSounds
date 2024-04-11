@@ -44,7 +44,7 @@ class GoogleAdLoader @Inject constructor(
 
     private val ads = mutableMapOf<String, MutableStateFlow<AppAd>>(
         soundListFirstAdKey to MutableStateFlow(AppAd.Empty),
-//        soundListSecondAdKey to MutableStateFlow(AppAd.Empty),
+        soundListSecondAdKey to MutableStateFlow(AppAd.Empty),
         soundDetailsAdKey to MutableStateFlow(AppAd.Empty),
         trainingAdKey to MutableStateFlow(AppAd.Empty),
         videoListAdKey to MutableStateFlow(AppAd.Empty),
@@ -55,17 +55,17 @@ class GoogleAdLoader @Inject constructor(
 
 
     override val soundListFirstAd: StateFlow<AppAd>
-        get() = returnOrLoadAd(soundListFirstAdKey)
+        get() = MutableStateFlow(AppAd.Empty)
 
-    // not used
+    // todo fix memory leak
     override val soundListSecondAd: StateFlow<AppAd>
         get() = MutableStateFlow(AppAd.Empty)
     override val soundDetailsAd: StateFlow<AppAd>
-        get() = returnOrLoadAd(soundDetailsAdKey)
+        get() = MutableStateFlow(AppAd.Empty)
     override val trainingAd: StateFlow<AppAd>
         get() = MutableStateFlow(AppAd.Empty)
     override val videoListAd: StateFlow<AppAd>
-        get() = returnOrLoadAd(videoListAdKey)
+        get() = MutableStateFlow(AppAd.Empty)
 
     override fun refreshAds(activity: Activity) {
         if (googleMobileAdsConsentManager.canRequestAds) {

@@ -82,7 +82,7 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        binding.soundDetailsList.setRecycledViewPool(soundsDetailsViewPool)
+//        binding.soundDetailsList.setRecycledViewPool(soundsDetailsViewPool)
         binding.soundDetailsList.layoutManager = LinearLayoutManager(context)
         binding.soundDetailsList.swapAdapter(adapter, true)
         binding.soundDetailsToolbar.setNavigationOnClickListener { onBackPressed() }
