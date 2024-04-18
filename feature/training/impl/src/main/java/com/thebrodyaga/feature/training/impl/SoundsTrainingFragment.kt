@@ -10,9 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.thebrodyaga.ad.api.AppAd
-import com.thebrodyaga.ad.api.AppAdLoader
-import com.thebrodyaga.ad.api.GoogleAdUiModel
+import com.thebrodyaga.ad.api.AppAdManager
 import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
 import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
 import com.thebrodyaga.core.uiUtils.insets.consume
@@ -42,9 +40,6 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
     lateinit var audioPlayer: AudioPlayer
 
     @Inject
-    lateinit var adLoader: AppAdLoader
-
-    @Inject
     lateinit var soundDetailsScreenFactory: SoundDetailsScreenFactory
     private val binding by viewBinding(FragmentSoundsTrainingBinding::bind)
 
@@ -64,27 +59,11 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.trainingAdGoogle.isVisible = false
+        binding.trainingAdLoading.isVisible = false
         viewModel.getState()
             .filterIsInstance<SoundsTrainingState.Content>()
             .onEach { setData(it.sounds) }
-            .flowWithLifecycle(lifecycle)
-            .launchIn(lifecycleScope)
-        adLoader.trainingAd
-            .onEach {
-                when (it) {
-                    AppAd.Empty, AppAd.Loading -> {
-                        binding.trainingAdGoogle.isVisible = false
-                        binding.trainingAdLoading.isVisible = false
-                    }
-
-                    is AppAd.Google -> {
-                        binding.trainingAdGoogle.isVisible = true
-                        binding.trainingAdLoading.isVisible = false
-                        binding.trainingAdGoogle.populate(GoogleAdUiModel(it.ad, false))
-                    }
-
-                }
-            }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
     }

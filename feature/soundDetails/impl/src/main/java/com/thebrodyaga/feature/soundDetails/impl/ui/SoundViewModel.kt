@@ -2,16 +2,12 @@ package com.thebrodyaga.feature.soundDetails.impl.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thebrodyaga.ad.api.AppAd
-import com.thebrodyaga.ad.api.AppAdLoader
 import com.thebrodyaga.base.navigation.api.RouterProvider
 import com.thebrodyaga.brandbook.component.data.DataUiModel
-import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.data.sounds.api.SoundsRepository
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayer
 import com.thebrodyaga.feature.audioPlayer.api.AudioPlayerState
-import com.thebrodyaga.feature.soundDetails.impl.ui.mapper.SoundDetailsMapper
 import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
 import com.thebrodyaga.feature.youtube.api.YoutubeScreenFactory
 import kotlinx.coroutines.Dispatchers
@@ -28,12 +24,10 @@ import javax.inject.Inject
 
 class SoundViewModel @Inject constructor(
     private val repository: SoundsRepository,
-    private val mapper: SoundDetailsMapper,
     private val transcription: String,
     private val audioPlayer: AudioPlayer,
     private val youtubeScreenFactory: YoutubeScreenFactory,
     private val routerProvider: RouterProvider,
-    private val adLoader: AppAdLoader,
 ) : ViewModel() {
 
     private val state = MutableStateFlow<SoundState>(SoundState.Empty)
@@ -43,9 +37,8 @@ class SoundViewModel @Inject constructor(
         combine(
             repository.getSounds(transcription),
             audioPlayer.state(),
-            adLoader.soundDetailsAd
-        ) { sounds, player, ad ->
-            Triple(sounds, player, ad)
+        ) { sounds, player ->
+            Pair(sounds, player)
         }
             .flowOn(Dispatchers.IO)
             .onEach { mapForUi(it) }
@@ -53,8 +46,8 @@ class SoundViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    private fun mapForUi(pair: Triple<AmericanSoundDto, AudioPlayerState, AppAd>) {
-        state.value = SoundState.Content(mapper.mapFullList(pair.first, pair.second, pair.third), pair.first)
+    private fun mapForUi(pair: Pair<AmericanSoundDto, AudioPlayerState>) {
+        state.value = SoundState.Content(pair)
     }
 
     fun onAudioItemClick(item: DataUiModel) {
@@ -74,7 +67,6 @@ sealed interface SoundState {
     object Empty : SoundState
 
     data class Content(
-        val list: List<UiModel>,
-        val soundDto: AmericanSoundDto,
+        val pair: Pair<AmericanSoundDto, AudioPlayerState>,
     ) : SoundState
 }

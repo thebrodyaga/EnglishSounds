@@ -3,10 +3,13 @@ package com.thebrodyaga.feature.soundDetails.impl.ui
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.thebrodyaga.ad.api.AdType
+import com.thebrodyaga.ad.api.SingleAdLoader
 import com.thebrodyaga.ad.api.adSmallLoadingDelegate
 import com.thebrodyaga.ad.google.googleAdDelegate
 import com.thebrodyaga.brandbook.component.data.dataViewOnlyLeftDelegate
@@ -28,7 +31,11 @@ import com.thebrodyaga.feature.soundDetails.impl.di.SoundDetailsComponent
 import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.soundDetailsDescriptionDelegate
 import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.soundDetailsImageDelegate
 import com.thebrodyaga.feature.soundDetails.impl.ui.adapter.soundDetailsVideoDelegate
+import com.thebrodyaga.feature.soundDetails.impl.ui.mapper.SoundDetailsMapper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -39,7 +46,13 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
     lateinit var settingManager: SettingManager
 
     @Inject
-    lateinit var soundsDetailsViewPool: SoundsDetailsViewPool
+    lateinit var adLoader: SingleAdLoader
+
+    @Inject
+    lateinit var mapper: SoundDetailsMapper
+
+    //    @Inject
+//    lateinit var soundsDetailsViewPool: SoundsDetailsViewPool
     private val binding by viewBinding(FragmentDetailsSoundBinding::bind)
 
     @Inject
@@ -86,9 +99,15 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
         binding.soundDetailsList.layoutManager = LinearLayoutManager(context)
         binding.soundDetailsList.swapAdapter(adapter, true)
         binding.soundDetailsToolbar.setNavigationOnClickListener { onBackPressed() }
+        val adFlow = adLoader.getAd(lifecycle = lifecycle, adType = AdType.SOUND_DETAILS, context = view.context)
         viewModel.getState()
             .filterIsInstance<SoundState.Content>()
-            .onEach { setData(it.list, it.soundDto) }
+            .combine(adFlow) { state, ad ->
+                val (sound, playerState) = state.pair
+                mapper.mapFullList(sound, playerState, ad) to sound
+            }
+            .flowOn(Dispatchers.IO)
+            .onEach { (list, soundDto) -> setData(list, soundDto) }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
     }

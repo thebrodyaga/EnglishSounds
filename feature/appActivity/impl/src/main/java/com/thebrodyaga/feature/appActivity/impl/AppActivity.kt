@@ -19,7 +19,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.thebrodyaga.ad.api.AppAdLoader
+import com.thebrodyaga.ad.api.AppAdManager
 import com.thebrodyaga.base.navigation.impl.navigator.AppNavigator
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
@@ -56,7 +56,7 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
     lateinit var mainScreenFactory: MainScreenFactory
 
     @Inject
-    lateinit var adLoader: AppAdLoader
+    lateinit var adLoader: AppAdManager
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -102,11 +102,6 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
             .onEach { showRateDialog(it) }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        adLoader.onDestroy(this)
     }
 
     private suspend fun waitOnLoaded(splashProvider: SplashScreenViewProvider) {

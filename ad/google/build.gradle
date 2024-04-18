@@ -8,6 +8,7 @@ dependencies {
     implementation project(":brandbook")
     implementation project(":core:uiUtils")
     implementation project(':data:setting:api')
+    implementation timber
 }
 
 android {

@@ -5,20 +5,28 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.thebrodyaga.ad.api.AdType
+import com.thebrodyaga.ad.api.SingleAdLoader
 import com.thebrodyaga.ad.api.adSmallLoadingDelegate
 import com.thebrodyaga.ad.google.googleAdDelegate
 import com.thebrodyaga.brandbook.component.data.dataViewCommonDelegate
 import com.thebrodyaga.brandbook.recycler.CommonAdapter
-import com.thebrodyaga.core.uiUtils.insets.*
+import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
+import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
+import com.thebrodyaga.core.uiUtils.insets.consume
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.systemAndIme
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.feature.videoList.impl.R
 import com.thebrodyaga.feature.videoList.impl.databinding.FragmentVideoCarouselBinding
 import com.thebrodyaga.feature.videoList.impl.di.VideoListComponent
 import com.thebrodyaga.legacy.VideoListItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -59,6 +67,12 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
     lateinit var videoCarouselViewPool: VideoCarouselViewPool
 
     @Inject
+    lateinit var adLoader: SingleAdLoader
+
+    @Inject
+    lateinit var mapper: VideoCarouselMapper
+
+    @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: VideoCarouselViewModel by viewModels { viewModelFactory }
 
@@ -75,9 +89,14 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
         binding.videoCarouselList.swapAdapter(adapter, true)
         val recycledViewPool = binding.videoCarouselList.recycledViewPool
         recycledViewPool.setMaxRecycledViews(VIDEO_CAROUSEL_VIEW_TYPE, 6)
+        val adFlow = adLoader.getAd(lifecycle, adType = AdType.VIDEO_LIST, context = view.context)
         viewModel.getState()
             .filterIsInstance<ListOfVideoListsState.Content>()
-            .onEach { adapter.items = (it.list) }
+            .combine(adFlow) { state, ad ->
+                mapper.mapUi(state.list, ad)
+            }
+            .flowOn(Dispatchers.IO)
+            .onEach { adapter.items = (it) }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
     }

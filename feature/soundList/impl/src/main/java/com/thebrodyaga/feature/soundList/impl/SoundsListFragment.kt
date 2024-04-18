@@ -9,6 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.thebrodyaga.ad.api.AdType
+import com.thebrodyaga.ad.api.AppAd
+import com.thebrodyaga.ad.api.SingleAdLoader
 import com.thebrodyaga.ad.api.adSmallLoadingDelegate
 import com.thebrodyaga.ad.google.googleAdDelegate
 import com.thebrodyaga.base.navigation.impl.transition.sharedElementBox
@@ -31,9 +34,13 @@ import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
 import com.thebrodyaga.feature.soundList.impl.databinding.FragmentSoundsListBinding
 import com.thebrodyaga.feature.soundList.impl.di.SoundListComponent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 import javax.inject.Inject
 
 class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
@@ -45,6 +52,12 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
 
     @Inject
     lateinit var viewPool: SoundsListViewPool
+
+    @Inject
+    lateinit var adLoader: SingleAdLoader
+
+    @Inject
+    lateinit var mapper: SoundListMapper
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -85,10 +98,14 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
         binding.list.layoutManager = GridLayoutManager(context, maxColumns)
             .also { it.spanSizeLookup = spanSizeLookup }
         binding.list.swapAdapter(adapter, true)
-
+        val adFlow = adLoader.getAd(lifecycle, adType = AdType.SOUND_LIST, context = requireContext())
         viewModel.getState()
             .filterIsInstance<SoundsListState.Content>()
-            .onEach { adapter.items = it.sounds }
+            .combine(adFlow) { state, ad ->
+                mapper.map(state.sounds, ad, AppAd.Empty)
+            }
+            .flowOn(Dispatchers.IO)
+            .onEach { adapter.items = it }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
     }

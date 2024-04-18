@@ -6,7 +6,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.thebrodyaga.ad.api.AppAdLoader
+import com.thebrodyaga.ad.api.AppAdManager
 import com.thebrodyaga.ad.google.GoogleMobileAdsConsentManager
 import com.thebrodyaga.brandbook.component.data.DataUiModel
 import com.thebrodyaga.brandbook.component.data.left.DataLeftUiModel
@@ -40,7 +40,7 @@ class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
     lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
 
     @Inject
-    lateinit var appAdLoader: AppAdLoader
+    lateinit var appAdManager: AppAdManager
 
     private val viewModel: SettingsViewModel by viewModels { viewModelFactory }
 
@@ -58,7 +58,7 @@ class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
             val activity = activity
             if (activity != null) {
                 googleMobileAdsConsentManager.showPrivacyOptionsForm(activity) {
-                    appAdLoader.refreshAds(activity)
+                    appAdManager.refreshAds()
                 }
             }
         }

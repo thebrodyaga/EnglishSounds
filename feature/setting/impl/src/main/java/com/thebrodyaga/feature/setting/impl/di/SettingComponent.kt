@@ -1,6 +1,6 @@
 package com.thebrodyaga.feature.setting.impl.di
 
-import com.thebrodyaga.ad.api.AppAdLoader
+import com.thebrodyaga.ad.api.AppAdManager
 import com.thebrodyaga.ad.google.GoogleMobileAdsConsentManager
 import com.thebrodyaga.englishsounds.base.di.AppDependencies
 import com.thebrodyaga.englishsounds.base.di.FeatureScope
@@ -35,5 +35,5 @@ interface SettingComponent {
 interface SettingDependencies : AppDependencies {
     fun settingManager(): SettingManager
     fun googleMobileAdsConsentManager(): GoogleMobileAdsConsentManager
-    fun appAdLoader(): AppAdLoader
+    fun appAdManager(): AppAdManager
 }

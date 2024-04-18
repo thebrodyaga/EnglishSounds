@@ -7,8 +7,8 @@ import com.thebrodyaga.brandbook.model.UiModel
 fun AppAd.google(): AppAd.Google? = (this as? AppAd.Google)
 
 sealed interface AppAd {
-    object Empty : AppAd
-    object Loading : AppAd
+    data object Empty : AppAd
+    data object Loading : AppAd
     data class Google(
         val loadedTime: Long,
         val ad: NativeAd,
@@ -22,3 +22,10 @@ data class GoogleAdUiModel(
 
 object AdLoadingBigUiModel : UiModel
 object AdLoadingSmallUiModel : UiModel
+
+enum class AdType {
+    SOUND_LIST,
+    SOUND_DETAILS,
+    TRAINING,
+    VIDEO_LIST,
+}

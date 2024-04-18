@@ -4,10 +4,8 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.thebrodyaga.ad.api.AppAdLoader
 import com.thebrodyaga.base.navigation.api.RouterProvider
 import com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniUiModel
-import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.englishsounds.analytics.AnalyticsEngine
@@ -25,10 +23,8 @@ import com.thebrodyaga.legacy.VideoListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -40,19 +36,13 @@ class VideoCarouselViewModel @Inject constructor(
     private val soundScreenFactory: SoundDetailsScreenFactory,
     private val videoScreenFactory: VideoScreenFactory,
     private val youtubeScreenFactory: YoutubeScreenFactory,
-    private val mapper: VideoCarouselMapper,
-    private val adLoader: AppAdLoader,
 ) : ViewModel() {
 
     private val state = MutableStateFlow<ListOfVideoListsState>(ListOfVideoListsState.Empty)
     fun getState() = state.asStateFlow()
 
     init {
-        videoInteractor.getAllList().combine(adLoader.videoListAd) { list, ad -> list to ad }
-            .map {
-                val (list, ad) = it
-                mapper.mapUi(list, ad)
-            }
+        videoInteractor.getAllList()
             .flowOn(Dispatchers.IO)
             .onEach { state.value = ListOfVideoListsState.Content(it) }
             .onCompletion { it?.let { Timber.e(it) } }
@@ -101,6 +91,6 @@ sealed interface ListOfVideoListsState {
     object Empty : ListOfVideoListsState
 
     data class Content(
-        val list: List<UiModel>,
+        val list: List<VideoListItem>,
     ) : ListOfVideoListsState
 }
