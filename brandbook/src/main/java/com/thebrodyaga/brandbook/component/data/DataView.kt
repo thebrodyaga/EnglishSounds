@@ -2,6 +2,7 @@ package com.thebrodyaga.brandbook.component.data
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View.OnClickListener
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
@@ -10,13 +11,14 @@ import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.component.data.left.DataLeftView
 import com.thebrodyaga.brandbook.component.data.right.DataRightView
 import com.thebrodyaga.brandbook.databinding.ViewDataBinding
+import com.thebrodyaga.brandbook.recycler.RecyclableView
 import com.thebrodyaga.core.uiUtils.drawable.bindBackground
 import com.thebrodyaga.core.uiUtils.resources.px
 import com.thebrodyaga.core.uiUtils.ripple.rippleForeground
 
 class DataView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
-) : ConstraintLayout(context, attrs) {
+) : ConstraintLayout(context, attrs), RecyclableView {
 
     private val binding by viewBinding(ViewDataBinding::bind)
 
@@ -45,10 +47,9 @@ class DataView @JvmOverloads constructor(
     }
 
 
-    fun setOnClickAction(onItemClickAction: (view: DataView, item: DataUiModel) -> Unit) {
-        setOnClickListener {
-            onItemClickAction.invoke(this, item)
-        }
+    fun setOnClickAction(onItemClickAction: ((view: DataView, item: DataUiModel) -> Unit)?) {
+        val onClick = onItemClickAction?.let { OnClickListener { onItemClickAction(this, item) } }
+        setOnClickListener(onClick)
     }
 
     fun bind(model: DataUiModel) = with(binding) {
@@ -60,5 +61,13 @@ class DataView @JvmOverloads constructor(
         model.leftSide?.let(leftSideView::bind)
         rightSideView.isVisible = model.rightSide != null
         model.rightSide?.let(rightSideView::bind)
+    }
+
+    override fun clearListeners() {
+        setOnClickAction(null)
+        leftSideView.setOnClickListener(null)
+        rightSideView.setOnClickListener(null)
+        rightSideView.setOnPlayIconClickAction(null)
+        rightSideView.setOnTextButtonClickAction(null)
     }
 }

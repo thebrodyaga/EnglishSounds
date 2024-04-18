@@ -13,22 +13,28 @@ import com.thebrodyaga.feature.videoList.impl.R
 import com.thebrodyaga.feature.videoList.impl.databinding.ItemVideoCarouselBinding
 import com.thebrodyaga.feature.videoList.impl.databinding.ItemVideoCarouselItemBinding
 import com.thebrodyaga.feature.videoList.impl.databinding.ItemYoutubeVideoBinding
-import kotlin.math.absoluteValue
+import java.lang.ref.WeakReference
 
 internal val VIDEO_CAROUSEL_LAYOUT_ID = R.layout.item_video_carousel
 internal val VIDEO_CAROUSEL_VIEW_TYPE = VIDEO_CAROUSEL_LAYOUT_ID
 
+fun interface CarouselItemBindListener {
+    fun onBind(binding: ItemVideoCarouselItemBinding, item: VideoCarouselItemUiModel)
+}
+
 fun videoCarouselDelegate(
     pool: VideoCarouselViewPool,
-    carouselItemBindListener: ((binding: ItemVideoCarouselItemBinding, item: VideoCarouselItemUiModel) -> Unit)? = null,
+    carouselItemBindListener: (CarouselItemBindListener)? = null,
 ): DslRowAdapterDelegate<VideoCarouselUiModel, View> =
     rowDelegate(VIDEO_CAROUSEL_LAYOUT_ID, VIDEO_CAROUSEL_VIEW_TYPE) {
+
+        val carouselRow = videoCarouselItemDelegate(carouselItemBindListener)
 
         onInflate {
             val binding = ItemVideoCarouselBinding.bind(it)
             val layoutManager = LinearLayoutManager(it.context, LinearLayoutManager.HORIZONTAL, false)
             val adapter = CommonAdapter {
-                row(videoCarouselItemDelegate(carouselItemBindListener))
+                row(carouselRow)
             }
             binding.itemVideoCarouselRecycler.layoutManager = layoutManager
             binding.itemVideoCarouselRecycler.setRecycledViewPool(pool)
@@ -58,9 +64,11 @@ internal val VIDEO_CAROUSEL_ITEM_LAYOUT_ID = R.layout.item_video_carousel_item
 internal val VIDEO_CAROUSEL_ITEM_VIEW_TYPE = VIDEO_CAROUSEL_ITEM_LAYOUT_ID
 
 fun videoCarouselItemDelegate(
-    bindListener: ((binding: ItemVideoCarouselItemBinding, item: VideoCarouselItemUiModel) -> Unit)? = null,
+    bindListener: (CarouselItemBindListener)? = null,
 ): DslRowAdapterDelegate<VideoCarouselItemUiModel, View> =
     rowDelegate(VIDEO_CAROUSEL_ITEM_LAYOUT_ID, VIDEO_CAROUSEL_ITEM_VIEW_TYPE) {
+
+        val weakBindListener = WeakReference(bindListener)
 
         onBind { holder, _ ->
             val item = holder.item
@@ -86,7 +94,7 @@ fun videoCarouselItemDelegate(
 
             binding.carouselItemText.text = item.title
 
-            bindListener?.invoke(binding, item)
+            weakBindListener.get()?.onBind(binding, item)
         }
     }
 

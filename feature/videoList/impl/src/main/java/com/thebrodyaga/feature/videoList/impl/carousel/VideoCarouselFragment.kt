@@ -37,7 +37,7 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
         CommonAdapter(
             delegates = listOf(
                 dataViewCommonDelegate(
-                    inflateListener = { view ->
+                    bindListener = { view, _ ->
                         view.rightSideView.setOnTextButtonClickAction { _, _ ->
                             val videoListItem = view.item.payload as? VideoListItem
                                 ?: return@setOnTextButtonClickAction

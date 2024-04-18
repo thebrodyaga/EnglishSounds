@@ -25,7 +25,7 @@ class TestBottomSheetDialog : BaseBottomSheetDialog(R.layout.dialog_test_bottom_
     private val adapter = CommonAdapter(
         delegates = listOf(
             dataViewCommonDelegate(
-                inflateListener = {view -> view.setOnClickAction { _, _ ->  } }
+                bindListener = { view, _ -> view.setOnClickAction { _, _ -> } }
             )
         )
     )

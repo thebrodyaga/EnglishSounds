@@ -3,6 +3,7 @@ package com.thebrodyaga.brandbook.component.data.right
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.View.OnClickListener
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.thebrodyaga.brandbook.R
 import com.thebrodyaga.brandbook.databinding.ViewDataRightPlayIconBinding
@@ -41,20 +42,20 @@ class DataRightView @JvmOverloads constructor(
         viewPool.inflateType(type)
     }
 
-    fun setOnPlayIconClickAction(onItemClickAction: (view: View, item: DataRightUiModel.PlayIcon) -> Unit) {
+    fun setOnPlayIconClickAction(onItemClickAction: ((view: View, item: DataRightUiModel.PlayIcon) -> Unit)?) {
         val binding = viewPool.findPoolOfViews(DataRightUiModel.PlayIcon::class).first
                 as ViewDataRightPlayIconBinding
-        binding.dataRightPlayButton.setOnClickListener {
-            onItemClickAction(binding.root, currentModel as DataRightUiModel.PlayIcon)
-        }
+        val onClick = onItemClickAction
+            ?.let { OnClickListener { onItemClickAction(binding.root, currentModel as DataRightUiModel.PlayIcon) } }
+        binding.dataRightPlayButton.setOnClickListener(onClick)
     }
 
-    fun setOnTextButtonClickAction(onItemClickAction: (view: View, item: DataRightUiModel.Button.Text) -> Unit) {
+    fun setOnTextButtonClickAction(onItemClickAction: ((view: View, item: DataRightUiModel.Button.Text) -> Unit)?) {
         val binding = viewPool.findPoolOfViews(DataRightUiModel.Button.Text::class).first
                 as ViewDataRightTextButtonBinding
-        binding.dataRightTextButton.setOnClickListener {
-            onItemClickAction(binding.root, currentModel as DataRightUiModel.Button.Text)
-        }
+        val onClick = onItemClickAction
+            ?.let { OnClickListener { onItemClickAction(binding.root, currentModel as DataRightUiModel.Button.Text) } }
+        binding.dataRightTextButton.setOnClickListener(onClick)
     }
 
     fun bind(model: DataRightUiModel) {

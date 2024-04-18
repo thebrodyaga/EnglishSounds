@@ -3,7 +3,6 @@ package com.thebrodyaga.feature.soundDetails.impl.ui
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,8 +50,8 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
     @Inject
     lateinit var mapper: SoundDetailsMapper
 
-    //    @Inject
-//    lateinit var soundsDetailsViewPool: SoundsDetailsViewPool
+    @Inject
+    lateinit var soundsDetailsViewPool: SoundsDetailsViewPool
     private val binding by viewBinding(FragmentDetailsSoundBinding::bind)
 
     @Inject
@@ -63,7 +62,7 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
         delegates = listOf(
             // header
             dataViewOnlyLeftDelegate(),
-            dataViewRightPlayIconDelegate(inflateListener = { dataView ->
+            dataViewRightPlayIconDelegate(bindListener = { dataView, _ ->
                 dataView.rightSideView.setOnPlayIconClickAction { _, _ ->
                     dataView.callOnClick()
                 }
@@ -95,7 +94,7 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-//        binding.soundDetailsList.setRecycledViewPool(soundsDetailsViewPool)
+        binding.soundDetailsList.setRecycledViewPool(soundsDetailsViewPool)
         binding.soundDetailsList.layoutManager = LinearLayoutManager(context)
         binding.soundDetailsList.swapAdapter(adapter, true)
         binding.soundDetailsToolbar.setNavigationOnClickListener { onBackPressed() }

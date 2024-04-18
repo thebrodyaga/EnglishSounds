@@ -3,6 +3,7 @@ package com.thebrodyaga.brandbook.recycler
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.thebrodyaga.brandbook.model.PopulateView
@@ -10,7 +11,7 @@ import com.thebrodyaga.brandbook.model.UiModel
 import com.thebrodyaga.brandbook.recycler.dsl.DslRowAdapterDelegate
 import com.thebrodyaga.brandbook.recycler.dsl.RowDelegateBlock
 import com.thebrodyaga.brandbook.recycler.dsl.rowDelegate
-import java.util.*
+import java.util.Objects
 
 class CommonAdapter(
     delegates: List<AdapterDelegate<List<UiModel>>> = listOf(),
@@ -28,6 +29,12 @@ class CommonAdapter(
         builder.rowDelegates.forEach {
             delegatesManager.addDelegate(it.viewType, it)
         }
+    }
+
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(holder)
+        holder.itemView.setOnClickListener(null)
+        (holder.itemView as? RecyclableView)?.clearListeners()
     }
 }
 

@@ -20,7 +20,6 @@ import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.thebrodyaga.ad.api.AppAdManager
-import com.thebrodyaga.base.navigation.impl.navigator.AppNavigator
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
@@ -39,7 +38,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 
-open class AppActivity : BaseActivity(), HasActivityDependencies {
+abstract class AppActivity : BaseActivity(), HasActivityDependencies {
 
     protected lateinit var component: ActivityDependencies
 
@@ -66,8 +65,7 @@ open class AppActivity : BaseActivity(), HasActivityDependencies {
     lateinit var navigatorHolder: NavigatorHolder
     private lateinit var reviewManager: ReviewManager
     private var reviewInfo: Task<ReviewInfo>? = null
-    private val navigator: Navigator =
-        AppNavigator(this, R.id.appFragmentContainer, supportFragmentManager)
+    abstract val navigator: Navigator
 
     private val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.appFragmentContainer)
