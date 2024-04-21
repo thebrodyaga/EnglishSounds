@@ -21,8 +21,12 @@ import com.thebrodyaga.legacy.ContrastingSoundVideoListItem
 import com.thebrodyaga.legacy.MostCommonWordsVideoListItem
 import com.thebrodyaga.legacy.SoundVideoListItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -39,10 +43,10 @@ class VideoListViewModel @Inject constructor(
     fun getState() = state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            val flow = videoInteractor.getAllList()
-                .flatMapLatest { it.asFlow() }
-                .filter {
+        videoInteractor.getAllList()
+            .flowOn(Dispatchers.IO)
+            .onEach { allVideo ->
+                allVideo.filter {
                     when (listType) {
                         VideoListType.ContrastingSounds -> it is ContrastingSoundVideoListItem
                         VideoListType.MostCommonWords -> it is MostCommonWordsVideoListItem
@@ -52,19 +56,13 @@ class VideoListViewModel @Inject constructor(
                         VideoListType.ConsonantSounds -> it is SoundVideoListItem && it.soundType == SoundType.CONSONANT_SOUND
                         null -> false
                     }
+                }.onEach { videoList ->
+                    val uiList = videoList.list.map { video -> mapper.mapVideoItemUiModel(video) }
+                    state.value = VideoListState.Content(uiList)
                 }
-                .flatMapLatest { it.list.asFlow() }
-                .flowOn(Dispatchers.IO)
-                .onCompletion { it?.let { Timber.e(it) } }
-
-            try {
-                state.value = VideoListState.Content(flow.toList()
-                    .map { mapper.mapVideoItemUiModel(it) })
-            } catch (e: Throwable) {
-                Timber.e(e)
             }
-
-        }
+            .catch { Timber.e(it) }
+            .launchIn(viewModelScope)
     }
 
     fun onSoundClick(model: SoundCardMiniUiModel) {

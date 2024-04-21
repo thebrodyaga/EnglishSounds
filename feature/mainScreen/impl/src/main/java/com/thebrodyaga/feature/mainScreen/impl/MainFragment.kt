@@ -2,16 +2,27 @@ package com.thebrodyaga.feature.mainScreen.impl
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.core.view.marginBottom
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.snackbar.Snackbar
 import com.thebrodyaga.base.navigation.api.container.TabsContainer
-import com.thebrodyaga.core.uiUtils.insets.*
+import com.thebrodyaga.core.uiUtils.insets.appleInsetPadding
+import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
+import com.thebrodyaga.core.uiUtils.insets.ime
+import com.thebrodyaga.core.uiUtils.insets.imeInsetType
+import com.thebrodyaga.core.uiUtils.insets.navigationBars
+import com.thebrodyaga.core.uiUtils.insets.navigationInsetType
 import com.thebrodyaga.core.uiUtils.outline.shapeOutline
 import com.thebrodyaga.core.uiUtils.resources.px
+import com.thebrodyaga.core.uiUtils.saveWithStarted
 import com.thebrodyaga.core.uiUtils.shape.shapeTopRounded
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
@@ -45,6 +56,12 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
         permissionLauncher = registerForPermissionFlowRequestsResult()
         MainScreenComponent.factory(this).inject(this)
         super.onCreate(savedInstanceState)
+        InAppUpdateDelegate(
+            context = requireContext(),
+            fragment = this,
+            onDownloadingProgress = { progress -> lifecycle.saveWithStarted { onDownloadProgressChange(progress) } },
+            onDownloaded = { completeUpdate -> lifecycle.saveWithStarted { onUpdateDownloaded(completeUpdate) } }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,15 +95,6 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainBottomNavigation, null)
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainBottomAppBar, null)
         rootView.doOnApplyWindowInsets { _, insets, _ ->
-            val navigationBars = insets.navigationBars()
-            val ime = insets.ime()
-
-            binding.mainBottomNavigation.appleInsetPadding(
-                oldInsets = navigationBars, bottom = navigationBars.bottom
-            )
-
-            val newInsets = WindowInsetsCompat.Builder(insets)
-
             val fabExtendHeight = binding.mainBottomAppBar.y - binding.mainMicButton.y
             val appBarHeight = fabExtendHeight + binding.mainBottomAppBar.height
 
@@ -94,6 +102,19 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
                 rootView.requestApplyInsets()
                 return@doOnApplyWindowInsets insets
             }
+            val navigationBars = insets.navigationBars()
+            val ime = insets.ime()
+
+            val updateProgress = binding.mainAppUpdateProgress
+            if (updateProgress.marginBottom != navigationBars.bottom) {
+                updateProgress.updateLayoutParams<MarginLayoutParams> { bottomMargin = navigationBars.bottom }
+            }
+
+            binding.mainBottomNavigation.appleInsetPadding(
+                oldInsets = navigationBars, bottom = navigationBars.bottom
+            )
+
+            val newInsets = WindowInsetsCompat.Builder(insets)
 
             val newNavigationInsets =
                 with(navigationBars) { Insets.of(left, top, right, appBarHeight.toInt()) }
@@ -110,6 +131,20 @@ class MainFragment : ScreenFragment(R.layout.fragment_main), TabsContainer {
 
             newInsets.build()
         }
+    }
+
+    private fun onDownloadProgressChange(progress: Int?) {
+        val isVisible = progress != null && progress in 0..100
+        binding.mainAppUpdateProgress.isVisible = isVisible
+        if (progress != null && progress in 0..100)
+            binding.mainAppUpdateProgress.setProgressCompat(progress, true)
+    }
+
+    private fun onUpdateDownloaded(completeUpdate: () -> Unit) {
+        Snackbar.make(binding.root, "An update has been downloaded", Snackbar.LENGTH_INDEFINITE)
+            .setAnchorView(binding.mainBottomAppBar)
+            .setAction("RESTART") { completeUpdate() }
+            .show()
     }
 
     private fun onBottomBarClick(position: Int): Boolean {

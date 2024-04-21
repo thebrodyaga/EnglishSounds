@@ -5,6 +5,7 @@ applyFeatureImplModule(this)
 dependencies {
     applyDagger(this)
     implementation flowPermission
+    implementation inAppGoogleUpdate
     implementation project(":legacy")
     implementation project(":brandbook")
     implementation project(":core:uiUtils")
