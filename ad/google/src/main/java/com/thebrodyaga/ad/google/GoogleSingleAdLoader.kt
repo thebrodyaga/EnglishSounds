@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -19,11 +20,13 @@ import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -51,6 +54,7 @@ class GoogleSingleAdLoader @Inject constructor(
             .flatMapConcat {
                 loadAd(appAdManager.getAdKey(adType), context)
             }
+            .stateIn(lifecycle.coroutineScope, SharingStarted.Eagerly, AppAd.Empty)
             .filter {
                 val newAd = it.google() ?: return@filter true
                 val accumulatorAd = accumulatorAd ?: return@filter true

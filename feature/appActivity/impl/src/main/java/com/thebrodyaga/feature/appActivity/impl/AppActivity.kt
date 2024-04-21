@@ -13,12 +13,8 @@ import androidx.core.splashscreen.SplashScreenViewProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.tasks.Task
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import com.google.android.play.core.review.ReviewInfo
-import com.google.android.play.core.review.ReviewManager
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.thebrodyaga.ad.api.AppAdManager
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
@@ -34,7 +30,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -63,8 +58,7 @@ abstract class AppActivity : BaseActivity(), HasActivityDependencies {
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
-    private lateinit var reviewManager: ReviewManager
-    private var reviewInfo: Task<ReviewInfo>? = null
+    private lateinit var inAppReviewDelegate: InAppReviewDelegate
     abstract val navigator: Navigator
 
     private val currentFragment: Fragment?
@@ -74,7 +68,7 @@ abstract class AppActivity : BaseActivity(), HasActivityDependencies {
         val splashScreen = installSplashScreen()
         DynamicColors.applyToActivityIfAvailable(this)
         super.onCreate(savedInstanceState)
-        reviewManager = ReviewManagerFactory.create(this)
+        inAppReviewDelegate = InAppReviewDelegate(this) { settingManager.onRateRequestShow() }
         setContentView(R.layout.layout_fragemnt_container)
         if (viewModel.keepSystemSplashVisible) {
             adLoader.onCreate(this)
@@ -128,32 +122,8 @@ abstract class AppActivity : BaseActivity(), HasActivityDependencies {
     }
 
     private fun showRateDialog(needShowRate: Boolean) {
-        if (needShowRate && reviewInfo == null) {
-            reviewInfo = reviewManager.requestReviewFlow().apply {
-                addOnCompleteListener { request ->
-                    Timber.i("requestReviewFlow isSuccessful = ${request.isSuccessful}")
-                    val result = request.result
-                    if (request.isSuccessful && result != null)
-                        showReviewDialog(result)
-                    else {
-                        Timber
-                            .e("requestReviewFlow error = ${request.exception?.message ?: "null"}")
-                        reviewInfo = null
-                    }
-                }
-            }
-        }
-    }
-
-    private fun showReviewDialog(reviewInfo: ReviewInfo) {
-        val flow = reviewManager.launchReviewFlow(this@AppActivity, reviewInfo)
-        flow.addOnCompleteListener {
-            Timber.i("launchReviewFlow isSuccessful = ${it.isSuccessful}")
-            if (it.isSuccessful)
-                settingManager.onRateRequestShow()
-            else
-                Timber.e("launchReviewFlow error = ${it.exception?.message ?: "null"}")
-            this.reviewInfo = null
+        if (needShowRate) {
+            inAppReviewDelegate.showRateDialog()
         }
     }
 

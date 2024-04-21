@@ -5,8 +5,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.google.gson.Gson
 import com.thebrodyaga.data.setting.api.CurrentTheme
 import com.thebrodyaga.data.setting.api.SettingManager
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -15,18 +16,16 @@ class SettingManagerImpl @Inject constructor(
     private val gson: Gson,
 ) : SettingManager {
 
-    private val internalIsFirstAppStart: Boolean by lazy {
-        val result = sharedPreferences.getBoolean(FIRST_APP_START_KEY, true)
-        sharedPreferences.edit().putBoolean(FIRST_APP_START_KEY, false).apply()
-        result
-    }
+    private val internalIsFirstAppStart: Boolean
 
     init {
-        internalIsFirstAppStart
+        val isFirstAppStart = sharedPreferences.getBoolean(FIRST_APP_START_KEY, true)
+        sharedPreferences.edit().putBoolean(FIRST_APP_START_KEY, false).apply()
+        internalIsFirstAppStart = isFirstAppStart
     }
 
     private var appRateDto: AppRateDto = AppRateDto(0)
-    private val needShowRate = MutableSharedFlow<Boolean>()
+    private val needShowRate = Channel<Boolean>(capacity = Channel.BUFFERED)
 
     override fun setCurrentTheme(theme: CurrentTheme) {
         sharedPreferences.edit().putString(THEME_KEY, theme.name).apply()
@@ -48,7 +47,7 @@ class SettingManagerImpl @Inject constructor(
 
     private var showedRateDialog = false
 
-    override fun needShowRateRequest(): Flow<Boolean> = needShowRate
+    override fun needShowRateRequest(): Flow<Boolean> = needShowRate.receiveAsFlow()
 
     private fun innerNeedShowRateRequest(): Boolean {
         val rateDto = appRateDto
@@ -71,7 +70,7 @@ class SettingManagerImpl @Inject constructor(
             appRateDto = AppRateDto(rateDto.soundShowingCount.inc())
         }
         logRateLogic("onSoundShowed", rateDto)
-        needShowRate.tryEmit(innerNeedShowRateRequest())
+        needShowRate.trySend(innerNeedShowRateRequest())
     }
 
     override fun updateTheme() {
