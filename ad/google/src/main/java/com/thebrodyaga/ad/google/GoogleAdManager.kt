@@ -30,12 +30,30 @@ class GoogleAdManager @Inject constructor(
         }
     }
 
+    private val soundListKeys =  AdKeysStack(listOf(
+        app.resources.getString(R.string.soundListFirstAdKey),
+        app.resources.getString(R.string.soundListSecondAdKey),
+        app.resources.getString(R.string.soundListThirdAdKey),
+    ))
+
+    private val soundDetailsKeys =  AdKeysStack(listOf(
+        app.resources.getString(R.string.soundDetailsAdKey),
+        app.resources.getString(R.string.soundDetailsSecondAdKey),
+        app.resources.getString(R.string.soundDetailsThirdAdKey),
+    ))
+
+    private val videoListKeys =  AdKeysStack(listOf(
+        app.resources.getString(R.string.videoListAdKey),
+        app.resources.getString(R.string.videoListSecondAdKey),
+        app.resources.getString(R.string.videoListThirdAdKey),
+    ))
+
     override fun getAdKey(adType: AdType): String {
         return when (adType) {
-            AdType.SOUND_LIST -> app.resources.getString(R.string.soundListFirstAdKey)
-            AdType.SOUND_DETAILS -> app.resources.getString(R.string.soundDetailsAdKey)
+            AdType.SOUND_LIST -> soundListKeys.getKey()
+            AdType.SOUND_DETAILS -> soundDetailsKeys.getKey()
             AdType.TRAINING -> app.resources.getString(R.string.trainingAdKey)
-            AdType.VIDEO_LIST -> app.resources.getString(R.string.videoListAdKey)
+            AdType.VIDEO_LIST -> videoListKeys.getKey()
         }
     }
 
@@ -73,5 +91,26 @@ class GoogleAdManager @Inject constructor(
         MobileAds.initialize(context) { initializationStatus ->
             loadAds.tryEmit(Unit)
         }
+    }
+
+    private class AdKeysStack(private val ads: List<String>) {
+
+        private var cursor = 0
+
+        init {
+            if (ads.isEmpty()) throw IllegalArgumentException("ads must be not empty")
+        }
+
+
+        fun getKey(): String {
+            var key = ads.getOrNull(cursor)
+            if (key == null) {
+                cursor = 0
+                key = ads.first()
+            }
+            cursor += 1
+            return key
+        }
+
     }
 }

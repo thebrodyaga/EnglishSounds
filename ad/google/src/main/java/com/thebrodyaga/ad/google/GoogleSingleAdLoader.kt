@@ -16,70 +16,62 @@ import com.thebrodyaga.ad.api.AppAd
 import com.thebrodyaga.ad.api.AppAdManager
 import com.thebrodyaga.ad.api.SingleAdLoader
 import com.thebrodyaga.ad.api.google
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class GoogleSingleAdLoader @Inject constructor(
     private val appAdManager: AppAdManager,
 ) : SingleAdLoader {
 
-    private var accumulatorAd: AppAd.Google? = null
     private val lifecycleObserver = object : DefaultLifecycleObserver {
         override fun onDestroy(owner: LifecycleOwner) {
-            accumulatorAd?.ad?.destroy()
-            accumulatorAd = null
+            adFlow.value.google()?.ad?.destroy()
             owner.lifecycle.removeObserver(this)
         }
     }
 
-    override fun getAd(
-        lifecycle: Lifecycle,
-        adType: AdType,
-        context: Context,
-    ): Flow<AppAd> {
+    private var loadAdJob: Job? = null
+    private val adFlow = MutableStateFlow<AppAd>(AppAd.Empty)
+
+    override fun flowAd() = adFlow.asStateFlow()
+
+    override fun loadAd(lifecycle: Lifecycle, adType: AdType, context: Context) {
         lifecycle.addObserver(lifecycleObserver)
-        return appAdManager.loadAds
-            .flatMapConcat {
+        loadAdJob?.cancel()
+        loadAdJob = appAdManager.loadAds
+            .flatMapLatest {
                 loadAd(appAdManager.getAdKey(adType), context)
             }
-            .stateIn(lifecycle.coroutineScope, SharingStarted.Eagerly, AppAd.Empty)
-            .filter {
-                val newAd = it.google() ?: return@filter true
-                val accumulatorAd = accumulatorAd ?: return@filter true
-                accumulatorAd.loadedTime != newAd.loadedTime
-            }
-            .map { value ->
-                if (value is AppAd.Google) {
-                    accumulatorAd?.ad?.destroy()
-                    accumulatorAd = value
+            .onEach { newAd ->
+                val oldAd = adFlow.value
+                when {
+                    oldAd != newAd && oldAd is AppAd.Google && newAd is AppAd.Google -> {
+                        oldAd.ad.destroy()
+                        adFlow.value = newAd
+                    }
+                    // ignore any error/loading is oldAd exist
+                    oldAd is AppAd.Google -> Unit
+                    else -> adFlow.value = newAd
                 }
-                accumulatorAd ?: value
             }
             .catch { Timber.e(it) }
+            .launchIn(lifecycle.coroutineScope)
     }
 
     private fun loadAd(adId: String, context: Context): Flow<AppAd> = callbackFlow {
-        val now = System.currentTimeMillis()
-        val oldAd = accumulatorAd
-        val isExpired = oldAd != null && TimeUnit.MILLISECONDS
-            .toMinutes(now - oldAd.loadedTime) >= 5
-        if (oldAd != null && !isExpired) {
-            send(oldAd)
-        } else {
-            loadNewAd(context, adId)
-        }
+        loadNewAd(context, adId)
         awaitClose()
     }
 
@@ -91,7 +83,7 @@ class GoogleSingleAdLoader @Inject constructor(
             }
         }
         val adLoader = AdLoader.Builder(context, adId).forNativeAd { nativeAd ->
-            val result = AppAd.Google(loadedTime = System.currentTimeMillis(), ad = nativeAd)
+            val result = AppAd.Google(loadedTime = System.currentTimeMillis(), ad = nativeAd, adId = adId)
             trySend(result)
                 .onFailure { nativeAd.destroy() }
         }.withAdListener(adListener)

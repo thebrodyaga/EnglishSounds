@@ -13,6 +13,7 @@ import com.thebrodyaga.core.uiUtils.calculateNoOfColumns
 import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
 import com.thebrodyaga.core.uiUtils.insets.systemAndIme
+import com.thebrodyaga.core.uiUtils.launchWithLifecycle
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.feature.soundDetails.api.SoundDetailsScreenFactory
@@ -79,8 +80,7 @@ class VideoListPageFragment : ScreenFragment(R.layout.fragment_page_video_list) 
         viewModel.getState()
             .filterIsInstance<VideoListState.Content>()
             .onEach { adapter.items = (it.list) }
-            .flowWithLifecycle(lifecycle)
-            .launchIn(lifecycleScope)
+            .launchWithLifecycle(lifecycle)
     }
 
     override fun applyWindowInsets(rootView: View) {

@@ -16,6 +16,7 @@ import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
 import com.thebrodyaga.core.uiUtils.insets.consume
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
 import com.thebrodyaga.core.uiUtils.insets.systemAndIme
+import com.thebrodyaga.core.uiUtils.launchWithLifecycle
 import com.thebrodyaga.data.sounds.api.model.PracticeWordDto
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
@@ -64,8 +65,7 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
         viewModel.getState()
             .filterIsInstance<SoundsTrainingState.Content>()
             .onEach { setData(it.sounds) }
-            .flowWithLifecycle(lifecycle)
-            .launchIn(lifecycleScope)
+            .launchWithLifecycle(viewLifecycleOwner.lifecycle)
     }
 
     override fun applyWindowInsets(rootView: View) {
@@ -109,8 +109,7 @@ class SoundsTrainingFragment : ScreenFragment(R.layout.fragment_sounds_training)
                                 else binding.playIcon.playToPause()
                         }
                     }
-                    .flowWithLifecycle(lifecycle)
-                    .launchIn(lifecycleScope)
+                    .launchWithLifecycle(viewLifecycleOwner.lifecycle)
             }
         }
 

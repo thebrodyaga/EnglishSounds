@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.thebrodyaga.brandbook.component.mic.MicFloatingButton
+import com.thebrodyaga.core.uiUtils.launchWithLifecycle
 import com.thebrodyaga.feature.audioPlayer.api.RecordState
 import com.thebrodyaga.feature.audioPlayer.api.RecordVoice
 import kotlinx.coroutines.flow.launchIn
@@ -91,7 +92,6 @@ class MicButtonDelegate {
                     }
                 }
             }
-            .flowWithLifecycle(fragment.lifecycle)
-            .launchIn(fragment.lifecycleScope)
+            .launchWithLifecycle(fragment.viewLifecycleOwner.lifecycle)
     }
 }

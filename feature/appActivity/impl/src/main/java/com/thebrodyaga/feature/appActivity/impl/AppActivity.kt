@@ -19,6 +19,7 @@ import com.thebrodyaga.ad.api.AppAdManager
 import com.thebrodyaga.core.navigation.api.cicerone.Navigator
 import com.thebrodyaga.core.navigation.api.cicerone.NavigatorHolder
 import com.thebrodyaga.core.navigation.impl.cicerone.FragmentScreen
+import com.thebrodyaga.core.uiUtils.launchWithLifecycle
 import com.thebrodyaga.core.uiUtils.recycler.pool.PrefetchRecycledViewPool
 import com.thebrodyaga.data.setting.api.SettingManager
 import com.thebrodyaga.englishsounds.base.app.BaseActivity
@@ -92,8 +93,7 @@ abstract class AppActivity : BaseActivity(), HasActivityDependencies {
         viewPools.forEach { it.prefetch() }
         settingManager.needShowRateRequest()
             .onEach { showRateDialog(it) }
-            .flowWithLifecycle(lifecycle)
-            .launchIn(lifecycleScope)
+            .launchWithLifecycle(lifecycle)
     }
 
     private suspend fun waitOnLoaded(splashProvider: SplashScreenViewProvider) {

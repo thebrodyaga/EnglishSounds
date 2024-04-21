@@ -17,6 +17,7 @@ import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
 import com.thebrodyaga.core.uiUtils.insets.consume
 import com.thebrodyaga.core.uiUtils.insets.doOnApplyWindowInsets
 import com.thebrodyaga.core.uiUtils.insets.systemAndIme
+import com.thebrodyaga.core.uiUtils.launchWithLifecycle
 import com.thebrodyaga.englishsounds.base.app.ScreenFragment
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.feature.videoList.impl.R
@@ -89,16 +90,15 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
         binding.videoCarouselList.swapAdapter(adapter, true)
         val recycledViewPool = binding.videoCarouselList.recycledViewPool
         recycledViewPool.setMaxRecycledViews(VIDEO_CAROUSEL_VIEW_TYPE, 6)
-        val adFlow = adLoader.getAd(lifecycle, adType = AdType.VIDEO_LIST, context = view.context)
+        adLoader.loadAd(lifecycle, adType = AdType.VIDEO_LIST, context = view.context)
         viewModel.getState()
             .filterIsInstance<ListOfVideoListsState.Content>()
-            .combine(adFlow) { state, ad ->
+            .combine(adLoader.flowAd()) { state, ad ->
                 mapper.mapUi(state.list, ad)
             }
             .flowOn(Dispatchers.IO)
             .onEach { adapter.items = (it) }
-            .flowWithLifecycle(lifecycle)
-            .launchIn(lifecycleScope)
+            .launchWithLifecycle(viewLifecycleOwner.lifecycle)
     }
 
     override fun applyWindowInsets(rootView: View) {
