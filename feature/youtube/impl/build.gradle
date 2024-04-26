@@ -1,11 +1,10 @@
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
 
 dependencies {
     applyDagger(this)
-    implementation timber
-    implementation exoPlayer
+    implementation libs.timber
+    implementation libs.exo.player
     implementation project(":analytics")
     implementation project(":brandbook")
     implementation project(":feature:youtube:api")

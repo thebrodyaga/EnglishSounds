@@ -1,10 +1,9 @@
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 baseAndroidModule(this)
 
 dependencies {
     firebaseBom(this)
-    api 'com.google.firebase:firebase-analytics-ktx'
+    api libs.firebase.analytics
 }
 
 android {

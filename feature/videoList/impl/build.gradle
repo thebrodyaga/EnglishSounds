@@ -1,9 +1,8 @@
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
 
 dependencies {
-    implementation timber
+    implementation libs.timber
     applyDagger(this)
     implementation project(":data:sounds:api")
     implementation project(":feature:videoList:api")

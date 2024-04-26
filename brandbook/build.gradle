@@ -1,10 +1,9 @@
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 baseAndroidModule(this)
 applyAndroidBinding(this)
 
 dependencies {
-    implementation splashScreen
+    implementation libs.splashScreen
     implementation project(":core:uiUtils")
 }
 

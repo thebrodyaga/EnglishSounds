@@ -1,11 +1,10 @@
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
 
 dependencies {
     applyDagger(this)
-    implementation flowPermission
-    implementation inAppGoogleUpdate
+    implementation libs.flow.permission
+    implementation libs.google.play.app.update
     implementation project(":legacy")
     implementation project(":brandbook")
     implementation project(":core:uiUtils")

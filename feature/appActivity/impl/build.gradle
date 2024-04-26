@@ -1,4 +1,3 @@
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
 
@@ -12,9 +11,9 @@ dependencies {
     implementation project(":feature:soundList:impl")
     implementation project(":feature:setting:api")
     implementation project(":feature:mainScreen:api")
-    implementation googlePlayCore
-    implementation splashScreen
-    implementation timber
+    implementation libs.google.play.review
+    implementation libs.splashScreen
+    implementation libs.timber
     applyDagger(this)
 }
 

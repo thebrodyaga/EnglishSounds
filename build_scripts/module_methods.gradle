@@ -1,5 +1,3 @@
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
-
 ext {
 
     //--------------Feature------------------------------------
@@ -91,9 +89,9 @@ ext {
             }
         }
         module.dependencies {
-            implementation javaxInject
-            implementation coroutines
-            testImplementation unitTest
+            implementation libs.javax.inject
+            implementation libs.bundles.coroutines
+            testImplementation libs.bundles.unit.test
         }
     }
 
@@ -104,13 +102,13 @@ ext {
             applyJetpackCompose(this)
 
             android {
-                compileSdk compile_sdk_version
+                compileSdk libs.versions.compile.sdk.get().toInteger()
 
                 defaultConfig {
-                    minSdk min_sdk_version
-                    targetSdk target_sdk_version
-                    versionCode version_code
-                    versionName version_name
+                    minSdk libs.versions.min.sdk.get().toInteger()
+                    targetSdk libs.versions.target.sdk.get().toInteger()
+                    versionCode libs.versions.version.code.get().toInteger()
+                    versionName libs.versions.version.name.get()
 
                     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
                     consumerProguardFiles "proguard-rules.pro"
@@ -128,12 +126,12 @@ ext {
             }
         }
         module.dependencies {
-            implementation baseAndroidDeps
-            implementation coroutines
-            implementation javaxInject
+            implementation libs.bundles.base.android
+            implementation libs.bundles.coroutines
+            implementation libs.javax.inject
 
-            androidTestImplementation androidTest
-            testImplementation unitTest
+            testImplementation libs.bundles.unit.test
+            androidTestImplementation libs.bundles.android.test
         }
     }
 
@@ -148,8 +146,8 @@ ext {
             }
         }
         module.dependencies {
-            implementation viewBindinDdelegate
-            implementation adapterDelegates
+            implementation libs.viewBindinDdelegate
+            implementation libs.bundles.adapter.delegates
         }
     }
 
@@ -158,7 +156,7 @@ ext {
             apply plugin: 'kotlin-kapt'
         }
         module.dependencies {
-            implementation glide
+            implementation libs.glide
         }
     }
 
@@ -180,20 +178,14 @@ ext {
                 }
 
                 composeOptions {
-                    kotlinCompilerExtensionVersion = compose_compiler_version
+                    kotlinCompilerExtensionVersion = libs.versions.composeCompilerVer.get().toString()
                 }
             }
         }
         module.dependencies {
-            implementation("androidx.activity:activity-compose:$activityKtx")
-            implementation(platform("androidx.compose:compose-bom:2024.02.02"))
-            implementation("androidx.compose.ui:ui")
-            implementation("androidx.compose.ui:ui-graphics")
-            implementation("androidx.compose.ui:ui-tooling-preview")
-            implementation("androidx.compose.material3:material3")
-            implementation("androidx.compose.animation:animation-graphics-android")
-            debugImplementation("androidx.compose.ui:ui-tooling")
-            debugImplementation("androidx.compose.ui:ui-test-manifest")
+            implementation(platform(libs.compose.bom))
+            implementation(libs.bundles.compose.all)
+            debugImplementation(libs.bundles.compose.debug)
         }
     }
 
@@ -202,8 +194,15 @@ ext {
             apply plugin: 'kotlin-kapt'
         }
         module.dependencies {
-            implementation "com.google.dagger:dagger:$dagger_version"
-            kapt "com.google.dagger:dagger-compiler:$dagger_version"
+            implementation libs.dagger
+            kapt libs.dagger.compiler
+        }
+    }
+
+    firebaseBom = { module ->
+        module.dependencies {
+            implementation platform(libs.firebase.bom)
+            implementation libs.bundles.firebase.all
         }
     }
 }

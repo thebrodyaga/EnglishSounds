@@ -1,4 +1,3 @@
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
 
@@ -9,9 +8,9 @@ dependencies {
     implementation project(':feature:videoList:api')
     implementation project(':core:uiUtils')
     implementation project(':brandbook')
-    implementation googleAds
-    implementation timber
-    implementation adapterDelegates
+    implementation libs.bundles.google.ads
+    implementation libs.timber
+    implementation libs.bundles.adapter.delegates
 }
 
 android {

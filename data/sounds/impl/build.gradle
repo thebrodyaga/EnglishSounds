@@ -1,4 +1,3 @@
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyDataImplAndroidModule(this)
 
@@ -8,8 +7,8 @@ dependencies {
     implementation project(":legacy")
     implementation project(":data:setting:api")
     implementation project(":core:utils")
-    implementation timber
-    implementation baseNetworkDependencies
+    implementation libs.timber
+    implementation libs.bundles.network
 }
 
 android {

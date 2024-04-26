@@ -1,4 +1,3 @@
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
 
@@ -11,8 +10,8 @@ dependencies {
     implementation project(":ad:api")
     implementation project(":ad:google")
     implementation project(":legacy")
-    implementation timber
-    implementation baseNetworkDependencies
+    implementation libs.timber
+    implementation libs.bundles.network
 }
 
 android {

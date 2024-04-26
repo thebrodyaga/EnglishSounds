@@ -2,18 +2,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.crashlytics'
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyJetpackCompose(this)
 
 android {
-    compileSdk compile_sdk_version
+    compileSdk libs.versions.compile.sdk.get().toInteger()
     defaultConfig {
         applicationId "com.thebrodyaga.englishsounds"
-        minSdk min_sdk_version
-        targetSdk target_sdk_version
-        versionCode version_code
-        versionName version_name
+        minSdk libs.versions.min.sdk.get().toInteger()
+        targetSdk libs.versions.target.sdk.get().toInteger()
+        versionCode libs.versions.version.code.get().toInteger()
+        versionName libs.versions.version.name.get()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.archivesBaseName = "English Sounds-v" + versionName + "(" + versionCode + ")"
         vectorDrawables.useSupportLibrary = true
@@ -74,21 +73,21 @@ ext {
 
 dependencies {
 
-    implementation baseAndroidDeps
-    testImplementation unitTest
-    androidTestImplementation androidTest
+    implementation libs.bundles.base.android
+    testImplementation libs.bundles.unit.test
+    androidTestImplementation libs.bundles.android.test
 
     firebaseBom(this)
     applyDagger(this)
     applyGlide(this)
     applyPlatformNavigation(this)
 
-    implementation baseNetworkDependencies
-    implementation googlePlayCore
-    implementation adapterDelegates
-    implementation googleAds
-    implementation timber
-    implementation flowPermission
+    implementation libs.bundles.network
+    implementation libs.google.play.review
+    implementation libs.bundles.adapter.delegates
+    implementation libs.bundles.google.ads
+    implementation libs.timber
+    implementation libs.flow.permission
 
 
     implementation project(":analytics")

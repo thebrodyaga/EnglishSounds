@@ -1,10 +1,9 @@
-apply from: "$project.rootDir/build_scripts/deps_versions.gradle"
 apply from: "$project.rootDir/build_scripts/module_methods.gradle"
 applyFeatureImplModule(this)
 
 dependencies {
     applyDagger(this)
-    implementation timber
+    implementation libs.timber
     implementation project(":analytics")
     implementation project(":legacy")
     implementation project(":brandbook")
