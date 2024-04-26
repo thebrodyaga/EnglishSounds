@@ -65,8 +65,11 @@ class DataView @JvmOverloads constructor(
 
     override fun clearListeners() {
         setOnClickAction(null)
+        isClickable = false
         leftSideView.setOnClickListener(null)
+        leftSideView.isClickable = false
         rightSideView.setOnClickListener(null)
+        rightSideView.isClickable = false
         rightSideView.setOnPlayIconClickAction(null)
         rightSideView.setOnTextButtonClickAction(null)
     }

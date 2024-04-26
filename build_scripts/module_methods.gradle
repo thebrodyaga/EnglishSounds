@@ -114,6 +114,7 @@ ext {
 
                     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
                     consumerProguardFiles "proguard-rules.pro"
+                    vectorDrawables.useSupportLibrary = true
                 }
 
                 compileOptions {

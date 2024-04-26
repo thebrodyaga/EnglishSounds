@@ -43,19 +43,33 @@ class DataRightView @JvmOverloads constructor(
     }
 
     fun setOnPlayIconClickAction(onItemClickAction: ((view: View, item: DataRightUiModel.PlayIcon) -> Unit)?) {
-        val binding = viewPool.findPoolOfViews(DataRightUiModel.PlayIcon::class).first
-                as ViewDataRightPlayIconBinding
-        val onClick = onItemClickAction
-            ?.let { OnClickListener { onItemClickAction(binding.root, currentModel as DataRightUiModel.PlayIcon) } }
-        binding.dataRightPlayButton.setOnClickListener(onClick)
+        val type = DataRightUiModel.PlayIcon::class
+        val binding =
+            if (onItemClickAction == null) viewPool.findPoolOfViewsOrNull(type)?.first
+            else viewPool.findPoolOfViews(type).first
+        if (binding !is ViewDataRightPlayIconBinding) return
+        if (onItemClickAction != null) {
+            val onClick = OnClickListener { onItemClickAction(binding.root, currentModel as DataRightUiModel.PlayIcon) }
+            binding.dataRightPlayButton.setOnClickListener(onClick)
+        } else {
+            binding.dataRightPlayButton.setOnClickListener(null)
+            binding.dataRightPlayButton.isClickable = false
+        }
     }
 
     fun setOnTextButtonClickAction(onItemClickAction: ((view: View, item: DataRightUiModel.Button.Text) -> Unit)?) {
-        val binding = viewPool.findPoolOfViews(DataRightUiModel.Button.Text::class).first
-                as ViewDataRightTextButtonBinding
-        val onClick = onItemClickAction
-            ?.let { OnClickListener { onItemClickAction(binding.root, currentModel as DataRightUiModel.Button.Text) } }
-        binding.dataRightTextButton.setOnClickListener(onClick)
+        val type = DataRightUiModel.Button.Text::class
+        val binding =
+            if (onItemClickAction == null) viewPool.findPoolOfViewsOrNull(type)?.first
+            else viewPool.findPoolOfViews(type).first
+        if (binding !is ViewDataRightTextButtonBinding) return
+        if (onItemClickAction != null) {
+            val onClick = OnClickListener { onItemClickAction(binding.root, currentModel as DataRightUiModel.Button.Text) }
+            binding.dataRightTextButton.setOnClickListener(onClick)
+        } else {
+            binding.dataRightTextButton.setOnClickListener(null)
+            binding.dataRightTextButton.isClickable = false
+        }
     }
 
     fun bind(model: DataRightUiModel) {

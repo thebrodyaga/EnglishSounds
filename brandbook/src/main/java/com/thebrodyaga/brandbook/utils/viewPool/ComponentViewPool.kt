@@ -23,7 +23,11 @@ class ComponentViewPool<Model : UiModel>(
     }
 
     fun findPoolOfViews(type: KClass<out Model>): BindingWithViews {
-        return viewPool[type] ?: inflateAndSave(type)
+        return findPoolOfViewsOrNull(type) ?: inflateAndSave(type)
+    }
+
+    fun findPoolOfViewsOrNull(type: KClass<out Model>): BindingWithViews? {
+        return viewPool[type]
     }
 
     fun updatePoolOfViews(oldModel: Model?, newModel: Model): BindingWithViews {

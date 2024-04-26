@@ -121,7 +121,7 @@
                 android:id="@+id/ad_google_play_icon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/ic_google_play"
+                app:srcCompat="@drawable/ic_google_play"
                 app:layout_constraintBottom_toBottomOf="@+id/ad_price"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toEndOf="@+id/ad_guideline_start"

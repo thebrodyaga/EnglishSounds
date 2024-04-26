@@ -16,6 +16,7 @@ android {
         versionName version_name
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.archivesBaseName = "English Sounds-v" + versionName + "(" + versionCode + ")"
+        vectorDrawables.useSupportLibrary = true
     }
     def props = new Properties()
     file("app.properties").withInputStream { props.load(it) }
