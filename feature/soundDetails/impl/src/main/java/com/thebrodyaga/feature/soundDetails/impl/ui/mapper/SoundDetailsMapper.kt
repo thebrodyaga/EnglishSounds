@@ -1,9 +1,7 @@
 package com.thebrodyaga.feature.soundDetails.impl.ui.mapper
 
-import android.app.Application
 import android.content.Context
 import androidx.core.text.HtmlCompat
-import com.thebrodyaga.ad.api.AdLoadingSmallUiModel
 import com.thebrodyaga.ad.api.AppAd
 import com.thebrodyaga.ad.api.GoogleAdUiModel
 import com.thebrodyaga.brandbook.component.data.DataUiModel
@@ -26,41 +24,39 @@ import com.thebrodyaga.legacy.WordsHeader
 import java.io.File
 import javax.inject.Inject
 
-class SoundDetailsMapper @Inject constructor(
-    private val application: Application,
-) {
+class SoundDetailsMapper @Inject constructor() {
 
-    fun mapFullList(sound: AmericanSoundDto, playerState: AudioPlayerState, ad: AppAd): List<UiModel> {
+    fun mapFullList(context: Context, sound: AmericanSoundDto, playerState: AudioPlayerState, ad: AppAd): List<UiModel> {
         val playingFile = (playerState as? AudioPlayerState.Playing)?.audioFile
-        return mapDetails(sound, playingFile, ad)
-            .plus(mapWordList(sound, playingFile))
+        return mapDetails(context, sound, playingFile, ad)
+            .plus(mapWordList(context, sound, playingFile))
     }
 
-    private fun mapWordList(sound: AmericanSoundDto, playingFile: File?): List<UiModel> = buildList {
+    private fun mapWordList(context: Context, sound: AmericanSoundDto, playingFile: File?): List<UiModel> = buildList {
         val spellingWordList = sound.spellingWordList
         if (spellingWordList.isNotEmpty()) {
             add(getHeader(WordsHeader.Type.SPELLING))
-            addAll(spellingWordList.map { it.toUiModel(playingFile) })
+            addAll(spellingWordList.map { it.toUiModel(context, playingFile) })
         }
         val beginningSound = sound.soundPracticeWords.beginningSound
         if (beginningSound.isNotEmpty()) {
             add(getHeader(WordsHeader.Type.BEGINNING_SOUND))
-            addAll(beginningSound.map { it.toUiModel(playingFile) })
+            addAll(beginningSound.map { it.toUiModel(context, playingFile) })
         }
         val middleSound = sound.soundPracticeWords.middleSound
         if (middleSound.isNotEmpty()) {
             add(getHeader(WordsHeader.Type.MIDDLE_SOUND))
-            addAll(middleSound.map { it.toUiModel(playingFile) })
+            addAll(middleSound.map { it.toUiModel(context, playingFile) })
         }
         val endSound = sound.soundPracticeWords.endSound
         if (endSound.isNotEmpty()) {
             add(getHeader(WordsHeader.Type.END_SOUND))
-            addAll(endSound.map { it.toUiModel(playingFile) })
+            addAll(endSound.map { it.toUiModel(context, playingFile) })
         }
     }
 
-    private fun mapDetails(sound: AmericanSoundDto, playingFile: File?, ad: AppAd) = buildList {
-        val videoAndDescription = application.getVideoAndDescription()
+    private fun mapDetails(context: Context, sound: AmericanSoundDto, playingFile: File?, ad: AppAd) = buildList {
+        val videoAndDescription = context.getVideoAndDescription()
         val (videoMap, descriptionMap) = videoAndDescription
 
         add(SoundDetailsImageUiModel(sound.photoPath))
@@ -68,8 +64,8 @@ class SoundDetailsMapper @Inject constructor(
         add(
             DataUiModel(
                 leftSide = dataLeftText(soundName),
-                rightSide = playIcon(isSameAudio(playingFile, sound.audioPath)),
-                payload = audioPayload(sound.audioPath),
+                rightSide = playIcon(isSameAudio(context, playingFile, sound.audioPath)),
+                payload = audioPayload(context, sound.audioPath),
             )
         )
         when (ad) {
@@ -82,29 +78,29 @@ class SoundDetailsMapper @Inject constructor(
         if (!videoUrl.isNullOrEmpty()) add(SoundDetailsVideoUiModel(videoUrl))
     }
 
-    private fun SpellingWordDto.toUiModel(playingFile: File?): UiModel {
+    private fun SpellingWordDto.toUiModel(context: Context, playingFile: File?): UiModel {
         return DataUiModel(
             leftSide = dataLeftText(HtmlCompat.fromHtml(transcription, HtmlCompat.FROM_HTML_MODE_LEGACY)),
-            rightSide = playIcon(isSameAudio(playingFile, audioPath)),
-            payload = audioPayload(audioPath),
+            rightSide = playIcon(isSameAudio(context, playingFile, audioPath)),
+            payload = audioPayload(context, audioPath),
         )
     }
 
-    private fun PracticeWordDto.toUiModel(playingFile: File?): UiModel {
+    private fun PracticeWordDto.toUiModel(context: Context, playingFile: File?): UiModel {
         return DataUiModel(
             leftSide = dataLeftText(name),
-            rightSide = playIcon(isSameAudio(playingFile, audioPath)),
-            payload = audioPayload(audioPath),
+            rightSide = playIcon(isSameAudio(context, playingFile, audioPath)),
+            payload = audioPayload(context, audioPath),
         )
     }
 
-    private fun audioPayload(audioPath: String): File {
-        return File(application.filesDir, audioPath)
+    private fun audioPayload(context: Context, audioPath: String): File {
+        return File(context.filesDir, audioPath)
     }
 
-    private fun isSameAudio(playingFile: File?, audioPath: String): Boolean {
+    private fun isSameAudio(context: Context, playingFile: File?, audioPath: String): Boolean {
         playingFile ?: return false
-        val audioFile = File(application.filesDir, audioPath)
+        val audioFile = File(context.filesDir, audioPath)
         return playingFile.path == audioFile.path
     }
 

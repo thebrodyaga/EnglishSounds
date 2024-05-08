@@ -1,23 +1,20 @@
 <resources>
-    <string name="app_name">English Sounds</string>
+    <string name="app_name" translatable="false">English Sounds</string>
 
     <string name="main_menu_tab_first">@string/sounds</string>
     <string name="main_menu_tab_second">@string/videos</string>
     <string name="main_menu_tab_third">@string/words</string>
     <string name="main_menu_tab_fourth">@string/settings</string>
-    <string name="need_record_permission">Need record permission</string>
     <string name="vowel_sounds">Vowel Sounds</string>
     <string name="r_controlled_vowels">R-controlled vowels</string>
     <string name="consonant_sounds">Consonant Sounds</string>
-    <string name="vowel_sounds_short">Vowel</string>
+    <string name="vowel_sounds_short">Vocal</string>
     <string name="r_controlled_vowels_short">R-controlled</string>
     <string name="consonant_sounds_short">Consonant</string>
     <string name="contrasting_sound_video_title">Contrasting Sounds</string>
     <string name="most_common_words_video_title">Most Common Words</string>
     <string name="advanced_exercises_video_title">Advanced Exercises</string>
     <string name="all">All</string>
-    <string name="rate">Rate app</string>
-    <string name="later">Later</string>
     <string name="show_all">Show all</string>
     <string name="privacy_settings">Privacy Settings</string>
 
@@ -25,15 +22,11 @@
     <string name="BEGINNING_SOUND">Beginning sound</string>
     <string name="MIDDLE_SOUND">Middle Sound</string>
     <string name="END_SOUND">End Sound</string>
-    <string name="use_system_theme">Use System Theme</string>
-    <string name="use_dark_theme">Use Dark Theme</string>
-    <string name="rate_text">Let us know what you\nthink of this app.</string>
-    <string name="rate_title">Enjoying this app?</string>
+    <string name="use_system_theme">System Theme</string>
+    <string name="use_dark_theme">Dark Theme</string>
 
     <string name="sounds" translatable="false">Sounds</string>
     <string name="videos" translatable="false">Videos</string>
     <string name="words" translatable="false">Words</string>
     <string name="settings" translatable="false">Settings</string>
-
-    <string name="video_provide_text" translatable="false">Video in app is provided\nby <a href="https://www.youtube.com/SoundsAmerican">Sounds American</a></string>
 </resources>

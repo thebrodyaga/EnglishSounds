@@ -1,11 +1,8 @@
 <resources>
-    <string name="app_name">English Sounds</string>
-
     <string name="main_menu_tab_first">@string/sounds</string>
     <string name="main_menu_tab_second">@string/videos</string>
     <string name="main_menu_tab_third">@string/words</string>
     <string name="main_menu_tab_fourth">@string/settings</string>
-    <string name="need_record_permission">Нужно разрешение для записи</string>
     <string name="vowel_sounds">Гласные звуки</string>
     <string name="r_controlled_vowels">R-controlled звуки</string>
     <string name="consonant_sounds">Согласные звуки</string>
@@ -21,10 +18,6 @@
     <string name="END_SOUND">В конце</string>
     <string name="use_system_theme">Системная тема</string>
     <string name="use_dark_theme">Темная тема</string>
-    <string name="later">Позже</string>
-    <string name="rate">Оценить</string>
-    <string name="rate_text">Пожалуйста, дайте нам знать, что вы думаете о приложении.</string>
-    <string name="rate_title">Нравиться приложение?</string>
     <string name="contrasting_sound_video_title">Контрастные звуки</string>
     <string name="most_common_words_video_title">Популярные слова</string>
     <string name="advanced_exercises_video_title">Расширенные упражнения</string>

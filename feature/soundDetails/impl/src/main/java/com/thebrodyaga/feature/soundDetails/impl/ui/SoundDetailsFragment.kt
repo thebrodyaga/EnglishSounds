@@ -104,7 +104,7 @@ class SoundDetailsFragment : ScreenFragment(R.layout.fragment_details_sound) {
             .filterIsInstance<SoundState.Content>()
             .combine(adLoader.flowAd()) { state, ad ->
                 val (sound, playerState) = state.pair
-                mapper.mapFullList(sound, playerState, ad) to sound
+                mapper.mapFullList(view.context, sound, playerState, ad) to sound
             }
             .flowOn(Dispatchers.IO)
             .onEach { (list, soundDto) -> setData(list, soundDto) }
