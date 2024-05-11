@@ -22,4 +22,10 @@
     <string name="most_common_words_video_title">Популярные слова</string>
     <string name="advanced_exercises_video_title">Расширенные упражнения</string>
     <string name="show_all">Все</string>
+    <string name="language">Язык</string>
+
+    <string name="sounds">Звуки</string>
+    <string name="videos">Видео</string>
+    <string name="words">Слова</string>
+    <string name="settings">Настройки</string>
 </resources>

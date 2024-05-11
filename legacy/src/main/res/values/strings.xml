@@ -17,6 +17,7 @@
     <string name="all">All</string>
     <string name="show_all">Show all</string>
     <string name="privacy_settings">Privacy Settings</string>
+    <string name="language">Language</string>
 
     <string name="SPELLING">Spelling</string>
     <string name="BEGINNING_SOUND">Beginning sound</string>
@@ -25,8 +26,8 @@
     <string name="use_system_theme">System Theme</string>
     <string name="use_dark_theme">Dark Theme</string>
 
-    <string name="sounds" translatable="false">Sounds</string>
-    <string name="videos" translatable="false">Videos</string>
-    <string name="words" translatable="false">Words</string>
-    <string name="settings" translatable="false">Settings</string>
+    <string name="sounds">Sounds</string>
+    <string name="videos">Videos</string>
+    <string name="words">Words</string>
+    <string name="settings">Settings</string>
 </resources>

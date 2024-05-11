@@ -2,6 +2,8 @@ package com.thebrodyaga.feature.setting.impl
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -10,6 +12,7 @@ import com.thebrodyaga.ad.api.AppAdManager
 import com.thebrodyaga.ad.google.GoogleMobileAdsConsentManager
 import com.thebrodyaga.brandbook.component.data.DataUiModel
 import com.thebrodyaga.brandbook.component.data.left.DataLeftUiModel
+import com.thebrodyaga.brandbook.component.data.right.DataRightUiModel
 import com.thebrodyaga.core.uiUtils.insets.appleBottomInsets
 import com.thebrodyaga.core.uiUtils.insets.appleTopInsets
 import com.thebrodyaga.core.uiUtils.insets.consume
@@ -66,10 +69,37 @@ class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
             DataUiModel(
                 leftSide = DataLeftUiModel.TwoLineText(
                     firstLineText = TextViewUiModel.Raw(
-                        text = TextContainer.Raw(view.resources.getText(R.string.privacy_settings)),
+                        text = TextContainer.Res(R.string.privacy_settings),
                         textAppearance = R.attr.textAppearanceBodyLarge
                     ),
                 )
+            )
+        )
+
+        binding.locale.setOnClickAction { _, _ ->
+            LocaleSheetDialog().show(childFragmentManager, "LocaleSheetDialog")
+        }
+        val currentLocale = if (!AppCompatDelegate.getApplicationLocales().isEmpty) {
+            // Fetches the current Application Locale from the list
+            AppCompatDelegate.getApplicationLocales()[0]!!
+        } else {
+            // Fetches the default System Locale
+            LocaleListCompat.getDefault().get(0)!!
+        }
+        binding.locale.bind(
+            DataUiModel(
+                leftSide = DataLeftUiModel.TwoLineText(
+                    firstLineText = TextViewUiModel.Raw(
+                        text = TextContainer.Res(R.string.language),
+                        textAppearance = R.attr.textAppearanceBodyLarge
+                    ),
+                ),
+                rightSide = DataRightUiModel.TwoLineText(
+                    firstLineText = TextViewUiModel.Raw(
+                        text = TextContainer.Raw(currentLocale.displayLanguage),
+                        textAppearance = R.attr.textAppearanceBodyLarge
+                    ),
+                ),
             )
         )
     }

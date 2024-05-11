@@ -23,4 +23,10 @@
     <string name="END_SOUND">Sonido final</string>
     <string name="use_system_theme">Tema del sistema</string>
     <string name="use_dark_theme">Tema oscuro</string>
+    <string name="language">Lenguaje</string>
+
+    <string name="sounds">Sonidos</string>
+    <string name="videos">Vídeos</string>
+    <string name="words">Palabras</string>
+    <string name="settings">Ajustes</string>
 </resources>

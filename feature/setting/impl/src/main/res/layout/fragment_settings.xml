@@ -65,11 +65,22 @@
             android:text="@string/use_dark_theme"
             android:textAppearance="?attr/textAppearanceBodyLarge"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/settingsPrivacy"
+            app:layout_constraintBottom_toTopOf="@+id/locale"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/system_theme"
             app:useMaterialThemeColors="true"
+            tools:visibility="visible" />
+
+        <com.thebrodyaga.brandbook.component.data.DataView
+            android:id="@+id/locale"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/settingsPrivacy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/is_dark_theme"
             tools:visibility="visible" />
 
         <com.thebrodyaga.brandbook.component.data.DataView
@@ -80,7 +91,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/is_dark_theme"
+            app:layout_constraintTop_toBottomOf="@+id/locale"
             tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
