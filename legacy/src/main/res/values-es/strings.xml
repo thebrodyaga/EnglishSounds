@@ -7,15 +7,16 @@
     <string name="vowel_sounds">@string/vowel_sounds_short</string>
     <string name="r_controlled_vowels">@string/r_controlled_vowels_short</string>
     <string name="consonant_sounds">@string/consonant_sounds_short</string>
-    <string name="vowel_sounds_short">Vowel</string>
-    <string name="r_controlled_vowels_short">R-controlled</string>
-    <string name="consonant_sounds_short">Consonant</string>
-    <string name="contrasting_sound_video_title">Sonidos contrastados</string>
+    <string name="vowel_sounds_short">Vocal</string>
+    <string name="r_controlled_vowels_short">Vocal rótica</string>
+    <string name="consonant_sounds_short">Consonante</string>
+    <string name="contrasting_sound_video_title">Contraste de sonidos</string>
     <string name="most_common_words_video_title">Palabras más comunes</string>
     <string name="advanced_exercises_video_title">Ejercicios avanzados</string>
     <string name="all">Todos</string>
     <string name="show_all">Mostrar todo</string>
     <string name="privacy_settings">Ajustes de privacidad</string>
+    <string name="language">Lenguaje</string>
 
     <string name="SPELLING">Ortografía</string>
     <string name="BEGINNING_SOUND">Sonido inicial</string>
@@ -23,7 +24,6 @@
     <string name="END_SOUND">Sonido final</string>
     <string name="use_system_theme">Tema del sistema</string>
     <string name="use_dark_theme">Tema oscuro</string>
-    <string name="language">Lenguaje</string>
 
     <string name="sounds">Sonidos</string>
     <string name="videos">Vídeos</string>

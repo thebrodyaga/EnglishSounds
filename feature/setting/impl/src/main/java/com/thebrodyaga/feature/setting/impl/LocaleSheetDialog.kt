@@ -42,6 +42,8 @@ class LocaleSheetDialog : BaseBottomSheetDialog(R.layout.dialog_locale_sheet) {
     private val appLocale = LocaleListCompat.create(
         Locale.ENGLISH,
         Locale("es"),
+        Locale("fr"),
+        Locale("pt"),
         Locale("ru"),
     )
 
@@ -61,7 +63,7 @@ class LocaleSheetDialog : BaseBottomSheetDialog(R.layout.dialog_locale_sheet) {
             AppCompatDelegate.getApplicationLocales()[0]!!
         } else {
             // Fetches the default System Locale
-            LocaleListCompat.getDefault().get(0)!!
+            LocaleListCompat.getAdjustedDefault().get(0)!!
         }
 
         // eng

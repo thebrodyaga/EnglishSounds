@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_menu_tab_first">@string/sounds</string>
+    <string name="main_menu_tab_second">@string/videos</string>
+    <string name="main_menu_tab_third">@string/words</string>
+    <string name="main_menu_tab_fourth">@string/settings</string>
+    <string name="vowel_sounds">@string/vowel_sounds_short</string>
+    <string name="r_controlled_vowels">@string/r_controlled_vowels_short</string>
+    <string name="consonant_sounds">@string/consonant_sounds_short</string>
+    <string name="vowel_sounds_short">Voyelle</string>
+    <string name="r_controlled_vowels_short">Voyelle rhotique</string>
+    <string name="consonant_sounds_short">Consonne</string>
+    <string name="contrasting_sound_video_title">Contraste sonore</string>
+    <string name="most_common_words_video_title">Mots les plus courants</string>
+    <string name="advanced_exercises_video_title">Exercices avancés</string>
+    <string name="all">Tous</string>
+    <string name="show_all">Afficher tout</string>
+    <string name="privacy_settings">Paramètres de confidentialité</string>
+    <string name="language">Langue</string>
+
+    <string name="SPELLING">Orthographe</string>
+    <string name="BEGINNING_SOUND">Son initial</string>
+    <string name="MIDDLE_SOUND">Son moyen</string>
+    <string name="END_SOUND">Son final</string>
+    <string name="use_system_theme">Thème du système</string>
+    <string name="use_dark_theme">Thème sombre</string>
+
+    <string name="sounds">Sons</string>
+    <string name="videos">Vidéos</string>
+    <string name="words">Mots</string>
+    <string name="settings">Ajustements</string>
+</resources>
