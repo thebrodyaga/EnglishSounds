@@ -1,6 +1,8 @@
 package com.thebrodyaga.feature.setting.impl
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
@@ -33,18 +35,15 @@ class LocaleSheetDialog : BaseBottomSheetDialog(R.layout.dialog_locale_sheet) {
                 bindListener = { view, _ ->
                     view.setOnClickAction { _, item ->
                         dismiss()
-                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(item.payload as Locale))
+                        // сойдет
+                        Handler(Looper.getMainLooper()).postDelayed(
+                            { AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(item.payload as Locale)) },
+                            500
+                        )
                     }
                 }
             )
         )
-    )
-    private val appLocale = LocaleListCompat.create(
-        Locale.ENGLISH,
-        Locale("es"),
-        Locale("fr"),
-        Locale("pt"),
-        Locale("ru"),
     )
 
 
@@ -65,6 +64,13 @@ class LocaleSheetDialog : BaseBottomSheetDialog(R.layout.dialog_locale_sheet) {
             // Fetches the default System Locale
             LocaleListCompat.getAdjustedDefault().get(0)!!
         }
+        val appLocale = LocaleListCompat.create(
+            Locale.ENGLISH,
+            Locale("es"),
+            Locale("fr"),
+            Locale("pt"),
+            Locale("ru"),
+        )
 
         // eng
         var checkLocaleIndex = 0
