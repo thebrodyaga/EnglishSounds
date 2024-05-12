@@ -84,7 +84,7 @@ class LocaleSheetDialog : BaseBottomSheetDialog(R.layout.dialog_locale_sheet) {
             }
             val row = DataUiModel(
                 leftSide = DataLeftUiModel.TwoLineText(
-                    firstLineText = TextViewUiModel.Raw(text = TextContainer.Raw(locale.displayLanguage))
+                    firstLineText = TextViewUiModel.Raw(text = TextContainer.Raw(locale.getDisplayLanguage(locale).lowercase()))
                 ),
                 rightSide = checkIc,
                 payload = locale

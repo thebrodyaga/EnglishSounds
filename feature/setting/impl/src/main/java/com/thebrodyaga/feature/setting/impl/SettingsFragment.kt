@@ -96,7 +96,7 @@ class SettingsFragment : ScreenFragment(R.layout.fragment_settings) {
                 ),
                 rightSide = DataRightUiModel.TwoLineText(
                     firstLineText = TextViewUiModel.Raw(
-                        text = TextContainer.Raw(currentLocale.displayLanguage),
+                        text = TextContainer.Raw(currentLocale.getDisplayLanguage(currentLocale).lowercase()),
                         textAppearance = R.attr.textAppearanceBodyLarge
                     ),
                 ),
