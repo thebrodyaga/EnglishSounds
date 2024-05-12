@@ -3,8 +3,7 @@ package com.thebrodyaga.feature.videoList.impl.carousel
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.thebrodyaga.ad.api.AdType
 import com.thebrodyaga.ad.api.SingleAdLoader
@@ -28,12 +27,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
 
+    private val videoCarouselViewPool = RecyclerView.RecycledViewPool()
     private val adapter by lazy {
         CommonAdapter(
             delegates = listOf(
@@ -65,9 +64,6 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
     }
 
     @Inject
-    lateinit var videoCarouselViewPool: VideoCarouselViewPool
-
-    @Inject
     lateinit var adLoader: SingleAdLoader
 
     @Inject
@@ -82,6 +78,7 @@ class VideoCarouselFragment : ScreenFragment(R.layout.fragment_video_carousel) {
     override fun onCreate(savedInstanceState: Bundle?) {
         VideoListComponent.factory(this, null).inject(this)
         super.onCreate(savedInstanceState)
+        videoCarouselViewPool.setMaxRecycledViews(VIDEO_CAROUSEL_ITEM_VIEW_TYPE, 12)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,8 +1,10 @@
 package com.thebrodyaga.feature.videoList.impl.carousel
 
+import android.os.Parcelable
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.thebrodyaga.brandbook.component.sound.mini.SoundCardMiniUiModel
 import com.thebrodyaga.brandbook.model.UiModel
@@ -23,33 +25,43 @@ fun interface CarouselItemBindListener {
 }
 
 fun videoCarouselDelegate(
-    pool: VideoCarouselViewPool,
+    pool: RecyclerView.RecycledViewPool,
     carouselItemBindListener: (CarouselItemBindListener)? = null,
 ): DslRowAdapterDelegate<VideoCarouselUiModel, View> =
     rowDelegate(VIDEO_CAROUSEL_LAYOUT_ID, VIDEO_CAROUSEL_VIEW_TYPE) {
 
         val carouselRow = videoCarouselItemDelegate(carouselItemBindListener)
+        val scrollStates = hashMapOf<String, Parcelable?>()
+
+        onViewRecycled {
+            val rv = it.view as RecyclerView
+            scrollStates[it.item.id] = rv.layoutManager?.onSaveInstanceState()
+        }
 
         onInflate {
             val binding = ItemVideoCarouselBinding.bind(it)
             val layoutManager = LinearLayoutManager(it.context, LinearLayoutManager.HORIZONTAL, false)
+
+            binding.itemVideoCarouselRecycler.layoutManager = layoutManager
             val adapter = CommonAdapter {
                 row(carouselRow)
             }
-            binding.itemVideoCarouselRecycler.layoutManager = layoutManager
-            binding.itemVideoCarouselRecycler.setRecycledViewPool(pool)
-            binding.itemVideoCarouselRecycler.swapAdapter(adapter, true)
+            binding.itemVideoCarouselRecycler.adapter = adapter
+//            binding.itemVideoCarouselRecycler.setRecycledViewPool(pool)
+//            binding.itemVideoCarouselRecycler.swapAdapter(adapter, true)
         }
 
         onBind { holder, _ ->
-            val item = holder.item
-            val binding = ItemVideoCarouselBinding.bind(holder.view)
-            (binding.itemVideoCarouselRecycler.adapter as CommonAdapter).items = item.list
+            val rv = holder.view as RecyclerView
+            (rv.adapter as CommonAdapter).setItems(holder.item.list) {
+                scrollStates[holder.item.id]?.let { rv.layoutManager?.onRestoreInstanceState(it) }
+            }
         }
     }
 
 
 data class VideoCarouselUiModel(
+    val id: String,
     val list: List<VideoCarouselItemUiModel>,
 ) : UiModel
 

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.thebrodyaga.ad.api.AdType
@@ -47,8 +48,7 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
     @Inject
     lateinit var detailsScreenFactory: SoundDetailsScreenFactory
 
-    @Inject
-    lateinit var viewPool: SoundsListViewPool
+    private val viewPool = RecyclerView.RecycledViewPool()
 
     @Inject
     lateinit var adLoader: SingleAdLoader
@@ -86,6 +86,7 @@ class SoundsListFragment : ScreenFragment(R.layout.fragment_sounds_list) {
     override fun onCreate(savedInstanceState: Bundle?) {
         SoundListComponent.factory(this).inject(this)
         super.onCreate(savedInstanceState)
+        viewPool.setMaxRecycledViews(SoundCardView.VIEW_TYPE, 28)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

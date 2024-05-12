@@ -16,9 +16,9 @@ object ViewPoolModule {
     @ActivityScope
     fun setOfPrefetchRecycledViewPool(activity: AppCompatActivity): Set<@JvmSuppressWildcards PrefetchRecycledViewPool> {
         return buildSet {
-            add(SoundsListViewPool(activity))
+//            add(SoundsListViewPool(activity))
             add(SoundsDetailsViewPool(activity))
-            add(VideoCarouselViewPool(activity))
+//            add(VideoCarouselViewPool(activity))
         }
     }
 

@@ -1,13 +1,16 @@
 package com.thebrodyaga.core.uiUtils
 
-import androidx.annotation.DimenRes
-import androidx.annotation.LayoutRes
 import android.content.Context
 import android.content.res.Configuration
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DimenRes
+import androidx.annotation.LayoutRes
+import com.thebrodyaga.core.uiUtils.view.viewScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 fun Context.isSystemDarkMode(): Boolean? {
     return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
@@ -31,4 +34,16 @@ fun calculateNoOfColumns(
     val columnWidthPx =
         context.resources.getDimension(columnWidthRes) / displayMetrics.density
     return (screenWidthPx / columnWidthPx + 0.5).toInt()// +0.5 for correct rounding to int.
+}
+
+inline fun View.setDebouncOnClick(
+    delayInClick: Long = 500L,
+    crossinline listener: (View) -> Unit
+) {
+    var delayJob: Job? = null
+    setOnClickListener {
+        if (delayJob?.isActive == true) return@setOnClickListener
+        listener.invoke(it)
+        delayJob = it.viewScope.launch { runCatching { delay(delayInClick) } }
+    }
 }

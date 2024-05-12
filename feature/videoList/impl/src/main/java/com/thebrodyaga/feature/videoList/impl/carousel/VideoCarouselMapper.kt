@@ -1,7 +1,6 @@
 package com.thebrodyaga.feature.videoList.impl.carousel
 
 import androidx.annotation.AttrRes
-import com.thebrodyaga.ad.api.AdLoadingSmallUiModel
 import com.thebrodyaga.ad.api.AppAd
 import com.thebrodyaga.ad.api.GoogleAdUiModel
 import com.thebrodyaga.brandbook.component.data.DataUiModel
@@ -17,7 +16,12 @@ import com.thebrodyaga.core.uiUtils.text.TextViewUiModel
 import com.thebrodyaga.data.sounds.api.model.AmericanSoundDto
 import com.thebrodyaga.data.sounds.api.model.SoundType
 import com.thebrodyaga.feature.videoList.impl.R
-import com.thebrodyaga.legacy.*
+import com.thebrodyaga.legacy.AdvancedExercisesVideoItem
+import com.thebrodyaga.legacy.ContrastingSoundVideoItem
+import com.thebrodyaga.legacy.MostCommonWordsVideoItem
+import com.thebrodyaga.legacy.SoundVideoItem
+import com.thebrodyaga.legacy.VideoItem
+import com.thebrodyaga.legacy.VideoListItem
 import javax.inject.Inject
 
 class VideoCarouselMapper @Inject constructor() {
@@ -26,10 +30,11 @@ class VideoCarouselMapper @Inject constructor() {
         list.forEachIndexed { index, videoItems ->
             add(getHeader(videoItems))
             add(
-                VideoCarouselUiModel(videoItems.list
-                    .map { mapVideoItemUiModel(it) })
+                VideoCarouselUiModel(
+                    id = videoItems.title.toString(),
+                    list = videoItems.list.map { mapVideoItemUiModel(it) })
             )
-            if (index == 0){
+            if (index == 0) {
                 when (ad) {
                     AppAd.Empty, AppAd.Loading -> Unit
                     is AppAd.Google -> add(GoogleAdUiModel(ad.ad, false))
