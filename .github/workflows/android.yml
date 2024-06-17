@@ -1,0 +1,36 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4.1.7
+    
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4.2.1
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Load Google Service file
+      env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      run: echo $DATA | base64 -di > app/google-services.json
+
+    - name: Grand execute permissions to gradlew
+      run: chmod +x gradlew
+    
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.3.3
+      with:
+          name: EnglishSounds.apk
