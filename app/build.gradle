@@ -17,14 +17,12 @@ android {
         project.archivesBaseName = "English Sounds-v" + versionName + "(" + versionCode + ")"
         vectorDrawables.useSupportLibrary = true
     }
-    def props = new Properties()
-    file("app.properties").withInputStream { props.load(it) }
     signingConfigs {
         release {
-            keyAlias props.getProperty("RELEASE_KEY_ALIAS")
-            keyPassword props.getProperty("RELEASE_KEY_PASSWORD")
-            storeFile file(props.getProperty("RELEASE_STORE_FILE"))
-            storePassword props.getProperty("RELEASE_STORE_PASSWORD")
+            keyAlias "key0"
+            keyPassword "android"
+            storeFile file("english_sounds_debug_key")
+            storePassword "android"
         }
     }
 
@@ -32,8 +30,7 @@ android {
         debug {
             applicationIdSuffix ".dev"
             manifestPlaceholders = [enableCrashReporting          : "false",
-                                    deactivatedAnalyticsCollection: "true",
-                                    addmob_app_id                 : props.getProperty('ADMOB_APP_ID')]
+                                    deactivatedAnalyticsCollection: "true"]
         }
         release {
             shrinkResources true
@@ -41,8 +38,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             manifestPlaceholders = [enableCrashReporting          : "true",
-                                    deactivatedAnalyticsCollection: "false",
-                                    addmob_app_id                 : props.getProperty('ADMOB_APP_ID')]
+                                    deactivatedAnalyticsCollection: "false"]
         }
     }
     bundle {
