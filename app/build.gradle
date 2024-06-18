@@ -30,6 +30,7 @@ android {
 
     buildTypes {
         debug {
+            applicationIdSuffix ".dev"
             manifestPlaceholders = [enableCrashReporting          : "false",
                                     deactivatedAnalyticsCollection: "true",
                                     addmob_app_id                 : props.getProperty('ADMOB_APP_ID')]

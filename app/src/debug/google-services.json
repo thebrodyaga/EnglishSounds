@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "995107729244",
+    "firebase_url": "https://englishsounds-57be0.firebaseio.com",
+    "project_id": "englishsounds-57be0",
+    "storage_bucket": "englishsounds-57be0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995107729244:android:09828429f8070318ff9b99",
+        "android_client_info": {
+          "package_name": "com.thebrodyaga.englishsounds.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995107729244-ejqquid0h3jpcc0m2b5ofji051vpqukh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr0RtieaqTq6YW8AXevz3prBR6O3x5yc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995107729244-ejqquid0h3jpcc0m2b5ofji051vpqukh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

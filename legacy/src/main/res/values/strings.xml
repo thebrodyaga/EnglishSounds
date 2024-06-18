@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">English Sounds</string>
-
     <string name="main_menu_tab_first">@string/sounds</string>
     <string name="main_menu_tab_second">@string/videos</string>
     <string name="main_menu_tab_third">@string/words</string>
