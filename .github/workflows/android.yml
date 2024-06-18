@@ -24,11 +24,16 @@ jobs:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
       run: echo $DATA | base64 -di > app/google-services.json
 
+    - name: Load App Properties file
+      env:
+        DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      run: echo $DATA | base64 -di > app/google-services.json
+
     - name: Grand execute permissions to gradlew
       run: chmod +x gradlew
     
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew buildDebug
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.3.3
