@@ -19,10 +19,15 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Load App Properties file
+    - name: Load GOOGLE_SERVICES_JSON file
       env:
         DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
       run: echo $DATA | base64 -di > app/src/release/google-services.json
+
+    - name: Load ADMOB_ID file
+      env:
+        DATA: ${{ secrets.ADMOB_ID }}
+      run: echo $DATA | base64 -di > app/src/release/res/values/admob.xml
 
     - name: Grand execute permissions to gradlew
       run: chmod +x gradlew
@@ -30,7 +35,8 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-#    - name: Upload a Build Artifact
-#      uses: actions/upload-artifact@v4.3.3
-#      with:
-#          name: EnglishSounds.apk
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.3.3
+      with:
+          name: EnglishSounds.apk
+          path: app/build/outputs/apk/release/English Sounds-.*\.apk

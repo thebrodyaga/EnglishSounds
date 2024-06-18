@@ -121,14 +121,11 @@ class PicInPickHelper constructor(private val activity: Activity) {
                 build()
             })
     }
-
-    companion object {
-
-        fun Activity.isHavePicInPicMode() =
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
-    }
 }
+
+fun Activity.isHavePicInPicMode() =
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
 
 class PicInPicReceiver constructor(
     private val onReceiveControl: (controlType: @PicInPicControlType Int) -> Unit

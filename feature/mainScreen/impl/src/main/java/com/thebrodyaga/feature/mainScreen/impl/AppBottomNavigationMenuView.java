@@ -1,5 +1,6 @@
 package com.thebrodyaga.feature.mainScreen.impl;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("RestrictedApi")
 public class AppBottomNavigationMenuView extends BottomNavigationMenuView {
 
     // huck for margin in center

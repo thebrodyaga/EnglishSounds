@@ -38,7 +38,6 @@ import com.thebrodyaga.englishsounds.base.app.BaseActivity
 import com.thebrodyaga.englishsounds.base.app.ViewModelFactory
 import com.thebrodyaga.englishsounds.base.di.findDependencies
 import com.thebrodyaga.feature.youtube.api.PlayVideoExtra
-import com.thebrodyaga.feature.youtube.impl.PicInPickHelper.Companion.isHavePicInPicMode
 import com.thebrodyaga.feature.youtube.impl.databinding.ActivityYoutubePlayerBinding
 import com.thebrodyaga.feature.youtube.impl.di.YoutubeActivityComponent
 import timber.log.Timber
