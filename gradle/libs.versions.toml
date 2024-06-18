@@ -84,9 +84,9 @@ exo-player = { module = "com.google.android.exoplayer:exoplayer", version.ref = 
 timber = 'com.jakewharton.timber:timber:4.7.1'
 flow-permission = { module = "dev.shreyaspatil.permission-flow:permission-flow-android", version.ref = "flowPermissionVer" }
 
-compose-bom = "androidx.compose:compose-bom:2024.04.01"
-compose-activity = { module = "androidx.compose.ui:ui", version.ref = "activityVer" }
-compose-ui = { module = "androidx.compose.ui:ui" }
+compose-bom = "androidx.compose:compose-bom:2024.06.00"
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "activityVer" }
+compose-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleVer" }
 compose-graphics = { module = "androidx.compose.ui:ui-graphics" }
 compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
@@ -114,7 +114,7 @@ base-android = [
 adapter-delegates = ["adapter-delegates-core", "adapter-delegates-viewbinding", ]
 compose-all = [
     "compose-activity",
-    "compose-ui",
+    "compose-viewModel",
     "compose-graphics",
     "compose-tooling-preview",
     "compose-material3",
