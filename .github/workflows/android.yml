@@ -19,15 +19,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Load Google Service file
-      env:
-          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      run: echo $DATA | base64 -di > app/google-services.json
-
     - name: Load App Properties file
       env:
-        DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      run: echo $DATA | base64 -di > app/google-services.json
+        DATA: ${{ secrets.APP_PROPERTIES }}
+      run: echo $DATA | base64 -di > app/app.properties
 
     - name: Grand execute permissions to gradlew
       run: chmod +x gradlew
