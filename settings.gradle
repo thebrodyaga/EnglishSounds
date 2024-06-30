@@ -62,3 +62,4 @@ include ':infrastructure:preferences:api'
 include ':infrastructure:preferences:impl'
 include ':ad:api'
 include ':ad:google'
+include(":composeApp")
